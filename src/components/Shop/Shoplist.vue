@@ -55,7 +55,7 @@
   <el-col>
     <el-dialog title="店铺详情" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
       <el-form :model="shopinfo" label-width="120px">
-        <el-form-item label="店铺ID" label-width="120px">
+        <el-form-item label="店铺ID：" label-width="120px">
           <label>{{shopinfo.id}}</label>
         </el-form-item>
         <el-form-item label="店铺LOGO：" label-width="120px">
@@ -88,9 +88,9 @@
         <el-form-item label="创建时间：" label-width="120px">
           <label>{{shopinfo.id}}</label>
         </el-form-item>
-        <el-form-item label="状态" label-width="120px">
-          <span v-show="shopinfo.id==1 ? true : false">禁用</span>
-          <span v-show="shopinfo.id==2 ? true : false">启用</span>
+        <el-form-item label="状态：" label-width="120px">
+          <el-tag type="success" v-show="shopinfo.id==1 ? true : false">启用</el-tag>
+          <el-tag type="danger" v-show="shopinfo.id==2 ? true : false">禁用</el-tag>
         </el-form-item>
         <el-button type="primary" size="small" @click="detail" style="margin-left: calc(50% - 28px);">确定</el-button>
       </el-form>
@@ -119,9 +119,8 @@
         limit:10,
         dialogNewVisible:false,
         shopinfo:{
-          id:1
+          id:111111111111
         }
-
       };
     },
 

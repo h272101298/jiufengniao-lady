@@ -7,7 +7,11 @@
         <span style="font-size: 18px;color: #fff;">模板商城后台</span>
       </div>
 
+
       <div class="topbar-account topbar-btn newmsg">
+
+        <el-button class="clear" size="mini" type=primary>清除缓存</el-button>
+
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner"><i class="iconfont icon-user" style="margin-right: 10px;"></i> {{username}} <i class="iconfont icon-down" style="margin-left: 10px;"></i></span>
           <el-dropdown-menu slot="dropdown">
@@ -32,13 +36,17 @@
         <el-menu default-active="0" router :collapse="collapsed" unique-opened>
           <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
             <el-submenu v-if="!item.leaf" :index="index+''">
-              <template slot="title"><i :class="item.iconCls"></i><span slot="title">{{item.name}}</span></template>
+              <template slot="title"><i :class="item.iconCls"></i>
+                <span slot="title">{{item.name}}</span>
+              </template>
               <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
-                <i :class="term.iconCls"></i><span slot="title">{{term.name}}</span>
+                <i :class="term.iconCls"></i>
+                <span slot="title">{{term.name}}</span>
               </el-menu-item>
             </el-submenu>
             <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''">
-              <i :class="item.iconCls"></i><span slot="title">{{item.children[0].name}}</span>
+              <i :class="item.iconCls"></i>
+              <span slot="title">{{item.children[0].name}}</span>
             </el-menu-item>
           </template>
         </el-menu>
@@ -102,6 +110,15 @@
   }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
+
+<style scoped>
+.clear{
+  /*float: right;*/
+  position: relative;
+  right: 0;
+}
+</style>
+
 <style scoped lang="scss">
 .container {
   position: absolute;

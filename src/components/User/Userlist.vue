@@ -47,7 +47,7 @@
     </el-pagination>
   </el-col>
 
-  <el-col>
+<!--   <el-col>
     <el-dialog title="新增快递" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
       <el-form ref="newdelive" :model="newdelive" label-width="120px" :rules="rules">
         <el-form-item label="快递名称:">
@@ -62,11 +62,9 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-  </el-col>
+  </el-col> -->
 </el-row>
 </template>
-
-
 
 <script>
 
@@ -89,10 +87,10 @@
           name:'',
           code:''
         },
-        rules: {
-          name: [{required: true, trigger: 'blur',message: '请输入快递名称'}],
-          code: [{required: true, trigger: 'blur',message: '请输入快递简码'}]
-        },
+        // rules: {
+        //   name: [{required: true, trigger: 'blur',message: '请输入快递名称'}],
+        //   code: [{required: true, trigger: 'blur',message: '请输入快递简码'}]
+        // },
       };
     },
 
@@ -123,8 +121,9 @@
 
     mounted: function () {
       this.getlist();
-    }
-  }
+     }
+   
+ }
 </script>
 
 

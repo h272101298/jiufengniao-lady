@@ -34,19 +34,18 @@
 
 <el-col>
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
-    <el-form ref="newadmin" :model="newadmin" label-width="120px" :rules="rules">
-      <el-form-item label="用户名:">
-        <el-input v-model="newadmin.username" placeholder="请输入用户名"></el-input>
+    <el-form ref="newrole" :model="newrole" label-width="120px" :rules="rules">
+      <el-form-item label="角色名称:">
+        <el-input v-model="newrole.name" placeholder="请输入角色名称"></el-input>
       </el-form-item>
-      <el-form-item label="密码:">
-        <el-input v-model="newadmin.password1" placeholder="请输入密码"></el-input>
-      </el-form-item>
-      <el-form-item label="确认密码:">
-        <el-input v-model="newadmin.password2" placeholder="请确认密码"></el-input>
-      </el-form-item>
-      <el-form-item label="所属角色:">
-        <el-select v-model="newadmin.role_id" placeholder="请选择角色">
-          <el-option v-for="item in rolesArr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+
+      <el-form-item label="分配权限:">
+        <el-select v-model="newrole.right_id" placeholder="请分配权限" multiple filterable style="min-width: 500px">
+          <!-- <el-option v-for="item in rolesArr" :label="item.name" :value="item.id" :key="item.id"></el-option> -->
+          <el-option-group v-for="group in options" :key="group.label" :label="group.label">
+            <el-option v-for="item in group.options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-option-group>
         </el-select>
       </el-form-item>
       <el-form-item style="margin-left: calc(50% - 200px);">
@@ -85,18 +84,48 @@
         diatitle:'新增角色',
         dialogNewVisible:false,
         dialogDelVisible:false,
-        newadmin:{
-          username:'',
-          password1:'',
-          password2:'',
-          role_id:''
+        newrole:{
+          name:'',
+          right_id:[]
         },
         rules: {
-          username: [{required: true, trigger: 'blur',message: '请输入用户名'}],
-          password1: [{required: true, trigger: 'blur',message: '请输入密码'}],
-          password2: [{required: true, trigger: 'blur',message: '请确认密码'}]
+          name: [{required: true, trigger: 'blur',message: '请输入角色名'}]
         },
-        rolesArr:[],
+        // rolesArr:[
+        // {
+        //   name:'1',
+        //   id:1
+        // },{
+        //   name:'2',
+        //   id:2
+        // },{
+        //   name:'3',
+        //   id:3
+        // }],
+
+        
+        options: [{
+          label: '管理员模块',
+          options: [{
+            value: 1,
+            label: '新增管理员'
+          }, {
+            value: 2,
+            label: '删除管理员'
+          }]
+        }, {
+          label: '城市名',
+          options: [{
+            value: 3,
+            label: '成都'
+          }, {
+            value: 4,
+            label: '深圳'
+          }]
+        }],
+
+
+
       };
     },
 
@@ -110,12 +139,9 @@
         this.dialogNewVisible=true
       },
 
-      getrole(){
-
-      },
-
       save(){
         this.dialogNewVisible=false
+        console.log(this.newrole.right_id)
       },
 
 
@@ -135,7 +161,6 @@
       submitdel(){
         this.dialogDelVisible = false;
       },
-
 
 
       handleCurrentChange(val) {
