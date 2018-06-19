@@ -10,9 +10,9 @@
 
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
-<!--       <el-form-item>
+      <el-form-item>
         <el-button type="primary" size="medium" @click="newone">新增商品</el-button>
-      </el-form-item> -->
+      </el-form-item>
       <el-form-item>
         <el-input v-model="filter.name" placeholder="请输入商品名称/分类/状态/商家名称" style="min-width: 260px;" ></el-input>
       </el-form-item>
@@ -73,31 +73,42 @@
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
     <el-form ref="newadv" :model="newadv" label-width="120px" :rules="rules">
 
-      <el-form-item label="上传图片：">
+      <el-form-item label="商品缩略图：">
         <el-upload class="upload-demo" :action="upUrl" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-          <img :src="imgSrc" class="pre-img" style="width:60%;height:30%;border:2px dashed #ccc;border-radius:10px;display: block" >
+          <img :src="imgSrc" class="pre-img" style="width:50%;height:25%;border:2px dashed #ccc;border-radius:10px;display: block" >
           <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div>
         </el-upload>
       </el-form-item>
 
-      <el-form-item label="广告位置:">
+<!--       <el-form-item label="广告位置:">
         <el-select v-model="newadv.positionid" placeholder="请选择广告位置">
           <el-option v-for="item in postarr" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
+
       <el-form-item label="广告链接:">
         <el-input v-model="newadv.link" placeholder="请输入广告链接"></el-input>
       </el-form-item>
-      <el-form-item label="广告描述:">
-        <el-input v-model="newadv.intro" placeholder="请输入广告描述"></el-input>
-      </el-form-item>
-      <el-form-item style="margin-left: calc(50% - 200px);">
-        <el-button type="primary" @click="save()">保 存</el-button>
-        <el-button @click="dialogNewVisible = false">取 消</el-button>
-      </el-form-item>
-    </el-form>
-  </el-dialog>
+
+
+      <el-form-item label="商品相册：">
+        <el-upload :action="upUrl" list-type="picture-card" :on-remove="handleRemove" :on-success="handleUploadLun" :on-exceed="handleExceed" :file-list="album" :limit="3">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+<!--       <el-dialog :visible.sync="dialogVisible1">
+        <img width="100%" :src="dialogImageUrl1">
+      </el-dialog> -->
+    </el-form-item>
+
+
+
+    <el-form-item style="margin-left: calc(50% - 200px);">
+      <el-button type="primary" @click="save()">保 存</el-button>
+      <el-button @click="dialogNewVisible = false">取 消</el-button>
+    </el-form-item>
+  </el-form>
+</el-dialog>
 </el-col>
 
 
@@ -143,16 +154,17 @@
         newadv:{
           link:'',
           intro:'',
-          positionid:''
+          positionid:'',
+          album:''
         },
         diatitle:'新增商品',
         postarr:[],
         rules: {
-          link: [{required: true, trigger: 'blur',message: '请输入广告链接'}],
-          intro: [{required: true, trigger: 'blur',message: '请输入广告描述'}]
+          link: [{required: true, trigger: 'blur',message: '请输入广告链接'}]
         },
         editId:'',
-        delId:''
+        delId:'',
+        album:[]
       };
     },
 
@@ -211,6 +223,19 @@
     handleSizeChange(val){
       this.limit = val;
       this.getlist();
+    },
+
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handleExceed(files, fileList) {
+
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+
+    handleUploadLun(res, file){
+
+      this.newadv.album += res.sucesss + ",";
     },
   },
 

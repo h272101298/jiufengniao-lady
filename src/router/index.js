@@ -22,7 +22,9 @@ import Withdraw from '@/components/User/Withdraw'
 
 import Reportlist from '@/components/Report/Reportlist'
 
-import Marklist from '@/components/Mark/Marklist'
+import Spike from '@/components/Mark/Spike'
+import Card from '@/components/Mark/Card'
+import Group from '@/components/Mark/Group'
 
 import Shoplist from '@/components/Shop/Shoplist'
 import Selfshop from '@/components/Shop/Selfshop'
@@ -107,26 +109,29 @@ let router = new Router({
     {path: '/User/Withdraw', component: Withdraw, name: '提现列表', menuShow: true}
     ]
 },
-{
-    path: '/',
-    name: '报表统计',
-    component: Home,
-    redirect: '/Report/Reportlist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/Report/Reportlist', component: Reportlist, name: '统计图表', menuShow: true},
-    ]
+{  
+ leaf: true, 
+ path: '/',
+ name: '报表统计',
+ component: Home,
+ redirect: '/Report/Reportlist',
+ menuShow: true,
+ iconCls: 'iconfont icon-home', 
+ children: [
+ {path: '/Report/Reportlist', component: Reportlist, name: '统计图表', menuShow: true},
+ ]
 },
 {
     path: '/',
     name: '营销活动',
     component: Home,
-    redirect: '/Mark/Marklist',
+    redirect: '/Mark/Spike',
     menuShow: true,
     iconCls: 'iconfont icon-home', 
     children: [
-    {path: '/Mark/Marklist', component: Marklist, name: '活动列表', menuShow: true}
+    {path: '/Mark/Spike', component: Spike, name: '限时秒杀', menuShow: true},
+    {path: '/Mark/Card', component: Card, name: '集卡牌', menuShow: true},
+    {path: '/Mark/Group', component: Group, name: '团购', menuShow: true}
     ]
 },
 {
@@ -142,7 +147,8 @@ let router = new Router({
     {path: '/Shop/Settleapply', component: Settleapply, name: '入驻申请', menuShow: true}
     ]
 },
-{
+{   
+    leaf: true, 
     path: '/',
     name: '广告管理',
     component: Home,
@@ -178,6 +184,7 @@ let router = new Router({
     ]
 },
 {
+    leaf: true, 
     path: '/',
     name: '快递配置',
     component: Home,
