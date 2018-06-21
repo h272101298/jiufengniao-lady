@@ -3,13 +3,12 @@ import qs from 'qs'
 import { Message } from 'element-ui';
 
 axios.defaults.timeout = 15000
-axios.defaults.withCredentials = true     //上线要开启
+axios.defaults.withCredentials = true
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
 
 //请求拦截器
 axios.interceptors.request.use(config => {
-
 	if (config.method === 'post') {
 		config.data = qs.stringify(config.data)
 	}
@@ -17,9 +16,7 @@ axios.interceptors.request.use(config => {
 }, 
 error => {
 	console.log('错误的传参！')
-
 })
-
 
 //响应拦截器
 axios.interceptors.response.use(
@@ -35,16 +32,17 @@ axios.interceptors.response.use(
 	})
 
 
+let base = 'http://192.168.1.172/Shop/public/v1'
+// let base = ''
 
-const baseUrl='https://www.navbang.com/';
-export default baseUrl
 
-let base = 'https://www.navbang.com'
 
 //登录
-export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }  	//  
+export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }
 
-//简介
-export const decriGet = params => { return axios.get(`${base}/description`).then(res => res.data)}      //
+//广告
+export const advertsGet = params => { return axios.get(`${base}/adverts`+`${params}`).then(res => res.data)}
 
-export const introDel = params => { return axios.delete(`${base}/intro/`+`${params}`).then(res => res.data)}      //  
+export const advertPost = params => { return axios.post(`${base}/advert`, params).then(res => res.data)}
+
+export const advertDel = params => { return axios.delete(`${base}/advert`+`${params}`).then(res => res.data)}

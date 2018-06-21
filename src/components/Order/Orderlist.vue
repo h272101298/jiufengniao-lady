@@ -31,8 +31,8 @@
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="medium" @click="getlist">搜索</el-button>
-          <el-button size="medium" @click="clear">清空</el-button>
+          <el-button type="primary" size="small" @click="getlist">搜索</el-button>
+          <el-button size="small" @click="clear">清空</el-button>
         </el-form-item>
       </el-form>
 
@@ -54,27 +54,23 @@
 
         <el-table-column label="操作" min-width="200" align="center">
          <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="handleEdit">订单详情</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-button type="primary" style="float:left;margin-top:10px;" @click="exportExcel()" size="small">导出Excel表</el-button>
+    <el-pagination style="float:left;margin:20px 0 0 30px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+    </el-pagination>
+  </el-col>
 
-         </template>
-       </el-table-column>
-     </el-table>
-     <el-button type="primary" style="float:left;margin-top:10px;" @click="exportExcel()">导出Excel表</el-button>
-     <el-pagination style="float:left;margin:20px 0 0 30px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-     </el-pagination>
-   </el-col>
-
-
- </el-row>
+</el-row>
 </template>
-
-
 
 <script>
 
-
   import baseUrl from '../../api/api';
-import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
   export default {
     data() {
       return {
@@ -113,8 +109,7 @@ import XLSX from 'xlsx'
      getSTime(val){
       this.filter.start=val[0];
       this.filter.end=val[1];
-      console.log(this.filter)
-      // this.getlist();
+      this.getlist();
     },
 
     changestate(val){
@@ -139,11 +134,16 @@ import XLSX from 'xlsx'
       this.getlist();
     },
 
-
     handleSizeChange(val){
       this.limit = val;
       this.getlist();
     },
+
+    handleEdit(index, row){
+
+    },
+
+
   },
 
   mounted: function () {

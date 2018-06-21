@@ -40,30 +40,30 @@
     methods: {
 
       handleLogin() {
-        this.$refs.AccountFrom.validate((valid) => {
+        var that =this;
+        that.$refs.AccountFrom.validate((valid) => {
           if (valid) {
-            this.logining = true;
+            // this.logining = true;
 
-            var aaaa = { username: this.account.username, password: this.account.pwd };
+            var aaaa = { username: that.account.username, password: that.account.pwd };
 
             requestLogin(aaaa).then(res => {
-              this.logining = false;
+              // this.logining = false;
 
-              let { msg, data } = res;
+              // let { msg, data } = res;
 
-                // console.log(data)
-                if (msg === "ok") {
-                  sessionStorage.setItem('token', JSON.stringify(data.token));
-                  // sessionStorage.setItem('username', JSON.stringify(data.name));
+              if (res.msg == "ok") {
 
-                  this.$router.push( '/' );
-                } else {
-                 this.$message({
-                  message: msg,
-                  type: 'error'
-                });
-               }
-             });
+                // sessionStorage.setItem('token', JSON.stringify(data.token));
+                // sessionStorage.setItem('username', JSON.stringify(data.name));
+                that.$router.push('/index/Console');
+              } else {
+               that.$message({
+                message: res.msg,
+                type: 'error'
+              });
+             }
+           });
           }
           else {
             console.log('error submit!!');

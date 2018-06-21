@@ -47,176 +47,257 @@ const Login = resolve => require(['@/components/Login'], resolve)
 Vue.use(Router)
 
 let router = new Router({
-  mode: 'history',
-  routes: [
-  {
-    path: '/Login',
-    name: '登录',
-    component: Login
-},
-{
-    leaf: true, // 只有一个节点
-    path: '/',
-    name: '控制',
-    component: Home,
-    redirect: '/index/Console',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/index/Console', component: Console, name: '控制台', menuShow: true}
-    ]
-},
-{
-    path: '/',
-    name: '商品管理',
-    component: Home,
-    redirect: '/Good/Goodlist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home',
-    children: [
-    {path: '/Good/Goodlist', component: Goodlist, name: '商品列表', menuShow: true},
-    {path: '/Good/Goodtype', component: Goodtype, name: '商品分类', menuShow: true},
-    {path: '/Good/Goodformat', component: Goodformat, name: '商品规格', menuShow: true},
-    {path: '/Good/Goodnew', component: Goodnew, name: '添加商品', menuShow: false},
-    {path: '/Good/Goodrecycle', component: Goodrecycle, name: '商品回收站', menuShow: true}
-    ]
-},
-{
-    path: '/',
-    name: '订单管理',
-    component: Home,
-    redirect: '/Order/Orderlist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/Order/Orderlist', component: Orderlist, name: '购物订单', menuShow: true},
-    {path: '/Order/Teamwork', component: Teamwork, name: '拼团订单', menuShow: true},
-    {path: '/Order/Ship', component: Ship, name: '发货', menuShow: true},
-    {path: '/Order/Refund', component: Refund, name: '退款', menuShow: true}
-    ]
-},
-{
-    path: '/',
-    name: '用户管理',
-    component: Home,
-    redirect: '/User/Userlist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/User/Userlist', component: Userlist, name: '用户列表', menuShow: true},
-    {path: '/User/Proxyapply', component: Proxyapply, name: '分销申请', menuShow: true},
-    {path: '/User/Proxylist', component: Proxylist, name: '分销列表', menuShow: true},
-    {path: '/User/Withdraw', component: Withdraw, name: '提现列表', menuShow: true}
-    ]
-},
-{  
- leaf: true, 
- path: '/',
- name: '报表统计',
- component: Home,
- redirect: '/Report/Reportlist',
- menuShow: true,
- iconCls: 'iconfont icon-home', 
- children: [
- {path: '/Report/Reportlist', component: Reportlist, name: '统计图表', menuShow: true},
- ]
-},
-{
-    path: '/',
-    name: '营销活动',
-    component: Home,
-    redirect: '/Mark/Spike',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/Mark/Spike', component: Spike, name: '限时秒杀', menuShow: true},
-    {path: '/Mark/Card', component: Card, name: '集卡牌', menuShow: true},
-    {path: '/Mark/Group', component: Group, name: '团购', menuShow: true}
-    ]
-},
-{
-    path: '/',
-    name: '商家管理',
-    component: Home,
-    redirect: '/Shop/Shoplist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home',
-    children: [
-    {path: '/Shop/Shoplist', component: Shoplist, name: '商家列表', menuShow: true},
-    {path: '/Shop/Selfshop', component: Selfshop, name: '自营商铺', menuShow: true},
-    {path: '/Shop/Settleapply', component: Settleapply, name: '入驻申请', menuShow: true}
-    ]
-},
-{   
-    leaf: true, 
-    path: '/',
-    name: '广告管理',
-    component: Home,
-    redirect: '/Advertise/Adlist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/Advertise/Adlist', component: Adlist, name: '广告列表', menuShow: true}
-    ]
-},
-{
-    path: '/',
-    name: '权限管理',
-    component: Home,
-    redirect: '/Role/Adminlist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/Role/Adminlist', component: Adminlist, name: '管理员列表', menuShow: true},
-    {path: '/Role/Rolelist', component: Rolelist, name: '角色列表', menuShow: true},
-    ]
-},
-{
-    path: '/',
-    name: '系统设置',
-    component: Home,
-    redirect: '/Setting/Baseset',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/Setting/Baseset', component: Baseset, name: '基本设置', menuShow: true},
-    {path: '/Setting/Wechatset', component: Wechatset, name: '微信设置', menuShow: true}
-    ]
-},
-{
-    leaf: true, 
-    path: '/',
-    name: '快递配置',
-    component: Home,
-    redirect: '/Delivery/Delivelist',
-    menuShow: true,
-    iconCls: 'iconfont icon-home', 
-    children: [
-    {path: '/Delivery/Delivelist', component: Delivelist, name: '快递列表', menuShow: true}
-    ]
-},
-]
+    mode: 'history',
+    routes: [{
+        path: '/Login',
+        name: '登录',
+        component: Login
+    }, {
+        leaf: true, // 只有一个节点
+        path: '/',
+        name: '控制',
+        component: Home,
+        redirect: '/index/Console',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/index/Console',
+            component: Console,
+            name: '控制台',
+            menuShow: true
+        }]
+    }, {
+        path: '/',
+        name: '商品管理',
+        component: Home,
+        redirect: '/Good/Goodlist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Good/Goodlist',
+            component: Goodlist,
+            name: '商品列表',
+            menuShow: true
+        }, {
+            path: '/Good/Goodtype',
+            component: Goodtype,
+            name: '商品分类',
+            menuShow: true
+        }, {
+            path: '/Good/Goodformat',
+            component: Goodformat,
+            name: '商品规格',
+            menuShow: true
+        }, {
+            path: '/Good/Goodnew',
+            component: Goodnew,
+            name: '添加商品',
+            menuShow: false
+        }, {
+            path: '/Good/Goodrecycle',
+            component: Goodrecycle,
+            name: '商品回收站',
+            menuShow: true
+        }]
+    }, {
+        path: '/',
+        name: '订单管理',
+        component: Home,
+        redirect: '/Order/Orderlist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Order/Orderlist',
+            component: Orderlist,
+            name: '购物订单',
+            menuShow: true
+        }, {
+            path: '/Order/Teamwork',
+            component: Teamwork,
+            name: '拼团订单',
+            menuShow: true
+        }, {
+            path: '/Order/Ship',
+            component: Ship,
+            name: '发货',
+            menuShow: true
+        }, {
+            path: '/Order/Refund',
+            component: Refund,
+            name: '退款',
+            menuShow: true
+        }]
+    }, {
+        path: '/',
+        name: '用户管理',
+        component: Home,
+        redirect: '/User/Userlist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/User/Userlist',
+            component: Userlist,
+            name: '用户列表',
+            menuShow: true
+        }, {
+            path: '/User/Proxyapply',
+            component: Proxyapply,
+            name: '分销申请',
+            menuShow: true
+        }, {
+            path: '/User/Proxylist',
+            component: Proxylist,
+            name: '分销列表',
+            menuShow: true
+        }, {
+            path: '/User/Withdraw',
+            component: Withdraw,
+            name: '提现列表',
+            menuShow: true
+        }]
+    }, {
+        leaf: true,
+        path: '/',
+        name: '报表统计',
+        component: Home,
+        redirect: '/Report/Reportlist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Report/Reportlist',
+            component: Reportlist,
+            name: '统计图表',
+            menuShow: true
+        }, ]
+    }, {
+        path: '/',
+        name: '营销活动',
+        component: Home,
+        redirect: '/Mark/Spike',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Mark/Spike',
+            component: Spike,
+            name: '限时秒杀',
+            menuShow: true
+        }, {
+            path: '/Mark/Card',
+            component: Card,
+            name: '集卡牌',
+            menuShow: true
+        }, {
+            path: '/Mark/Group',
+            component: Group,
+            name: '团购',
+            menuShow: true
+        }]
+    }, {
+        path: '/',
+        name: '商家管理',
+        component: Home,
+        redirect: '/Shop/Shoplist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Shop/Shoplist',
+            component: Shoplist,
+            name: '商家列表',
+            menuShow: true
+        }, {
+            path: '/Shop/Selfshop',
+            component: Selfshop,
+            name: '自营商铺',
+            menuShow: true
+        }, {
+            path: '/Shop/Settleapply',
+            component: Settleapply,
+            name: '入驻申请',
+            menuShow: true
+        }]
+    }, {
+        leaf: true,
+        path: '/',
+        name: '广告管理',
+        component: Home,
+        redirect: '/Advertise/Adlist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Advertise/Adlist',
+            component: Adlist,
+            name: '广告列表',
+            menuShow: true
+        }]
+    }, {
+        path: '/',
+        name: '权限管理',
+        component: Home,
+        redirect: '/Role/Adminlist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Role/Adminlist',
+            component: Adminlist,
+            name: '管理员列表',
+            menuShow: true
+        }, {
+            path: '/Role/Rolelist',
+            component: Rolelist,
+            name: '角色列表',
+            menuShow: true
+        }, ]
+    }, {
+        path: '/',
+        name: '系统设置',
+        component: Home,
+        redirect: '/Setting/Baseset',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Setting/Baseset',
+            component: Baseset,
+            name: '基本设置',
+            menuShow: true
+        }, {
+            path: '/Setting/Wechatset',
+            component: Wechatset,
+            name: '微信设置',
+            menuShow: true
+        }]
+    }, {
+        leaf: true,
+        path: '/',
+        name: '快递配置',
+        component: Home,
+        redirect: '/Delivery/Delivelist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Delivery/Delivelist',
+            component: Delivelist,
+            name: '快递列表',
+            menuShow: true
+        }]
+    }, ]
 })
 
 
 
-
-
-
-
 // router.beforeEach((to, from, next) => {
-
-//   if (to.path.startsWith('/Login')) {
-//     window.sessionStorage.removeItem('token')
-//     next()
-//   } else {
-//     let token = JSON.parse(window.sessionStorage.getItem('token'))
-//     if (!token) {
-//       next({path: '/Login'})
+//     if (to.path.startsWith('/Login')) {
+//         window.sessionStorage.removeItem('token')
+//         next()
 //     } else {
-//       next()
+//         let token = JSON.parse(window.sessionStorage.getItem('token'))
+//         if (!token) {
+//             next({
+//                 path: '/Login'
+//             })
+//         } else {
+//             next()
+//         }
 //     }
-//   }
 // })
 
 export default router

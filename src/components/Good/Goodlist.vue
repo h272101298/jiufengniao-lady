@@ -46,20 +46,20 @@
       </el-table-column>
       <el-table-column label="操作" min-width="200" align="center">
        <template slot-scope="scope">
-        <el-tooltip class="icon" effect="dark" content="编辑" placement="top" @click="handleEdit">
-          <img src="../../../static/images/icon/edit.png">
+        <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
+          <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
         </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="预览" placement="bottom" @click="handleEdit">
-          <img src="../../../static/images/icon/look.png">
+        <el-tooltip class="icon" effect="dark" content="预览" placement="bottom">
+          <img src="../../../static/images/icon/look.png" @click="handleEdit(scope.$index, scope.row)">
         </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top" @click="handleEdit">
-          <img src="../../../static/images/icon/ewcode.png">
+        <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top">
+          <img src="../../../static/images/icon/ewcode.png" @click="handleEdit(scope.$index, scope.row)">
         </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="审核" placement="bottom" @click="handleEdit">
-          <img src="../../../static/images/icon/check.png">
+        <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
+          <img src="../../../static/images/icon/check.png" @click="handleEdit(scope.$index, scope.row)">
         </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="删除" placement="top" @click="handleDelete">
-          <img src="../../../static/images/icon/delete.png">
+        <el-tooltip class="icon" effect="dark" content="删除" placement="top">
+          <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
         </el-tooltip>
       </template>
     </el-table-column>
@@ -70,53 +70,96 @@
 </el-col>
 
 <el-col>
-  <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
-    <el-form ref="newadv" :model="newadv" label-width="120px" :rules="rules">
+  <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="700px" center style="min-width: 500px">
+    <el-form label-width="120px" size="small" >
+
+<!--       <el-form-item label="商品名称：">
+        <el-input v-model="newadv.link" placeholder="请输入商品名称"></el-input>
+      </el-form-item> 
+
+      <el-form-item label="商品简介：">
+        <el-input v-model="newadv.link" placeholder="请输入商品简介"></el-input>
+      </el-form-item>
+
+      <el-form-item label="商品分类：" prop="role_id">
+        <el-select v-model="newadv.role_id" placeholder="请选择商品分类">
+          <el-option v-for="item in rolesArr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="商品规格：" prop="role_id">
+        <el-select v-model="newadv.role_id" placeholder="请选择商品规格">
+          <el-option v-for="item in rolesArr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+      </el-form-item> -->
 
       <el-form-item label="商品缩略图：">
-        <el-upload class="upload-demo" :action="upUrl" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-          <img :src="imgSrc" class="pre-img" style="width:50%;height:25%;border:2px dashed #ccc;border-radius:10px;display: block" >
+        <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
+          <!-- <i class="el-icon-plus"></i> -->
+          <img :src="imgSrc" class="pre-img" style="width:60%;height:30%;border:2px dashed #ccc;border-radius:10px;display: block" >
           <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div>
         </el-upload>
       </el-form-item>
 
-<!--       <el-form-item label="广告位置:">
-        <el-select v-model="newadv.positionid" placeholder="请选择广告位置">
-          <el-option v-for="item in postarr" :label="item.name" :value="item.id" :key="item.id"></el-option>
-        </el-select>
-      </el-form-item> -->
-
-      <el-form-item label="广告链接:">
-        <el-input v-model="newadv.link" placeholder="请输入广告链接"></el-input>
-      </el-form-item>
-
-
       <el-form-item label="商品相册：">
-        <el-upload :action="upUrl" list-type="picture-card" :on-remove="handleRemove" :on-success="handleUploadLun" :on-exceed="handleExceed" :file-list="album" :limit="3">
+        <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :on-exceed="handleExceed" :file-list="album" :limit="3">
           <i class="el-icon-plus"></i>
         </el-upload>
-<!--       <el-dialog :visible.sync="dialogVisible1">
-        <img width="100%" :src="dialogImageUrl1">
-      </el-dialog> -->
-    </el-form-item>
+<!--         <el-dialog :visible.sync="dialogVisible1">
+          <img width="100%" :src="dialogImageUrl1">
+        </el-dialog> -->
+      </el-form-item>
 
+      <el-form-item label="分享标题：">
+        <el-input v-model="newadv.link" placeholder="请输入分享标题"></el-input>
+      </el-form-item>
 
+      <el-form-item label="分享描述：">
+        <el-input v-model="newadv.link" placeholder="请输入分享描述"></el-input>
+      </el-form-item>
 
-    <el-form-item style="margin-left: calc(50% - 200px);">
-      <el-button type="primary" @click="save()">保 存</el-button>
-      <el-button @click="dialogNewVisible = false">取 消</el-button>
-    </el-form-item>
-  </el-form>
-</el-dialog>
+      <el-form-item label="市场价格：">
+        <el-input v-model="newadv.link" placeholder="请输入市场价格"></el-input>
+      </el-form-item>
+
+      <el-form-item label="本店价格：">
+        <el-input v-model="newadv.link" placeholder="请输入本店价格"></el-input>
+      </el-form-item>
+
+      <el-form-item label="分销佣金：">
+        <el-input v-model="newadv.link" placeholder="请输入分销佣金"></el-input>
+      </el-form-item>
+
+      <el-form-item label="库存：">
+        <el-input v-model="newadv.link" placeholder="请输入库存"></el-input>
+      </el-form-item>
+
+      <el-form-item label="快递：" prop="role_id">
+        <el-select v-model="newadv.role_id" placeholder="请选择快递">
+          <el-option v-for="item in rolesArr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="邮费：">
+        <el-input v-model="newadv.link" placeholder="请输入邮费"></el-input>
+      </el-form-item>
+
+      <el-form-item style="margin-left: calc(50% - 185px);">
+        <el-button type="primary" @click="save()">保 存</el-button>
+        <el-button @click="dialogNewVisible = false">取 消</el-button>
+      </el-form-item>
+
+    </el-form>
+  </el-dialog>
 </el-col>
 
 
 <el-col>
   <el-dialog title="删除不可恢复，是否确定删除？" :visible.sync="dialogDelVisible" width="30%">
     <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="submitdel()">确 定</el-button>
-      <el-button @click="dialogDelVisible = false">取 消</el-button>
+      <el-button type="danger" @click="submitdel()">确 定</el-button>
+      <el-button type="primary" @click="dialogDelVisible = false">取 消</el-button>
     </div>
   </el-dialog>
 </el-col>
@@ -129,11 +172,15 @@
 <script>
 
 
-  import baseUrl from '../../api/api';
+  import qiniu from '../../api/qiniu';
 
   export default {
     data() {
       return {
+        uptoken:{
+          token:qiniu.token,
+        },
+        upurl:qiniu.upurl,
         currentPage: 1,
         list:[{
           name:'11',
@@ -148,20 +195,20 @@
           name:''
         },
         putorup:'up',
-        showUrl:baseUrl,
-        upUrl:baseUrl+'upload',
         imgSrc:"../static/images/default.png",
         newadv:{
           link:'',
           intro:'',
           positionid:'',
-          album:''
+          album:'',
+          role_id:''
         },
+        rolesArr:[],
         diatitle:'新增商品',
         postarr:[],
-        rules: {
-          link: [{required: true, trigger: 'blur',message: '请输入广告链接'}]
-        },
+        // rules: {
+        //   link: [{required: true, trigger: 'blur',message: '请输入广告链接'}]
+        // },
         editId:'',
         delId:'',
         album:[]
@@ -176,7 +223,7 @@
       newone(){
        this.putorup='up';
        this.imgSrc="../static/images/default.png";
-       this.diatitle='新增广告',
+       this.diatitle='新增商品',
        this.dialogNewVisible=true
      },
 
@@ -186,19 +233,29 @@
         this.$message.error('图片大小不能超过 1MB!');
       }
       return isLt1M;
+
+      
     },
 
     handleSuccess(res, file) {
-      this.imgSrc = URL.createObjectURL(file.raw);
-      this.upimgurl = res.data.url;
+      this.upimgurl =qiniu.showurl+ res.key
+      this.imgSrc =qiniu.showurl+ res.key
     },
 
     save(){
+
+      var piclist=[]
+      for(var i = 0 ; i < this.album.length; i++){
+        var aaa = qiniu.showurl+this.album[i].response.key;
+        piclist.push(aaa)
+      }
+      console.log(piclist)
+
       this.dialogNewVisible=false
     },
 
     handleEdit(index, row){
-      this.diatitle='编辑广告';
+      this.diatitle='编辑商品';
       this.dialogNewVisible = true;
       this.putorup='put';
       this.editId = row.id;
@@ -219,23 +276,22 @@
       this.getlist();
     },
 
-
     handleSizeChange(val){
       this.limit = val;
       this.getlist();
     },
 
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      this.album=fileList
     },
+    
     handleExceed(files, fileList) {
-
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      this.$message.warning(`只能上传3张图片`);
     },
 
-    handleUploadLun(res, file){
-
-      this.newadv.album += res.sucesss + ",";
+    handlelistSuccess(res, file,fileList){
+      this.album=fileList
     },
   },
 

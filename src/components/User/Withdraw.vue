@@ -31,7 +31,7 @@
     </el-col>
 
     <el-col>
-      <el-dialog title="此操作不可恢复，是否确定不通过？" :visible.sync="dialogDelVisible" width="30%">
+      <el-dialog title="此操作不可恢复，是否确定拒绝？" :visible.sync="dialogDelVisible" width="30%">
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogDelVisible  = false">取 消</el-button>
           <el-button type="primary" @click="submitdel()">确 定</el-button>

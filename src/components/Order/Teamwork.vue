@@ -31,8 +31,8 @@
           </div>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" size="medium" @click="getlist">搜索</el-button>
-          <el-button size="medium" @click="clear">清空</el-button>
+          <el-button type="primary" size="small" @click="getlist">搜索</el-button>
+          <el-button size="small" @click="clear">清空</el-button>
         </el-form-item>
       </el-form>
 
@@ -58,7 +58,7 @@
          </template>
        </el-table-column>
      </el-table>
-     <el-button type="primary" style="float:left;margin-top:10px;" @click="exportExcel()">导出Excel表</el-button>
+     <el-button type="primary" style="float:left;margin-top:10px;" @click="exportExcel()" size="small">导出Excel表</el-button>
      <el-pagination style="float:left;margin:20px 0 0 30px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
      </el-pagination>
    </el-col>

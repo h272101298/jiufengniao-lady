@@ -29,8 +29,8 @@
         </el-table-column>
         <el-table-column label="操作" min-width="180" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" size="medium" @click="handleEdit">通过</el-button>
-            <el-button type="danger" size="medium" @click="handleDelete">删除</el-button>
+            <el-button type="primary" size="small" @click="handleEdit">通过</el-button>
+            <el-button type="danger" size="small" @click="handleDelete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
