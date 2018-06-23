@@ -28,6 +28,7 @@ import Group from '@/components/Mark/Group'
 
 import Shoplist from '@/components/Shop/Shoplist'
 import Selfshop from '@/components/Shop/Selfshop'
+import Shoptype from '@/components/Shop/Shoptype'
 import Settleapply from '@/components/Shop/Settleapply'
 
 import Adlist from '@/components/Advertise/Adlist'
@@ -213,6 +214,11 @@ let router = new Router({
             path: '/Shop/Settleapply',
             component: Settleapply,
             name: '入驻申请',
+            menuShow: true
+        }, {
+            path: '/Shop/Shoptype',
+            component: Shoptype,
+            name: '经营类目',
             menuShow: true
         }]
     }, {

@@ -46,3 +46,17 @@ export const advertsGet = params => { return axios.get(`${base}/adverts`+`${para
 export const advertPost = params => { return axios.post(`${base}/advert`, params).then(res => res.data)}
 
 export const advertDel = params => { return axios.delete(`${base}/advert`+`${params}`).then(res => res.data)}
+
+//类目
+export const categoriesGet = params => { return axios.get(`${base}/store/categories`+`${params}`).then(res => res.data)}
+
+export const categoryPost = params => { return axios.post(`${base}/store/category`, params).then(res => res.data)}
+
+export const categoryDel = params => { return axios.delete(`${base}/store/category`+`${params}`).then(res => res.data)}
+
+
+
+//入驻
+export const sappliesGet = params => { return axios.get(`${base}/settle/applies`+`${params}`).then(res => res.data)}
+
+export const sapplyPost = params => { return axios.post(`${base}/check/settle/apply`, params).then(res => res.data)}

@@ -116,8 +116,8 @@
         },
         propose:true,
         putorup:'up',
-        showUrl:baseUrl,
-        upUrl:baseUrl+'upload',
+        // showUrl:baseUrl,
+        // upUrl:baseUrl+'upload',
         imgSrc:"../static/images/default.png",
         newadv:{
           link:'',

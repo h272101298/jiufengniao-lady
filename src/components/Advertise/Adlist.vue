@@ -13,16 +13,9 @@
       <el-form-item>
         <el-button type="primary" size="medium" @click="newone">新增广告</el-button>
       </el-form-item>
-<!--       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入用户名/编号" style="min-width: 200px;" ></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">搜索</el-button>
-        <el-button size="medium" @click="newone">清空</el-button>
-      </el-form-item> -->
     </el-form>
 
-    <el-table :data="list" v-loading="loading" border stripe size="small">
+    <el-table :data="list" border stripe size="small">
       <el-table-column prop="id" label="广告编号" width="100" align="center">
       </el-table-column>
       <el-table-column prop="pic" label="广告图片" min-width="200" align="center">
@@ -30,10 +23,7 @@
           <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
         </template>
       </el-table-column>
-<!--       <el-table-column prop="category_id" label="广告分类" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="url" label="广告链接" min-width="200" align="center">
-      </el-table-column> -->
+
 
       <el-table-column label="操作" width="200" align="center">
        <template slot-scope="scope">
@@ -53,24 +43,14 @@
     <el-form ref="newadv" :model="newadv" label-width="120px" :rules="rules">
 
       <el-form-item label="上传图片：">
-        <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-          <img :src="imgSrc" class="pre-img" style="width:60%;height:30%;border:2px dashed #ccc;border-radius:10px;display: block" >
-          <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button>
-          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div>
+        <el-upload class="upload-demo" list-type="picture-card" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :on-exceed="handleExceed" :file-list="postarr" :limit="1" :show-file-list="true" accept="image/*">
+          <i class="el-icon-plus"></i>
+          <!-- <img :src="imgSrc" class="pre-img" style="max-width:60%;max-height:30%;border:2px dashed #ccc;border-radius:10px;display: block" > -->
+          <!-- <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button> -->
+          <!-- <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div> -->
         </el-upload>
       </el-form-item>
 
-<!--       <el-form-item label="广告位置:">
-        <el-select v-model="newadv.positionid" placeholder="请选择广告位置">
-          <el-option v-for="item in postarr" :label="item.name" :value="item.id" :key="item.id"></el-option>
-        </el-select>
-      </el-form-item> -->
-<!--       <el-form-item label="广告链接:">
-        <el-input v-model="newadv.link" placeholder="请输入广告链接"></el-input>
-      </el-form-item> -->
-<!--       <el-form-item label="广告描述:">
-        <el-input v-model="newadv.intro" placeholder="请输入广告描述"></el-input>
-      </el-form-item> -->
       <el-form-item style="margin-left: calc(50% - 200px);">
         <el-button type="primary" @click="save()">保 存</el-button>
         <el-button @click="dialogNewVisible = false">取 消</el-button>
@@ -103,7 +83,6 @@
 
   import qiniu from '../../api/qiniu';
 
-  import axios from 'axios'
 
   export default {
     data() {
@@ -114,7 +93,6 @@
         upurl:qiniu.upurl,
         currentPage: 1,
         list:[],
-        loading: false,
         count:100,
         limit:10,
         dialogNewVisible:false,
@@ -123,7 +101,7 @@
           name:''
         },
         putorup:'up',
-        imgSrc:"../static/images/default.png",
+        imgSrc:"",
         newadv:{
           link:'',
           intro:'',
@@ -142,7 +120,6 @@
 
     methods:{
 
-
       getlist(){
 
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
@@ -155,7 +132,7 @@
 
       newone(){
        this.putorup='up';
-       this.imgSrc="../static/images/default.png";
+       this.postarr=[];
        this.diatitle='新增广告',
        this.dialogNewVisible=true
      },
@@ -169,14 +146,19 @@
     },
 
     handleSuccess(res, file) {
-      this.upimgurl =qiniu.showurl+ res.key
+      // this.upimgurl =qiniu.showurl+ res.key
       this.imgSrc =qiniu.showurl+ res.key
       // this.imgSrc = URL.createObjectURL(file.raw);
       // this.upimgurl = res.data.url;
     },
 
+    handleExceed(files, fileList) {
+      // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      this.$message.warning(`只能上传1张图片`);
+    },
+
     save(){
-      if(this.imgSrc=='../static/images/default.png'){
+      if(this.imgSrc==''){
         this.$message({
           message: '请选择图片',
           type: 'error'
@@ -218,9 +200,11 @@
       this.diatitle='编辑广告';
       this.dialogNewVisible = true;
       this.putorup='put';
-      // console.log(row)
+      console.log(row.pic)
       this.editId = row.id;
-      this.imgSrc=row.pic;
+      // this.imgSrc=row.pic;`
+      this.postarr.push(Object.assign({},{"url":row.pic}));
+
     },
 
     handleDelete(index, row) {

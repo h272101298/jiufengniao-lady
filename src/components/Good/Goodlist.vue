@@ -95,7 +95,7 @@
 
       <el-form-item label="商品缩略图：">
         <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-          <!-- <i class="el-icon-plus"></i> -->
+          <i class="el-icon-plus"></i>
           <img :src="imgSrc" class="pre-img" style="width:60%;height:30%;border:2px dashed #ccc;border-radius:10px;display: block" >
           <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div>

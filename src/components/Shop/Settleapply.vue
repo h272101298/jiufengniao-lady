@@ -13,24 +13,29 @@
       <el-table :data="list" border stripe size="small">
         <el-table-column prop="name" label="申请人姓名" min-width="100" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="申请人电话" min-width="180" align="center">
+        <el-table-column prop="phone" label="申请人电话" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="所在城市" min-width="180" align="center">
+        <el-table-column prop="storeName" label="店铺名称" min-width="180" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="店铺名称" min-width="180" align="center">
+        <el-table-column prop="category" label="主营类目" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="申请类型" min-width="180" align="center">
+        <el-table-column prop="type" label="申请类型" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="主营类目" min-width="180" align="center">
+        <el-table-column prop="pic" label="营业执照" min-width="180" align="center">
+          <template slot-scope="scope">
+            <img :src="scope.row.pic" style="max-width:100px;max-height:100px;" />
+          </template>
         </el-table-column>
-        <el-table-column prop="name" label="申请时间" min-width="180" align="center">
+        <el-table-column prop="city" label="所在城市" min-width="180" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="申请状态" min-width="180" align="center">
+        <el-table-column prop="created_at" label="申请时间" min-width="180" align="center">
+        </el-table-column>
+        <el-table-column prop="state" label="申请状态" min-width="150" align="center">
         </el-table-column>
         <el-table-column label="操作" min-width="180" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" size="small" @click="handleEdit">通过</el-button>
-            <el-button type="danger" size="small" @click="handleDelete">删除</el-button>
+            <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state=='待审核' ? true : false">通过</el-button>
+            <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="scope.row.state=='待审核' ? true : false">拒绝</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -40,9 +45,8 @@
     </el-col>
 
 
-
     <el-col>
-      <el-dialog title="删除不可恢复，是否确定删除？" :visible.sync="dialogDelVisible" width="30%">
+      <el-dialog title="拒绝不可恢复，是否确定拒绝？" :visible.sync="dialogDelVisible" width="30%">
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" @click="submitdel()">确 定</el-button>
           <el-button @click="dialogDelVisible = false">取 消</el-button>
@@ -57,38 +61,81 @@
 
 <script>
 
+  import { sappliesGet } from '../../api/api';
+  import { sapplyPost } from '../../api/api';
 
-  // import baseUrl from '../../api/api';
 
   export default {
     data() {
       return {
-        list:[{
-          name:2,
-        }],
+        list:[],
         currentPage: 1,
-        count:100,
+        count:0,
         limit:10,
-        dialogDelVisible:false
+        dialogDelVisible:false,
+        delId:''
       };
     },
 
     methods:{
       getlist(){
-
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+        sappliesGet(allParams).then((res) => {
+          this.list=res.data;
+          this.count=res.count;
+        });
       },
 
       handleEdit(index, row){
-
+        var allParams={
+          id:row.check_id,
+          state:1
+        }
+        sapplyPost(allParams).then((res) => {
+          console.log(res)
+          if (res.msg === "ok") {
+           this.$message({
+            message: '审核成功',
+            type: 'success'
+          });
+           this.getlist();
+           this.dialogDelVisible = false;
+         } else {
+           this.$message({
+            message: res.msg,
+            type: 'error'
+          });
+         }
+       });
       },
 
       handleDelete(index, row) {
         this.dialogDelVisible = true;
-        this.delId = row.id;
+        this.delId = row.check_id;
       },
 
       submitdel(){
         this.dialogDelVisible = false;
+        var allParams={
+          id:this.delId,
+          state:2
+        }
+        sapplyPost(allParams).then((res) => {
+          console.log(res)
+          if (res.msg === "ok") {
+           this.$message({
+            message: '审核成功',
+            type: 'success'
+          });
+           this.getlist();
+           this.dialogDelVisible = false;
+         } else {
+           this.$message({
+            message: res.msg,
+            type: 'error'
+          });
+         }
+       });
       },
 
 
