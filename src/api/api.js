@@ -47,7 +47,7 @@ export const advertPost = params => { return axios.post(`${base}/advert`, params
 
 export const advertDel = params => { return axios.delete(`${base}/advert`+`${params}`).then(res => res.data)}
 
-//类目
+//经营类目
 export const categoriesGet = params => { return axios.get(`${base}/store/categories`+`${params}`).then(res => res.data)}
 
 export const categoryPost = params => { return axios.post(`${base}/store/category`, params).then(res => res.data)}
@@ -60,3 +60,12 @@ export const categoryDel = params => { return axios.delete(`${base}/store/catego
 export const sappliesGet = params => { return axios.get(`${base}/settle/applies`+`${params}`).then(res => res.data)}
 
 export const sapplyPost = params => { return axios.post(`${base}/check/settle/apply`, params).then(res => res.data)}
+
+
+
+//商品分类
+export const typeGet = params => { return axios.get(`${base}/product/types`+`${params}`).then(res => res.data)}
+
+export const typePost = params => { return axios.post(`${base}/product/type`, params).then(res => res.data)}
+
+export const typeDel = params => { return axios.delete(`${base}/product/type`+`${params}`).then(res => res.data)}

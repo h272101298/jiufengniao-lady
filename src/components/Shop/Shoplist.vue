@@ -9,18 +9,18 @@
     </el-col>
 
     <el-col :span="24" class="warp-main">
-<!--      <el-form :inline="true">
+     <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">新增用户</el-button>
+        <!-- <el-button type="primary" size="medium" @click="newone">新增用户</el-button> -->
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入用户名/编号" style="min-width: 200px;" ></el-input>
+        <el-input v-model="filter.name" placeholder="请输入店铺名称" style="min-width: 200px;" ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">搜索</el-button>
-        <el-button size="medium" @click="newone">清空</el-button>
+        <el-button type="primary" size="medium" @click="search">搜索</el-button>
+        <el-button size="medium" @click="clear">清空</el-button>
       </el-form-item>
-    </el-form> -->
+    </el-form>
 
     <el-table :data="list" border stripe size="small">
       <el-table-column prop="name" label="店铺名称" min-width="100" align="center">
@@ -92,7 +92,7 @@
           <el-tag type="success" v-show="shopinfo.id==1 ? true : false">启用</el-tag>
           <el-tag type="danger" v-show="shopinfo.id==2 ? true : false">禁用</el-tag>
         </el-form-item>
-        <el-button type="primary" size="small" @click="detail" style="margin-left: calc(50% - 28px);">确定</el-button>
+        <el-button type="primary" size="small" @click="save" style="margin-left: calc(50% - 28px);">确定</el-button>
       </el-form>
     </el-dialog>
   </el-col>
@@ -104,22 +104,24 @@
 <script>
 
 
-  // import baseUrl from '../../api/api';
 
   export default {
     data() {
       return {
-        currentPage: 1,
+        filter:{
+          name:''
+        },
         list:[{
           name:2,
           type:1,
           id:''
         }],
-        count:100,
+        currentPage: 1,
+        count:0,
         limit:10,
         dialogNewVisible:false,
         shopinfo:{
-          id:111111111111
+          id:1
         }
       };
     },
@@ -135,6 +137,16 @@
 
       save(){
         this.dialogNewVisible=false
+      },
+
+      search(){
+        this.getlist()
+      },
+
+      clear(){
+        this.filter={
+          name:''
+        }
       },
 
 

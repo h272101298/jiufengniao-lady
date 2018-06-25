@@ -16,16 +16,16 @@
     </el-form>
 
     <el-table :data="list" border stripe size="small">
-      <el-table-column prop="id" label="广告编号" width="100" align="center">
+      <el-table-column prop="id" label="广告编号" width="200" align="center">
       </el-table-column>
-      <el-table-column prop="pic" label="广告图片" min-width="200" align="center">
+      <el-table-column prop="pic" label="广告图片" width="500" align="center">
         <template slot-scope="scope">
           <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
         </template>
       </el-table-column>
 
 
-      <el-table-column label="操作" width="200" align="center">
+      <el-table-column label="操作" width="300" align="center">
        <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
         <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -93,7 +93,7 @@
         upurl:qiniu.upurl,
         currentPage: 1,
         list:[],
-        count:100,
+        count:0,
         limit:10,
         dialogNewVisible:false,
         dialogDelVisible:false,

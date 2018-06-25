@@ -14,37 +14,45 @@
         <el-button type="primary" size="medium" @click="newone">新增分类</el-button>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入分类名称" style="min-width: 260px;" ></el-input>
+        <el-input v-model="filter.title" placeholder="请输入分类名称" style="min-width: 260px;" ></el-input>
       </el-form-item>
+
+      <el-form-item label="分类级别：">
+        <el-select v-model="filter.level" placeholder="全部" @change="changelevel">
+          <el-option label="一级" value="1"></el-option>
+          <el-option label="二级" value="2"></el-option>
+          <el-option label="三级" value="3"></el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">搜索</el-button>
-        <el-button size="medium" @click="newone">清空</el-button>
+        <el-button type="primary" size="medium" @click="getlist">搜索</el-button>
+        <el-button size="medium" @click="clear">清空</el-button>
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" v-loading="loading" border stripe size="small">
+    <el-table :data="list" border stripe size="small">
       <el-table-column prop="id" label="编号" min-width="80" align="center">
       </el-table-column>
-      <el-table-column prop="url" label="分类logo" min-width="200" align="center">
+      <el-table-column prop="logo" label="分类logo" min-width="200" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.url" style="max-width:100px;max-height:100px;" />
+          <img :src="scope.row.logo" style="max-width:50px;max-height:50px;" />
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="名称" min-width="200" align="center">
+      <el-table-column prop="title" label="名称" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="name" label="级别" min-width="200" align="center">
+      <el-table-column prop="level" label="级别" min-width="200" align="center">
+      </el-table-column>
+      <el-table-column prop="up" label="上级分类" min-width="200" align="center">
       </el-table-column>
       
-      <el-table-column label="操作" min-width="200" align="center">
+      <el-table-column label="操作" width="300" align="center">
        <template slot-scope="scope">
-        <el-tooltip class="icon" effect="dark" content="编辑" placement="top" @click="handleEdit">
-          <img src="../../../static/images/icon/edit.png">
-        </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="删除" placement="top" @click="handleDelete">
-          <img src="../../../static/images/icon/delete.png">
-        </el-tooltip>
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
+
   </el-table>
 
   <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
@@ -53,22 +61,35 @@
 
 <el-col>
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
-    <el-form ref="newadv" :model="newadv" label-width="120px" :rules="rules">
+    <el-form ref="newadv" :model="newadv" label-width="120px">
 
       <el-form-item label="分类logo：">
-        <el-upload class="upload-demo" :action="upUrl" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-          <img :src="imgSrc" class="pre-img" style="width:60%;height:30%;border:2px dashed #ccc;border-radius:10px;display: block" >
+        <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
+          <img :src="imgSrc" class="pre-img" style="max-width:200px;max-height:200px;border:2px dashed #ccc;border-radius:0px;display: block" >
           <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button>
           <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div>
         </el-upload>
       </el-form-item>
 
       <el-form-item label="分类名称:">
-        <el-input v-model="newadv.link" placeholder="请输入分类名称"></el-input>
+        <el-input v-model="newadv.title" style="max-width: 300px;" placeholder="请输入分类名称"></el-input>
       </el-form-item>
-      <el-form-item label="是否首页推荐:">
+
+      <el-form-item label="分类等级：" prop="level">
+        <el-select v-model="newadv.level" placeholder="请选择分类等级">
+          <el-option v-for="item in levelarr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="上级分类：" prop="level">
+        <el-select v-model="newadv.level" placeholder="请选择上级分类：">
+          <el-option v-for="item in levelarr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+      </el-form-item>
+
+<!--       <el-form-item label="是否首页推荐:">
         <el-switch v-model="propose" @change="cgpropose" active-value="1" inactive-value="2"></el-switch>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item style="margin-left: calc(50% - 200px);">
         <el-button type="primary" @click="save()">保 存</el-button>
         <el-button @click="dialogNewVisible = false">取 消</el-button>
@@ -95,116 +116,178 @@
 <script>
 
 
-  // import baseUrl from '../../api/api';
+  import {typeGet} from '../../api/api';
+  import {typePost} from '../../api/api';
+  import {typeDel} from '../../api/api';
+
+  import qiniu from '../../api/qiniu';
 
   export default {
     data() {
       return {
+        uptoken:{
+          token:qiniu.token,
+        },
+        upurl:qiniu.upurl,
         currentPage: 1,
-        list:[{
-          id:'11',
-          url:'../static/images/gold.jpg',
-          name:'22'
-        }],
-        loading: false,
+        list:[],
         count:100,
         limit:10,
         dialogNewVisible:false,
         dialogDelVisible:false,
         filter:{
-          name:''
+          title:'',
+          level:''
         },
-        propose:true,
         putorup:'up',
-        // showUrl:baseUrl,
-        // upUrl:baseUrl+'upload',
         imgSrc:"../static/images/default.png",
         newadv:{
-          link:'',
-          intro:'',
-          positionid:''
-        },
-        diatitle:'新增商品',
-        postarr:[],
-        rules: {
-          link: [{required: true, trigger: 'blur',message: '请输入广告链接'}],
-          intro: [{required: true, trigger: 'blur',message: '请输入广告描述'}]
-        },
-        editId:'',
-        delId:''
-      };
+         title:'',
+         logo:'',
+         level:''
+       },
+       levelarr:[],       
+       diatitle:'新增商品',
+       editId:'',
+       delId:''
+     };
+   },
+
+   methods:{
+    getlist(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit +'&title=' + this.filter.title+'&level=' + this.filter.level;
+      typeGet(allParams).then((res) => {
+        this.list=res.data.data;
+        this.count=res.data.count;
+      });
     },
 
-    methods:{
-      getlist(){
-
-      },
-
-      newone(){
-       this.putorup='up';
-       this.imgSrc="../static/images/default.png";
-       this.diatitle='新增分类',
-       this.dialogNewVisible=true
-     },
-
-     beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1;
-      if (!isLt1M) {
-        this.$message.error('图片大小不能超过 1MB!');
-      }
-      return isLt1M;
-    },
-
-    cgpropose(e){
-      if( e==true ){
-        // this.busform.state=1;
-      }
-      else if( e==false ){
-        // this.busform.state=2;
-      }
-    },
-
-    handleSuccess(res, file) {
-      this.imgSrc = URL.createObjectURL(file.raw);
-      this.upimgurl = res.data.url;
-    },
-
-    save(){
-      this.dialogNewVisible=false
-    },
-
-    handleEdit(index, row){
-      this.diatitle='编辑分类';
-      this.dialogNewVisible = true;
-      this.putorup='put';
-      this.editId = row.id;
-      this.imgSrc=this.showUrl+row.url;
-    },
-
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
-
-    submitdel(){
-      this.dialogDelVisible = false;
-    },
-
-    handleCurrentChange(val) {
-      this.currentPage = val;
+    changelevel(val){
+      this.filter.level=val;
       this.getlist();
     },
 
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getlist();
+    clear(){
+      this.filter={
+        title:'',
+        level:''
+      }
     },
+
+    newone(){
+     this.putorup='up';
+     this.imgSrc="../static/images/default1.png";
+     this.diatitle='新增分类',
+     this.dialogNewVisible=true
+   },
+
+   beforeUpload(file) {
+    const isLt1M = file.size / 1024 / 1024 < 1;
+    if (!isLt1M) {
+      this.$message.error('图片大小不能超过 1MB!');
+    }
+    return isLt1M;
   },
 
-  mounted: function () {
+  handleSuccess(res, file) {
+    this.newadv.logo =qiniu.showurl+ res.key;
+    this.imgSrc =qiniu.showurl+ res.key;
+  },
+
+  save(){
+
+    if(this.newadv.logo==''){
+      this.$message({
+        message: '请上传分类logo',
+        type: 'error'
+      });
+    }else if(this.newadv.title==''){
+      this.$message({
+        message: '请输入分类名称',
+        type: 'error'
+      });
+    }
+    else{
+      if( this.putorup=='put'){
+        var allParams = {
+          title:this.newadv.title,
+          id:this.editId,
+          logo:this.upimgurl,
+
+        };
+      }else{
+        var allParams = {
+          title:this.newadv.title,
+          logo:this.imgSrc,
+        };
+      }
+      typePost(allParams).then((res) => {
+        if (res.msg === "ok") {
+         this.$message({
+          message: '提交成功',
+          type: 'success'
+        });
+         this.getlist();
+         this.dialogNewVisible=false
+       } else {
+         this.$message({
+          message: res.msg,
+          type: 'error'
+        });
+       }
+     });
+    }
+  },
+
+  handleEdit(index, row){
+    this.diatitle='编辑分类';
+    this.dialogNewVisible = true;
+    this.putorup='put';
+    this.editId = row.id;
+    this.imgSrc=row.logo;
+  },
+
+  handleDelete(index, row) {
+    this.dialogDelVisible = true;
+    this.delId = row.id;
+  },
+
+  submitdel(){
+    this.dialogDelVisible = false;
+    var allParams='?id='+this.delId
+    typeDel(allParams).then((res) => {
+        // console.log(res)
+        if (res.msg === "ok") {
+         this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
+         this.getlist();
+         this.dialogDelVisible = false;
+       } else {
+         this.$message({
+          message: res.msg,
+          type: 'error'
+        });
+       }
+     });
+  },
+
+  handleCurrentChange(val) {
+    this.currentPage = val;
     this.getlist();
-  }
+  },
+
+
+  handleSizeChange(val){
+    this.limit = val;
+    this.getlist();
+  },
+},
+
+mounted: function () {
+  this.getlist();
+}
 }
 </script>
 
