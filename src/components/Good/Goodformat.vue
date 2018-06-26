@@ -13,73 +13,50 @@
       <el-form-item>
         <el-button type="primary" size="medium" @click="newone">新增规格</el-button>
       </el-form-item>
-      <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入规格名称/所属分类" style="min-width: 260px;" ></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">搜索</el-button>
-        <el-button size="medium" @click="newone">清空</el-button>
-      </el-form-item>
     </el-form>
 
-    <el-table :data="list" v-loading="loading" border stripe size="small">
-      <el-table-column prop="id" label="编号" min-width="80" align="center">
+    <el-table :data="list" border stripe style="width:901px">
+      <el-table-column prop="id" label="编号" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="name" label="名称" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="name" label="所属分类" min-width="200" align="center">
+      <el-table-column prop="title" label="名称" width="400" align="center">
       </el-table-column>
 
-      <el-table-column prop="url" label="是否首页推荐" min-width="200" align="center">
-        <template slot-scope="scope">
-          <el-switch v-model="propose" @change="cgpropose" active-value="1" inactive-value="2"></el-switch>
-        </template>
-      </el-table-column>
-      
-      <el-table-column label="操作" min-width="200" align="center">
+      <el-table-column label="操作" width="400" align="center">
        <template slot-scope="scope">
-        <el-tooltip class="icon" effect="dark" content="编辑" placement="top" @click="handleEdit">
-          <img src="../../../static/images/icon/edit.png">
-        </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="删除" placement="top" @click="handleDelete">
-          <img src="../../../static/images/icon/delete.png">
-        </el-tooltip>
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
+
   </el-table>
 
   <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
   </el-pagination>
 </el-col>
 
+
+
+
 <el-col>
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
-    <el-form ref="newadv" :model="newadv" label-width="120px" :rules="rules">
+    <el-form label-width="120px" width="700px" center style="width: 800px">
+      <el-form-item label="添加规格：">
+        <div v-for="(guige, index) in guige" style="display: flex;justify-content: flex-start;align-items: center;flex-wrap: wrap;">
+          <el-input size="small" v-model="guige.value" style="width: 200px;margin:5px 5px 5px 0;" placeholder="请输入规格名"></el-input>
+          <div v-for="(item,index) in guige.detail">
+            <el-input size="small" v-model="item.value" style="width: 200px;margin:5px 5px 5px 0;" placeholder="请输入详细内容"></el-input>
+          </div>
+          <el-button @click.prevent="adddetail(index)" type="primary" size="small" style="margin: 5px">新增详细</el-button>
+          <el-button @click.prevent="removeguige(guige)" type="danger" size="small" style="margin: 5px">删除</el-button>
+        </div>
+        <el-button @click.prevent="addguige()" type="primary" size="small" style="margin-top: 10px;">新增规格</el-button>
+      </el-form-item>
 
-      <el-form-item label="规格名称:">
-        <el-input v-model="newadv.link" placeholder="请输入规格名称"></el-input>
-      </el-form-item>
-      <el-form-item label="所属分类:">
-        <el-input v-model="newadv.link" placeholder="请输入所属分类"></el-input>
-      </el-form-item>
-      <el-form-item label="是否首页推荐:">
-        <el-switch v-model="propose" @change="cgpropose" active-value="1" inactive-value="2"></el-switch>
-      </el-form-item>
-      <el-form-item style="margin-left: calc(50% - 200px);">
+      <el-form-item style="margin-left: calc(50% - 185px);">
         <el-button type="primary" @click="save()">保 存</el-button>
         <el-button @click="dialogNewVisible = false">取 消</el-button>
       </el-form-item>
     </el-form>
-  </el-dialog>
-</el-col>
-
-
-<el-col>
-  <el-dialog title="删除不可恢复，是否确定删除？" :visible.sync="dialogDelVisible" width="30%">
-    <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="submitdel()">确 定</el-button>
-      <el-button @click="dialogDelVisible = false">取 消</el-button>
-    </div>
   </el-dialog>
 </el-col>
 
@@ -91,44 +68,30 @@
 <script>
 
 
-  // import baseUrl from '../../api/api';
+  import {guigeGet} from '../../api/api';
+  import {guigePost} from '../../api/api';
+  import {guigeDel} from '../../api/api';
 
   export default {
     data() {
       return {
-        currentPage: 1,
-        list:[{
-          id:'11',
-          url:'../static/images/gold.jpg',
-          name:'22'
+        guige:[{
+          value:'',
+          detail:[]
         }],
-        loading: false,
-        count:100,
+
+        currentPage: 1,
+        list:[],
+        count:0,
         limit:10,
         dialogNewVisible:false,
         dialogDelVisible:false,
-        filter:{
-          name:''
-        },
-        propose:true,
         putorup:'up',
-        showUrl:baseUrl,
-        upUrl:baseUrl+'upload',
-        imgSrc:"../static/images/default.png",
-        newadv:{
-          link:'',
-          intro:'',
-          positionid:''
-        },
-        diatitle:'新增规格',
-        postarr:[],
-        rules: {
-          link: [{required: true, trigger: 'blur',message: '请输入广告链接'}],
-          intro: [{required: true, trigger: 'blur',message: '请输入广告描述'}]
-        },
+        diatitle:'新增商品',
+        noone:false,
         editId:'',
         delId:''
-      };
+      }
     },
 
     methods:{
@@ -136,57 +99,36 @@
 
       },
 
+      removeguige(item) {
+        var index = this.guige.indexOf(item)
+        if (index !== -1) {
+          this.guige.splice(index, 1)
+        }
+      },
+
+      adddetail(e) {
+        this.guige[e].detail.push({
+          value: '',
+        });
+      },
+
+      addguige() {
+        this.guige.push({
+          value: '',
+          detail:[]
+        });
+      },
+
       newone(){
        this.putorup='up';
-       this.imgSrc="../static/images/default.png";
        this.diatitle='新增规格',
-       this.dialogNewVisible=true
+       this.dialogNewVisible=true,
+
+       this.guige=[]
      },
 
-     beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1;
-      if (!isLt1M) {
-        this.$message.error('图片大小不能超过 1MB!');
-      }
-      return isLt1M;
-    },
 
-    cgpropose(e){
-      if( e==true ){
-        // this.busform.state=1;
-      }
-      else if( e==false ){
-        // this.busform.state=2;
-      }
-    },
-
-    handleSuccess(res, file) {
-      this.imgSrc = URL.createObjectURL(file.raw);
-      this.upimgurl = res.data.url;
-    },
-
-    save(){
-      this.dialogNewVisible=false
-    },
-
-    handleEdit(index, row){
-      this.diatitle='编辑分类';
-      this.dialogNewVisible = true;
-      this.putorup='put';
-      this.editId = row.id;
-      this.imgSrc=this.showUrl+row.url;
-    },
-
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
-
-    submitdel(){
-      this.dialogDelVisible = false;
-    },
-
-    handleCurrentChange(val) {
+     handleCurrentChange(val) {
       this.currentPage = val;
       this.getlist();
     },
@@ -196,6 +138,7 @@
       this.limit = val;
       this.getlist();
     },
+
   },
 
   mounted: function () {
@@ -206,9 +149,5 @@
 
 
 <style>
-.icon{
-  width: 20px;
-  height: 20px;
-  margin: 2px;
-}
+
 </style>

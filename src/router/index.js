@@ -38,6 +38,7 @@ import Rolelist from '@/components/Role/Rolelist'
 
 import Baseset from '@/components/Setting/Baseset'
 import Wechatset from '@/components/Setting/Wechatset'
+import Document from '@/components/Setting/Document'
 
 import Delivelist from '@/components/Delivery/Delivelist'
 
@@ -269,6 +270,11 @@ let router = new Router({
             path: '/Setting/Wechatset',
             component: Wechatset,
             name: '微信设置',
+            menuShow: true
+        }, {
+            path: '/Setting/Document',
+            component: Document,
+            name: '帮助文档',
             menuShow: true
         }]
     }, {

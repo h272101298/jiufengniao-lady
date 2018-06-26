@@ -62,6 +62,11 @@ export const sappliesGet = params => { return axios.get(`${base}/settle/applies`
 export const sapplyPost = params => { return axios.post(`${base}/check/settle/apply`, params).then(res => res.data)}
 
 
+//商品列表
+
+
+
+
 
 //商品分类
 export const typeGet = params => { return axios.get(`${base}/product/types`+`${params}`).then(res => res.data)}
@@ -69,3 +74,12 @@ export const typeGet = params => { return axios.get(`${base}/product/types`+`${p
 export const typePost = params => { return axios.post(`${base}/product/type`, params).then(res => res.data)}
 
 export const typeDel = params => { return axios.delete(`${base}/product/type`+`${params}`).then(res => res.data)}
+
+
+
+//帮助文档
+export const documentGet = params => { return axios.get(`${base}/documents`+`${params}`).then(res => res.data)}
+
+export const documentPost = params => { return axios.post(`${base}/document`, params).then(res => res.data)}
+
+export const documentDel = params => { return axios.delete(`${base}/document`+`${params}`).then(res => res.data)}

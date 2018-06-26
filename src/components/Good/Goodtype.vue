@@ -18,7 +18,7 @@
       </el-form-item>
 
       <el-form-item label="分类级别：">
-        <el-select v-model="filter.level" placeholder="全部" @change="changelevel">
+        <el-select v-model="filter.level" placeholder="全部" @change="searchlevel">
           <el-option label="一级" value="1"></el-option>
           <el-option label="二级" value="2"></el-option>
           <el-option label="三级" value="3"></el-option>
@@ -31,22 +31,22 @@
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" border stripe size="small">
-      <el-table-column prop="id" label="编号" min-width="80" align="center">
+    <el-table :data="list" border stripe style="width:1301px">
+      <el-table-column prop="id" label="编号" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="logo" label="分类logo" min-width="200" align="center">
+      <el-table-column prop="logo" label="分类logo" width="400" align="center">
         <template slot-scope="scope">
           <img :src="scope.row.logo" style="max-width:50px;max-height:50px;" />
         </template>
       </el-table-column>
-      <el-table-column prop="title" label="名称" min-width="200" align="center">
+      <el-table-column prop="title" label="名称" width="400" align="center">
       </el-table-column>
-      <el-table-column prop="level" label="级别" min-width="200" align="center">
+<!--       <el-table-column prop="level" label="级别" min-width="200" align="center">
       </el-table-column>
       <el-table-column prop="up" label="上级分类" min-width="200" align="center">
-      </el-table-column>
+      </el-table-column> -->
       
-      <el-table-column label="操作" width="300" align="center">
+      <el-table-column label="操作" width="400" align="center">
        <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
         <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -71,19 +71,21 @@
         </el-upload>
       </el-form-item>
 
-      <el-form-item label="分类名称:">
+      <el-form-item label="分类名称：">
         <el-input v-model="newadv.title" style="max-width: 300px;" placeholder="请输入分类名称"></el-input>
       </el-form-item>
 
       <el-form-item label="分类等级：" prop="level">
-        <el-select v-model="newadv.level" placeholder="请选择分类等级">
-          <el-option v-for="item in levelarr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+        <el-select v-model="newadv.level" placeholder="请选择分类等级" @change="changelv">
+          <el-option label="一级分类" value="1" key="1"></el-option>
+          <el-option label="二级分类" value="2" key="2"></el-option>
+          <el-option label="三级分类" value="3" key="3"></el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="上级分类：" prop="level">
-        <el-select v-model="newadv.level" placeholder="请选择上级分类：">
-          <el-option v-for="item in levelarr" :label="item.name" :value="item.id" :key="item.id"></el-option>
+      <el-form-item label="上级分类：" prop="uplevel" v-show="noone">
+        <el-select v-model="newadv.uplevel" placeholder="请选择上级分类" @change="chooseup" filterable :loading="loading">
+          <el-option v-for="item in levelarr" :label="item.title" :value="item.id" :key="item.id"></el-option>
         </el-select>
       </el-form-item>
 
@@ -125,13 +127,14 @@
   export default {
     data() {
       return {
+        loading:false,
         uptoken:{
           token:qiniu.token,
         },
         upurl:qiniu.upurl,
         currentPage: 1,
         list:[],
-        count:100,
+        count:0,
         limit:10,
         dialogNewVisible:false,
         dialogDelVisible:false,
@@ -144,25 +147,36 @@
         newadv:{
          title:'',
          logo:'',
-         level:''
+         parent:0
        },
-       levelarr:[],       
-       diatitle:'新增商品',
-       editId:'',
-       delId:''
-     };
-   },
+       filter1:{
+        level:''
+      },
+      levelarr:[],
+      diatitle:'新增商品',
+      noone:false,
+      editId:'',
+      delId:''
+    };
+  },
 
-   methods:{
+  methods:{
     getlist(){
       var allParams = '?page='+ this.currentPage + '&limit=' + this.limit +'&title=' + this.filter.title+'&level=' + this.filter.level;
       typeGet(allParams).then((res) => {
         this.list=res.data.data;
-        this.count=res.data.count;
+        this.count=res.data.count
       });
     },
 
-    changelevel(val){
+    getlist1(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit +'&level=' + this.filter1.level;
+      typeGet(allParams).then((res) => {
+        this.levelarr=res.data.data;
+      });
+    },
+
+    searchlevel(val){
       this.filter.level=val;
       this.getlist();
     },
@@ -178,7 +192,13 @@
      this.putorup='up';
      this.imgSrc="../static/images/default1.png";
      this.diatitle='新增分类',
-     this.dialogNewVisible=true
+     this.dialogNewVisible=true,
+     this.filter1.level='',
+     this.newadv={
+       title:'',
+       logo:'',
+       parent:0
+     }
    },
 
    beforeUpload(file) {
@@ -192,6 +212,27 @@
   handleSuccess(res, file) {
     this.newadv.logo =qiniu.showurl+ res.key;
     this.imgSrc =qiniu.showurl+ res.key;
+  },
+
+  changelv(val){
+    // console.log(val)
+    if(val==1){
+      this.noone=false
+    }else{
+      if(val==2){
+        this.filter1.level=1
+        this.getlist1()
+      }else if(val==3){
+        this.filter1.level=2
+        this.getlist1()
+      }
+      this.noone=true
+    }
+  },
+
+  chooseup(val){
+    // console.log(val)
+    this.newadv.parent=val
   },
 
   save(){
@@ -212,13 +253,14 @@
         var allParams = {
           title:this.newadv.title,
           id:this.editId,
-          logo:this.upimgurl,
-
+          logo:this.imgSrc,
+          parent:this.newadv.parent,
         };
       }else{
         var allParams = {
           title:this.newadv.title,
           logo:this.imgSrc,
+          parent:this.newadv.parent,
         };
       }
       typePost(allParams).then((res) => {
@@ -228,6 +270,7 @@
           type: 'success'
         });
          this.getlist();
+         this.noone=true
          this.dialogNewVisible=false
        } else {
          this.$message({
@@ -245,6 +288,9 @@
     this.putorup='put';
     this.editId = row.id;
     this.imgSrc=row.logo;
+    this.newadv.logo=row.logo;
+    this.newadv.title=row.title
+    this.filter1.level=''
   },
 
   handleDelete(index, row) {
