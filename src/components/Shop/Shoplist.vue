@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <!-- <el-button type="primary" size="medium" @click="newone">新增用户</el-button> -->
+        <el-button type="primary" size="medium" @click="newone">新增店铺</el-button>
       </el-form-item>
       <el-form-item>
         <el-input v-model="filter.name" placeholder="请输入店铺名称" style="min-width: 200px;" ></el-input>
@@ -53,7 +53,7 @@
   </el-col>
 
   <el-col>
-    <el-dialog title="店铺详情" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
+    <el-dialog title="店铺详情" :visible.sync="dialogInfoVisible" width="500" center style="min-width: 500px">
       <el-form :model="shopinfo" label-width="120px">
         <el-form-item label="店铺ID：" label-width="120px">
           <label>{{shopinfo.id}}</label>
@@ -96,13 +96,16 @@
       </el-form>
     </el-dialog>
   </el-col>
+
+
+
 </el-row>
 </template>
 
 
 
 <script>
-
+  import { shopGet } from '../../api/api';
 
 
   export default {
@@ -119,24 +122,27 @@
         currentPage: 1,
         count:0,
         limit:10,
-        dialogNewVisible:false,
+        dialogInfoVisible:false,
         shopinfo:{
           id:1
-        }
+        },
       };
     },
 
     methods:{
       getlist(){
-
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+        shopGet(allParams).then((res) => {
+          this.list=res.data.data;
+        });
       },
 
       detail(){
-        this.dialogNewVisible=true
+        this.dialogDelVisible=true
       },
 
       save(){
-        this.dialogNewVisible=false
+        this.dialogInfoVisible=false
       },
 
       search(){
@@ -149,7 +155,9 @@
         }
       },
 
-
+      newone(){
+        this.$router.push({ path: '/Shop/Newshop' });
+      },
 
       handleCurrentChange(val) {
         this.currentPage = val;
@@ -163,7 +171,7 @@
     },
 
     mounted: function () {
-      this.getlist();
+      // this.getlist();
     }
   }
 </script>

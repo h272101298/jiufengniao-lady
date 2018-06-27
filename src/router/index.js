@@ -27,6 +27,7 @@ import Card from '@/components/Mark/Card'
 import Group from '@/components/Mark/Group'
 
 import Shoplist from '@/components/Shop/Shoplist'
+import Newshop from '@/components/Shop/Newshop'
 import Selfshop from '@/components/Shop/Selfshop'
 import Shoptype from '@/components/Shop/Shoptype'
 import Settleapply from '@/components/Shop/Settleapply'
@@ -70,12 +71,50 @@ let router = new Router({
         }]
     }, {
         path: '/',
+        name: '商家管理',
+        component: Home,
+        redirect: '/Shop/Shoplist',
+        menuShow: true,
+        iconCls: 'iconfont icon-home',
+        children: [{
+            path: '/Shop/Shoplist',
+            component: Shoplist,
+            name: '商家列表',
+            menuShow: true
+        }, {
+            path: '/Shop/Newshop',
+            component: Newshop,
+            name: '新增商铺',
+            menuShow: false
+        }, {
+            path: '/Shop/Selfshop',
+            component: Selfshop,
+            name: '自营商铺',
+            menuShow: true
+        }, {
+            path: '/Shop/Settleapply',
+            component: Settleapply,
+            name: '入驻申请',
+            menuShow: true
+        }, {
+            path: '/Shop/Shoptype',
+            component: Shoptype,
+            name: '经营类目',
+            menuShow: true
+        }]
+    }, {
+        path: '/',
         name: '商品管理',
         component: Home,
         redirect: '/Good/Goodlist',
         menuShow: true,
         iconCls: 'iconfont icon-home',
-        children: [{
+        children: [ {
+            path: '/Good/Goodnew',
+            component: Goodnew,
+            name: '添加商品',
+            menuShow: true
+        },{
             path: '/Good/Goodlist',
             component: Goodlist,
             name: '商品列表',
@@ -90,11 +129,6 @@ let router = new Router({
             component: Goodformat,
             name: '商品规格',
             menuShow: true
-        }, {
-            path: '/Good/Goodnew',
-            component: Goodnew,
-            name: '添加商品',
-            menuShow: false
         }, {
             path: '/Good/Goodrecycle',
             component: Goodrecycle,
@@ -192,34 +226,6 @@ let router = new Router({
             path: '/Mark/Group',
             component: Group,
             name: '团购',
-            menuShow: true
-        }]
-    }, {
-        path: '/',
-        name: '商家管理',
-        component: Home,
-        redirect: '/Shop/Shoplist',
-        menuShow: true,
-        iconCls: 'iconfont icon-home',
-        children: [{
-            path: '/Shop/Shoplist',
-            component: Shoplist,
-            name: '商家列表',
-            menuShow: true
-        }, {
-            path: '/Shop/Selfshop',
-            component: Selfshop,
-            name: '自营商铺',
-            menuShow: true
-        }, {
-            path: '/Shop/Settleapply',
-            component: Settleapply,
-            name: '入驻申请',
-            menuShow: true
-        }, {
-            path: '/Shop/Shoptype',
-            component: Shoptype,
-            name: '经营类目',
             menuShow: true
         }]
     }, {

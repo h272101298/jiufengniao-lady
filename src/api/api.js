@@ -40,12 +40,18 @@ let base = 'http://192.168.1.172/Shop/public/v1'
 //登录
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }
 
-//广告
+
+
+
+//轮播
 export const advertsGet = params => { return axios.get(`${base}/adverts`+`${params}`).then(res => res.data)}
 
 export const advertPost = params => { return axios.post(`${base}/advert`, params).then(res => res.data)}
 
 export const advertDel = params => { return axios.delete(`${base}/advert`+`${params}`).then(res => res.data)}
+
+
+
 
 //经营类目
 export const categoriesGet = params => { return axios.get(`${base}/store/categories`+`${params}`).then(res => res.data)}
@@ -62,6 +68,14 @@ export const sappliesGet = params => { return axios.get(`${base}/settle/applies`
 export const sapplyPost = params => { return axios.post(`${base}/check/settle/apply`, params).then(res => res.data)}
 
 
+
+
+//店铺
+export const shopPost = params => { return axios.post(`${base}/store`, params).then(res => res.data)}
+
+export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`).then(res => res.data)}
+
+
 //商品列表
 
 
@@ -75,6 +89,28 @@ export const typePost = params => { return axios.post(`${base}/product/type`, pa
 
 export const typeDel = params => { return axios.delete(`${base}/product/type`+`${params}`).then(res => res.data)}
 
+
+//商品规格
+export const guigeGet = params => { return axios.get(`${base}/product/categories`+`${params}`).then(res => res.data)}
+
+export const guigePost = params => { return axios.post(`${base}/product/category`, params).then(res => res.data)}
+
+export const guigeDel = params => { return axios.delete(`${base}/product/category`+`${params}`).then(res => res.data)}
+
+
+
+
+
+
+
+
+
+//快递
+export const deliveryGet = params => { return axios.get(`${base}/expresses`+`${params}`).then(res => res.data)}
+
+export const deliveryPost = params => { return axios.post(`${base}/express`, params).then(res => res.data)}
+
+export const deliveryDel = params => { return axios.delete(`${base}/express`+`${params}`).then(res => res.data)}
 
 
 //帮助文档
