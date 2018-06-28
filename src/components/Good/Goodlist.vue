@@ -81,9 +81,6 @@
   </el-pagination>
 </el-col>
 
-
-
-
 <el-col>
   <el-dialog title="删除不可恢复，是否确定删除？" :visible.sync="dialogDelVisible" width="30%">
     <div slot="footer" class="dialog-footer">
@@ -92,7 +89,6 @@
     </div>
   </el-dialog>
 </el-col>
-
 </el-row>
 </template>
 
@@ -100,13 +96,13 @@
 
 <script>
 
-
   export default {
     data() {
       return {
 
 
         list:[{
+          id:1,
           name:'11',
           state:1,
           url:'../static/images/gold.jpg'
@@ -152,6 +148,8 @@
       },
 
       handleEdit(index, row){
+
+        sessionStorage.setItem('goodeditid',row.id);
         this.$router.push({ path: '/Good/Goodnew' });
       },
 

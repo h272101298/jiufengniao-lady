@@ -15,7 +15,6 @@
           <el-button type="primary" size="medium" @click="newone">新增快递</el-button>
           <p style="padding: 10px;font-size: 14px;background-color: #E9F0D8;color:#468847;width: 370px; text-align: center;">请<a style="color: #4077ca" href="http://pam213sin.bkt.clouddn.com/ExpressCode.xls" download="" mce_href="#">点击下载</a>快递简码填写对应快递的简码，否则查询将失败</p>
 
-
           <el-table :data="list" v-loading="loading" border stripe size="small">
             <el-table-column prop="title" label="快递名称" min-width="200" align="center">
             </el-table-column>

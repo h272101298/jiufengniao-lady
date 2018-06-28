@@ -48,7 +48,6 @@
     },
 
     methods:{
-
       save(){
         this.$refs.newshop.validate((valid) => {
           if (valid) {

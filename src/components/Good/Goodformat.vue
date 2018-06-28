@@ -42,7 +42,7 @@
 
 <el-col>
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
-    <el-form label-width="120px" width="700px" center style="width: 800px">
+    <el-form label-width="120px" width="800px" center >
 
       <el-form-item label="商品分类：" prop="type">
         <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
@@ -58,13 +58,13 @@
 
 
       <el-form-item label="添加规格：">
-        <div v-for="(guige, index) in guige" style="display: flex;justify-content: flex-start;align-items: center;flex-wrap: wrap;">
-          <el-input size="small" v-model="guige.title" style="width: 200px;margin:5px 5px 5px 0;" placeholder="请输入规格名"></el-input>
-          <div v-for="(item,index) in guige.detail">
-            <el-input size="small" v-model="item.content" style="width: 200px;margin:5px 5px 5px 0;" placeholder="请输入详细内容"></el-input>
+        <div v-for="(guige, index) in guige" style=""><!-- display: flex;justify-content: flex-start;align-items: center;flex-wrap: wrap; -->
+          <el-input size="small" v-model="guige.title" style="display:block;width: 200px;margin:5px 5px 5px 0;" placeholder="规格名"></el-input>
+          <div v-for="(item,index) in guige.detail" style="display:inline-block;"> 
+            <el-input size="small" v-model="item.content" style="width: 130px;margin:5px 5px 5px 0;" placeholder="详细内容"></el-input>
           </div>
-          <el-button @click.prevent="adddetail(index)" type="primary" size="small" style="margin: 5px">新增详细</el-button>
-          <el-button @click.prevent="removeguige(guige)" type="danger" size="small" style="margin: 5px">删除</el-button>
+          <el-button @click.prevent="adddetail(index)" type="primary" size="mini" style="margin: 5px">新增详细</el-button>
+          <el-button @click.prevent="removeguige(guige)" type="danger" size="mini" style="margin: 5px">删除规格</el-button>
         </div>
         <el-button @click.prevent="addguige()" type="primary" size="small" style="margin-top: 10px;">新增规格</el-button>
       </el-form-item>
@@ -100,6 +100,8 @@
   import {guigePost} from '../../api/api';
   import {guigeDel} from '../../api/api';
 
+  import { Message } from 'element-ui';
+
   export default {
     data() {
       return {
@@ -121,7 +123,7 @@
         delId:'',
 
 
-        type_id:'',
+        type_id:null,
 
         typeArr1:[],
         type1:'',
@@ -184,10 +186,17 @@
       },
 
       addguige() {
-        this.guige.push({
-          title: '',
-          detail:[]
-        });
+        if(this.type_id==null){
+          Message({
+            message: "请先选择分类",
+            type: 'error'
+          });
+        }else{
+          this.guige.push({
+            title: '',
+            detail:[]
+          });
+        }
       },
 
       newone(){

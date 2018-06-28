@@ -9,158 +9,184 @@
     </el-col>
 
     <el-col :span="24" class="warp-main">
-      <el-form label-width="120px" width="700px" center style="width: 800px" :rule="rules">
-        <el-form-item label="商品名称：">
-          <el-input v-model="newgood.link" placeholder="请输入商品名称"></el-input>
-        </el-form-item> 
 
-        <el-form-item label="商品简介：">
-          <el-input type="textarea" :rows="5" v-model="newgood.link" placeholder="请输入商品简介" style="min-width:280px;"></el-input>
+
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="基本信息" name="base">
+          <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules1" ref="newgood1" :model="newgood1">
+           <el-form-item label="商品名称：" prop="name">
+            <el-input v-model="newgood1.name" placeholder="请输入商品名称"></el-input>
+          </el-form-item> 
+
+
+
+          <el-form-item label="分销佣金：" prop="brokerage">
+            <el-input v-model="newgood1.brokerage" type="number" min="0" placeholder="请输入分销佣金(百分比)"></el-input>
+          </el-form-item>
+
+          <el-form-item label="快递：" prop="express">
+            <el-select v-model="newgood1.express" placeholder="请选择快递">
+              <el-option v-for="item in expressArr" :label="item.title" :value="item.id" :key="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="邮费：" prop="express_price">
+            <el-input v-model="newgood1.express_price" type="number" min="0" placeholder="请输入邮费"></el-input>
+          </el-form-item>
+
+          <el-form-item label="分享标题：" prop="share_title">
+            <el-input v-model="newgood1.share_title" placeholder="请输入分享标题"></el-input>
+          </el-form-item>
+
+          <el-form-item label="分享描述：" prop="share_detail">
+            <el-input v-model="newgood1.share_detail" placeholder="请输入分享描述"></el-input>
+          </el-form-item>
+
+          <el-form-item label="商品详情：" prop="detail">
+           <!--  <el-input type="textarea" :rows="5" v-model="newgood1.intro" placeholder="请输入商品简介" style="min-width:280px;"></el-input> -->
+           <div class="edit_container">
+            <quill-editor v-model="newgood1.detail" style="min-height:133px;max-height:2000px;" ref="myQuillEditor" class="editer" placeholder= '请输入详细内容'></quill-editor>
+          </div>
         </el-form-item>
 
-        <el-form-item label="商品分类：" prop="type">
+        <el-form-item>
+          <div style="color: #409EFF" @click="addattr">请继续添加商品属性</div>
+        </el-form-item>
+      </el-form>
+    </el-tab-pane>
+
+
+    <el-tab-pane label="商品属性" name="attributes" prop="type_id">
+      <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules2" ref="newgood2" :model="newgood2">
+        <el-form-item label="商品分类：" prop="type_id">
           <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
             <el-option v-for="item in typeArr1" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
           <el-select v-model="type2" placeholder="请选择二级分类" filterable v-show="type1" @change="gettype3">
             <el-option v-for="item in typeArr2" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
-          <el-select v-model="newgood.type" placeholder="请选择三级分类" filterable v-show="type2" @change="confirmtype">
+          <el-select v-model="newgood2.type_id" placeholder="请选择三级分类" filterable v-show="type2" @change="confirmtype">
             <el-option v-for="item in typeArr3" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
 
-
-        <!-- v-show="showmore" -->
-<!--         <el-form-item label="">
-          <div v-for="(guige, index) in newgood.guige" style="margin-top: 10px;display: flex;justify-content: flex-start;align-items: center;flex-wrap: wrap;">
-            <el-input v-model="guige.value" style="width: 200px;margin:5px 5px 5px 0;" placeholder="请输入规格名"></el-input>
-            <div v-for="(item,index) in newgood.guige[index].detail">
-              <el-input v-model="item.value" style="width: 200px;margin:5px 5px 5px 0;" placeholder="请输入详细内容"></el-input>
-            </div>
-            <el-button @click.prevent="adddetail(index)" type="primary" size="medium" style="margin: 5px">新增详细</el-button>
-            <el-button @click.prevent="removeguige(guige)" type="danger" size="medium" style="margin: 5px">删除</el-button>
-          </div>
-          <el-button @click.prevent="addguige()" type="primary" size="medium" style="margin-top: 10px;">新增规格</el-button>
-        </el-form-item> -->
-
-        <el-form-item label="商品规格：">
-
+        <el-form-item label="商品规格：" prop="sameornot">
           <el-radio-group v-model="sameornot" @change="changeguige">
             <el-radio label="1">统一规格</el-radio>
             <el-radio label="2">多规格</el-radio>
           </el-radio-group>
-
-          <div style="border: 1px solid #eee;padding: 0 0 10px 10px;" v-show="showmore">
-            <div v-for="item in checkOptions">
-              <span>{{item.title}}</span>
-              <el-checkbox-group v-model="checkList" @change="xuanzegg">
-                <el-checkbox-button v-for="(items,index) in item.detailArray" :label="items.id" :key="items.id" >{{items.title}}</el-checkbox-button>
-              </el-checkbox-group>
-            </div>
-          </div>
         </el-form-item>
 
-        <el-form-item label="市场价格：" v-show="!showmore">
-          <el-input v-model="newgood.link" type="number" placeholder="请输入市场价格"></el-input>
+        <el-form-item label="原价：" v-show="!showmore" prop="origin_price">
+          <el-input v-model="newgood2.origin_price" type="number" min="0" placeholder="请输入原价"></el-input>
         </el-form-item>
 
-        <el-form-item label="本店价格：" v-show="!showmore">
-          <el-input v-model="newgood.link" type="number" placeholder="请输入本店价格"></el-input>
-        </el-form-item>
-
-        <el-form-item label="库存：" v-show="!showmore">
-          <el-input v-model="newgood.link" type="number" placeholder="请输入库存"></el-input>
+        <el-form-item label="现价：" v-show="!showmore" prop="price">
+          <el-input v-model="newgood2.price" type="number" min="0" placeholder="请输入现价"></el-input>
         </el-form-item>
 
 
 
 
-        <el-form-item label="价格&库存：" v-show="showmore">
-          <el-table :data="pricearr" empty-text="请先选择规格" style="width:661px">
-           <el-table-column prop="" label="名称" width="100" align="center">
-            <template slot-scope="scope">
-              <span>{{scope.row.title}}</span>
+        <!-- <el-form-item label="" > -->
+          <el-table :data="pricearr" empty-text="请先选择规格" style="min-width:941px" border size="mini" v-show="showmore">
+            <el-table-column type="index" label="序号" width="60" align="center">
+            </el-table-column>
+            <el-table-column prop="detail" label="规格" width="120" align="center">
+              <template slot-scope="scope">
+                <div v-show="scope.row.detail==1 ? false : true">
+                  <span v-for="(item,index) in scope.row.detail" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
+                </div>
+                <el-button v-show="scope.row.detail==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column label="商品缩略图：" width="120" align="center" prop="cover">
+             <template slot-scope="scope">
+              <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="ggshandleSuccess" :show-file-list="false" accept="image/*">
+                <img :src="scope.row.cover" class="pre-img" style="width:60px;height:60px;border:1px dashed #ccc;border-radius:5px;display: block;margin: auto 2px;" @click="ggupimg(scope.row.id)">
+              </el-upload>
             </template>
           </el-table-column>
-          <el-table-column label="添加图片" width="170" align="center">
+          <el-table-column label="相册" min-width="170" align="center" prop="images">
             <template slot-scope="scope">
-             <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="ggbeforeUpload" :on-success="gghandleSuccess" :show-file-list="false" accept="image/*">
-              <img :src="scope.row.imgSrc" class="pre-img" style="max-width:80px;max-height:40px;border:1px dashed #ccc;border-radius:5px;display: block" @click="ggupimg(scope.row.id)">
-            </el-upload>
+             <!-- <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="ggbeforeUpload" :on-success="gghandleSuccess" :show-file-list="false" accept="image/*"> -->
+              <el-upload id="ggimglist" :action="upurl" :data="uptoken" list-type="picture-card" accept="image/*" :file-list="scope.row.images">
+                <i class="el-icon-plus" style="margin-top: 15px;"></i>
+                <!-- <img src="../../../static/images/default.png" style="max-width:80px;max-height:80px;border:1px dashed #ccc;border-radius:5px;display: block;margin: auto 2px;"> -->
+              </el-upload>
+            </template>
+          </el-table-column>
+          <el-table-column label="原价" width="150" align="center">
+           <template slot-scope="scope">
+            <el-input placeholder="请输入原价" v-model="scope.row.origin_price" min="0" type="number" ></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="原价" width="130" align="center">
-         <template slot-scope="scope">
-          <el-input placeholder="请输入原价" v-model="scope.row.oldprice"></el-input>
+      </el-table-column>
+      <el-table-column prop="" label="现价" width="150" align="center">
+        <template slot-scope="scope">
+          <el-input placeholder="请输入现价" v-model="scope.row.price" min="0" type="number"></el-input>
         </template>
       </el-table-column>
-    </el-table-column>
-    <el-table-column prop="" label="现价" width="130" align="center">
-      <template slot-scope="scope">
-        <el-input placeholder="请输入现价" v-model="scope.row.newprice"></el-input>
-      </template>
-    </el-table-column>
-    <el-table-column prop="" label="库存" width="130" align="center">
-      <template slot-scope="scope">
-        <el-input placeholder="请输入库存" v-model="scope.row.kucun"></el-input>
-      </template>
-    </el-table-column>
-  </el-table>
-</el-form-item>
+      <el-table-column prop="" label="操作" width="150" align="center">
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
+          <el-button type="danger" size="small" v-show="scope.$index==0 ? false : true" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- </el-form-item> -->
 
 
 
-<el-form-item label="商品缩略图：">
-  <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-    <img :src="imgSrc" class="pre-img" style="width:150px;height:150px;border:1px dashed #ccc;border-radius:10px;display: block" >
+    <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
+      <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
+        <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:10px;display: block" >
+      </el-upload>
+    </el-form-item>
 
-  </el-upload>
-</el-form-item>
-
-<el-form-item label="商品相册：" v-show="!showmore">
-  <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="album" :multiple="true"><!--:on-exceed="handleExceed" :limit="10"  -->
-    <i class="el-icon-plus"></i>
-  </el-upload>
-</el-form-item>
-
-<el-form-item label="分销佣金：">
-  <el-input v-model="newgood.link" type="number" placeholder="请输入分销佣金"></el-input>
-</el-form-item>
+    <el-form-item label="商品相册：" v-show="!showmore" prop="images">
+      <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="images" :multiple="true"><!--:on-exceed="handleExceed" :limit="10"  -->
+        <i class="el-icon-plus"></i>
+      </el-upload>
+    </el-form-item>
 
 
 
-<el-form-item label="快递：" prop="express">
-  <el-select v-model="newgood.express" placeholder="请选择快递">
-    <el-option v-for="item in expressArr" :label="item.title" :value="item.id" :key="item.id"></el-option>
-  </el-select>
-</el-form-item>
+    <el-form-item style="margin-left: calc(50% - 185px);margin-top: 20px;">
+      <el-button type="primary" @click="save()" size="medium">保 存</el-button>
+      <el-button @click="golist()" size="medium">取 消</el-button>
+    </el-form-item>
+  </el-form>
+</el-tab-pane>
+</el-tabs>
 
-<el-form-item label="邮费：">
-  <el-input v-model="newgood.link" type="number" placeholder="请输入邮费"></el-input>
-</el-form-item>
 
-<el-form-item label="分享标题：">
-  <el-input v-model="newgood.link" placeholder="请输入分享标题"></el-input>
-</el-form-item>
+</el-col>
 
-<el-form-item label="分享描述：">
-  <el-input v-model="newgood.link" placeholder="请输入分享描述"></el-input>
-</el-form-item>
 
-<el-form-item style="margin-left: calc(50% - 185px);">
-  <el-button type="primary" @click="save()">保 存</el-button>
-  <el-button @click="golist()">取 消</el-button>
-</el-form-item>
-</el-form>
+
+
+<el-col>
+  <el-dialog title="选择规格" :visible.sync="dialogggVisible" width="30%" min-width="30%">
+    <div style="border: 1px solid #eee;padding: 0 0 10px 10px;">
+      <div v-for="(item,index) in checkOptions">
+        <p style="margin: 10px;font-weight: 600;font-size: 16px;color:deepskyblue">{{item.title}}</p>
+        <el-radio-group v-model="checkList[index]">
+          <el-radio-button v-for="(items,index) in item.detailArray" :label="items.title" :true-label="items.title" :key="items.id">{{items.title}}</el-radio-button>
+        </el-radio-group>
+      </div>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="ggsubmit()">确 定</el-button>
+      <el-button @click="dialogggVisible = false">取 消</el-button>
+    </div>
+  </el-dialog>
 </el-col>
 
 </el-row>
 </template>
 
-<style>
 
-</style>
 
 <script>
 
@@ -170,40 +196,75 @@
   import { guigeGet } from '../../api/api';
   import { deliveryGet } from '../../api/api';
 
+
+
+  import {goodPost} from '../../api/api';
+
+
   import { Message } from 'element-ui';
+
+
+  import 'quill/dist/quill.core.css';
+  import 'quill/dist/quill.snow.css';
+  import 'quill/dist/quill.bubble.css';
+
+  import { quillEditor } from 'vue-quill-editor' //调用编辑器
+
   export default {
     data() {
+      var checkvalue = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('此项不能为空'));
+        }
+        setTimeout(() => {
+          if (Math.sign(value) == 1) {
+            if(value%1 === 0){
+             callback();
+           }else{
+            callback();
+          }
+        } else if(Math.sign(value) == 0) {
+          callback(new Error('不能为0'));
+        } else if(Math.sign(value) == -1) {
+          callback(new Error('请输入正数'));
+        }else{
+          callback(new Error('请输入数字'));
+        }
+      }, 100);
+      };
+
       return {
+        activeName:'attributes',
+
         uptoken:{
           token:qiniu.token,
         },
         upurl:qiniu.upurl,
 
-        imgSrc:"../static/images/default1.png",
-        newgood:{
-          link:'',
-          intro:'',
-          positionid:'',
-          album:'',
-          type:'',
+        cover:"../static/images/default1.png",
+        images:[],
 
-
-          guige:[]
+        newgood1:{
+          name:'',
+          detail:'',
+          brokerage:null,
+          express:null,
+          express_price:null,
+          share_title:'',
+          share_detail:''
         },
 
-        sameornot:'1',
-        showmore:'',
-        checkOptions:[],
-        checkList:[],
+        newgood2:{
+          // sameornot:'',
+          cover:'../static/images/default1.png',
+          images:[],
+          origin_price:null,
+          price:null,
+          detail:[],
+          type_id:''
+        },
 
-        pricearr:[],
-
-
-        ggimgindex:null,
-        ggtitleindex:null,
-
-
-        album:[],
+        expressArr:[],
 
         typeArr1:[],
         type1:'',
@@ -211,23 +272,110 @@
         type2:'',
         typeArr3:[],
 
+        sameornot:'1',
+        showmore:'',
 
-        delArr:[],
-        expressArr:[],
+        checkOptions:[],
+        checkList:[],
+        dialogggVisible:false,
+        ggimgindex:null,
+        ggtitleindex:null,
 
-        rules:{
+        tempggarr:[],
+
+        pricearr:[{
+          id:0,
+          detail:1,
+          cover:'../static/images/default1.png',
+          images:[],
+          origin_price:null,
+          price:null,
+        }],
+
+
+
+
+        rules1:{
           name: [
           {required: true, message: '请输入商品名称', trigger: 'blur'},
           ],
-          condition: [
-          {required: true, message: '请输入商品简介', trigger: 'blur'},
+          detail: [
+          {required: true, message: '请输入商品详情', trigger: 'blur'},
           ],
-        }
+          brokerage: [
+          {required: true, message: '请输入分销佣金', trigger: 'blur'},
+          ],
+          express: [
+          {required: true, message: '请选择快递', trigger: 'change'},
+          ],
+          express_price: [
+          {required: true, message: '请输入邮费', trigger: 'blur'},
+          ],
+          share_title: [
+          {required: true, message: '请输入分享标题', trigger: 'blur'},
+          ],
+          share_detail: [
+          {required: true, message: '请输入分享描述', trigger: 'blur'},
+          ],
+        },
+
+        rules2:{
+          origin_price: [
+          {required: true, validator: checkvalue, trigger: 'blur'},
+          ],
+          price: [
+          {required: true, validator: checkvalue, trigger: 'blur'},
+          ],
+          type_id: [
+          {required: true, message: '请选择分类', trigger: 'change'},
+          ],
+          // sameornot: [
+          // {required: true},
+          // ],
+          // cover: [
+          // {required: true},
+          // ],
+          // images: [
+          // {required: true},
+          // ],
+        },
+
+        norm:'',
+
+
       };
+    },
+
+    components: {
+      quillEditor,
     },
 
     methods:{
 
+      addattr(){
+        this.$refs.newgood1.validate((valid) => {
+          console.log(valid)
+          if (valid) {
+            console.log(this.newgood1)
+            this.activeName="attributes"
+            // this.$refs.newgood1.clearValidate;
+          }else{
+            return false;
+          }
+        })
+
+
+
+      },
+      // 快递
+      getexpress(){
+        var allParams = '?page=1'+ '&limit=10000';
+        deliveryGet(allParams).then((res) => {
+          this.expressArr=res.data.data;
+        });
+      },
+
+      // 分类
       gettype1(){
         var allParams = '?level=1';
         typeGet(allParams).then((res) => {
@@ -251,28 +399,29 @@
       },
 
       confirmtype(e){
-        this.newgood.type=e;
+        this.newgood2.type_id=e;
         this.getcategory()
       },
 
 
 
-
+      // 规格
       changeguige(val){
         if(val=="1"){
+          this.norm='fixed';
           this.showmore=false
         }else if(val=="2"){
+          this.norm='change';
           this.getcategory()
-          if(this.newgood.type){
+          if(this.newgood2.type_id){
             this.showmore=true
           }
-
         }
       },
 
       getcategory(){
-        if(this.newgood.type){
-          var allParams = '?page=1'+ '&limit=10000'+ '&typeid='+this.newgood.type;
+        if(this.newgood2.type_id){
+          var allParams = '?page=1'+ '&limit=10000'+ '&typeid='+this.newgood2.type_id;
           guigeGet(allParams).then((res) => {
             this.checkOptions=res.data.data;
             if(this.sameornot==2){
@@ -287,119 +436,129 @@
         }
       },
 
-      findtitle(val){
-        // console.log(e)
-        // this.gglenghtindex=e.length
-        for(var i = 0; i<this.checkOptions.length;i++){
-          for(var j = 0; j<this.checkOptions[i].detailArray.length;j++){
 
+      ggselect1(index,row){
+        this.checkList=row.detail;
+        this.dialogggVisible=true;
+        this.ggtitleindex=index;
+      },
 
-            if(val==this.checkOptions[i].detailArray[j].id){
-              return this.ggtitleindex=this.checkOptions[i].detailArray[j].title
-            }
+      ggselect2(index,row){
+        this.checkList=[];
+        this.dialogggVisible=true;
+        this.ggtitleindex=index;
+      },
 
-
-          }
+      ggsubmit(){
+        if(this.checkList==[]){
+          Message({
+            message: "至少选择一个规格",
+            type: 'error'
+          });
+        }else{
+          this.dialogggVisible=false;
+          this.pricearr[this.ggtitleindex].detail=this.checkList;
         }
       },
-
-      xuanzegg(e){
-        this.pricearr=[];
-        for (var i=0 ;i<e.length; i++) {
-          this.pricearr.push({
-            id:i,
-            // title:e[i],
-            title:this.findtitle(e[i]),
-            imgSrc:'../static/images/default.png',
-            oldprice:null,
-            newprice:null,
-            kucun:null
-          })
-        }
-      },
-
-      xuanzegg1(){
-        console.log(1)
-      },
-
-
-
-      handlelistSuccess(res, file,fileList){
-        this.album=fileList
-      },
-
-
 
       ggupimg(e){
        this.ggimgindex=e
      },
 
-     ggbeforeUpload(file){
-       // console.log(file)
-     },
+     ggshandleSuccess(res, file) {
+      // console.log(res,file)
+      this.pricearr[this.ggimgindex].cover=qiniu.showurl+ res.key
+    },
+
+    handleEdit(index, row){
+      this.pricearr.push({
+        id:index+1,
+        detail:1,
+        cover:'../static/images/default.png',
+        images:[],
+        origin_price:null,
+        price:null,
+      })
+    },
+
+    handleDelete(index, row){
+      this.pricearr.splice(index,1)
+    },
 
 
-     gghandleSuccess(res, file) {
-      this.pricearr[this.ggimgindex].imgSrc=qiniu.showurl+ res.key
-        // this.upimgurl =qiniu.showurl+ res.key
-        // this.imgSrc =qiniu.showurl+ res.key
-      },
 
 
-      getdel(){
-        var allParams = '?page=1'+ '&limit=10000';
-        deliveryGet(allParams).then((res) => {
-          this.delArr=res.data.data;
-        });
-      },
+
+    //相册
+    beforeUpload(file) {
+      // const isLt1M = file.size / 1024 / 1024 < 1;
+      // if (!isLt1M) {
+      //   this.$message.error('图片大小不能超过 1MB!');
+      // }
+      // return isLt1M;
+    },
+
+    handleSuccess(res, file) {
+      // this.upimgurl =qiniu.showurl+ res.key
+      this.newgood2.cover =qiniu.showurl+ res.key
+    },
+
+    handlelistSuccess(res, file,fileList){
+      this.album=fileList
+    },
+
+    handleRemove(file, fileList) {
+      this.album=fileList
+    },
 
 
-      beforeUpload(file) {
-        const isLt1M = file.size / 1024 / 1024 < 1;
-        if (!isLt1M) {
-          this.$message.error('图片大小不能超过 1MB!');
+
+
+    save(){
+      this.$refs.newgood2.validate((valid) => {
+        if (valid) {
+
+          if(this.sameornot==1){/*统一*/
+            console.log(1)
+            var allParams = {
+              // name:
+
+            };
+
+          }else{/*多规格*/
+           console.log(2)
+
+
+         }
+
+
+          // var allParams = '';
+          // goodPost(allParams).then((res) => {
+
+          // });
+
+        }else{
+          return false;
         }
-        return isLt1M;
-      },
-
-      handleSuccess(res, file) {
-        this.upimgurl =qiniu.showurl+ res.key
-        this.imgSrc =qiniu.showurl+ res.key
-      },
-
-      // handleExceed(files, fileList) {
-      //   this.$message.warning(`只能上传10张图片`);
-      // },
-
-      handleRemove(file, fileList) {
-        this.album=fileList
-      },
-
-
-      getexpress(){
-        var allParams = '?page=1'+ '&limit=10000';
-        deliveryGet(allParams).then((res) => {
-          this.expressArr=res.data.data;
-        });
-      },
-
-      save(){
+      })
         // var piclist=[]
         // for(var i = 0 ; i < this.album.length; i++){
         //   var aaa = qiniu.showurl+this.album[i].response.key;
         //   piclist.push(aaa)
         // }
         // console.log(piclist)
-        console.log(this.newgood)
+        // console.log(this.newgood)
         // console.log(this.pricearr)
-
-
-
       },
-
 
       golist(){
         this.$router.push({ path: '/Good/Goodlist' });
+      }
+    },
+
+    computed: {
+      editor() {
+        return this.$refs.myQuillEditor.quill
       }
     },
 
@@ -410,3 +569,49 @@
     }
   }
 </script>
+
+
+
+<style scope>
+
+#ggimglist .el-upload{
+  width: 60px;
+  height: 60px;  
+  line-height: 60px;
+}
+#ggimglist .el-upload--picture-card{
+  width: 60px;
+  height: 60px;  
+  line-height: 60px;
+}
+#ggimglist .el-upload-list__item-actions{
+  width: 60px;
+  height: 60px;  
+  line-height: 60px;
+}
+#ggimglist .el-upload-list__item-thumbnail{
+  width: 60px;
+  height: 60px;  
+  line-height: 60px;
+}
+#ggimglist .el-upload-list__item{
+  width: 60px;
+  height: 60px;  
+  line-height: 60px;
+}
+#ggimglist .is-success{
+  width: 60px;
+  height: 60px;  
+  line-height: 60px;
+}
+#ggimglist .el-icon-upload-success{
+  position: relative;
+  left: 1px;
+  top: -14px;
+}
+#ggimglist .el-icon-check{
+  position: relative;
+  left: 1px;
+  top: -14px;
+}
+</style>

@@ -62,7 +62,7 @@ let router = new Router({
         component: Home,
         redirect: '/index/Console',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-kongzhi',
         children: [{
             path: '/index/Console',
             component: Console,
@@ -75,7 +75,7 @@ let router = new Router({
         component: Home,
         redirect: '/Shop/Shoplist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-shangjia',
         children: [{
             path: '/Shop/Shoplist',
             component: Shoplist,
@@ -108,7 +108,7 @@ let router = new Router({
         component: Home,
         redirect: '/Good/Goodlist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-shangpin',
         children: [ {
             path: '/Good/Goodnew',
             component: Goodnew,
@@ -141,7 +141,7 @@ let router = new Router({
         component: Home,
         redirect: '/Order/Orderlist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-74wodedingdan',
         children: [{
             path: '/Order/Orderlist',
             component: Orderlist,
@@ -169,7 +169,7 @@ let router = new Router({
         component: Home,
         redirect: '/User/Userlist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-yonghu',
         children: [{
             path: '/User/Userlist',
             component: Userlist,
@@ -198,7 +198,7 @@ let router = new Router({
         component: Home,
         redirect: '/Report/Reportlist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-baobiaofenxi-copy',
         children: [{
             path: '/Report/Reportlist',
             component: Reportlist,
@@ -211,7 +211,7 @@ let router = new Router({
         component: Home,
         redirect: '/Mark/Spike',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-yingxiao',
         children: [{
             path: '/Mark/Spike',
             component: Spike,
@@ -235,7 +235,7 @@ let router = new Router({
         component: Home,
         redirect: '/Advertise/Adlist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-guanggaogongguan',
         children: [{
             path: '/Advertise/Adlist',
             component: Adlist,
@@ -248,7 +248,7 @@ let router = new Router({
         component: Home,
         redirect: '/Role/Adminlist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-yuechi',
         children: [{
             path: '/Role/Adminlist',
             component: Adminlist,
@@ -266,7 +266,7 @@ let router = new Router({
         component: Home,
         redirect: '/Setting/Baseset',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-xitong',
         children: [{
             path: '/Setting/Baseset',
             component: Baseset,
@@ -290,7 +290,7 @@ let router = new Router({
         component: Home,
         redirect: '/Delivery/Delivelist',
         menuShow: true,
-        iconCls: 'iconfont icon-home',
+        iconCls: 'iconfont menu-truck',
         children: [{
             path: '/Delivery/Delivelist',
             component: Delivelist,

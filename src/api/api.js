@@ -77,6 +77,12 @@ export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`
 
 
 //商品列表
+export const goodGet = params => { return axios.get(`${base}/product/goods`+`${params}`).then(res => res.data)}
+
+export const goodPost = params => { return axios.post(`${base}/product/good`, params).then(res => res.data)}
+
+export const goodDel = params => { return axios.delete(`${base}/product/good`+`${params}`).then(res => res.data)}
+
 
 
 

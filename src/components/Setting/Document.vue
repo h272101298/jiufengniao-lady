@@ -13,7 +13,7 @@
 
    <el-form :inline="true">
     <el-form-item>
-      <el-button type="primary" size="medium" @click="newone">新增分类</el-button>
+      <el-button type="primary" size="medium" @click="newone">新增文档</el-button>
     </el-form-item>
   </el-form>
 
@@ -40,13 +40,13 @@
 
 <el-col>
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
-    <el-form ref="nedoc" :model="nedoc" label-width="120px">
+    <el-form ref="nedoc" :model="nedoc" label-width="120px" :rules="rules" status-icon>
 
-      <el-form-item label="标题:">
+      <el-form-item label="标题:" prop="title">
         <el-input v-model="nedoc.title" style="max-width: 300px;" placeholder="请输入标题"></el-input>
       </el-form-item>
 
-      <el-form-item label="详细内容:">
+      <el-form-item label="详细内容:" prop="detail">
         <div class="edit_container">
           <quill-editor v-model="nedoc.detail" style="min-height:133px;max-height:2000px;" ref="myQuillEditor" class="editer" placeholder= '请输入详细内容'></quill-editor>
         </div>
@@ -131,6 +131,10 @@
           title:'',
           detail:''
         },
+        rules: {
+          title: [{required: true, trigger: 'blur',message: '请输入文档标题'}],
+          detail: [{required: true, trigger: 'blur',message: '请输入详细内容'}]
+        },
         currow:'',
       };
     },
@@ -203,33 +207,40 @@
         });
       }
       else{
-        if( this.putorup=='put'){
-          var allParams = {
-            title:this.nedoc.title,
-            id:this.editId,
-            detail:this.nedoc.detail,
-          };
-        }else{
-          var allParams = {
-            title:this.nedoc.title,
-            detail:this.nedoc.detail,
-          };
-        }
-        documentPost(allParams).then((res) => {
-          if (res.msg === "ok") {
-           this.$message({
-            message: '提交成功',
-            type: 'success'
-          });
-           this.getlist();
-           this.dialogNewVisible=false
-         } else {
-           this.$message({
-            message: res.msg,
-            type: 'error'
-          });
-         }
-       });
+
+        // this.$refs.nedoc.validate((valid) => {
+        //   if (valid) {
+          if( this.putorup=='put'){
+            var allParams = {
+              title:this.nedoc.title,
+              id:this.editId,
+              detail:this.nedoc.detail,
+            };
+          }else{
+            var allParams = {
+              title:this.nedoc.title,
+              detail:this.nedoc.detail,
+            };
+          }
+          documentPost(allParams).then((res) => {
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+             this.getlist();
+             this.dialogNewVisible=false
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
+         });
+        //   }else{
+        //     return false;
+        //   }
+        // })
       }
     },
 
