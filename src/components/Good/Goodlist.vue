@@ -14,13 +14,13 @@
         <el-button type="primary" size="medium" @click="newone">新增商品</el-button>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入商品名称/分类/商家名称" style="min-width: 260px;" ></el-input>
+        <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类/商家名称" style="min-width: 260px;" ></el-input>
       </el-form-item>
 
       <el-form-item label="商品状态：">
         <el-select v-model="filter.state" placeholder="全部" @change="changestate">
-          <el-option label="上架" value="1"></el-option>
-          <el-option label="下架" value="2"></el-option>
+          <el-option label="上架" value="0"></el-option>
+          <el-option label="下架" value="1"></el-option>
         </el-select>
       </el-form-item>
 
@@ -31,54 +31,57 @@
     </el-form>
 
     <el-table :data="list" v-loading="loading" border stripe size="small" @cell-click="cellclick">
-      <el-table-column prop="name" label="编号" min-width="80" align="center">
+      <el-table-column prop="id" label="编号" min-width="70" align="center">
       </el-table-column>
-      <el-table-column prop="url" label="图片" min-width="200" align="center">
+      <el-table-column prop="cover" label="图片" min-width="200" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.url" style="max-width:100px;max-height:100px;" />
+          <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
         </template>
       </el-table-column>
       <el-table-column prop="name" label="名称" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="name" label="分类" min-width="200" align="center">
+      <el-table-column prop="brokerage" label="分佣" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="name" label="价格" min-width="150" align="center">
-      </el-table-column>
-      <el-table-column prop="name" label="所属商家" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="name" label="库存" min-width="150" align="center">
-      </el-table-column>
-      <el-table-column prop="state" label="状态" min-width="150" align="center">
-        <template slot-scope="scope">
-          <el-tag type="success" v-show="scope.row.state==1">上架</el-tag>
-          <el-tag type="info" v-show="scope.row.state==2">下架</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="name" label="审核状态" min-width="150" align="center">
-      </el-table-column>
-      <el-table-column label="操作" min-width="200" align="center">
-       <template slot-scope="scope">
-        <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
-          <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
-        </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="预览" placement="bottom">
-          <img src="../../../static/images/icon/look.png">
-        </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top">
-          <img src="../../../static/images/icon/ewcode.png">
-        </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
-          <img src="../../../static/images/icon/check.png">
-        </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="删除" placement="top">
-          <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
-        </el-tooltip>
-      </template>
-    </el-table-column>
-  </el-table>
+<!--       <el-table-column prop="name" label="价格" min-width="150" align="center">
+</el-table-column> -->
+<!--       <el-table-column prop="name" label="所属商家" min-width="200" align="center">
+</el-table-column> -->
 
-  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-  </el-pagination>
+<el-table-column prop="state" label="状态" min-width="150" align="center">
+  <template slot-scope="scope">
+    <el-tag type="success" v-show="scope.row.state==0">上架</el-tag>
+    <el-tag type="info" v-show="scope.row.state==1">下架</el-tag>
+  </template>
+</el-table-column>
+<!-- <el-table-column prop="express_price" label="邮费" min-width="150" align="center">
+</el-table-column> -->
+<el-table-column prop="created_at" label="创建时间" min-width="150" align="center">
+</el-table-column>
+<!--       <el-table-column prop="name" label="审核状态" min-width="150" align="center">
+</el-table-column> -->
+<el-table-column label="操作" min-width="200" align="center">
+ <template slot-scope="scope">
+  <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
+    <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
+  </el-tooltip>
+  <el-tooltip class="icon" effect="dark" content="预览" placement="bottom">
+    <img src="../../../static/images/icon/look.png">
+  </el-tooltip>
+  <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top">
+    <img src="../../../static/images/icon/ewcode.png">
+  </el-tooltip>
+  <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
+    <img src="../../../static/images/icon/check.png">
+  </el-tooltip>
+  <el-tooltip class="icon" effect="dark" content="删除" placement="top">
+    <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
+  </el-tooltip>
+</template>
+</el-table-column>
+</el-table>
+
+<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+</el-pagination>
 </el-col>
 
 <el-col>
@@ -95,11 +98,11 @@
 
 
 <script>
+  import { goodGet } from '../../api/api';
 
   export default {
     data() {
       return {
-
 
         list:[{
           id:1,
@@ -107,21 +110,22 @@
           state:1,
           url:'../static/images/gold.jpg'
         }],
+
         loading: false,
         currentPage: 1,
         count:0,
         limit:10,
+
         dialogDelVisible:false,
+
         filter:{
           name:'',
           state:''
         },
-        putorup:'up',
-        diatitle:'新增商品',
+
+
         editId:'',
         delId:'',
-
-
 
         editable:[]
       };
@@ -129,11 +133,16 @@
 
     methods:{
       getlist(){
-
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&name=' + this.filter.name+ '&state=' + this.filter.state;
+        goodGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count
+        });
       },
 
       newone(){
         this.$router.push({ path: '/Good/Goodnew' });
+        window.sessionStorage.removeItem('goodeditid')
       },
 
       changestate(val){
@@ -145,6 +154,7 @@
           name:'',
           state:''
         }
+        this.getlist();
       },
 
       handleEdit(index, row){
@@ -172,11 +182,9 @@
         this.getlist();
       },
 
-
-
       cellclick(row, column, cell, event){
       // console.log(row, column, cell, event)
-      console.log([cell][0].innerText)
+      // console.log([cell][0].innerText)
       this.editable =true
     },
 

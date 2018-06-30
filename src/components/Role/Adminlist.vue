@@ -20,6 +20,8 @@
       </el-table-column>
       <el-table-column prop="username" label="用户名" min-width="200" align="center">
       </el-table-column>
+      <el-table-column prop="phone" label="手机号码" min-width="200" align="center">
+      </el-table-column>
       <el-table-column prop="role" label="所属角色" min-width="200" align="center">
       </el-table-column>
       <el-table-column prop="created_at" label="加入时间" min-width="200" align="center">
@@ -27,7 +29,7 @@
       <el-table-column label="操作" min-width="200" align="center">
        <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编 辑</el-button>
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button>
+        <!-- <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button> -->
       </template>
     </el-table-column>
   </el-table>
@@ -39,17 +41,17 @@
 <el-col>
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
     <el-form ref="newadmin" :model="newadmin" label-width="120px" :rules="rules">
-      <el-form-item label="用户名:">
+      <el-form-item label="用户名:" prop="username">
         <el-input v-model="newadmin.username" placeholder="请输入用户名"></el-input>
       </el-form-item>
-      <el-form-item label="密码:">
-        <el-input v-model="newadmin.password1" placeholder="请输入密码"></el-input>
+      <el-form-item label="密码:" prop="password">
+        <el-input v-model="newadmin.password" placeholder="请输入密码"></el-input>
       </el-form-item>
-      <el-form-item label="确认密码:">
-        <el-input v-model="newadmin.password2" placeholder="请确认密码"></el-input>
+      <el-form-item label="手机号码:" prop="phone">
+        <el-input v-model="newadmin.phone" type="number" placeholder="请输入手机号码"></el-input>
       </el-form-item>
-      <el-form-item label="所属角色:">
-        <el-select v-model="newadmin.role_id" placeholder="请选择角色">
+      <el-form-item label="所属角色:" prop="role">
+        <el-select v-model="newadmin.role" placeholder="请选择角色">
           <el-option v-for="item in rolesArr" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>
       </el-form-item>
@@ -76,7 +78,11 @@
 
 <script>
 
-  // import baseUrl from '../../api/api';
+  import { roleGet } from '../../api/api';
+
+  import { userGet } from '../../api/api';
+  import { userPost } from '../../api/api';
+  import { userDel } from '../../api/api';
 
   export default {
     data() {
@@ -84,63 +90,125 @@
         currentPage: 1,
         list:[],
         loading: false,
-        count:100,
+        count:0,
         limit:10,
         diatitle:'新增管理员',
         dialogNewVisible:false,
         dialogDelVisible:false,
         newadmin:{
           username:'',
-          password1:'',
-          password2:'',
-          role_id:''
+          password:'',
+          phone:'',
+          role:''
         },
         rules: {
           username: [{required: true, trigger: 'blur',message: '请输入用户名'}],
-          password1: [{required: true, trigger: 'blur',message: '请输入密码'}],
-          password2: [{required: true, trigger: 'blur',message: '请确认密码'}]
+          password: [{required: true, trigger: 'blur',message: '请输入密码'}],
+          phone: [{required: true, trigger: 'blur',message: '请输入手机号码'}],
+          role: [{required: true, trigger: 'blur',message: '请选择角色'}]
         },
         rolesArr:[],
+        putorup:'up',
+        editId:'',
+        delId:''
       };
     },
 
     methods:{
       getlist(){
-
-      },
-
-      newone(){
-        this.diatitle='新增管理员',
-        this.dialogNewVisible=true
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+        userGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count
+        });
       },
 
       getrole(){
+        var allParams = '';
+        roleGet(allParams).then((res) => {
+          this.rolesArr=res.data.data;
+        });
+      },
 
+      newone(){       
+        this.putorup='up';
+        this.diatitle='新增管理员'
+        this.dialogNewVisible=true
+        this.newadmin={
+          username:'',
+          password:'',
+          phone:'',
+          role:''
+        }
       },
 
       save(){
-        this.dialogNewVisible=false
+        this.$refs.newadmin.validate((valid) => {
+          if (valid) {
+            // console.log(this.newadmin)
+
+            if( this.putorup=='put'){
+              this.newadmin.id=this.editId
+            }
+            userPost(this.newadmin).then((res) => {
+              if (res.msg === "ok") {
+               this.$message({
+                message: '提交成功',
+                type: 'success'
+              });
+               this.getlist();
+               this.dialogNewVisible=false 
+             } else {
+               this.$message({
+                message: res.msg,
+                type: 'error'
+              });
+             }
+           });
+          }else{
+            return false;
+          }
+        })
       },
 
-
-
       handleEdit(index, row){
-        // console.log(index, row);
+        this.editId = row.id;
         this.diatitle='编辑管理员',
         this.dialogNewVisible = true;
+
+        this.newadmin={
+          username:row.username,
+          password:row.password,
+          phone:row.phone,
+          role:row.role
+        }
       },
 
       handleDelete(index, row) {
-        // console.log(index, row);
         this.dialogDelVisible = true;
-        // this.delId = row.id;
+        this.delId = row.id;
       },
 
       submitdel(){
-        this.dialogDelVisible = false;
+
+        var allParams='?id='+this.delId
+        userDel(allParams).then((res) => {
+
+          if (res.msg === "ok") {
+           this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+           this.getlist();
+           this.dialogDelVisible = false;
+         } else {
+           this.$message({
+            message: res.msg,
+            type: 'error'
+          });
+         }
+       });
       },
-
-
 
       handleCurrentChange(val) {
         this.currentPage = val;
@@ -155,6 +223,7 @@
 
     mounted: function () {
       this.getlist();
+      this.getrole();
     }
   }
 </script>

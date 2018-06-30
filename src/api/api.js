@@ -77,11 +77,11 @@ export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`
 
 
 //商品列表
-export const goodGet = params => { return axios.get(`${base}/product/goods`+`${params}`).then(res => res.data)}
+export const goodGet = params => { return axios.get(`${base}/products`+`${params}`).then(res => res.data)}
 
-export const goodPost = params => { return axios.post(`${base}/product/good`, params).then(res => res.data)}
+export const goodPost = params => { return axios.post(`${base}/product`, params).then(res => res.data)}
 
-export const goodDel = params => { return axios.delete(`${base}/product/good`+`${params}`).then(res => res.data)}
+export const goodDel = params => { return axios.delete(`${base}/product`+`${params}`).then(res => res.data)}
 
 
 
@@ -125,3 +125,22 @@ export const documentGet = params => { return axios.get(`${base}/documents`+`${p
 export const documentPost = params => { return axios.post(`${base}/document`, params).then(res => res.data)}
 
 export const documentDel = params => { return axios.delete(`${base}/document`+`${params}`).then(res => res.data)}
+
+
+
+//管理员
+export const userGet = params => { return axios.get(`${base}/users`+`${params}`).then(res => res.data)}
+
+export const userPost = params => { return axios.post(`${base}/user`, params).then(res => res.data)}
+
+export const userDel = params => { return axios.delete(`${base}/user`+`${params}`).then(res => res.data)}
+
+
+//角色
+export const permissionGet = params => { return axios.get(`${base}/permissions`+`${params}`).then(res => res.data)}
+
+export const roleGet = params => { return axios.get(`${base}/roles`+`${params}`).then(res => res.data)}
+
+export const rolePost = params => { return axios.post(`${base}/role`, params).then(res => res.data)}
+
+export const roleDel = params => { return axios.delete(`${base}/role`+`${params}`).then(res => res.data)}

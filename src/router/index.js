@@ -113,7 +113,7 @@ let router = new Router({
             path: '/Good/Goodnew',
             component: Goodnew,
             name: '添加商品',
-            menuShow: true
+            menuShow: false
         },{
             path: '/Good/Goodlist',
             component: Goodlist,
@@ -164,6 +164,20 @@ let router = new Router({
             menuShow: true
         }]
     }, {
+        leaf: true,
+        path: '/',
+        name: '快递配置',
+        component: Home,
+        redirect: '/Delivery/Delivelist',
+        menuShow: true,
+        iconCls: 'iconfont menu-truck',
+        children: [{
+            path: '/Delivery/Delivelist',
+            component: Delivelist,
+            name: '快递列表',
+            menuShow: true
+        }]
+    },{
         path: '/',
         name: '用户管理',
         component: Home,
@@ -281,20 +295,6 @@ let router = new Router({
             path: '/Setting/Document',
             component: Document,
             name: '帮助文档',
-            menuShow: true
-        }]
-    }, {
-        leaf: true,
-        path: '/',
-        name: '快递配置',
-        component: Home,
-        redirect: '/Delivery/Delivelist',
-        menuShow: true,
-        iconCls: 'iconfont menu-truck',
-        children: [{
-            path: '/Delivery/Delivelist',
-            component: Delivelist,
-            name: '快递列表',
             menuShow: true
         }]
     }, ]

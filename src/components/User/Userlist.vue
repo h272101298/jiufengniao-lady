@@ -10,9 +10,9 @@
 
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
-      <el-form-item>
+<!--       <el-form-item>
         <el-button type="primary" size="medium" @click="newone">新增用户</el-button>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-input v-model="filter.name" placeholder="请输入用户名/编号" style="min-width: 200px;" ></el-input>
       </el-form-item>

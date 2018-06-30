@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
 
 
-      <el-tabs v-model="activeName">
+      <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="基本信息" name="base">
           <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules1" ref="newgood1" :model="newgood1">
            <el-form-item label="商品名称：" prop="name">
@@ -24,7 +24,7 @@
             <el-input v-model="newgood1.brokerage" type="number" min="0" placeholder="请输入分销佣金(百分比)"></el-input>
           </el-form-item>
 
-          <el-form-item label="快递：" prop="express">
+<!--           <el-form-item label="快递：" prop="express">
             <el-select v-model="newgood1.express" placeholder="请选择快递">
               <el-option v-for="item in expressArr" :label="item.title" :value="item.id" :key="item.id"></el-option>
             </el-select>
@@ -32,7 +32,7 @@
 
           <el-form-item label="邮费：" prop="express_price">
             <el-input v-model="newgood1.express_price" type="number" min="0" placeholder="请输入邮费"></el-input>
-          </el-form-item>
+          </el-form-item> -->
 
           <el-form-item label="分享标题：" prop="share_title">
             <el-input v-model="newgood1.share_title" placeholder="请输入分享标题"></el-input>
@@ -58,6 +58,8 @@
 
     <el-tab-pane label="商品属性" name="attributes" prop="type_id">
       <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules2" ref="newgood2" :model="newgood2">
+
+
         <el-form-item label="商品分类：" prop="type_id">
           <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
             <el-option v-for="item in typeArr1" :label="item.title" :value="item.id" :key="item.id"></el-option>
@@ -77,6 +79,7 @@
           </el-radio-group>
         </el-form-item>
 
+
         <el-form-item label="原价：" v-show="!showmore" prop="origin_price">
           <el-input v-model="newgood2.origin_price" type="number" min="0" placeholder="请输入原价"></el-input>
         </el-form-item>
@@ -87,32 +90,31 @@
 
 
 
-
         <!-- <el-form-item label="" > -->
           <el-table :data="pricearr" empty-text="请先选择规格" style="min-width:941px" border size="mini" v-show="showmore">
             <el-table-column type="index" label="序号" width="60" align="center">
             </el-table-column>
-            <el-table-column prop="detail" label="规格" width="120" align="center">
+            <el-table-column prop="title" label="规格" width="120" align="center">
               <template slot-scope="scope">
-                <div v-show="scope.row.detail==1 ? false : true">
-                  <span v-for="(item,index) in scope.row.detail" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
+                <div v-show="scope.row.title==1 ? false : true">
+                  <span v-for="(item,index) in scope.row.title" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
                 </div>
-                <el-button v-show="scope.row.detail==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
+                <el-button v-show="scope.row.title==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
               </template>
             </el-table-column>
-            <el-table-column label="商品缩略图：" width="120" align="center" prop="cover">
+            <el-table-column label="商品缩略图" width="120" align="center" prop="cover">
              <template slot-scope="scope">
               <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="ggshandleSuccess" :show-file-list="false" accept="image/*">
-                <img :src="scope.row.cover" class="pre-img" style="width:60px;height:60px;border:1px dashed #ccc;border-radius:5px;display: block;margin: auto 2px;" @click="ggupimg(scope.row.id)">
+                <img :src="scope.row.cover" class="pre-img" style="width:60px;height:60px;border:1px dashed #ccc;border-radius:5px;display: block;margin: auto 2px;" @click="ggupcover(scope.row.id)">
               </el-upload>
             </template>
           </el-table-column>
           <el-table-column label="相册" min-width="170" align="center" prop="images">
             <template slot-scope="scope">
              <!-- <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="ggbeforeUpload" :on-success="gghandleSuccess" :show-file-list="false" accept="image/*"> -->
-              <el-upload id="ggimglist" :action="upurl" :data="uptoken" list-type="picture-card" accept="image/*" :file-list="scope.row.images">
-                <i class="el-icon-plus" style="margin-top: 15px;"></i>
-                <!-- <img src="../../../static/images/default.png" style="max-width:80px;max-height:80px;border:1px dashed #ccc;border-radius:5px;display: block;margin: auto 2px;"> -->
+              <el-upload id="ggimglist" :action="upurl" :data="uptoken" list-type="picture-card" accept="image/*" :file-list="scope.row.images" :on-success="ggmshandleSuccess" :on-remove="ggmshandleSuccess">
+                <!-- <i class="el-icon-plus" style="margin-top: 15px;" ></i> -->
+                <img src="../../../static/images/default1.png" class="pre-img" style="width:57px;height:57px;display: block;" @click="ggupimg(scope.row.id)">
               </el-upload>
             </template>
           </el-table-column>
@@ -140,13 +142,14 @@
 
     <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
       <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-        <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:10px;display: block" >
+        <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
       </el-upload>
     </el-form-item>
 
     <el-form-item label="商品相册：" v-show="!showmore" prop="images">
-      <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="images" :multiple="true"><!--:on-exceed="handleExceed" :limit="10"  -->
-        <i class="el-icon-plus"></i>
+      <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood2.images" :multiple="true" accept="image/*"><!--:on-exceed="handleExceed" :limit="10"  -->
+        <!-- <i class="el-icon-plus"></i> -->
+        <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
       </el-upload>
     </el-form-item>
 
@@ -171,8 +174,8 @@
     <div style="border: 1px solid #eee;padding: 0 0 10px 10px;">
       <div v-for="(item,index) in checkOptions">
         <p style="margin: 10px;font-weight: 600;font-size: 16px;color:deepskyblue">{{item.title}}</p>
-        <el-radio-group v-model="checkList[index]">
-          <el-radio-button v-for="(items,index) in item.detailArray" :label="items.title" :true-label="items.title" :key="items.id">{{items.title}}</el-radio-button>
+        <el-radio-group v-model="checkList[index]" @change=ggchange>
+          <el-radio-button v-for="(items,index) in item.detailArray" :label="items.id+','+items.title" :true-label="items.title" :key="items.id" @click>{{items.title}}</el-radio-button>
         </el-radio-group>
       </div>
     </div>
@@ -195,8 +198,6 @@
   import { typeGet } from '../../api/api';
   import { guigeGet } from '../../api/api';
   import { deliveryGet } from '../../api/api';
-
-
 
   import {goodPost} from '../../api/api';
 
@@ -234,34 +235,32 @@
       };
 
       return {
-        activeName:'attributes',
+        activeName:'base',
+        // activeName:'attributes',
 
         uptoken:{
           token:qiniu.token,
         },
         upurl:qiniu.upurl,
 
-        cover:"../static/images/default1.png",
-        images:[],
 
         newgood1:{
           name:'',
           detail:'',
           brokerage:null,
-          express:null,
-          express_price:null,
+          // express:null,
+          // express_price:null,
           share_title:'',
           share_detail:''
         },
 
         newgood2:{
-          // sameornot:'',
           cover:'../static/images/default1.png',
           images:[],
           origin_price:null,
           price:null,
-          detail:[],
-          type_id:''
+          type_id:null,
+          detail:[]
         },
 
         expressArr:[],
@@ -277,7 +276,10 @@
 
         checkOptions:[],
         checkList:[],
+        checkList1:[],
+        checkList2:[],
         dialogggVisible:false,
+        ggcoverindex:null,
         ggimgindex:null,
         ggtitleindex:null,
 
@@ -286,6 +288,7 @@
         pricearr:[{
           id:0,
           detail:1,
+          title:1,
           cover:'../static/images/default1.png',
           images:[],
           origin_price:null,
@@ -305,12 +308,12 @@
           brokerage: [
           {required: true, message: '请输入分销佣金', trigger: 'blur'},
           ],
-          express: [
-          {required: true, message: '请选择快递', trigger: 'change'},
-          ],
-          express_price: [
-          {required: true, message: '请输入邮费', trigger: 'blur'},
-          ],
+          // express: [
+          // {required: true, message: '请选择快递', trigger: 'change'},
+          // ],
+          // express_price: [
+          // {required: true, message: '请输入邮费', trigger: 'blur'},
+          // ],
           share_title: [
           {required: true, message: '请输入分享标题', trigger: 'blur'},
           ],
@@ -326,9 +329,9 @@
           price: [
           {required: true, validator: checkvalue, trigger: 'blur'},
           ],
-          type_id: [
-          {required: true, message: '请选择分类', trigger: 'change'},
-          ],
+          // type_id: [
+          // {required: true, message: '请选择分类', trigger: 'change'},
+          // ],
           // sameornot: [
           // {required: true},
           // ],
@@ -340,9 +343,8 @@
           // ],
         },
 
-        norm:'',
 
-
+        allParams:null,
       };
     },
 
@@ -354,19 +356,14 @@
 
       addattr(){
         this.$refs.newgood1.validate((valid) => {
-          console.log(valid)
           if (valid) {
-            console.log(this.newgood1)
             this.activeName="attributes"
-            // this.$refs.newgood1.clearValidate;
           }else{
             return false;
           }
         })
-
-
-
       },
+
       // 快递
       getexpress(){
         var allParams = '?page=1'+ '&limit=10000';
@@ -408,10 +405,10 @@
       // 规格
       changeguige(val){
         if(val=="1"){
-          this.norm='fixed';
+          // this.norm='fixed';
           this.showmore=false
         }else if(val=="2"){
-          this.norm='change';
+          // this.norm='change';
           this.getcategory()
           if(this.newgood2.type_id){
             this.showmore=true
@@ -430,51 +427,91 @@
           });
         }else{
           Message({
-            message: "请先选择分类",
+            message: "请先选择三级分类",
             type: 'error'
           });
         }
       },
 
 
-      ggselect1(index,row){
-        this.checkList=row.detail;
+      ggselect1(index,row){          
+        // console.log(row)
+        this.checkList1=row.detail;
+        this.checkList2=row.title;
         this.dialogggVisible=true;
         this.ggtitleindex=index;
       },
 
-      ggselect2(index,row){
+      ggselect2(index,row){  
+        // console.log(row)
         this.checkList=[];
         this.dialogggVisible=true;
         this.ggtitleindex=index;
       },
 
-      ggsubmit(){
-        if(this.checkList==[]){
+      ggchange(val){
+        // var ggitem=val.split(',')
+        // console.log(ggitem)
+        // this.checkList.push(ggitem[1]);
+        // this.checkList1.push(ggitem[0]);
+
+
+        this.checkList1=[]
+        this.checkList2=[]
+        for(var i = 0;i<this.checkList.length;i++){
+          var ggitem=this.checkList[i].split(',')
+          this.checkList1.push(ggitem[0]);
+          this.checkList2.push(ggitem[1]);
+        }
+        // console.log(this.checkList1)
+      },
+
+      ggsubmit(){          
+        // console.log(this.ggtitleindex)
+        // console.log(this.checkList)
+        if(this.checkList.length==0){
           Message({
             message: "至少选择一个规格",
             type: 'error'
           });
         }else{
           this.dialogggVisible=false;
-          this.pricearr[this.ggtitleindex].detail=this.checkList;
+          this.pricearr[this.ggtitleindex].detail=this.checkList1;
+          this.pricearr[this.ggtitleindex].title=this.checkList2;
+          // console.log(this.checkList)
+          // console.log(this.checkList1)
         }
       },
 
-      ggupimg(e){
-       this.ggimgindex=e
-     },
+      ggupcover(e){
+        this.ggcoverindex=e
+      },
 
-     ggshandleSuccess(res, file) {
+      ggupimg(e){
+        console.log(e)
+        this.ggimgindex=e
+      },
+
+      ggshandleSuccess(res, file) {
       // console.log(res,file)
-      this.pricearr[this.ggimgindex].cover=qiniu.showurl+ res.key
+      this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
     },
+
+    ggmshandleSuccess(res, file,fileList){
+      this.pricearr[this.ggimgindex].images=[]
+      for(var i=0;i<fileList.length;i++){
+        this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
+      }
+    },
+
+
 
     handleEdit(index, row){
       this.pricearr.push({
         id:index+1,
         detail:1,
-        cover:'../static/images/default.png',
+        title:1,
+        cover:'../static/images/default1.png',
         images:[],
         origin_price:null,
         price:null,
@@ -499,16 +536,23 @@
     },
 
     handleSuccess(res, file) {
-      // this.upimgurl =qiniu.showurl+ res.key
       this.newgood2.cover =qiniu.showurl+ res.key
     },
 
     handlelistSuccess(res, file,fileList){
-      this.album=fileList
+      this.newgood2.images=[]
+      for(var i=0;i<fileList.length;i++){
+        this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
+      }
+      // this.newgood2.images=fileList
     },
 
     handleRemove(file, fileList) {
-      this.album=fileList
+      this.newgood2.images=[]
+      for(var i=0;i<fileList.length;i++){
+        this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
+      }
+      // this.newgood2.images=fileList
     },
 
 
@@ -516,58 +560,101 @@
 
     save(){
       this.$refs.newgood2.validate((valid) => {
-        if (valid) {
 
-          if(this.sameornot==1){/*统一*/
-            console.log(1)
-            var allParams = {
-              // name:
-
-            };
-
-          }else{/*多规格*/
-           console.log(2)
-
-
-         }
-
-
-          // var allParams = '';
-          // goodPost(allParams).then((res) => {
-
-          // });
-
+        if(this.newgood2.type_id==null){
+          Message({
+            message: "请选择三级分类",
+            type: 'error'
+          });
+          return
         }else{
-          return false;
+          if(this.sameornot==1){
+            if (valid) {
+              if(this.newgood2.cover=="../static/images/default1.png"){
+                Message({
+                  message: "请选择商品缩略图",
+                  type: 'error'
+                });
+                return
+              }else if(this.newgood2.images.length==0){
+                Message({
+                  message: "请选择商品相册",
+                  type: 'error'
+                });
+                return
+              }else{
+                this.allParams = {
+                  name:this.newgood1.name,
+                  detail:this.newgood1.detail,
+                  brokerage:this.newgood1.brokerage,
+                  // express:this.newgood1.express,
+                  // express_price:this.newgood1.express_price,
+                  share_title:this.newgood1.share_title,
+                  share_detail:this.newgood1.share_detail,
+                  norm:'fixed',
+                  type_id:this.newgood2.type_id,
+                  stock:[this.newgood2]
+                };
+                console.log(this.allParams)
+              }
+            }else{
+              return false;
+            }
+          }else{
+
+
+           this.allParams = {
+            name:this.newgood1.name,
+            detail:this.newgood1.detail,
+            brokerage:this.newgood1.brokerage,
+            // express:this.newgood1.express,
+            // express_price:this.newgood1.express_price,
+            share_title:this.newgood1.share_title,
+            share_detail:this.newgood1.share_detail,
+            norm:'change',
+            type_id:this.newgood2.type_id,
+            stock:this.pricearr
+          };
+          console.log(this.allParams)
         }
-      })
-        // var piclist=[]
-        // for(var i = 0 ; i < this.album.length; i++){
-        //   var aaa = qiniu.showurl+this.album[i].response.key;
-        //   piclist.push(aaa)
-        // }
-        // console.log(piclist)
-        // console.log(this.newgood)
-        // console.log(this.pricearr)
-      },
+      }
 
-      golist(){
+      var goodeditid = window.sessionStorage.getItem('goodeditid')
+      if(goodeditid){
+        this.allParams.id=goodeditid;
+      }
+
+      goodPost(this.allParams).then((res) => {
+        console.log(res)
+
+        Message({
+          message: "提交成功",
+          type: 'success'
+        });
         this.$router.push({ path: '/Good/Goodlist' });
-      }
+      });
+
+
+    })
     },
 
-    computed: {
-      editor() {
-        return this.$refs.myQuillEditor.quill
-      }
-    },
-
-    mounted: function () {
-      this.gettype1()
-      this.getexpress()
-
+    golist(){
+      this.$router.push({ path: '/Good/Goodlist' });
     }
+  },
+
+  computed: {
+    editor() {
+      return this.$refs.myQuillEditor.quill
+    }
+  },
+
+  mounted: function () {
+    this.gettype1()
+    this.getexpress()
+
   }
+}
 </script>
 
 
