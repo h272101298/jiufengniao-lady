@@ -23,13 +23,13 @@
       <!--左侧导航-->
       <aside :class="{showSidebar:!collapsed}">
         <!--展开折叠开关-->
-<!--         <div class="menu-toggle" @click.prevent="collapse">
+        <div class="menu-toggle" @click.prevent="collapse">
           <i class="iconfont icon-menufold" v-show="!collapsed"></i>
           <i class="iconfont icon-menuunfold" v-show="collapsed"></i>
-        </div> -->
+        </div>
         <!--导航菜单--> 
-        <!-- <el-menu default-active="0" router :collapse="collapsed"> -->
-          <el-menu default-active="0" router :collapse="collapsed" unique-opened>
+        <el-menu default-active="0" router :collapse="collapsed">
+          <!-- <el-menu default-active="0" router :collapse="collapsed" unique-opened> -->
             <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
               <el-submenu v-if="!item.leaf" :index="index+''">
                 <template slot="title"><i :class="item.iconCls"></i>

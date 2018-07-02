@@ -219,7 +219,7 @@
         console.log(res)
         if (res.msg === "ok") {
          this.$message({
-          message: '提交成功',
+          message: '删除成功',
           type: 'success'
         });
          this.getlist();

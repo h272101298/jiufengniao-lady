@@ -47,12 +47,21 @@
 <!--       <el-table-column prop="name" label="所属商家" min-width="200" align="center">
 </el-table-column> -->
 
-<el-table-column prop="state" label="状态" min-width="150" align="center">
+<el-table-column prop="state" label="上架状态" min-width="150" align="center">
   <template slot-scope="scope">
-    <el-tag type="success" v-show="scope.row.state==0">上架</el-tag>
-    <el-tag type="info" v-show="scope.row.state==1">下架</el-tag>
+    <el-tag type="success" v-show="scope.row.state==1" @click="changejia(scope.row)">上架</el-tag>
+    <el-tag type="info" v-show="scope.row.state==0" @click="changejia(scope.row)">下架</el-tag>
   </template>
 </el-table-column>
+
+<el-table-column prop="review" label="审核状态" min-width="150" align="center">
+  <template slot-scope="scope">
+    <el-tag type="success" v-show="scope.row.state==1">已审核</el-tag>
+    <el-tag type="info" v-show="scope.row.state==0">未审核</el-tag>
+  </template>
+</el-table-column>
+
+
 <!-- <el-table-column prop="express_price" label="邮费" min-width="150" align="center">
 </el-table-column> -->
 <el-table-column prop="created_at" label="创建时间" min-width="150" align="center">
@@ -64,7 +73,7 @@
   <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
     <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
   </el-tooltip>
-  <el-tooltip class="icon" effect="dark" content="预览" placement="bottom">
+<!--   <el-tooltip class="icon" effect="dark" content="预览" placement="bottom">
     <img src="../../../static/images/icon/look.png">
   </el-tooltip>
   <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top">
@@ -72,7 +81,7 @@
   </el-tooltip>
   <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
     <img src="../../../static/images/icon/check.png">
-  </el-tooltip>
+  </el-tooltip> -->
   <el-tooltip class="icon" effect="dark" content="删除" placement="top">
     <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
   </el-tooltip>
@@ -99,6 +108,7 @@
 
 <script>
   import { goodGet } from '../../api/api';
+  import { goodRecycle } from '../../api/api';
 
   export default {
     data() {
@@ -157,8 +167,16 @@
         this.getlist();
       },
 
-      handleEdit(index, row){
 
+
+      changejia(row){
+        console.log(row.id)
+      },
+
+
+
+
+      handleEdit(index, row){
         sessionStorage.setItem('goodeditid',row.id);
         this.$router.push({ path: '/Good/Goodnew' });
       },
@@ -170,6 +188,23 @@
 
       submitdel(){
         this.dialogDelVisible = false;
+        var allParams='?id='+this.delId
+        goodRecycle(allParams).then((res) => {
+          console.log(res)
+          if (res.msg === "ok") {
+           this.$message({
+            message: '删除成功',
+            type: 'success'
+          });
+           this.getlist();
+           this.dialogDelVisible = false;
+         } else {
+           this.$message({
+            message: res.msg,
+            type: 'error'
+          });
+         }
+       });
       },
 
       handleCurrentChange(val) {

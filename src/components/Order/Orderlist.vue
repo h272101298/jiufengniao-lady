@@ -41,13 +41,17 @@
         </el-table-column>
         <el-table-column prop="name" label="订单号" min-width="100" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="商品名称" min-width="200" align="center">
+
+        <el-table-column prop="name" label="用户" min-width="100" align="center">
+        </el-table-column>
+<!--         <el-table-column prop="name" label="商品名称" min-width="200" align="center">
         </el-table-column>
         <el-table-column prop="name" label="商家" min-width="200" align="center">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="name" label="总计" min-width="200" align="center">
         </el-table-column>
         <el-table-column prop="name" label="订单状态" min-width="200" align="center">
+
         </el-table-column>
         <el-table-column prop="name" label="下单时间" min-width="200" align="center">
         </el-table-column>
@@ -58,10 +62,13 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button type="primary" style="float:left;margin-top:10px;" @click="exportExcel()" size="small">导出Excel表</el-button>
-    <el-pagination style="float:left;margin:20px 0 0 30px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+
+    <el-pagination style="float:left;margin:20px 0 0 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
     </el-pagination>
+
+
   </el-col>
+  <el-button type="primary" style="float:left;margin-top:10px;" @click="exportExcel()" size="small">导出Excel表</el-button>
 
 </el-row>
 </template>
@@ -69,8 +76,11 @@
 <script>
 
   import baseUrl from '../../api/api';
+
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
+
+
   export default {
     data() {
       return {
@@ -78,7 +88,7 @@
           name:'11'
         }],
         currentPage: 1,
-        count:100,
+        count:0,
         limit:10,
         filter:{
           name:'',

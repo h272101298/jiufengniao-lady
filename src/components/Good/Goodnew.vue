@@ -624,6 +624,8 @@
         this.allParams.id=goodeditid;
       }
 
+      // console.log(this.allParams)
+
       goodPost(this.allParams).then((res) => {
         console.log(res)
 
