@@ -49,16 +49,14 @@
 <script>
 
 
-  import baseUrl from '../../api/api';
+  // import { shiporderGet } from '../../api/api';
 
   export default {
     data() {
       return {
-        list:[{
-          name:'11'
-        }],
+        list:[],
         currentPage: 1,
-        count:100,
+        count:0,
         limit:10,
       };
     },
@@ -66,7 +64,11 @@
     methods:{
 
       getlist(){
-
+        // var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+        // shiporderGet(allParams).then((res) => {
+        //   this.list=res.data.data;
+        //   this.count=res.data.count
+        // });
       },
 
       handleEdit(index, row){

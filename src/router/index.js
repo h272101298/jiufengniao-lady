@@ -148,16 +148,16 @@ let router = new Router({
             name: '购物订单',
             menuShow: true
         }, {
-            path: '/Order/Teamwork',
-            component: Teamwork,
-            name: '拼团订单',
-            menuShow: true
-        }, {
-            path: '/Order/Ship',
-            component: Ship,
-            name: '发货',
-            menuShow: true
-        }, {
+        //     path: '/Order/Teamwork',
+        //     component: Teamwork,
+        //     name: '拼团订单',
+        //     menuShow: true
+        // }, {
+        //     path: '/Order/Ship',
+        //     component: Ship,
+        //     name: '发货',
+        //     menuShow: true
+        // }, {
             path: '/Order/Refund',
             component: Refund,
             name: '退款',

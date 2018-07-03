@@ -47,17 +47,17 @@
 <!--       <el-table-column prop="name" label="所属商家" min-width="200" align="center">
 </el-table-column> -->
 
-<el-table-column prop="state" label="上架状态" min-width="150" align="center">
+<el-table-column prop="state" label="上架状态" min-width="100" align="center">
   <template slot-scope="scope">
-    <el-tag type="success" v-show="scope.row.state==1" @click="changejia(scope.row)">上架</el-tag>
-    <el-tag type="info" v-show="scope.row.state==0" @click="changejia(scope.row)">下架</el-tag>
+    <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
+    <el-button type="info" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
   </template>
 </el-table-column>
 
-<el-table-column prop="review" label="审核状态" min-width="150" align="center">
+<el-table-column prop="review" label="审核状态" min-width="100" align="center">
   <template slot-scope="scope">
-    <el-tag type="success" v-show="scope.row.state==1">已审核</el-tag>
-    <el-tag type="info" v-show="scope.row.state==0">未审核</el-tag>
+    <el-tag type="success" v-show="scope.row.review==1">已审核</el-tag>
+    <el-tag type="info" v-show="scope.row.review==0">未审核</el-tag>
   </template>
 </el-table-column>
 
@@ -68,21 +68,21 @@
 </el-table-column>
 <!--       <el-table-column prop="name" label="审核状态" min-width="150" align="center">
 </el-table-column> -->
-<el-table-column label="操作" min-width="200" align="center">
+<el-table-column label="操作" width="150" align="center">
  <template slot-scope="scope">
   <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
     <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
   </el-tooltip>
-<!--   <el-tooltip class="icon" effect="dark" content="预览" placement="bottom">
-    <img src="../../../static/images/icon/look.png">
+  <el-tooltip class="icon" effect="dark" content="查看详情" placement="bottom">
+    <img src="../../../static/images/icon/look.png" @click="handleSee(scope.$index, scope.row)">
   </el-tooltip>
-  <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top">
+<!--   <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top">
     <img src="../../../static/images/icon/ewcode.png">
-  </el-tooltip>
-  <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
-    <img src="../../../static/images/icon/check.png">
   </el-tooltip> -->
-  <el-tooltip class="icon" effect="dark" content="删除" placement="top">
+  <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
+    <img src="../../../static/images/icon/check.png" v-show="scope.row.review==0" @click="handleCheck(scope.row)">
+  </el-tooltip>
+  <el-tooltip class="icon" effect="dark" content="加入回收站" placement="top">
     <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
   </el-tooltip>
 </template>
@@ -93,14 +93,68 @@
 </el-pagination>
 </el-col>
 
+
+
+
+
+
+
+
+
 <el-col>
-  <el-dialog title="删除不可恢复，是否确定删除？" :visible.sync="dialogDelVisible" width="30%">
+  <el-dialog title="确认将该商品加入购物车么？" :visible.sync="dialogDelVisible" width="30%">
     <div slot="footer" class="dialog-footer">
       <el-button type="danger" @click="submitdel()">确 定</el-button>
       <el-button type="primary" @click="dialogDelVisible = false">取 消</el-button>
     </div>
   </el-dialog>
 </el-col>
+
+
+
+
+
+
+
+<el-col>
+  <el-dialog title="商品预览" :visible.sync="dialogSeeVisible" width="30%" @open="opendialog" center >
+    <el-form label-width="110px" :model="currow" label-position='left'>
+      <el-form-item label="商品名称：" class="fw6">
+        <span class="fw4">{{currow.name}}</span>
+      </el-form-item>
+      <el-form-item label="商品描述：" class="fw6">
+        <template slot-scope="scope">
+          <div class="fw4" id="detail">{{currow.detail}}</div>
+        </template>
+      </el-form-item>
+
+      <el-form-item label="商品缩略图：" class="fw6">
+        <template slot-scope="scope">
+          <img :src="currow.cover" class="seeimg" />
+        </template>
+      </el-form-item>
+
+      <el-form-item label="分销佣金：" class="fw6">
+        <span class="fw4">{{currow.brokerage}}</span>
+      </el-form-item>
+
+      <el-form-item label="分享标题：" class="fw6">
+        <template slot-scope="scope">
+          <span class="fw4">{{currow.share_title}}</span>
+        </template>
+      </el-form-item>
+
+      <el-form-item label="分享描述：" class="fw6">
+        <template slot-scope="scope">
+          <span class="fw4">{{currow.share_detail}}</span>    
+        </template>
+      </el-form-item>
+
+    </el-form>
+  </el-dialog>
+</el-col>
+
+
 </el-row>
 </template>
 
@@ -109,17 +163,14 @@
 <script>
   import { goodGet } from '../../api/api';
   import { goodRecycle } from '../../api/api';
+  import { goodCheck } from '../../api/api';
+  import { goodShelf } from '../../api/api';
 
   export default {
     data() {
       return {
 
-        list:[{
-          id:1,
-          name:'11',
-          state:1,
-          url:'../static/images/gold.jpg'
-        }],
+        list:[],
 
         loading: false,
         currentPage: 1,
@@ -127,17 +178,17 @@
         limit:10,
 
         dialogDelVisible:false,
-
+        dialogSeeVisible:false,
         filter:{
           name:'',
           state:''
         },
 
-
+        currow:'',
         editId:'',
         delId:'',
 
-        editable:[]
+        editable:[],
       };
     },
 
@@ -169,8 +220,40 @@
 
 
 
-      changejia(row){
-        console.log(row.id)
+      changejia(index){
+        // console.log(index)
+        var allParams = '?id='+ index.id;
+        goodShelf(allParams).then((res) => {
+         console.log(res)
+         this.getlist();
+       });
+      },
+
+      handleCheck(index){
+        // console.log(index)
+        var allParams = '?id='+ index.id;
+        goodCheck(allParams).then((res) => {
+         console.log(res)
+         this.getlist();
+       });
+      },
+
+
+      handleSee(index,row) {
+        this.currow=row
+        this.dialogSeeVisible = true;
+      },
+
+
+      opendialog(){
+        setTimeout(() => {
+          this.setdetail();
+        }, 100);
+      },
+
+      setdetail(){
+        var seeBox = document.getElementById("detail");
+        seeBox.innerHTML=this.currow.detail;
       },
 
 
@@ -193,7 +276,7 @@
           console.log(res)
           if (res.msg === "ok") {
            this.$message({
-            message: '删除成功',
+            message: '加入成功',
             type: 'success'
           });
            this.getlist();
@@ -236,10 +319,20 @@
 </script>
 
 
-<style>
+<style scoped>
 .icon{
   width: 20px;
   height: 20px;
   margin: 2px;
 }
+.el-button+.el-button {
+  margin-left: 0px!important;
+}
+.seeimg{
+  max-width: 150px;
+  max-height: 150px;
+}
+/*.el-form-item {
+ margin-bottom: 0px!important;
+ }*/
 </style>

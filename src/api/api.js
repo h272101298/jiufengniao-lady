@@ -85,8 +85,9 @@ export const goodRecycle = params => { return axios.get(`${base}/del/product`+`$
 
 export const goodDel = params => { return axios.delete(`${base}/product`+`${params}`).then(res => res.data)}//回收站永久删除
 
+export const goodCheck = params => { return axios.get(`${base}/check/product`+`${params}`).then(res => res.data)}//
 
-
+export const goodShelf = params => { return axios.get(`${base}/shelf/product`+`${params}`).then(res => res.data)}//
 
 
 
@@ -109,7 +110,15 @@ export const guigeDel = params => { return axios.delete(`${base}/product/categor
 
 
 //订单
-// export const orderGet = params => { return axios.get(`${base}/order/lists`+`${params}`).then(res => res.data)}
+export const allorderGet = params => { return axios.get(`${base}/orders`+`${params}`).then(res => res.data)}
+
+export const oneorderGet = params => { return axios.get(`${base}/order`+`${params}`).then(res => res.data)}
+
+export const shipgoods = params => { return axios.post(`${base}/ship/order`, params).then(res => res.data)}
+
+
+
+
 
 // export const orderDel = params => { return axios.delete(`${base}/order/list`+`${params}`).then(res => res.data)}
 

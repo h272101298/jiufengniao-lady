@@ -171,7 +171,7 @@
     },
 
     mounted: function () {
-      // this.getlist();
+      this.getlist();
     }
   }
 </script>
