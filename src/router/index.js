@@ -16,9 +16,11 @@ import Ship from '@/components/Order/Ship'
 import Refund from '@/components/Order/Refund'
 
 import Userlist from '@/components/User/Userlist'
-import Proxyapply from '@/components/User/Proxyapply'
-import Proxylist from '@/components/User/Proxylist'
-import Withdraw from '@/components/User/Withdraw'
+
+import Proxyapply from '@/components/Agent/Proxyapply'
+import Proxylist from '@/components/Agent/Proxylist'
+import Withdraw from '@/components/Agent/Withdraw'
+import Commission from '@/components/Agent/Commission'
 
 import Reportlist from '@/components/Report/Reportlist'
 
@@ -153,11 +155,6 @@ let router = new Router({
         //     name: '拼团订单',
         //     menuShow: true
         // }, {
-        //     path: '/Order/Ship',
-        //     component: Ship,
-        //     name: '发货',
-        //     menuShow: true
-        // }, {
             path: '/Order/Refund',
             component: Refund,
             name: '退款',
@@ -189,18 +186,31 @@ let router = new Router({
             component: Userlist,
             name: '用户列表',
             menuShow: true
-        }, {
-            path: '/User/Proxyapply',
+        }]
+    }, {
+        path: '/',
+        name: '代理管理',
+        component: Home,
+        redirect: '/Agent/Userlist',
+        menuShow: true,
+        iconCls: 'iconfont menu-yonghu',
+        children: [ {
+            path: '/Agent/Proxyapply',
             component: Proxyapply,
             name: '分销申请',
             menuShow: true
         }, {
-            path: '/User/Proxylist',
+            path: '/Agent/Proxylist',
             component: Proxylist,
-            name: '分销列表',
+            name: '代理列表',
             menuShow: true
         }, {
-            path: '/User/Withdraw',
+            path: '/Agent/Commission',
+            component: Commission,
+            name: '佣金管理',
+            menuShow: true
+        }, {
+            path: '/Agent/Withdraw',
             component: Withdraw,
             name: '提现列表',
             menuShow: true

@@ -54,7 +54,7 @@
         currentPage: 1,
         list:[],
         loading: false,
-        count:100,
+        count:0,
         limit:10,
         dialogDelVisible:false,
       };

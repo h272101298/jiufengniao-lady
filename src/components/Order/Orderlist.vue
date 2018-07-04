@@ -53,9 +53,11 @@
 
         <el-table-column prop="state" label="订单状态" width="160" align="center">
           <template slot-scope="scope">
-            <el-tag type="info" v-show="scope.row.state=='created'" @click="">未付款</el-tag>
-            <el-tag type="success" v-show="scope.row.state=='paid'" @click="">已支付</el-tag>
-            <el-tag type="primary" v-show="scope.row.state=='delivery'" @click="">已发货</el-tag>
+            <el-tag type="danger" v-show="scope.row.state=='created'" @click="">未付款</el-tag>
+            <el-tag type="primary" v-show="scope.row.state=='paid'" @click="">已支付</el-tag>
+            <el-tag type="warning" v-show="scope.row.state=='delivery'" @click="">已发货</el-tag>
+            <el-tag type="success" v-show="scope.row.state=='finished'" @click="">已完成</el-tag>
+            <el-tag type="info" v-show="scope.row.state=='canceled'" @click="">已取消</el-tag>
           </template>
         </el-table-column>
 
@@ -90,9 +92,13 @@
   <el-dialog title="快递信息" :visible.sync="dialogSendVisible" width="800px" center>
     <el-form :model="kuaidi" ref="kuaidi" label-width="120px" :rules="sendrule">
       <el-form-item label="快递名称：" label-width="120px" prop="express">
-       <el-input v-model="kuaidi.express" placeholder="请输入快递名称"></el-input>
-     </el-form-item>
-     <el-form-item label="快递单号：" label-width="120px" prop="express_number">
+
+        <el-select v-model="kuaidi.express" placeholder="全部" @change="xzkauidi">
+          <el-option v-for="item in expressarr" :label="item.title" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+
+      </el-form-item>
+      <el-form-item label="快递单号：" label-width="120px" prop="express_number">
        <el-input v-model="kuaidi.express_number" placeholder="请输入快递单号" type="number"></el-input>
      </el-form-item>
      <el-button type="primary" size="small" @click="submitsend" style="margin-left: calc(50% - 28px);">提交</el-button>
@@ -165,8 +171,6 @@
         <div class="fw4" id="detail">{{currow.price}}</div>
       </el-form-item>
 
-
-
     </el-form>
   </el-dialog>
 </el-col>
@@ -180,6 +184,7 @@
   import { allorderGet } from '../../api/api';
   import { oneorderGet } from '../../api/api';
   import { shipgoods } from '../../api/api';
+  import { deliveryGet } from '../../api/api';
 
   import { Message } from 'element-ui';
 
@@ -207,18 +212,22 @@
         },
 
         sendId:'',
+        expressarr:[],
+
         kuaidi:{
           express:'',
           express_number:''
         },
         sendrule:{
-          express: [
-          {required: true, message: '请输入快递名称', trigger: 'blur'},
-          ],
+          // express: [
+          // {required: true, message: '请选择快递公司', trigger: 'change'},
+          // ],
           express_number: [
           {required: true, message: '请输入快递单号', trigger: 'blur'},
           ],
         },
+
+
 
         currow:{
          id: 0,
@@ -241,12 +250,12 @@
            address: "",
            zip_code: "",
          }],
-         "stocks": []
        },
      };
    },
 
    methods:{
+
 
     getlist(){
       var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end;
@@ -312,6 +321,18 @@
 
 
 
+    getexpress(){
+      var allParams = '?page=1&limit=10000';
+      deliveryGet(allParams).then((res) => {
+        // console.log(res.data.data)
+        this.expressarr=res.data.data;
+      });
+    },
+
+    xzkauidi(val){
+      this.kuaidi.express=val
+    },
+
 
     handleSend(row){
       this.kuaidi={
@@ -343,11 +364,11 @@
       })
     },
 
-
   },
 
   mounted: function () {
     this.getlist();
+    this.getexpress();
   }
 }
 </script>

@@ -96,30 +96,6 @@
         <el-button v-show="show" size="small" @click="cancel">取消</el-button>
       </el-form>
 
-
-      <el-form ref="baseset" :model="baseset" label-width="120px" class="form" status-icon size="small">
-        <h3>快递设置：</h3>
-
-        <el-form-item label="开启快递鸟：">
-          <el-input v-model="baseset.upsize" placeholder="请输入业务名称" v-show="show"></el-input>
-          <label v-show="set">{{baseset.upsize}}</label>
-        </el-form-item>
-
-        <el-form-item label="商户ID：">
-          <el-input v-model="baseset.upsize" placeholder="请输入业务名称" v-show="show"></el-input>
-          <label v-show="set">{{baseset.upsize}}</label>
-        </el-form-item>
-
-        <el-form-item label="API key：">
-          <el-input v-model="baseset.upsize" placeholder="请输入业务名称" v-show="show"></el-input>
-          <label v-show="set">{{baseset.upsize}}</label>
-        </el-form-item>
-
-        <el-button v-show="set" size="small" type="primary" style="margin-left:162px;margin-top:20px;" @click="changebase">修改</el-button>
-
-        <el-button v-show="show" size="small" type="primary" style="margin-left:122px;margin-top:20px;" @click="confirm">提交</el-button>
-        <el-button v-show="show" size="small" @click="cancel">取消</el-button>
-      </el-form>
     </el-row>
   </el-col>
 
@@ -128,7 +104,7 @@
 </template>
 
 <style>
-.form{
+/*.form{
   width:380px;
   border:1px solid #ccc;
   margin-left:20px;
@@ -136,7 +112,7 @@
   float: left;
   height:500px;
   border-radius: 20px;
-}
+}*/
 </style>
 
 <script>

@@ -199,7 +199,7 @@
   import { guigeGet } from '../../api/api';
   import { deliveryGet } from '../../api/api';
 
-  import {goodPost} from '../../api/api';
+  import { goodPost } from '../../api/api';
 
 
   import { Message } from 'element-ui';

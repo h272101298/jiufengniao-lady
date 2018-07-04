@@ -69,6 +69,19 @@ export const sapplyPost = params => { return axios.post(`${base}/check/settle/ap
 
 
 
+//分销
+export const aapplyGet = params => { return axios.get(`${base}/proxy/applies`+`${params}`).then(res => res.data)}
+
+export const aapplyPass = params => { return axios.get(`${base}/proxy/pass`+`${params}`).then(res => res.data)}
+
+export const aapplyReject = params => { return axios.get(`${base}/proxy/reject`+`${params}`).then(res => res.data)}
+
+
+export const agentGet = params => { return axios.get(`${base}/proxies`+`${params}`).then(res => res.data)}
+
+
+
+
 
 //店铺
 export const shopPost = params => { return axios.post(`${base}/store`, params).then(res => res.data)}
@@ -116,7 +129,7 @@ export const oneorderGet = params => { return axios.get(`${base}/order`+`${param
 
 export const shipgoods = params => { return axios.post(`${base}/ship/order`, params).then(res => res.data)}
 
-
+export const refundGet = params => { return axios.post(`${base}/refund/order`, params).then(res => res.data)}
 
 
 
@@ -131,6 +144,14 @@ export const deliveryGet = params => { return axios.get(`${base}/expresses`+`${p
 export const deliveryPost = params => { return axios.post(`${base}/express`, params).then(res => res.data)}
 
 export const deliveryDel = params => { return axios.delete(`${base}/express`+`${params}`).then(res => res.data)}
+
+//快递配置
+export const kdconfigGet = params => { return axios.get(`${base}/express/config`+`${params}`).then(res => res.data)}
+
+export const kdconfigPost = params => { return axios.post(`${base}/express/config`, params).then(res => res.data)}
+
+
+
 
 
 //帮助文档
