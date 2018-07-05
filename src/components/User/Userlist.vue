@@ -10,102 +10,91 @@
 
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
-<!--       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">新增用户</el-button>
-      </el-form-item> -->
       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入用户名/编号" style="min-width: 200px;" ></el-input>
+        <el-input v-model="filter.name" placeholder="请输入昵称" size="medium" style="min-width: 200px;" ></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">搜索</el-button>
-        <el-button size="medium" @click="newone">清空</el-button>
+        <el-button type="primary" size="small" @click="getlist">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" v-loading="loading" border stripe size="small">
-      <el-table-column prop="name" label="用户编号" min-width="100" align="center">
+    <el-table :data="list" border stripe size="small" style="width:95%;">
+      <el-table-column prop="id" label="用户编号" min-width="100" align="center">
       </el-table-column>
-      <el-table-column prop="name" label="用户名称" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="code" label="联系电话" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="code" label="是否代理" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="code" label="余额" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="code" label="积分" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="created_at" label="开通日期" min-width="200" align="center">
+      <el-table-column prop="nickname" label="昵称" min-width="140" align="center">
       </el-table-column>
 
-      <el-table-column label="操作" min-width="200" align="center">
-        <el-button type="primary" size="medium" @click="newone"></el-button>
+
+      <el-table-column prop="user.avatarUrl" label="头像" min-width="100" align="center">
+        <template slot-scope="scope">
+          <img :src="scope.row.avatarUrl" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
+        </template>
       </el-table-column>
+
+      <el-table-column prop="info.name" label="姓名" min-width="140" align="center">
+      </el-table-column>
+
+      <el-table-column prop="info.hone" label="联系电话" min-width="200" align="center">
+      </el-table-column>
+<!--       <el-table-column prop="code" label="是否代理" min-width="200" align="center">
+</el-table-column> -->
+<!--       <el-table-column prop="code" label="余额" min-width="200" align="center">
+      </el-table-column>
+      <el-table-column prop="code" label="积分" min-width="200" align="center">
+      </el-table-column> -->
+      <el-table-column prop="created_at" label="注册日期" min-width="200" align="center">
+      </el-table-column>
+
+<!--       <el-table-column label="操作" min-width="200" align="center">
+        <el-button type="primary" size="medium" @click="newone"></el-button>
+      </el-table-column> -->
     </el-table>
 
     <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
     </el-pagination>
   </el-col>
 
-<!--   <el-col>
-    <el-dialog title="新增快递" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
-      <el-form ref="newdelive" :model="newdelive" label-width="120px" :rules="rules">
-        <el-form-item label="快递名称:">
-          <el-input v-model="newdelive.name" placeholder="请输入快递名称"></el-input>
-        </el-form-item>
-        <el-form-item label="快递简码:">
-          <el-input v-model="newdelive.code" placeholder="请输入快递简码"></el-input>
-        </el-form-item>
-        <el-form-item style="margin-left: calc(50% - 200px);">
-          <el-button type="primary" @click="save()">保 存</el-button>
-          <el-button @click="dialogNewVisible = false">取 消</el-button>
-        </el-form-item>
-      </el-form>
-    </el-dialog>
-  </el-col> -->
+
 </el-row>
 </template>
 
 <script>
 
 
-  // import baseUrl from '../../api/api';
+  import { userGet } from '../../api/api';
 
   export default {
     data() {
       return {
         currentPage: 1,
         list:[],
-        loading: false,
-        count:100,
+        count:0,
         limit:10,
         dialogNewVisible:false,
         filter:{
           name:''
         },
-        newdelive:{
-          name:'',
-          code:''
-        },
-        // rules: {
-        //   name: [{required: true, trigger: 'blur',message: '请输入快递名称'}],
-        //   code: [{required: true, trigger: 'blur',message: '请输入快递简码'}]
-        // },
       };
     },
 
     methods:{
       getlist(){
-
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&name=' + this.filter.name;
+        userGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count;
+        });
       },
 
-      newone(){
-        this.dialogNewVisible=true
+
+      clear(){
+        this.filter={
+          name:''
+        },
+        this.getlist();
       },
 
-      save(){
-        this.dialogNewVisible=false
-      },
 
       handleCurrentChange(val) {
         this.currentPage = val;
@@ -121,9 +110,9 @@
 
     mounted: function () {
       this.getlist();
-     }
-   
- }
+    }
+
+  }
 </script>
 
 

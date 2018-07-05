@@ -11,22 +11,22 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">新增商品</el-button>
+        <el-button type="primary" size="small" @click="newone">新增商品</el-button>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类/商家名称" style="min-width: 260px;" ></el-input>
+        <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类/商家名称" style="min-width: 260px;" size="small"></el-input>
       </el-form-item>
 
       <el-form-item label="商品状态：">
-        <el-select v-model="filter.state" placeholder="全部" @change="changestate">
+        <el-select v-model="filter.state" placeholder="全部" @change="changestate" size="small">
           <el-option label="上架" value="0"></el-option>
           <el-option label="下架" value="1"></el-option>
         </el-select>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" size="medium" @click="getlist">搜索</el-button>
-        <el-button size="medium" @click="clear">清空</el-button>
+        <el-button type="primary" size="small" @click="getlist">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
       </el-form-item>
     </el-form>
 

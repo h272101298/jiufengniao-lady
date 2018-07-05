@@ -212,7 +212,7 @@ let router = new Router({
         }, {
             path: '/Agent/Withdraw',
             component: Withdraw,
-            name: '提现列表',
+            name: '提现管理',
             menuShow: true
         }]
     }, {
@@ -230,29 +230,29 @@ let router = new Router({
             menuShow: true
         }, ]
     }, {
-        path: '/',
-        name: '营销活动',
-        component: Home,
-        redirect: '/Mark/Spike',
-        menuShow: true,
-        iconCls: 'iconfont menu-yingxiao',
-        children: [{
-            path: '/Mark/Spike',
-            component: Spike,
-            name: '限时秒杀',
-            menuShow: true
-        }, {
-            path: '/Mark/Card',
-            component: Card,
-            name: '集卡牌',
-            menuShow: true
-        }, {
-            path: '/Mark/Group',
-            component: Group,
-            name: '团购',
-            menuShow: true
-        }]
-    }, {
+    //     path: '/',
+    //     name: '营销活动',
+    //     component: Home,
+    //     redirect: '/Mark/Spike',
+    //     menuShow: true,
+    //     iconCls: 'iconfont menu-yingxiao',
+    //     children: [{
+    //         path: '/Mark/Spike',
+    //         component: Spike,
+    //         name: '限时秒杀',
+    //         menuShow: true
+    //     }, {
+    //         path: '/Mark/Card',
+    //         component: Card,
+    //         name: '集卡牌',
+    //         menuShow: true
+    //     }, {
+    //         path: '/Mark/Group',
+    //         component: Group,
+    //         name: '团购',
+    //         menuShow: true
+    //     }]
+    // }, {
         leaf: true,
         path: '/',
         name: '广告管理',

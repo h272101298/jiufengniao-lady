@@ -3,7 +3,7 @@
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+        <el-breadcrumb-item>代理管理</el-breadcrumb-item>
         <el-breadcrumb-item>分销申请</el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
@@ -13,7 +13,7 @@
       <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
         <el-form :inline="true" :model="filters">
          <el-form-item>
-          <el-input v-model="filters.name" placeholder="请输入：手机号/姓名/用户ID" style="min-width: 240px;"></el-input>
+          <el-input v-model="filters.name" placeholder="请输入：用户ID/姓名/电话号码" style="min-width: 240px;"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="search" size="medium">搜索</el-button>
@@ -23,23 +23,23 @@
     </el-col>
 
     <!--列表-->
-    <el-table :data="applyData" highlight-current-row style="width: 1301px;" size="small" stripe border>
+    <el-table :data="applyData" highlight-current-row style="width: 95%;" size="small" stripe border>
 
       <el-table-column prop="user_id" label="用户ID" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="name" label="姓名" width="200" align="center">
+      <el-table-column prop="name" label="姓名" width="min-200" align="center">
       </el-table-column>
 
-      <el-table-column prop="phone" label="电话号码" width="200" align="center">
+      <el-table-column prop="phone" label="电话号码" width="min-200" align="center">
       </el-table-column>
 
-      <el-table-column prop="account" label="银行卡号" width="200" align="center">
+      <el-table-column prop="account" label="银行卡号" width="min-200" align="center">
       </el-table-column>
 
-      <el-table-column prop="bank" label="开户银行" width="200" align="center">
+      <el-table-column prop="bank" label="开户银行" width="min-200" align="center">
       </el-table-column>
 
-      <el-table-column prop="created_at" label="注册时间" width="200" align="center">
+      <el-table-column prop="created_at" label="注册时间" width="min-200" align="center">
       </el-table-column>
 
 <!--       <el-table-column prop="updated_at" label="更新时间" min-width="190" align="center">
@@ -155,7 +155,6 @@
       },
 
       submitdel(){
-        this.dialogDelVisible = false;
         var allParams = '?id='+ this.currentid;
         aapplyReject(allParams).then((res) => {
           console.log(res)
@@ -163,6 +162,7 @@
             message: "审核成功",
             type: 'success'
           });
+          this.dialogDelVisible = false;
           this.getlist();
         });
       },

@@ -79,7 +79,7 @@
     </el-table-column>
   </el-table>
 
-  <el-pagination style="float:left;margin:20px 0 0 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+  <el-pagination style="float:left;margin:20px 0 200px 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
   </el-pagination>
 
 </el-col>
@@ -352,7 +352,7 @@
           shipgoods(allParams).then((res) => {
             // console.log(res)
             this.getlist();
-            that.$message({
+            this.$message({
               message: '提交成功',
               type: 'success'
             });

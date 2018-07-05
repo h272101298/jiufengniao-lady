@@ -7,8 +7,9 @@
         <span style="font-size: 18px;color: #fff;">模板商城后台</span>
       </div>
 
-      <div class="topbar-account topbar-btn newmsg">
-        <el-button class="clear" size="mini" type=success>清除缓存</el-button>
+      <div class="topbar-account topbar-btn">
+        <el-button class="clear" size="mini" type='primary' @click="">清除缓存</el-button>
+        <el-button class="fullscreen" size="mini" type='primary' @click="quanping()">{{fstext}}</el-button>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner"><i class="iconfont menu-yonghu" style="margin-right: 10px;"></i> {{username}} <i class="iconfont icon-down" style="margin-left: 10px;"></i></span>
           <el-dropdown-menu slot="dropdown" style="top: 38px!important">
@@ -73,11 +74,42 @@
         return {
           sysUserAvatar: '',
           collapsed: false,
-        // checknew:false,
-        username:'轻狂书生'
-      }
-    },
-    methods: {
+          fullscreen: false,
+          fstext:'全屏',
+          username:'轻狂书生'
+        }
+      },
+      methods: {
+        quanping(){
+
+          let element = document.documentElement;
+          if (this.fullscreen) {
+            this.fstext='全屏'
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitCancelFullScreen) {
+              document.webkitCancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+              document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+              document.msExitFullscreen();
+            }
+          } else {
+           this.fstext='退出全屏'
+           if (element.requestFullscreen) {
+            element.requestFullscreen();
+          } else if (element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen();
+          } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+          } else if (element.msRequestFullscreen) {
+
+            element.msRequestFullscreen();
+          }
+        }
+        this.fullscreen = !this.fullscreen;
+      },
+
 
       collapse: function () {
         this.collapsed = !this.collapsed;
@@ -113,6 +145,12 @@
   right: 120px;
   top: 11px;
 }
+.fullscreen{
+  position: absolute;
+  right: 220px;
+  top: 11px;
+}
+
 .el-dropdown-menu, .el-popper{
   top: 38px!important;
   min-width: 100px;

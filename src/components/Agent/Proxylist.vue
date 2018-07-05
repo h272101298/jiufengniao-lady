@@ -23,47 +23,39 @@
     </el-col>
 
     <!--列表-->
-    <el-table :data="userData" highlight-current-row v-loading="loading" style="width: 95%;"  size="small">
+    <el-table :data="list" highlight-current-row style="width: 95%;"  size="small" border> 
 
       <el-table-column prop="id" label="ID" width="60" align="center">
+      </el-table-column>
+      <el-table-column prop="user.nickname" label="昵称" min-width="140" align="center">
       </el-table-column>
       <el-table-column prop="name" label="姓名" min-width="140" align="center">
       </el-table-column>
 
-      <el-table-column prop="avatarUrl" label="头像" min-width="100" align="center">
+      <el-table-column prop="user.avatarUrl" label="头像" min-width="100" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.avatarUrl" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
+          <img :src="scope.row.user.avatarUrl" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
         </template>
-      </el-table-column>
-      <el-table-column prop="code" label="邀请码" min-width="160" align="center">
       </el-table-column>
       <el-table-column prop="phone" label="电话号码" min-width="140" align="center">
       </el-table-column>
-<!--       <el-table-column prop="registerCount" label="扫码注册人数" min-width="120" align="center">
+      <el-table-column prop="user.created_at" label="注册时间" min-width="100" align="center">
       </el-table-column>
-      <el-table-column prop="loanPersonCount" label="办理成功单数" min-width="120" align="center">
+<!--       <el-table-column prop="" label="已返还金额" min-width="120" align="center">
       </el-table-column>
-      <el-table-column prop="loanPersonCount" label="办理成功人数" min-width="120" align="center">
-      </el-table-column>
-      <el-table-column prop="loanSum" label="贷款成功金额" min-width="120" align="center">
-      </el-table-column> -->
-      <el-table-column prop="brokerage" label="佣金总额" min-width="100" align="center">
-      </el-table-column>
-      <el-table-column prop="pay" label="已返还金额" min-width="120" align="center">
-      </el-table-column>
-      <el-table-column prop="need" label="未返还金额" min-width="120" align="center">
+      <el-table-column prop="" label="未返还金额" min-width="120" align="center">
       </el-table-column>
       <el-table-column label="佣金发放记录" min-width="120" align="center">
         <template slot-scope="scope">
-          <el-button size="mini" @click="seecomm(scope.row)" v-show="checkper1">查看</el-button>
+          <el-button size="mini" @click="seecomm(scope.row)">查看</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
 
       <el-table-column label="操作" width="80" align="center">
-       <template slot-scope="scope">
+<!--        <template slot-scope="scope">
         <el-switch v-model="scope.row.state == 1?true:false" @change="stopshop(scope.row)" ></el-switch>
-      </template>
+      </template> -->
     </el-table-column>
   </el-table>
 
@@ -99,8 +91,7 @@
   export default {
     data() {
       return {
-        checkper1:false,
-        userData: [
+        list: [
 
         ],
         note:{
@@ -114,11 +105,8 @@
         filters: {
           name: ''
         },
-        loading: false,
-        users: [
-        ],
-        form: {
-        },
+        users: [],
+        form: {},
         dialogVisible: false,
         noteVisible: false
       }
@@ -128,8 +116,8 @@
       getlist: function () {
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&search=' + this.filters.name;
         agentGet(allParams).then((res) => {
-          this.userData=res.data;
-          this.count=res.count;
+          this.list=res.data.data;
+          this.count=res.data.count;
         });
       },
 

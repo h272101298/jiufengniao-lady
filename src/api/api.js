@@ -61,6 +61,11 @@ export const categoryPost = params => { return axios.post(`${base}/store/categor
 export const categoryDel = params => { return axios.delete(`${base}/store/category`+`${params}`).then(res => res.data)}
 
 
+//用户
+export const userGet = params => { return axios.get(`${base}/wechat/users`+`${params}`).then(res => res.data)}
+
+
+
 
 //入驻
 export const sappliesGet = params => { return axios.get(`${base}/settle/applies`+`${params}`).then(res => res.data)}
@@ -77,7 +82,20 @@ export const aapplyPass = params => { return axios.get(`${base}/proxy/pass`+`${p
 export const aapplyReject = params => { return axios.get(`${base}/proxy/reject`+`${params}`).then(res => res.data)}
 
 
-export const agentGet = params => { return axios.get(`${base}/proxies`+`${params}`).then(res => res.data)}
+export const agentGet = params => { return axios.get(`${base}/proxy/users`+`${params}`).then(res => res.data)}
+
+
+
+export const comGetAll = params => { return axios.get(`${base}/proxies`+`${params}`).then(res => res.data)}
+
+
+
+export const withdrawGet = params => { return axios.get(`${base}/withdraw/applies`+`${params}`).then(res => res.data)}
+
+
+export const withdrawPass = params => { return axios.get(`${base}/withdraw/pass`+`${params}`).then(res => res.data)}
+
+export const withdrawReject = params => { return axios.get(`${base}/withdraw/reject`+`${params}`).then(res => res.data)}
 
 
 
@@ -164,11 +182,11 @@ export const documentDel = params => { return axios.delete(`${base}/document`+`$
 
 
 //管理员
-export const userGet = params => { return axios.get(`${base}/users`+`${params}`).then(res => res.data)}
+export const adminGet = params => { return axios.get(`${base}/users`+`${params}`).then(res => res.data)}
 
-export const userPost = params => { return axios.post(`${base}/user`, params).then(res => res.data)}
+export const adminPost = params => { return axios.post(`${base}/user`, params).then(res => res.data)}
 
-export const userDel = params => { return axios.delete(`${base}/user`+`${params}`).then(res => res.data)}
+export const adminDel = params => { return axios.delete(`${base}/user`+`${params}`).then(res => res.data)}
 
 
 //角色

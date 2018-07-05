@@ -80,9 +80,9 @@
 
   import { roleGet } from '../../api/api';
 
-  import { userGet } from '../../api/api';
-  import { userPost } from '../../api/api';
-  import { userDel } from '../../api/api';
+  import { adminGet } from '../../api/api';
+  import { adminPost } from '../../api/api';
+  import { adminDel } from '../../api/api';
 
   export default {
     data() {
@@ -117,7 +117,7 @@
     methods:{
       getlist(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
-        userGet(allParams).then((res) => {
+        adminGet(allParams).then((res) => {
           this.list=res.data.data;
           this.count=res.data.count
         });
@@ -150,7 +150,7 @@
             if( this.putorup=='put'){
               this.newadmin.id=this.editId
             }
-            userPost(this.newadmin).then((res) => {
+            adminPost(this.newadmin).then((res) => {
               if (res.msg === "ok") {
                this.$message({
                 message: '提交成功',
@@ -192,7 +192,7 @@
       submitdel(){
 
         var allParams='?id='+this.delId
-        userDel(allParams).then((res) => {
+        adminDel(allParams).then((res) => {
 
           if (res.msg === "ok") {
            this.$message({
