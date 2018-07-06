@@ -1,5 +1,5 @@
 <template>
-  <el-row class="warp" style="padding:20px 0 0 20px;">
+  <el-row class="warp">
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
@@ -33,24 +33,45 @@
     <el-table :data="list" v-loading="loading" border stripe size="small" @cell-click="cellclick">
       <el-table-column prop="id" label="编号" min-width="70" align="center">
       </el-table-column>
-      <el-table-column prop="cover" label="图片" min-width="200" align="center">
+      <el-table-column prop="cover" label="图片" min-width="140" align="center">
         <template slot-scope="scope">
           <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
         </template>
       </el-table-column>
       <el-table-column prop="name" label="名称" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="brokerage" label="分佣" min-width="200" align="center">
+      <el-table-column prop="brokerage" label="分佣比例" min-width="200" align="center">
       </el-table-column>
 <!--       <el-table-column prop="name" label="价格" min-width="150" align="center">
 </el-table-column> -->
 <!--       <el-table-column prop="name" label="所属商家" min-width="200" align="center">
 </el-table-column> -->
 
+<el-table-column prop="hot" label="热门" min-width="100" align="center">
+  <template slot-scope="scope">
+    <el-button type="success" size="mini" v-show="scope.row.hot==1" @click="changehot(scope.row)">是</el-button>
+    <el-button type="" size="mini" v-show="scope.row.hot==0" @click="changehot(scope.row)">否</el-button>
+  </template>
+</el-table-column>
+
+<el-table-column prop="new" label="新品" min-width="100" align="center">
+  <template slot-scope="scope">
+    <el-button type="success" size="mini" v-show="scope.row.new==1" @click="changenew(scope.row)">是</el-button>
+    <el-button type="" size="mini" v-show="scope.row.new==0" @click="changenew(scope.row)">否</el-button>
+  </template>
+</el-table-column>
+
+<el-table-column prop="offer" label="优惠" min-width="100" align="center">
+  <template slot-scope="scope">
+    <el-button type="success" size="mini" v-show="scope.row.offer==1" @click="changeoffer(scope.row)">是</el-button>
+    <el-button type="" size="mini" v-show="scope.row.offer==0" @click="changeoffer(scope.row)">否</el-button>
+  </template>
+</el-table-column>
+
 <el-table-column prop="state" label="上架状态" min-width="100" align="center">
   <template slot-scope="scope">
     <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
-    <el-button type="info" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
+    <el-button type="" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
   </template>
 </el-table-column>
 
@@ -165,6 +186,9 @@
   import { goodRecycle } from '../../api/api';
   import { goodCheck } from '../../api/api';
   import { goodShelf } from '../../api/api';
+  import { goodhot } from '../../api/api';
+  import { goodnew } from '../../api/api';
+  import { goodoffer } from '../../api/api';
 
   export default {
     data() {
@@ -216,6 +240,37 @@
           state:''
         }
         this.getlist();
+      },
+
+
+
+
+
+      changehot(index){
+        // console.log(index)
+        var allParams = '?product_id='+ index.id;
+        goodhot(allParams).then((res) => {
+         console.log(res)
+         this.getlist();
+       });
+      },
+
+      changenew(index){
+        // console.log(index)
+        var allParams = '?product_id='+ index.id;
+        goodnew(allParams).then((res) => {
+         console.log(res)
+         this.getlist();
+       });
+      },
+
+      changeoffer(index){
+        // console.log(index)
+        var allParams = '?product_id='+ index.id;
+        goodoffer(allParams).then((res) => {
+         console.log(res)
+         this.getlist();
+       });
       },
 
 

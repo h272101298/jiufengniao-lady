@@ -89,11 +89,11 @@ let router = new Router({
             name: '新增商铺',
             menuShow: false
         }, {
-            path: '/Shop/Selfshop',
-            component: Selfshop,
-            name: '自营商铺',
-            menuShow: true
-        }, {
+        //     path: '/Shop/Selfshop',
+        //     component: Selfshop,
+        //     name: '自营商铺',
+        //     menuShow: true
+        // }, {
             path: '/Shop/Settleapply',
             component: Settleapply,
             name: '入驻申请',
@@ -216,20 +216,20 @@ let router = new Router({
             menuShow: true
         }]
     }, {
-        leaf: true,
-        path: '/',
-        name: '报表统计',
-        component: Home,
-        redirect: '/Report/Reportlist',
-        menuShow: true,
-        iconCls: 'iconfont menu-baobiaofenxi-copy',
-        children: [{
-            path: '/Report/Reportlist',
-            component: Reportlist,
-            name: '统计图表',
-            menuShow: true
-        }, ]
-    }, {
+    //     leaf: true,
+    //     path: '/',
+    //     name: '报表统计',
+    //     component: Home,
+    //     redirect: '/Report/Reportlist',
+    //     menuShow: true,
+    //     iconCls: 'iconfont menu-baobiaofenxi-copy',
+    //     children: [{
+    //         path: '/Report/Reportlist',
+    //         component: Reportlist,
+    //         name: '统计图表',
+    //         menuShow: true
+    //     }, ]
+    // }, {
     //     path: '/',
     //     name: '营销活动',
     //     component: Home,
@@ -292,11 +292,11 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-xitong',
         children: [{
-            path: '/Setting/Baseset',
-            component: Baseset,
-            name: '基本设置',
-            menuShow: true
-        }, {
+        //     path: '/Setting/Baseset',
+        //     component: Baseset,
+        //     name: '基本设置',
+        //     menuShow: true
+        // }, {
             path: '/Setting/Wechatset',
             component: Wechatset,
             name: '微信设置',
@@ -304,7 +304,7 @@ let router = new Router({
         }, {
             path: '/Setting/Document',
             component: Document,
-            name: '帮助文档',
+            name: '关于我们',
             menuShow: true
         }]
     }, ]

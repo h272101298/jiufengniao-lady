@@ -8,7 +8,7 @@
       </div>
 
       <div class="topbar-account topbar-btn">
-        <el-button class="clear" size="mini" type='primary' @click="">清除缓存</el-button>
+        <!-- <el-button class="clear" size="mini" type='primary' @click="">清除缓存</el-button> -->
         <el-button class="fullscreen" size="mini" type='primary' @click="quanping()">{{fstext}}</el-button>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner"><i class="iconfont menu-yonghu" style="margin-right: 10px;"></i> {{username}} <i class="iconfont icon-down" style="margin-left: 10px;"></i></span>
@@ -25,12 +25,14 @@
       <aside :class="{showSidebar:!collapsed}">
         <!--展开折叠开关-->
         <div class="menu-toggle" @click.prevent="collapse">
-          <i class="iconfont icon-menufold" v-show="!collapsed"></i>
-          <i class="iconfont icon-menuunfold" v-show="collapsed"></i>
+          <!-- <i class="iconfont icon-menufold" v-show="!collapsed"></i>
+          <i class="iconfont icon-menuunfold" v-show="collapsed"></i> -->
+          <span v-show="!collapsed">《</span>
+          <span v-show="collapsed">》</span>
         </div>
         <!--导航菜单--> 
-        <el-menu default-active="0" router :collapse="collapsed">
-          <!-- <el-menu default-active="0" router :collapse="collapsed" unique-opened> -->
+        <!-- <el-menu default-active="0" router :collapse="collapsed"> -->
+          <el-menu default-active="0" router :collapse="collapsed" unique-opened>
             <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
               <el-submenu v-if="!item.leaf" :index="index+''">
                 <template slot="title"><i :class="item.iconCls"></i>
@@ -219,6 +221,7 @@
     position: absolute;
     top: 50px;
     bottom: 0px;
+    /*padding-bottom: 50px;*/
     overflow: hidden;
   }
 

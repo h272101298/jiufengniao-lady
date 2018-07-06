@@ -22,8 +22,8 @@
       </el-table-column>
       <el-table-column prop="phone" label="手机号码" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="role" label="所属角色" min-width="200" align="center">
-      </el-table-column>
+<!--       <el-table-column prop="role" label="所属角色" min-width="200" align="center">
+      </el-table-column> -->
       <el-table-column prop="created_at" label="加入时间" min-width="200" align="center">
       </el-table-column>
       <el-table-column label="操作" min-width="200" align="center">

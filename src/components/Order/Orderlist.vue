@@ -56,7 +56,8 @@
             <el-tag type="danger" v-show="scope.row.state=='created'" @click="">未付款</el-tag>
             <el-tag type="primary" v-show="scope.row.state=='paid'" @click="">已支付</el-tag>
             <el-tag type="warning" v-show="scope.row.state=='delivery'" @click="">已发货</el-tag>
-            <el-tag type="success" v-show="scope.row.state=='finished'" @click="">已完成</el-tag>
+            <el-tag type="success" v-show="scope.row.state=='fihished'" @click="">已完成</el-tag>
+            <el-tag type="success" v-show="scope.row.state=='closed'" @click="">已完成</el-tag>
             <el-tag type="info" v-show="scope.row.state=='canceled'" @click="">已取消</el-tag>
           </template>
         </el-table-column>
@@ -82,9 +83,11 @@
   <el-pagination style="float:left;margin:20px 0 200px 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
   </el-pagination>
 
+
+<el-button type="primary" style="float:left;margin:20px 50px;" @click="exportExcel()" size="small">导出Excel表</el-button>
 </el-col>
 
-<el-button type="primary" style="float:left;margin-top:10px;" @click="exportExcel()" size="small">导出Excel表</el-button>
+
 
 
 

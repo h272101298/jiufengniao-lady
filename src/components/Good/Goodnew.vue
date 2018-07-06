@@ -35,12 +35,12 @@
           </el-form-item> -->
 
           <el-form-item label="分享标题：" prop="share_title">
-            <el-input v-model="newgood1.share_title" placeholder="请输入分享标题"></el-input>
+            <el-input v-model="newgood1.share_title" placeholder="请输入分享标题(10字以内)"></el-input>
           </el-form-item>
 
-          <el-form-item label="分享描述：" prop="share_detail">
+<!--           <el-form-item label="分享描述：" prop="share_detail">
             <el-input v-model="newgood1.share_detail" placeholder="请输入分享描述"></el-input>
-          </el-form-item>
+          </el-form-item> -->
 
           <el-form-item label="商品详情：" prop="detail">
            <!--  <el-input type="textarea" :rows="5" v-model="newgood1.intro" placeholder="请输入商品简介" style="min-width:280px;"></el-input> -->
@@ -317,9 +317,9 @@
           share_title: [
           {required: true, message: '请输入分享标题', trigger: 'blur'},
           ],
-          share_detail: [
-          {required: true, message: '请输入分享描述', trigger: 'blur'},
-          ],
+          // share_detail: [
+          // {required: true, message: '请输入分享描述', trigger: 'blur'},
+          // ],
         },
 
         rules2:{
@@ -590,7 +590,7 @@
                   // express:this.newgood1.express,
                   // express_price:this.newgood1.express_price,
                   share_title:this.newgood1.share_title,
-                  share_detail:this.newgood1.share_detail,
+                  share_detail:'',
                   norm:'fixed',
                   type_id:this.newgood2.type_id,
                   stock:[this.newgood2]
@@ -610,7 +610,7 @@
             // express:this.newgood1.express,
             // express_price:this.newgood1.express_price,
             share_title:this.newgood1.share_title,
-            share_detail:this.newgood1.share_detail,
+            share_detail:'',
             norm:'change',
             type_id:this.newgood2.type_id,
             stock:this.pricearr

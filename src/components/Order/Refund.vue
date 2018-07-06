@@ -12,28 +12,30 @@
 
 
       <el-table :data="list" border stripe size="small">
-        <el-table-column prop="name" label="ID" min-width="100" align="center">
+        <el-table-column prop="order_id" label="ID" min-width="100" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="订单号" min-width="100" align="center">
+        <el-table-column prop="order.group_number" label="订单号" min-width="200" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="商品名称" min-width="200" align="center">
+        <el-table-column prop="order.store.name" label="商品名称" min-width="200" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="商家" min-width="200" align="center">
+        <el-table-column prop="order.store.name" label="商家" min-width="200" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="总计" min-width="200" align="center">
+        <el-table-column prop="order.price" label="总计" min-width="200" align="center">
         </el-table-column>
         <el-table-column prop="name" label="订单状态" min-width="200" align="center">
          <template slot-scope="scope">
           <div class="cell">待退款</div>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="下单时间" min-width="200" align="center">
+      <el-table-column prop="created_at" label="下单时间" min-width="200" align="center">
       </el-table-column>
 
       <el-table-column label="操作" min-width="200" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="handleEdit(scope.row)">订单详情</el-button>
-        <el-button type="danger" size="small" @click="handleDelete(scope.row)">确认退款</el-button>
+        <el-button type="primary" size="small" v-show="scope.row.state==1" @click="handleEdit(scope.row)">订单详情</el-button>
+        <el-button type="danger" size="small" v-show="scope.row.state==1" @click="handleDelete(scope.row)">确认退款</el-button>
+        <el-tag type="success" size="small" v-show="scope.row.state==2">已退款</el-tag>
+        <el-tag type="info" size="small" v-show="scope.row.state==3">退款失败</el-tag>
       </template>
     </el-table-column>
   </el-table>
@@ -60,6 +62,7 @@
         <span v-show="currow.state=='created'" class="fw4">未付款</span>
         <span v-show="currow.state=='paid'" class="fw4">已支付</span>
         <span v-show="currow.state=='delivery'" class="fw4">已发货</span>
+        <span v-show="currow.state=='canceled'" class="fw4">已取消</span>
       </el-form-item>
 
       <el-form-item label="物流信息：" class="fw6" v-show="currow.state=='delivery'">
@@ -130,6 +133,7 @@
 <script>
 
   import { refundGet } from '../../api/api';
+  import { refundPost } from '../../api/api';
   import { oneorderGet } from '../../api/api';
 
 
@@ -137,10 +141,7 @@
   export default {
     data() {
       return {
-        list:[{
-          name:'11',
-          id:1
-        }],
+        list:[],
         currentPage: 1,
         count:0,
         limit:10,
@@ -185,7 +186,7 @@
     },
 
     handleEdit(row){
-      var allParams = '?id='+row.id;
+      var allParams = '?id='+row.order_id;
       oneorderGet(allParams).then((res) => {
         this.currow=res.data;
         // console.log(this.currow)
@@ -200,27 +201,40 @@
     },
 
     submitdel(){
-      this.dialogDelVisible = false;
-      var allParams='?id='+this.delId
-      deliveryDel(allParams).then((res) => {
+
+     const loading = this.$loading({
+      lock: true,
+      text: '退款中，请稍后',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.7)'
+    });
+
+
+     var allParams='?id='+this.delId
+     refundPost(allParams).then((res) => {
           // console.log(res)
           if (res.msg === "ok") {
            this.$message({
             message: '退款成功',
             type: 'success'
           });
+           loading.close();
            this.getlist();
            this.dialogDelVisible = false;
          } else {
+           loading.close();
            this.$message({
             message: res.msg,
             type: 'error'
           });
          }
-       });
-    },
+       }).catah((res)=>{
+        console.log(res);
+        loading.close();
+      });
+     },
 
-    handleCurrentChange(val) {
+     handleCurrentChange(val) {
       this.currentPage = val;
       this.getlist();
     },

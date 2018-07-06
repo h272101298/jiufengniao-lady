@@ -35,7 +35,7 @@
       <el-table-column prop="info.name" label="姓名" min-width="140" align="center">
       </el-table-column>
 
-      <el-table-column prop="info.hone" label="联系电话" min-width="200" align="center">
+      <el-table-column prop="info.phone" label="联系电话" min-width="200" align="center">
       </el-table-column>
 <!--       <el-table-column prop="code" label="是否代理" min-width="200" align="center">
 </el-table-column> -->

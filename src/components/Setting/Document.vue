@@ -4,7 +4,7 @@
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
       <el-breadcrumb-item>系统设置</el-breadcrumb-item>
-      <el-breadcrumb-item>帮助文档</el-breadcrumb-item>
+      <el-breadcrumb-item>关于我们</el-breadcrumb-item>
     </el-breadcrumb>
   </el-col>
 

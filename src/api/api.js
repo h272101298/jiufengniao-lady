@@ -33,9 +33,9 @@ axios.interceptors.response.use(
 
 
 let base = 'http://192.168.1.172/Shop/public/v1'
-// let base = ''
 
 
+export default base
 
 //登录
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }
@@ -85,8 +85,15 @@ export const aapplyReject = params => { return axios.get(`${base}/proxy/reject`+
 export const agentGet = params => { return axios.get(`${base}/proxy/users`+`${params}`).then(res => res.data)}
 
 
+export const ratioPost = params => { return axios.post(`${base}/brokerage/ratio`, params).then(res => res.data)}
 
-export const comGetAll = params => { return axios.get(`${base}/proxies`+`${params}`).then(res => res.data)}
+export const ratioGet = params => { return axios.get(`${base}/brokerage/ratio`+`${params}`).then(res => res.data)}
+
+
+
+
+
+export const comGetAll = params => { return axios.get(`${base}/brokerages`+`${params}`).then(res => res.data)}
 
 
 
@@ -116,10 +123,13 @@ export const goodRecycle = params => { return axios.get(`${base}/del/product`+`$
 
 export const goodDel = params => { return axios.delete(`${base}/product`+`${params}`).then(res => res.data)}//回收站永久删除
 
-export const goodCheck = params => { return axios.get(`${base}/check/product`+`${params}`).then(res => res.data)}//
+export const goodCheck = params => { return axios.get(`${base}/check/product`+`${params}`).then(res => res.data)}//审核
 
-export const goodShelf = params => { return axios.get(`${base}/shelf/product`+`${params}`).then(res => res.data)}//
+export const goodShelf = params => { return axios.get(`${base}/shelf/product`+`${params}`).then(res => res.data)}//上下架
 
+export const goodhot = params => { return axios.get(`${base}/hot`+`${params}`).then(res => res.data)}//热门
+export const goodnew = params => { return axios.get(`${base}/new`+`${params}`).then(res => res.data)}//新品
+export const goodoffer = params => { return axios.get(`${base}/offer`+`${params}`).then(res => res.data)}//优惠
 
 
 //商品分类
@@ -128,6 +138,8 @@ export const typeGet = params => { return axios.get(`${base}/product/types`+`${p
 export const typePost = params => { return axios.post(`${base}/product/type`, params).then(res => res.data)}
 
 export const typeDel = params => { return axios.delete(`${base}/product/type`+`${params}`).then(res => res.data)}
+
+export const typehot = params => { return axios.get(`${base}/hot/type`+`${params}`).then(res => res.data)}//热门
 
 
 //商品规格
@@ -147,9 +159,9 @@ export const oneorderGet = params => { return axios.get(`${base}/order`+`${param
 
 export const shipgoods = params => { return axios.post(`${base}/ship/order`, params).then(res => res.data)}
 
-export const refundGet = params => { return axios.post(`${base}/refund/order`, params).then(res => res.data)}
+export const refundGet = params => { return axios.get(`${base}/refuses`+`${params}`).then(res => res.data)}
 
-
+export const refundPost = params => { return axios.get(`${base}/refuse`+`${params}`).then(res => res.data)}
 
 // export const orderDel = params => { return axios.delete(`${base}/order/list`+`${params}`).then(res => res.data)}
 
@@ -197,3 +209,9 @@ export const roleGet = params => { return axios.get(`${base}/roles`+`${params}`)
 export const rolePost = params => { return axios.post(`${base}/role`, params).then(res => res.data)}
 
 export const roleDel = params => { return axios.delete(`${base}/role`+`${params}`).then(res => res.data)}
+
+
+//微信设置
+export const wxconfigPost = params => { return axios.post(`${base}/tx/config`, params).then(res => res.data)}
+
+export const wxconfigGet = params => { return axios.get(`${base}/tx/config`+`${params}`).then(res => res.data)}

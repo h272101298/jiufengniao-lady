@@ -19,13 +19,13 @@
           <el-input v-model="form.name" placeholder="请输入代理昵称" style="min-width: 200px;" ></el-input>
         </el-form-item>
 
-        <el-form-item>
+<!--         <el-form-item>
           <div class="block">
             <span class="demonstration">月份：</span>
             <el-date-picker v-model="form.month" type="month" placeholder="请选择日期" :editable='editable'  @change="getSTime">
             </el-date-picker>
           </div>
-        </el-form-item>
+        </el-form-item> -->
 
         <el-form-item>
           <el-button type="primary" @click="getlist()">搜索</el-button>
@@ -37,38 +37,44 @@
 
 
     <el-table :data="users" highlight-current-row style="width: 95%;" id="out-table" border size="small">
-
-      <el-table-column prop="proxy.nickname" label="代理昵称" width="150" align="center">
+      <el-table-column prop="id" label="编号" width="150" align="center">
       </el-table-column>
-      <el-table-column prop="proxy.name" label="代理姓名" width="120" align="center">
-      </el-table-column>
-      <el-table-column prop="loan.number" label="订单编号" mwidth="200" align="center">
-      </el-table-column>
-      <el-table-column prop="brokerage" label="佣金" mwidth="200" align="center">
-      </el-table-column>
-<!--       <el-table-column prop="type" label="类型" width="100" align="center">
-        <template slot-scope="scope">
-          <span v-show="scope.row.type==1 ? true : false">直拓</span>
-          <span v-show="scope.row.type==2 ? true : false">代理</span>
-          <span v-show="scope.row.type==3 ? true : false">奖励</span>
-        </template>
+<!--       <el-table-column prop="proxy.nickname" label="用户昵称" width="150" align="center">
       </el-table-column> -->
+<!--       <el-table-column prop="proxy.name" label="用户姓名" width="120" align="center">
+</el-table-column> -->
+<el-table-column prop="order.number" label="订单编号" mwidth="200" align="center">
+</el-table-column>
+<el-table-column prop="order.price" label="订单金额" mwidth="200" align="center">
+</el-table-column>
+<el-table-column prop="brokerage" label="佣金" mwidth="200" align="center">
+</el-table-column>
+<el-table-column prop="type" label="类型" width="100" align="center">
+  <template slot-scope="scope">
+    <span v-show="scope.row.type==1 ? true : false">直拓</span>
+    <span v-show="scope.row.type==2 ? true : false">代理</span>
+    <span v-show="scope.row.type==3 ? true : false">奖励</span>
+  </template>
+</el-table-column>
 
-      <el-table-column prop="remark" label="备注" min-width="200" align="center">
-      </el-table-column>
 
-      <el-table-column label="客户信息" min-width="130" align="center">
+<el-table-column prop="created_at" label="时间" mwidth="200" align="center">
+</el-table-column>
+<!--       <el-table-column prop="remark" label="备注" min-width="200" align="center">
+</el-table-column> -->
+
+<!--       <el-table-column label="客户信息" min-width="130" align="center">
        <template slot-scope="scope">
         <el-button size="mini" @click="handleEdit(scope.$index, scope.row)" type="primary">查看</el-button>
       </template>
-    </el-table-column>
+    </el-table-column> -->
 
-    <el-table-column prop="state" label="状态" min-width="100" align="center">
+<!--     <el-table-column prop="state" label="状态" min-width="100" align="center">
       <template slot-scope="scope">
-        <span v-show="scope.row.state==0 ? true : false">未发放</span>
-        <span v-show="scope.row.state==1 ? true : false">已发放</span>
+        <span v-show="scope.row.state==0">未发放</span>
+        <span v-show="scope.row.state==1">已发放</span>
       </template>
-    </el-table-column>
+    </el-table-column> -->
   </el-table>
 
 
@@ -129,7 +135,7 @@
         },
         form:{
           name:'',
-          month:''
+          // month:''
         },
         dialogDelVisible:false,
         dialogInfoVisible:false,
@@ -160,10 +166,10 @@
 
 
     getlist () {
-      var param = '?name='+ this.form.name +'&date='+this.form.month+'&page='+ this.currentPage + '&limit=' + this.limit;
+      var param = '?name='+ this.form.name +'&page='+ this.currentPage + '&limit=' + this.limit;
       comGetAll(param).then((res) => {
-        this.users = res.data;
-        this.count=res.count;
+        this.users = res.data.data;
+        this.count=res.data.count;
       });
     },
 
@@ -196,6 +202,7 @@
   }
 }
 </script>
+
 
 <style scope>
 .active {
