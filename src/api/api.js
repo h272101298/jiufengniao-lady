@@ -32,7 +32,10 @@ axios.interceptors.response.use(
 	})
 
 
-let base = 'http://192.168.1.172/Shop/public/v1'
+// let base = 'http://192.168.1.172/Shop/public/v1'
+
+
+let base = 'https://template.geckowing.com/v1'
 
 
 export default base
