@@ -38,7 +38,7 @@ axios.interceptors.response.use(
 				showClose:false,
 				callback: action => {
 					if(action=='confirm'){
-						router.push('../login');
+						router.push('../../login');
 					}
 				}
 			});
