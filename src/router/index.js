@@ -349,24 +349,9 @@ let router = new Router({
     })
 
 
-            // meta:{permission: false}
 
 
-// router.beforeEach((to, from, next) => {
-//     if (to.path.startsWith('/Login')) {
-//         window.sessionStorage.removeItem('token')
-//         next()
-//     } else {
-//         let token = JSON.parse(window.sessionStorage.getItem('token'))
-//         if (!token) {
-//             next({
-//                 path: '/Login'
-//             })
-//         } else {
-//             next()
-//         }
-//     }
-// })
+
 
 
 router.beforeEach((to, from, next) => {
@@ -377,7 +362,7 @@ router.beforeEach((to, from, next) => {
         let permissions = window.sessionStorage.getItem('permissions')
 
         // console.log(permissions.indexOf(to.meta.permission))
-        if (to.meta.permission) {
+        if (to.meta.permission && permissions) {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
@@ -386,6 +371,7 @@ router.beforeEach((to, from, next) => {
                 closeOnPressEscape:false,
                 showClose:false,
                 callback: action => {
+                    
                 }
             });
          }
