@@ -24,10 +24,10 @@
       return {
         logining: false,
         account: {
-          username: 'admin',
-          pwd: '123456'
-          // username: '',
-          // pwd: ''
+          // username: 'admin',
+          // pwd: '123456'
+          username: '',
+          pwd: ''
         },
         rules: {
           username: [
