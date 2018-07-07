@@ -6,12 +6,7 @@
   </div>
 </template>
 
-<style>
-.chart {
-  width: 500px;
- height: 400px;
-}
-</style>
+
 
 <script>
 
@@ -46,3 +41,10 @@
     }
   }
 </script>
+
+<style scoped>
+.chart {
+  width: 500px;
+ height: 400px;
+}
+</style>

@@ -27,8 +27,8 @@
         <div class="menu-toggle" @click.prevent="collapse">
           <!-- <i class="iconfont icon-menufold" v-show="!collapsed"></i>
           <i class="iconfont icon-menuunfold" v-show="collapsed"></i> -->
-          <span v-show="!collapsed">《</span>
-          <span v-show="collapsed">》</span>
+          <span v-show="!collapsed" style="color:#bbb;">《</span>
+          <span v-show="collapsed" style="color:#bbb;">》</span>
         </div>
         <!--导航菜单--> 
         <!-- <el-menu default-active="0" router :collapse="collapsed"> -->

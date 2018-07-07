@@ -24,8 +24,10 @@
       return {
         logining: false,
         account: {
-          username: 'admin',
-          pwd: '123456'
+          // username: 'admin',
+          // pwd: '123456'
+          username: '',
+          pwd: ''
         },
         rules: {
           username: [
@@ -56,7 +58,9 @@
 
                 // sessionStorage.setItem('token', JSON.stringify(data.token));
                 // sessionStorage.setItem('username', JSON.stringify(data.name));
-                that.$router.push('/index/Console');
+
+                // that.$router.push('/index/Console');
+                that.$router.push('/Shop/Shoplist');
               } else {
                that.$message({
                 message: res.msg,
