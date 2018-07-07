@@ -29,12 +29,13 @@ axios.interceptors.response.use(
 	},
 	error => {
 
-		console.log(error.response.status)
+		// console.log(error.response.status)
 		if(error.response.status==401){
 			var that=this;
 			MessageBox.alert('请重新登录', '登录超时', {
 				confirmButtonText: '确定',
 				closeOnPressEscape:false,
+				showClose:false,
 				callback: action => {
 					if(action=='confirm'){
 						router.push('/login');

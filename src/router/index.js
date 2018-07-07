@@ -343,7 +343,7 @@ let router = new Router({
                 component: Document,
                 name: '关于我们',
                 menuShow: true,
-                meta:{permission: 'docuomentList'}
+                meta:{permission: 'documentList'}
             }]
         }, ]
     })
@@ -381,16 +381,17 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-           MessageBox.alert('没有权限访问', '提示', {
-            confirmButtonText: '确定',
-            closeOnPressEscape:false,
-            callback: action => {
-            }
-        });
-       }
-   }else{
-     next() 
- }
+             MessageBox.alert('没有权限访问', '提示', {
+                confirmButtonText: '确定',
+                closeOnPressEscape:false,
+                showClose:false,
+                callback: action => {
+                }
+            });
+         }
+     }else{
+       next() 
+   }
 }
 })
 
