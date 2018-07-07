@@ -30,7 +30,7 @@
       <el-table-column prop="created_at" label="下单时间" min-width="200" align="center">
       </el-table-column>
 
-      <el-table-column label="操作" min-width="200" align="center">
+      <el-table-column label="操作" min-width="200" align="center"  v-show="checkper1">
        <template slot-scope="scope">
         <el-button type="primary" size="small" v-show="scope.row.state==1" @click="handleEdit(scope.row)">订单详情</el-button>
         <el-button type="danger" size="small" v-show="scope.row.state==1" @click="handleDelete(scope.row)">确认退款</el-button>
@@ -171,11 +171,23 @@
            address: "",
            zip_code: "",
          }],
+
+         checkper1:false,
        },
      };
    },
 
    methods:{
+
+    checkPer(){
+      var per = sessionStorage.getItem('permissions');
+
+      if(per.indexOf('refuseDo')>-1){
+        this.checkper1=true;
+      }
+
+    },
+
 
     getlist(){
       var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
@@ -248,6 +260,7 @@
 
   mounted: function () {
     this.getlist();
+    this.checkPer();
   }
 }
 </script>

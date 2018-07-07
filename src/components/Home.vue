@@ -9,7 +9,7 @@
 
       <div class="topbar-account topbar-btn">
         <!-- <el-button class="clear" size="mini" type='primary' @click="">清除缓存</el-button> -->
-        <el-button class="fullscreen" size="mini" type='primary' @click="quanping()">{{fstext}}</el-button>
+        <el-button class="clear" size="mini" type='primary' @click="quanping()">{{fstext}}</el-button>
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner"><i class="iconfont menu-yonghu" style="margin-right: 10px;"></i> {{username}} <i class="iconfont icon-down" style="margin-left: 10px;"></i></span>
           <el-dropdown-menu slot="dropdown" style="top: 38px!important">
@@ -26,137 +26,142 @@
         <!--展开折叠开关-->
         <div class="menu-toggle" @click.prevent="collapse">
           <!-- <i class="iconfont icon-menufold" v-show="!collapsed"></i>
-          <i class="iconfont icon-menuunfold" v-show="collapsed"></i> -->
-          <span v-show="!collapsed" style="color:#bbb;">《</span>
-          <span v-show="collapsed" style="color:#bbb;">》</span>
-        </div>
-        <!--导航菜单--> 
-        <!-- <el-menu default-active="0" router :collapse="collapsed"> -->
-          <el-menu default-active="0" router :collapse="collapsed" unique-opened>
-            <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
-              <el-submenu v-if="!item.leaf" :index="index+''">
-                <template slot="title"><i :class="item.iconCls"></i>
-                  <span slot="title">{{item.name}}</span>
-                </template>
-                <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
-                  <i :class="term.iconCls"></i>
-                  <span slot="title">{{term.name}}</span>
-                </el-menu-item>
-              </el-submenu>
-              <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''">
-                <i :class="item.iconCls"></i>
-                <span slot="title">{{item.children[0].name}}</span>
-              </el-menu-item>
-            </template>
-          </el-menu>
-        </aside>
-
-        <!--右侧内容区-->
-        <section class="content-container">
-          <div class="grid-content bg-purple-light">
-            <el-col :span="24" class="content-wrapper">
-              <transition name="fade" mode="out-in">
-                <router-view></router-view>
-              </transition>
-            </el-col>
+            <i class="iconfont icon-menuunfold" v-show="collapsed"></i> -->
+            <span v-show="!collapsed" style="color:#bbb;">《</span>
+            <span v-show="collapsed" style="color:#bbb;">》</span>
           </div>
-        </section>
-      </el-col>
-    </el-row>
-  </template>
+          <!--导航菜单--> 
+          <!-- <el-menu default-active="0" router :collapse="collapsed"> -->
+            <el-menu default-active="0" router :collapse="collapsed" unique-opened>
+              <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
+                <el-submenu v-if="!item.leaf" :index="index+''">
+                  <template slot="title"><i :class="item.iconCls"></i>
+                    <span slot="title">{{item.name}}</span>
+                  </template>
+                  <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
+                    <i :class="term.iconCls"></i>
+                    <span slot="title">{{term.name}}</span>
+                  </el-menu-item>
+                </el-submenu>
+                <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''">
+                  <i :class="item.iconCls"></i>
+                  <span slot="title">{{item.children[0].name}}</span>
+                </el-menu-item>
+              </template>
+            </el-menu>
+          </aside>
 
-  <script>
+          <!--右侧内容区-->
+          <section class="content-container">
+            <div class="grid-content bg-purple-light">
+              <el-col :span="24" class="content-wrapper">
+                <transition name="fade" mode="out-in">
+                  <router-view></router-view>
+                </transition>
+              </el-col>
+            </div>
+          </section>
+        </el-col>
+      </el-row>
+    </template>
 
-    export default {
-      name: 'home',
-      created(){
+    <script>
+      import { requestLogout } from '../api/api';
 
-      },
-      data () {
-        return {
-          sysUserAvatar: '',
-          collapsed: false,
-          fullscreen: false,
-          fstext:'全屏',
-          username:'轻狂书生'
-        }
-      },
-      methods: {
-        quanping(){
 
-          let element = document.documentElement;
-          if (this.fullscreen) {
-            this.fstext='全屏'
-            if (document.exitFullscreen) {
-              document.exitFullscreen();
-            } else if (document.webkitCancelFullScreen) {
-              document.webkitCancelFullScreen();
-            } else if (document.mozCancelFullScreen) {
-              document.mozCancelFullScreen();
-            } else if (document.msExitFullscreen) {
-              document.msExitFullscreen();
-            }
-          } else {
-           this.fstext='退出全屏'
-           if (element.requestFullscreen) {
-            element.requestFullscreen();
-          } else if (element.webkitRequestFullScreen) {
-            element.webkitRequestFullScreen();
-          } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-          } else if (element.msRequestFullscreen) {
+      export default {
+        name: 'home',
+        created(){
 
-            element.msRequestFullscreen();
+
+        },
+        data () {
+          return {
+            collapsed: false,
+            fullscreen: false,
+            fstext:'全屏',
+
+            username:''
           }
+        },
+        methods: {
+          quanping(){
+            let element = document.documentElement;
+            if (this.fullscreen) {
+              this.fstext='全屏'
+              if (document.exitFullscreen) {
+                document.exitFullscreen();
+              } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
+              } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+              } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+              }
+            } else {
+             this.fstext='退出全屏'
+             if (element.requestFullscreen) {
+              element.requestFullscreen();
+            } else if (element.webkitRequestFullScreen) {
+              element.webkitRequestFullScreen();
+            } else if (element.mozRequestFullScreen) {
+              element.mozRequestFullScreen();
+            } else if (element.msRequestFullscreen) {
+
+              element.msRequestFullscreen();
+            }
+          }
+          this.fullscreen = !this.fullscreen;
+        },
+
+        collapse: function () {
+          this.collapsed = !this.collapsed;
+        },
+
+        showMenu(i, status){
+          this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
+        },
+
+        logout(){
+          var _this = this;
+          this.$confirm('确认退出吗?', '提示', {
+          }).then(() => {
+            var allParams = '';
+            requestLogout(allParams).then((res) => {
+            });
+            _this.$router.push('/login');
+          }).catch(() => {
+          });
         }
-        this.fullscreen = !this.fullscreen;
       },
+      mounted() {
+        var name = sessionStorage.getItem('username');
+        var arr =name.split('"')
+        // console.log(arr[1])
+        this.username=arr[1]
 
-
-      collapse: function () {
-        this.collapsed = !this.collapsed;
-      },
-      showMenu(i, status){
-        this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
-      },
-      logout(){
-        var _this = this;
-        this.$confirm('确认退出吗?', '提示', {
-
-        }).then(() => {
-          sessionStorage.removeItem('token');
-          _this.$router.push('/login');
-        }).catch(() => {
-
-        });
       }
-    },
-    mounted() {
-
-      // var username=sessionStorage.getItem('username');
-      // this.username=username;
     }
+  </script>
+
+
+  <style scoped>
+  .clear{
+    /*float: right;*/
+    position: absolute;
+    right: 120px;
+    top: 11px;
   }
-</script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+  .fullscreen{
+    position: absolute;
+    right: 220px;
+    top: 11px;
+  }
 
-<style scoped>
-.clear{
-  /*float: right;*/
-  position: absolute;
-  right: 120px;
-  top: 11px;
-}
-.fullscreen{
-  position: absolute;
-  right: 220px;
-  top: 11px;
-}
-
-.el-dropdown-menu, .el-popper{
-  top: 38px!important;
-  min-width: 100px;
-}
+  .el-dropdown-menu, .el-popper{
+    top: 38px!important;
+    min-width: 100px;
+  }
 </style>
 
 <style scoped lang="scss">

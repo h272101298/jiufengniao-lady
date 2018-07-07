@@ -49,7 +49,7 @@
       </el-table-column>
 
 
-      <el-table-column label="操作" min-width="200" align="center">
+      <el-table-column label="操作" min-width="200" align="center" v-show="checkper1">
        <template slot-scope="scope">
         <el-tag size="mini" type="success" v-show="scope.row.state==2 ? true : false">审核通过</el-tag>
         <el-tag size="mini" type="danger" v-show="scope.row.state==3 ? true : false">已拒绝</el-tag>
@@ -98,11 +98,22 @@
         form:{
           name:''
         },
-        currentid:''
+        currentid:'',
+        checkper1:false,
       };
     },
 
     methods:{
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('withdrawCheck')>-1){
+          this.checkper1=true;
+        }
+
+      },
+
+
       getlist(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&name=' + this.form.name;
         withdrawGet(allParams).then((res) => {
@@ -166,6 +177,7 @@
 
     mounted: function () {
       this.getlist();
+      this.checkPer();
     }
   }
 </script>

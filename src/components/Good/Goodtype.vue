@@ -15,7 +15,7 @@
 
    <el-form :inline="true">
     <el-form-item>
-      <el-button type="primary" size="medium" @click="newone">新增分类</el-button>
+      <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增分类</el-button>
     </el-form-item>
     <el-form-item>
       <el-input v-model="filter.title" placeholder="请输入分类名称" style="min-width: 260px;" ></el-input>
@@ -60,12 +60,12 @@
       
       <el-table-column label="操作" width="400" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
 
 
 
 
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>
     </el-table-column>
 
@@ -194,11 +194,32 @@
       diatitle:'新增商品',
       noone:false,
       editId:'',
-      delId:''
+      delId:'',
+
+
+      checkper1:false,
+      checkper2:false,
+
     };
   },
 
   methods:{
+    checkPer(){
+      var per = sessionStorage.getItem('permissions');
+      // console.log(per)
+      if(per.indexOf('productTypeAdd')>-1){
+        this.checkper1=true;
+      }
+
+      var per = sessionStorage.getItem('permissions');
+      // console.log(per)
+      if(per.indexOf('productTypeDel')>-1){
+        this.checkper2=true;
+      }
+    },
+
+
+
     getlist(){
       var allParams = '?page='+ this.currentPage + '&limit=' + this.limit +'&title=' + this.filter.title+'&level=' + this.filter.level;
       typeGet(allParams).then((res) => {
@@ -383,6 +404,7 @@
 
 mounted: function () {
   this.getlist();
+  this.checkPer();
 }
 }
 </script>

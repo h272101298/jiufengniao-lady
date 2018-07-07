@@ -45,7 +45,7 @@
 <!--       <el-table-column prop="updated_at" label="更新时间" min-width="190" align="center">
 </el-table-column> -->
 
-<el-table-column prop="id" label="操作" width="200" align="center">
+<el-table-column prop="id" label="操作" width="200" align="center" v-show="checkper1">
   <template slot-scope="scope">
     <el-tag size="mini" type="success" v-show="scope.row.state==2 ? true : false">审核通过</el-tag>
     <el-tag size="mini" type="danger" v-show="scope.row.state==3 ? true : false">已拒绝</el-tag>
@@ -96,9 +96,21 @@
           name: ''
         },
         dialogSeeVisible: false,
+        checkper1:false,
       }
     },
     methods: {
+
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('proxyApplyCheck')>-1){
+          this.checkper1=true;
+        }
+
+      },
+
+
 
       //获取列表
       getlist: function () {
@@ -171,6 +183,7 @@
 
     mounted() {
       this.getlist();
+      this.checkPer();
     }
   }
 </script>

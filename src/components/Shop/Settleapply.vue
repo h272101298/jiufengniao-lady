@@ -21,9 +21,9 @@
         </el-table-column>
         <el-table-column prop="type" label="申请类型" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="pic" label="营业执照" min-width="180" align="center">
+        <el-table-column prop="pictuer" label="营业执照" min-width="180" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.pic" style="max-width:100px;max-height:100px;" />
+            <img :src="scope.row.pictuer" style="max-width:100px;max-height:100px;" />
           </template>
         </el-table-column>
         <el-table-column prop="city" label="所在城市" min-width="180" align="center">
@@ -32,7 +32,7 @@
         </el-table-column>
         <el-table-column prop="state" label="申请状态" min-width="150" align="center">
         </el-table-column>
-        <el-table-column label="操作" min-width="180" align="center">
+        <el-table-column label="操作" min-width="180" align="center" v-show="checkper1">
           <template slot-scope="scope">
             <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state=='待审核' ? true : false">通过</el-button>
             <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="scope.row.state=='待审核' ? true : false">拒绝</el-button>
@@ -73,11 +73,23 @@
         count:0,
         limit:10,
         dialogDelVisible:false,
-        delId:''
+        delId:'',
+
+        checkper1:false,
       };
     },
 
     methods:{
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('settleCheck')>-1){
+          this.checkper1=true;
+        }
+      },
+
+
+
       getlist(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
         sappliesGet(allParams).then((res) => {
@@ -153,6 +165,7 @@
 
     mounted: function () {
       this.getlist();
+      this.checkPer();
     }
   }
 </script>

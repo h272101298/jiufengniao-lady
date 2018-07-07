@@ -10,9 +10,9 @@
 
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
-      <el-form-item>
+<!--       <el-form-item>
         <el-button type="primary" size="medium" @click="newone">新增店铺</el-button>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-input v-model="filter.name" placeholder="请输入店铺名称" style="min-width: 200px;" ></el-input>
       </el-form-item>
@@ -114,11 +114,7 @@
         filter:{
           name:''
         },
-        list:[{
-          name:2,
-          type:1,
-          id:''
-        }],
+        list:[],
         currentPage: 1,
         count:0,
         limit:10,

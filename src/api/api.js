@@ -1,6 +1,8 @@
 import axios from 'axios'
 import qs from 'qs'
 import { Message } from 'element-ui';
+import { MessageBox } from 'element-ui';
+import router from '../router/index'
 
 axios.defaults.timeout = 15000
 axios.defaults.withCredentials = true
@@ -15,8 +17,10 @@ axios.interceptors.request.use(config => {
 	return config
 }, 
 error => {
+
 	console.log('错误的传参！')
 })
+
 
 //响应拦截器
 axios.interceptors.response.use(
@@ -24,12 +28,29 @@ axios.interceptors.response.use(
 		return response;
 	},
 	error => {
-		Message({
-			message: error.response.data.msg,
-			type: 'error'
-		});
+
+		console.log(error.response.status)
+		if(error.response.status==401){
+			var that=this;
+			MessageBox.alert('请重新登录', '登录超时', {
+				confirmButtonText: '确定',
+				closeOnPressEscape:false,
+				callback: action => {
+					if(action=='confirm'){
+						router.push('/login');
+					}
+				}
+			});
+		}else{
+			Message({
+				message: error.response.data.msg,
+				type: 'error'
+			});
+		}
 		return Promise.reject(error)
 	})
+
+
 
 
 // let base = 'http://192.168.1.172/Shop/public/v1'
@@ -43,6 +64,10 @@ export default base
 //登录
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }
 
+export const requestLogout = params => { return axios.get(`${base}/logout`+`${params}`).then(res => res.data)}
+
+//统计数据
+export const countdataGet = params => { return axios.get(`${base}/count`+`${params}`).then(res => res.data)}
 
 
 

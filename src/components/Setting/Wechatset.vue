@@ -56,7 +56,7 @@
               <span v-show="show">提示：证书为pem格式文件，第一个为证书部分，第二个为秘钥部分，请按顺序上传</span>
             </el-form-item>
 
-            <el-button v-show="set" size="small" type="primary" style="margin-left:162px;margin-top:20px;" @click="changebase">编辑</el-button>
+            <el-button v-show="set && checkper1" size="small" type="primary" style="margin-left:162px;margin-top:20px;" @click="changebase" >编辑</el-button>
 
             <el-button v-show="show" size="small" type="primary" style="margin-left:122px;margin-top:20px;" @click="confirm">提交</el-button>
             <el-button v-show="show" size="small" @click="cancel">取消</el-button>
@@ -125,7 +125,7 @@
 
         show:false,
         set:true,
-
+        checkper1:false,
         uptoken:{
           token:qiniu.token,
         },
@@ -173,6 +173,12 @@
     },
 
     methods:{
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('txConfig')>-1){
+          this.checkper1=true;
+        }
+      },
 
       getconfig(){
 
@@ -278,7 +284,8 @@
     },
 
     mounted: function () {
-      this.getconfig()
+      this.getconfig();
+      this.checkPer();
 
     }
   }

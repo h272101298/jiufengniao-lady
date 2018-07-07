@@ -68,7 +68,7 @@
   </template>
 </el-table-column>
 
-<el-table-column prop="state" label="上架状态" min-width="100" align="center">
+<el-table-column prop="state" label="上架状态" min-width="100" align="center" v-show="checkper2">
   <template slot-scope="scope">
     <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
     <el-button type="" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
@@ -92,7 +92,7 @@
 <el-table-column label="操作" width="150" align="center">
  <template slot-scope="scope">
   <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
-    <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
+    <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)"  v-show="checkper3">
   </el-tooltip>
   <el-tooltip class="icon" effect="dark" content="查看详情" placement="bottom">
     <img src="../../../static/images/icon/look.png" @click="handleSee(scope.$index, scope.row)">
@@ -101,7 +101,7 @@
     <img src="../../../static/images/icon/ewcode.png">
   </el-tooltip> -->
   <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
-    <img src="../../../static/images/icon/check.png" v-show="scope.row.review==0" @click="handleCheck(scope.row)">
+    <img src="../../../static/images/icon/check.png" v-show="scope.row.review==0 && checkper1" @click="handleCheck(scope.row)">
   </el-tooltip>
   <el-tooltip class="icon" effect="dark" content="加入回收站" placement="top">
     <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
@@ -211,7 +211,9 @@
         currow:'',
         editId:'',
         delId:'',
-
+        checkper1:false,
+        checkper2:false,
+        checkper3:false,
         editable:[],
       };
     },
@@ -245,6 +247,21 @@
 
 
 
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('productReview')>-1){
+          this.checkper1=true;
+        }
+
+        if(per.indexOf('productShelf')>-1){
+          this.checkper2=true;
+        }
+
+        if(per.indexOf('productAdd')>-1){
+          this.checkper2=true;
+        }
+      },
 
       changehot(index){
         // console.log(index)

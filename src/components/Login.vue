@@ -15,7 +15,7 @@
 
 <script>
 
-  import axios from 'axios'
+  // import axios from 'axios'
 
   import {requestLogin} from '../api/api';
 
@@ -24,10 +24,10 @@
       return {
         logining: false,
         account: {
-          // username: 'admin',
-          // pwd: '123456'
-          username: '',
-          pwd: ''
+          username: 'admin',
+          pwd: '123456'
+          // username: '',
+          // pwd: ''
         },
         rules: {
           username: [
@@ -56,11 +56,11 @@
 
               if (res.msg == "ok") {
 
-                // sessionStorage.setItem('token', JSON.stringify(data.token));
-                // sessionStorage.setItem('username', JSON.stringify(data.name));
+                sessionStorage.setItem('permissions', JSON.stringify(res.data.role.permissions));
+                sessionStorage.setItem('username', JSON.stringify(res.data.name));
 
-                // that.$router.push('/index/Console');
-                that.$router.push('/Shop/Shoplist');
+                that.$router.push('/index/Console');
+                // that.$router.push('/Shop/Shoplist');
               } else {
                that.$message({
                 message: res.msg,

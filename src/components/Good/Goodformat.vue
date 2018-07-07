@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">新增规格</el-button>
+        <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增规格</el-button>
       </el-form-item>
     </el-form>
 
@@ -27,7 +27,7 @@
       <el-table-column label="操作" width="400" align="center">
        <template slot-scope="scope">
         <!-- <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> -->
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>
     </el-table-column>
 
@@ -130,87 +130,106 @@
         typeArr2:[],
         type2:'',
         typeArr3:[],
+
+        checkper1:false,
+        checkper2:false,
       }
     },
 
     methods:{
-      getlist(){
-        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
-        guigeGet(allParams).then((res) => {
-          this.list=res.data.data;
-          this.count=res.data.count
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+      // console.log(per)
+      if(per.indexOf('productCategoryAdd')>-1){
+        this.checkper1=true;
+      }
+
+      var per = sessionStorage.getItem('permissions');
+      // console.log(per)
+      if(per.indexOf('productCategoryDel')>-1){
+        this.checkper2=true;
+      }
+    },
+
+
+
+    getlist(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+      guigeGet(allParams).then((res) => {
+        this.list=res.data.data;
+        this.count=res.data.count
+      });
+    },
+
+
+    gettype1(){
+      var allParams = '?level=1';
+      typeGet(allParams).then((res) => {
+        this.typeArr1=res.data.data;
+      });
+    },
+
+    gettype2(e){
+      var allParams = '?parent='+ e;
+      typeGet(allParams).then((res) => {
+        this.typeArr2=[];
+        this.typeArr2=res.data.data;
+      });
+    },
+
+    gettype3(e){
+      var allParams = '?parent='+ e;
+      typeGet(allParams).then((res) => {
+        this.typeArr3=res.data.data;
+      });
+    },
+
+    confirmtype(e){
+      this.type_id=e;
+    },
+
+
+
+
+    removeguige(item) {
+      var index = this.guige.indexOf(item)
+      if (index !== -1) {
+        this.guige.splice(index, 1)
+      }
+    },
+
+    adddetail(e) {
+      this.guige[e].detail.push({
+        content: '',
+      });
+    },
+
+    addguige() {
+      if(this.type_id==null){
+        Message({
+          message: "请先选择分类",
+          type: 'error'
         });
-      },
-
-
-      gettype1(){
-        var allParams = '?level=1';
-        typeGet(allParams).then((res) => {
-          this.typeArr1=res.data.data;
+      }else{
+        this.guige.push({
+          title: '',
+          detail:[]
         });
-      },
+      }
+    },
 
-      gettype2(e){
-        var allParams = '?parent='+ e;
-        typeGet(allParams).then((res) => {
-          this.typeArr2=[];
-          this.typeArr2=res.data.data;
-        });
-      },
+    newone(){
+     this.putorup='up';
+     this.diatitle='新增规格',
+     this.dialogNewVisible=true,
 
-      gettype3(e){
-        var allParams = '?parent='+ e;
-        typeGet(allParams).then((res) => {
-          this.typeArr3=res.data.data;
-        });
-      },
-
-      confirmtype(e){
-        this.type_id=e;
-      },
+     this.guige=[]
+   },
 
 
 
 
-      removeguige(item) {
-        var index = this.guige.indexOf(item)
-        if (index !== -1) {
-          this.guige.splice(index, 1)
-        }
-      },
-
-      adddetail(e) {
-        this.guige[e].detail.push({
-          content: '',
-        });
-      },
-
-      addguige() {
-        if(this.type_id==null){
-          Message({
-            message: "请先选择分类",
-            type: 'error'
-          });
-        }else{
-          this.guige.push({
-            title: '',
-            detail:[]
-          });
-        }
-      },
-
-      newone(){
-       this.putorup='up';
-       this.diatitle='新增规格',
-       this.dialogNewVisible=true,
-
-       this.guige=[]
-     },
-
-
-
-
-     save(){
+   save(){
 
       // console.log(this.guige)
 
@@ -309,7 +328,8 @@
 
   mounted: function () {
     this.getlist();
-    this.gettype1()
+    this.gettype1();
+    this.checkPer();
   }
 }
 </script>

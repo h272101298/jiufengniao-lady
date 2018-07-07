@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">新增类目</el-button>
+        <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增类目</el-button>
       </el-form-item>
 <!--       <el-form-item>
         <el-input v-model="filter.name" placeholder="请输入用户名/编号" style="min-width: 200px;" ></el-input>
@@ -29,8 +29,8 @@
       </el-table-column>
       <el-table-column label="操作" width="300" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -97,88 +97,80 @@
         },
         diatitle:'新增类目',
         editId:'',
-        delId:''
+        delId:'',
+
+
+        checkper1:false,
+        checkper2:false,
       };
     },
 
     methods:{
-      getlist(){
-        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
-        categoriesGet(allParams).then((res) => {
-          this.list=res.data.data;
-          this.count=res.data.count;
-        });
-      },
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+      // console.log(per)
+      if(per.indexOf('storeCategoryAdd')>-1){
+        this.checkper1=true;
+      }
 
-      newone(){
-       this.putorup='up';
-       this.diatitle='新增类目'
-       this.dialogNewVisible=true
-       this.newadv.link=''
-     },
-
-     handleEdit(index, row){
-       this.putorup='put';
-       this.diatitle='编辑类目'
-       this.dialogNewVisible=true
-       this.newadv.link=row.title
-       this.editId = row.id;
-     },
-
-
-     save(){
-
-      if(this.newadv.link==''){
-        this.$message({
-          message: '请输入类目名称',
-          type: 'error'
-        });
-      }else{
-        if( this.putorup=='put'){
-          var allParams = {
-            title:this.newadv.link,
-            id:this.editId
-          };
-        }else{
-          var allParams = {
-            title:this.newadv.link
-          };
-        }
-        categoryPost(allParams).then((res) => {
-          if (res.msg === "ok") {
-           this.$message({
-            message: '提交成功',
-            type: 'success'
-          });
-           this.getlist();
-           this.dialogNewVisible=false
-         } else {
-           this.$message({
-            message: res.msg,
-            type: 'error'
-          });
-         }
-       });
+      var per = sessionStorage.getItem('permissions');
+      // console.log(per)
+      if(per.indexOf('storeCategoryDel')>-1){
+        this.checkper2=true;
       }
     },
 
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
+
+    getlist(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+      categoriesGet(allParams).then((res) => {
+        this.list=res.data.data;
+        this.count=res.data.count;
+      });
     },
 
-    submitdel(){
-      this.dialogDelVisible = false;
-      var allParams='?id='+this.delId
-      categoryDel(allParams).then((res) => {
-        console.log(res)
+    newone(){
+     this.putorup='up';
+     this.diatitle='新增类目'
+     this.dialogNewVisible=true
+     this.newadv.link=''
+   },
+
+   handleEdit(index, row){
+     this.putorup='put';
+     this.diatitle='编辑类目'
+     this.dialogNewVisible=true
+     this.newadv.link=row.title
+     this.editId = row.id;
+   },
+
+
+   save(){
+
+    if(this.newadv.link==''){
+      this.$message({
+        message: '请输入类目名称',
+        type: 'error'
+      });
+    }else{
+      if( this.putorup=='put'){
+        var allParams = {
+          title:this.newadv.link,
+          id:this.editId
+        };
+      }else{
+        var allParams = {
+          title:this.newadv.link
+        };
+      }
+      categoryPost(allParams).then((res) => {
         if (res.msg === "ok") {
          this.$message({
           message: '提交成功',
           type: 'success'
         });
          this.getlist();
-         this.dialogDelVisible = false;
+         this.dialogNewVisible=false
        } else {
          this.$message({
           message: res.msg,
@@ -186,22 +178,50 @@
         });
        }
      });
-    },
-
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getlist();
-    },
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getlist();
-    },
+    }
   },
 
-  mounted: function () {
+  handleDelete(index, row) {
+    this.dialogDelVisible = true;
+    this.delId = row.id;
+  },
+
+  submitdel(){
+    this.dialogDelVisible = false;
+    var allParams='?id='+this.delId
+    categoryDel(allParams).then((res) => {
+      console.log(res)
+      if (res.msg === "ok") {
+       this.$message({
+        message: '提交成功',
+        type: 'success'
+      });
+       this.getlist();
+       this.dialogDelVisible = false;
+     } else {
+       this.$message({
+        message: res.msg,
+        type: 'error'
+      });
+     }
+   });
+  },
+
+  handleCurrentChange(val) {
+    this.currentPage = val;
     this.getlist();
-  }
+  },
+
+  handleSizeChange(val){
+    this.limit = val;
+    this.getlist();
+  },
+},
+
+mounted: function () {
+  this.getlist();
+  this.checkPer();
+}
 }
 </script>
 

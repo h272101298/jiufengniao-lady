@@ -25,8 +25,8 @@
 
             <el-table-column label="操作" width="400" align="center">
              <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-              <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+              <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -36,7 +36,7 @@
       </el-tab-pane>
 
 
-      <el-tab-pane label="参数配置" name="config">
+      <el-tab-pane label="参数配置" name="config"  v-show="checkper3">
 
         <el-form label-width="130px" width="700px" center style="width: 800px" ref="config" :model="config" :rules="configrule">
 
@@ -160,10 +160,34 @@
           api_key:null,
           business_id:null
         },
+        checkper1:false,
+        checkper2:false,
+        checkper3:false,
+
+
       };
     },
 
     methods:{
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('expressAdd')>-1){
+          this.checkper1=true;
+        }
+
+        if(per.indexOf('expressDel')>-1){
+          this.checkper2=true;
+        }
+
+
+        if(per.indexOf('expressConfig')>-1){
+          this.checkper3=true;
+        }
+      },
+
+
+
       getlist(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
         deliveryGet(allParams).then((res) => {

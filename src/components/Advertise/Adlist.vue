@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">新增广告</el-button>
+        <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增广告</el-button>
       </el-form-item>
     </el-form>
 
@@ -27,8 +27,8 @@
 
       <el-table-column label="操作" min-width="300" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -114,11 +114,29 @@
           // intro: [{required: true, trigger: 'blur',message: '请输入广告描述'}]
         },
         editId:'',
-        delId:''
+        delId:'',
+
+
+        checkper1:false,
+        checkper2:false,
       };
     },
 
     methods:{
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('advertAdd')>-1){
+          this.checkper1=true;
+        }
+
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('advertDel')>-1){
+          this.checkper2=true;
+        }
+      },
+
 
       getlist(){
 
@@ -247,6 +265,7 @@
 
   mounted: function () {
     this.getlist();
+    this.checkPer();
   }
 }
 </script>

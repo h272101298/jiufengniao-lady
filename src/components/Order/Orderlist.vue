@@ -69,48 +69,43 @@
          <template slot-scope="scope">
           <el-button type="" size="mini" @click="handleSee(scope.row)">订单详情</el-button>
 
-          <el-button type="primary" v-show="scope.row.state=='paid'" size="mini" @click="handleSend(scope.row)">发货</el-button>
+          <el-button type="primary" v-show="scope.row.state=='paid' && checkper1" size="mini" @click="handleSend(scope.row)">发货</el-button>
 
-<!--           <el-button type="primary" size="small" @click="handleSee(scope.row)">订单详情</el-button>
-          <el-button type="primary" size="small" @click="handleSee(scope.row)">订单详情</el-button>
-          <el-button type="primary" size="small" @click="handleSee(scope.row)">订单详情</el-button>
-        -->
+        </template>
+      </el-table-column>
+    </el-table>
 
-      </template>
-    </el-table-column>
-  </el-table>
-
-  <el-pagination style="float:left;margin:20px 0 200px 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-  </el-pagination>
+    <el-pagination style="float:left;margin:20px 0 200px 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+    </el-pagination>
 
 
-<el-button type="primary" style="float:left;margin:20px 50px;" @click="exportExcel()" size="small">导出Excel表</el-button>
-</el-col>
+    <el-button type="primary" style="float:left;margin:20px 50px;" @click="exportExcel()" size="small">导出Excel表</el-button>
+  </el-col>
 
 
 
 
 
-<el-col>
-  <el-dialog title="快递信息" :visible.sync="dialogSendVisible" width="800px" center>
-    <el-form :model="kuaidi" ref="kuaidi" label-width="120px" :rules="sendrule">
-      <el-form-item label="快递名称：" label-width="120px" prop="express">
+  <el-col>
+    <el-dialog title="快递信息" :visible.sync="dialogSendVisible" width="800px" center>
+      <el-form :model="kuaidi" ref="kuaidi" label-width="120px" :rules="sendrule">
+        <el-form-item label="快递名称：" label-width="120px" prop="express">
 
-        <el-select v-model="kuaidi.express" placeholder="全部" @change="xzkauidi">
-          <el-option v-for="item in expressarr" :label="item.title" :value="item.id" :key="item.id"></el-option>
-        </el-select>
+          <el-select v-model="kuaidi.express" placeholder="全部" @change="xzkauidi">
+            <el-option v-for="item in expressarr" :label="item.title" :value="item.id" :key="item.id"></el-option>
+          </el-select>
 
-      </el-form-item>
-      <el-form-item label="快递单号：" label-width="120px" prop="express_number">
-       <el-input v-model="kuaidi.express_number" placeholder="请输入快递单号" type="number"></el-input>
-     </el-form-item>
-     <el-button type="primary" size="small" @click="submitsend" style="margin-left: calc(50% - 28px);">提交</el-button>
-   </el-form>
- </el-dialog>
-</el-col>
+        </el-form-item>
+        <el-form-item label="快递单号：" label-width="120px" prop="express_number">
+         <el-input v-model="kuaidi.express_number" placeholder="请输入快递单号" type="number"></el-input>
+       </el-form-item>
+       <el-button type="primary" size="small" @click="submitsend" style="margin-left: calc(50% - 28px);">提交</el-button>
+     </el-form>
+   </el-dialog>
+ </el-col>
 
 
-<el-col>
+ <el-col>
   <el-dialog title="订单详情" :visible.sync="dialogSeeVisible" width="1200px" center>
     <el-form label-position="right" label-width="110px">
 
@@ -230,7 +225,7 @@
           ],
         },
 
-
+        checkper1:false,
 
         currow:{
          id: 0,
@@ -258,6 +253,15 @@
    },
 
    methods:{
+    checkPer(){
+      var per = sessionStorage.getItem('permissions');
+
+      if(per.indexOf('orderListDo')>-1){
+        this.checkper1=true;
+      }
+
+
+    },
 
 
     getlist(){
@@ -372,6 +376,7 @@
   mounted: function () {
     this.getlist();
     this.getexpress();
+    this.checkPer();
   }
 }
 </script>

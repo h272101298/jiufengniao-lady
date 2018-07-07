@@ -13,7 +13,7 @@
 
    <el-form :inline="true">
     <el-form-item>
-      <el-button type="primary" size="medium" @click="newone">新增文档</el-button>
+      <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增文档</el-button>
     </el-form-item>
   </el-form>
 
@@ -26,8 +26,8 @@
     <el-table-column label="操作" width="500" align="center">
      <template slot-scope="scope">
       <el-button type="primary" size="mini" @click="handleSee(scope.$index, scope.row)">预览</el-button>
-      <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
     </template>
   </el-table-column>
 
@@ -117,6 +117,10 @@
   export default {
     data() {
       return {
+        checkper1:false,
+        checkper2:false,
+
+
         currentPage: 1,
         list:[],
         count:0,
@@ -154,6 +158,19 @@
         });
       },
 
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('documentAdd')>-1){
+          this.checkper1=true;
+        }
+
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('documentDel')>-1){
+          this.checkper2=true;
+        }
+      },
 
       newone(){
        this.putorup='up';
@@ -291,6 +308,7 @@
 
   mounted: function () {
     this.getlist();
+    this.checkPer();
   }
 }
 </script>
