@@ -128,6 +128,8 @@
           }).then(() => {
             var allParams = '';
             requestLogout(allParams).then((res) => {
+              sessionStorage.removeItem('permissions');
+              sessionStorage.removeItem('username');
             });
             _this.$router.push('/login');
           }).catch(() => {

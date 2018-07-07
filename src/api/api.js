@@ -38,7 +38,8 @@ axios.interceptors.response.use(
 				showClose:false,
 				callback: action => {
 					if(action=='confirm'){
-						router.push('../../login');
+						window.location.href="https://background.geckowing.com/login" 
+						// router.push('../../login');
 					}
 				}
 			});
