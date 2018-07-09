@@ -15,7 +15,7 @@
 
 <script>
 
-  import {requestLogin} from '../../api/api';
+  import {requestLogin} from '../api/api';
 
   export default {
     data() {
@@ -73,7 +73,7 @@
 
 <style>
 body{
-  background: url(../../../static/images/gold.jpg);
+  background: url(../../static/images/gold.jpg);
   background-size:cover;
   background-repeat:no-repeat;
 }
