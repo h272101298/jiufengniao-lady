@@ -15,8 +15,6 @@
 
 <script>
 
-  // import axios from 'axios'
-
   import {requestLogin} from '../api/api';
 
   export default {
@@ -24,10 +22,10 @@
       return {
         logining: false,
         account: {
-          // username: 'admin',
-          // pwd: '123456'
-          username: '',
-          pwd: ''
+          username: 'admin',
+          pwd: '123456'
+          // username: '',
+          // pwd: ''
         },
         rules: {
           username: [
@@ -40,20 +38,13 @@
       };
     },
     methods: {
-
       handleLogin() {
         var that =this;
         that.$refs.AccountFrom.validate((valid) => {
           if (valid) {
-            // this.logining = true;
-
             var aaaa = { username: that.account.username, password: that.account.pwd };
-
             requestLogin(aaaa).then(res => {
-              // this.logining = false;
-
               // let { msg, data } = res;
-
               if (res.msg == "ok") {
 
                 sessionStorage.setItem('permissions', JSON.stringify(res.data.role.permissions));
@@ -79,16 +70,16 @@
   }
 
 </script>
+
 <style>
 body{
-  /*background: #DFE9FB;*/
   background: url(../../static/images/gold.jpg);
   background-size:cover;
   background-repeat:no-repeat;
 }
 </style>
 
-<style lang="scss" scoped>
+<style scoped>
 .login-container {
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -99,21 +90,17 @@ body{
   padding: 35px 35px 15px 35px;
   background: #fff;
   border: 1px solid #eaeaea;
-  box-shadow: 0 0 25px #cac6c6;
+  /*box-shadow: 0 0 15px #aaa;*/
   background: -ms-linear-gradient(top, #fff, #6495ed);
   background:-moz-linear-gradient(top,#b8c4cb,#f6f6f8);
   background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#b8c4cb), to(#f6f6f8));
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#6495ed));
   background: -webkit-linear-gradient(top, #fff, #6495ed,#fff);
   background: -o-linear-gradient(top, #fff, #6495ed);
-  .title {
-    margin: 0px auto 40px auto;
-    text-align: center;
-    color: #505458;
-  }
-
-  .remember {
-    margin: 0px 0px 35px 0px;
-  }
+}
+.title {
+  margin: 0px auto 40px auto;
+  text-align: center;
+  color: #505458;
 }
 </style>

@@ -80,7 +80,6 @@
             collapsed: false,
             fullscreen: false,
             fstext:'全屏',
-
             username:''
           }
         },

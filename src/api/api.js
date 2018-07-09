@@ -55,10 +55,10 @@ axios.interceptors.response.use(
 
 
 
-// let base = 'http://192.168.1.172/Shop/public/v1'
+let base = 'http://192.168.1.172/Shop/public/v1'
 
 
-let base = 'https://template.geckowing.com/v1'
+// let base = 'https://template.geckowing.com/v1'
 
 
 export default base
@@ -209,7 +209,6 @@ export const deliveryDel = params => { return axios.delete(`${base}/express`+`${
 export const kdconfigGet = params => { return axios.get(`${base}/express/config`+`${params}`).then(res => res.data)}
 
 export const kdconfigPost = params => { return axios.post(`${base}/express/config`, params).then(res => res.data)}
-
 
 
 
