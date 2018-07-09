@@ -51,16 +51,22 @@ import Delivelist from '@/components/Delivery/Delivelist'
 
 
 // 懒加载方式，当路由被访问的时候才加载对应组件
-const Login = resolve => require(['@/components/Login'], resolve)
+const Login = resolve => require(['@/components/Login/Login'], resolve)
 
 Vue.use(Router)
 
 let router = new Router({
     mode: 'history', 
     routes: [{
-        path: '/Login',
+        path: '/',
         name: '登录',
-        component: Login
+        component: Login,
+        redirect: '/Login/Login',
+        menuShow: false,
+        iconCls: '',
+        children: [
+        {path: '/Login/Login',component: Console,name: '登录',menuShow: false,meta:{permission: ''}}
+        ]
     }, {
         leaf: true,
         path: '/',
