@@ -366,7 +366,7 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-             MessageBox.alert('没有权限访问', '提示', {
+             MessageBox.alert('没有访问权限', '提示', {
                 confirmButtonText: '确定',
                 closeOnPressEscape:false,
                 showClose:false,
