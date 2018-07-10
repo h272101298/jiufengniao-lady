@@ -9,7 +9,7 @@
 <script>
 
 
-  // import baseUrl from '../../api/api';
+
 
   export default {
     data() {
