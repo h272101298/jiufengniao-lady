@@ -160,19 +160,20 @@ let router = new Router({
 //     children: [
 //     {path: '/Report/Reportlist',component: Reportlist,name: '统计图表',menuShow: true}, 
 //     ]
-// }, {
-//     path: '/',
-//     name: '营销活动',
-//     component: Home,
-//     redirect: '/Mark/Spike',
-//     menuShow: true,
-//     iconCls: 'iconfont menu-yingxiao',
-//     children: [
-//     {path: '/Mark/Spike',component: Spike,name: '限时秒杀',menuShow: true}, 
-//     {path: '/Mark/Card',component: Card,name: '集卡牌',menuShow: true}, 
-//     {path: '/Mark/Group',component: Group,name: '团购',menuShow: true}    
-//     ]
 // }, 
+{
+    path: '/',
+    name: '营销活动',
+    component: Home,
+    redirect: '/Mark/Spike',
+    menuShow: true,
+    iconCls: 'iconfont menu-yingxiao',
+    children: [
+    {path: '/Mark/Spike',component: Spike,name: '限时秒杀',menuShow: true}, 
+    {path: '/Mark/Card',component: Card,name: '集卡牌',menuShow: true}, 
+    {path: '/Mark/Group',component: Group,name: '团购',menuShow: true}    
+    ]
+}, 
 {
     leaf: true,
     path: '/',
@@ -228,18 +229,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-             MessageBox.alert('没有访问权限', '提示', {
-                confirmButtonText: '确定',
-                closeOnPressEscape:false,
-                showClose:false,
-                callback: action => {
+           MessageBox.alert('没有访问权限', '提示', {
+            confirmButtonText: '确定',
+            closeOnPressEscape:false,
+            showClose:false,
+            callback: action => {
 
-                }
-            });
-         }
-     }else{
-       next() 
-   }
+            }
+        });
+       }
+   }else{
+     next() 
+ }
 }
 })
 
