@@ -32,6 +32,11 @@ axios.interceptors.response.use(
 		// console.log(error.response.status)
 		if(error.response.status==401){
 			var that=this;
+			// router.push('/login');
+			// Message({
+			// 	message: '登录超时',
+			// 	type: 'error'
+			// });
 			MessageBox.alert('请重新登录', '登录超时', {
 				confirmButtonText: '确定',
 				closeOnPressEscape:false,
@@ -43,6 +48,7 @@ axios.interceptors.response.use(
 					}
 				}
 			});
+
 		}else{
 			Message({
 				message: error.response.data.msg,
@@ -55,11 +61,13 @@ axios.interceptors.response.use(
 
 
 
-// let base = 'http://192.168.1.172/Shop/public/v1'
+let base = 'http://192.168.1.172/Shop/public/v1'
 
+let base1 = 'http://192.168.1.172/Shop/public/v2'
 
-let base = 'https://template.geckowing.com/v1'
+// let base = 'https://template.geckowing.com/v1'
 
+// let base1 = 'https://template.geckowing.com/v2'
 
 export default base
 
@@ -124,7 +132,6 @@ export const ratioGet = params => { return axios.get(`${base}/brokerage/ratio`+`
 
 
 export const comGetAll = params => { return axios.get(`${base}/brokerages`+`${params}`).then(res => res.data)}
-
 
 
 export const withdrawGet = params => { return axios.get(`${base}/withdraw/applies`+`${params}`).then(res => res.data)}
@@ -244,3 +251,22 @@ export const roleDel = params => { return axios.delete(`${base}/role`+`${params}
 export const wxconfigPost = params => { return axios.post(`${base}/tx/config`, params).then(res => res.data)}
 
 export const wxconfigGet = params => { return axios.get(`${base}/tx/config`+`${params}`).then(res => res.data)}
+
+
+
+//卡牌
+export const CardgoodGet = params => { return axios.get(`${base}/type/products`+`${params}`).then(res => res.data)}
+
+export const CardtypeGet = params => { return axios.get(`${base1}/product/stocks`+`${params}`).then(res => res.data)}
+
+export const CardshopPost = params => { return axios.post(`${base1}/card/promotion`, params).then(res => res.data)}
+
+
+
+export const CardcheckGet = params => { return axios.get(`${base1}/card/promotions`+`${params}`).then(res => res.data)}
+
+
+
+export const DefaultCardPost = params => { return axios.post(`${base1}/default/card`, params).then(res => res.data)}
+
+export const DefaultCardGet = params => { return axios.get(`${base1}/default/cards`+`${params}`).then(res => res.data)}

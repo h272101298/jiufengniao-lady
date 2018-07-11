@@ -56,7 +56,7 @@
     </el-tab-pane>
 
 
-    <el-tab-pane label="商品属性" name="attributes" prop="type_id">
+    <el-tab-pane label="商品属性" name="attributes">
       <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules2" ref="newgood2" :model="newgood2">
 
 

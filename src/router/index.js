@@ -26,9 +26,17 @@ import Commission from '@/components/Agent/Commission'
 
 import Reportlist from '@/components/Report/Reportlist'
 
-import Spike from '@/components/Mark/Spike'
-import Card from '@/components/Mark/Card'
-import Group from '@/components/Mark/Group'
+// import Spike from '@/components/Mark/Spike'
+// import Card from '@/components/Mark/Card'
+// import Group from '@/components/Mark/Group'
+
+
+import Cardnew from '@/components/Card/Cardnew'
+import Cardgood from '@/components/Card/Cardgood'
+import Cardcheck from '@/components/Card/Cardcheck'
+import Cardchange from '@/components/Card/Cardchange'
+import Cardpass from '@/components/Card/Cardpass'
+
 
 // import MyShop from '@/components/Shop/MyShop'
 import Shoplist from '@/components/Shop/Shoplist'
@@ -161,19 +169,38 @@ let router = new Router({
 //     {path: '/Report/Reportlist',component: Reportlist,name: '统计图表',menuShow: true}, 
 //     ]
 // }, 
+
+// {
+//     path: '/',
+//     name: '营销活动',
+//     component: Home,
+//     redirect: '/Mark/Spike',
+//     menuShow: true,
+//     iconCls: 'iconfont menu-yingxiao',
+//     children: [
+//     {path: '/Mark/Spike',component: Spike,name: '限时秒杀',menuShow: true}, 
+//     {path: '/Mark/Card',component: Card,name: '集卡牌',menuShow: true}, 
+//     {path: '/Mark/Group',component: Group,name: '团购',menuShow: true}    
+//     ]
+// }, 
+
 {
     path: '/',
-    name: '营销活动',
+    name: '集卡牌',
     component: Home,
-    redirect: '/Mark/Spike',
+    redirect: '/Card/Spike',
     menuShow: true,
     iconCls: 'iconfont menu-yingxiao',
     children: [
-    {path: '/Mark/Spike',component: Spike,name: '限时秒杀',menuShow: true}, 
-    {path: '/Mark/Card',component: Card,name: '集卡牌',menuShow: true}, 
-    {path: '/Mark/Group',component: Group,name: '团购',menuShow: true}    
+    {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false}, 
+    {path: '/Card/Cardgood',component: Cardgood,name: '活动商品',menuShow: true}, 
+    {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true}, 
+    {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
+    {path: '/Card/Cardpass',component: Cardpass,name: '通过商品',menuShow: true}
     ]
 }, 
+
+
 {
     leaf: true,
     path: '/',

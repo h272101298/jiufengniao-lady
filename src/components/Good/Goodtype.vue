@@ -40,7 +40,7 @@
     </el-table-column>
     <el-table-column prop="logo" label="分类logo" width="300" align="center">
       <template slot-scope="scope">
-        <img :src="scope.row.logo" style="max-width:50px;max-height:50px;" />
+        <img :src="scope.row.logo" style="max-width:50px;max-height:50px;" v-show="scope.row.level==3" />
       </template>
     </el-table-column>
     <el-table-column prop="title" label="名称" width="300" align="center">
@@ -96,13 +96,7 @@
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
     <el-form ref="newadv" :model="newadv" label-width="120px">
 
-      <el-form-item label="分类logo：">
-        <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-          <img :src="imgSrc" class="pre-img" style="max-width:200px;max-height:200px;border:2px dashed #ccc;border-radius:0px;display: block" >
-          <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button>
-          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div>
-        </el-upload>
-      </el-form-item>
+
 
       <el-form-item label="分类名称：">
         <el-input v-model="newadv.title" style="max-width: 300px;" placeholder="请输入分类名称"></el-input>
@@ -120,6 +114,14 @@
         <el-select v-model="newadv.uplevel" placeholder="请选择上级分类" @change="chooseup" filterable :loading="loading">
           <el-option v-for="item in levelarr" :label="item.title" :value="item.id" :key="item.id"></el-option>
         </el-select>
+      </el-form-item>
+
+      <el-form-item label="分类logo：" v-show="nothree">
+        <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
+          <img :src="imgSrc" class="pre-img" style="max-width:200px;max-height:200px;border:2px dashed #ccc;border-radius:0px;display: block" >
+          <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button>
+          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，且大小不超过1M</div>
+        </el-upload>
       </el-form-item>
 
 <!--       <el-form-item label="是否首页推荐:">
@@ -193,6 +195,7 @@
       levelarr:[],
       diatitle:'新增商品',
       noone:false,
+      nothree:false,
       editId:'',
       delId:'',
 
@@ -289,15 +292,19 @@
     // console.log(val)
     if(val==1){
       this.noone=false
-    }else{
-      if(val==2){
-        this.filter1.level=1
-        this.getlist1()
-      }else if(val==3){
-        this.filter1.level=2
-        this.getlist1()
-      }
+      this.nothree=false
+    }
+    else if(val==2){
       this.noone=true
+      this.nothree=false
+      this.filter1.level=1
+      this.getlist1()
+    }
+    else if(val==3){
+      this.noone=true
+      this.nothree=true
+      this.filter1.level=2
+      this.getlist1()
     }
   },
 
@@ -308,7 +315,7 @@
 
   save(){
 
-    if(this.newadv.logo==''){
+    if(this.newadv.logo=='' && this.nothree==true){
       this.$message({
         message: '请上传分类logo',
         type: 'error'
