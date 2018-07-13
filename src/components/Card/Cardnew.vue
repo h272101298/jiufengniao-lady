@@ -53,7 +53,7 @@
       </el-form-item>
 
       <el-form-item label="活动标题：" prop="description">
-        <el-input v-model="newgood.description" placeholder="请输入活动标题" style="width:500px;"></el-input>
+        <el-input v-model="newgood.description" placeholder="请输入活动标题（16字以内）" style="width:500px;"></el-input>
       </el-form-item>
 
       <el-form-item label="奖品数量：" prop="number">
@@ -70,7 +70,7 @@
       </el-form-item>
 
       <el-form-item label="获得优惠折扣：" prop="offer">
-        <el-input v-model="newgood.offer" type="number" min="0" max="10" placeholder="请输入0到10之间的数字" style="width:500px;"></el-input>
+        <el-input v-model="newgood.offer" type="number" min="0" max="10" placeholder="请输入0到10之间的数字，填0为免费赠送" style="width:500px;"></el-input>
       </el-form-item>
 
 
@@ -172,6 +172,27 @@
       }, 100);
       };
 
+      var checkvalue1 = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('此项不能为空'));
+        }
+        setTimeout(() => {
+          if (Math.sign(value) == 1) {
+            if(value%1 === 0){
+             callback();
+           }else{
+            callback();
+          }
+        } else if(Math.sign(value) == 0) {
+         callback();
+       } else if(Math.sign(value) == -1) {
+        callback(new Error('请输入正数'));
+      }else{
+        callback(new Error('请输入数字'));
+      }
+    }, 100);
+      };
+
       return {
         uptoken:{
           token:qiniu.token,
@@ -183,7 +204,7 @@
           description:'',
           number:'',
           offer:'',
-          clickNum:'',
+          clickNum:'30',
           list:[],
           start:'',
           end:'',
@@ -248,7 +269,7 @@
           {required: true, validator: checkvalue, trigger: 'blur'},
           ],
           offer: [
-          {required: true, validator: checkvalue, trigger: 'blur'},
+          {required: true, validator: checkvalue1, trigger: 'blur'},
           ],
         },
 

@@ -15,7 +15,7 @@
 
 
         <el-form-item label="活动标题：" prop="description">
-          <el-input v-model="newgood.description" placeholder="请输入活动标题" style="width:500px;"></el-input>
+          <el-input v-model="newgood.description" placeholder="请输入活动标题（16字以内）" style="width:500px;"></el-input>
         </el-form-item>
 
         <el-form-item label="奖品数量：" prop="number">
@@ -38,8 +38,8 @@
 
         <el-form-item label="卡牌图片：" prop="sameornot">
           <el-radio-group v-model="sameornot" @change="changeguige">
-            <el-radio label="1">系统默认</el-radio>
-            <el-radio label="2">自定义上传</el-radio>
+            <el-radio label="1">商户上传</el-radio>
+            <el-radio label="2">修改</el-radio>
           </el-radio-group>
         </el-form-item>
 
@@ -65,34 +65,9 @@
     </el-col>
 
 
-    <el-col>
-      <el-dialog title="选择规格" :visible.sync="dialogVisible" width="1000">
-
-        <el-table :data="guigelist" style="width: 100%" border size="mini" stripe>
-          <el-table-column prop="detail" label="规格名称" min-width="150" align="center">
-          </el-table-column>
-          <el-table-column prop="cover" label="图片" min-width="150" align="center">
-            <template slot-scope="scope">
-              <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
-            </template>
-          </el-table-column>
-          <el-table-column prop="price" label="价格" min-width="150" align="center">
-          </el-table-column>
-          <el-table-column prop="origin_price" label="价格" min-width="150" align="center">
-          </el-table-column>
-          <el-table-column prop="id" label="原价" min-width="150" align="center">
-           <template slot-scope="scope">
-            <el-button type="primary" size="small" @click="guigeSelect(scope.$index, scope.row)">选择</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-    </el-dialog>
-  </el-col>
 
 
-
-</el-row>
+  </el-row>
 </template>
 
 
@@ -101,13 +76,12 @@
 
   import qiniu from '../../api/qiniu';
 
-  import { typeGet } from '../../api/api';
 
-  import { CardgoodGet } from '../../api/api';
-  import { CardtypeGet } from '../../api/api';
+  import { CardoneGet } from '../../api/api';
+
   import { CardshopPost } from '../../api/api';
 
-  import {DefaultCardGet} from '../../api/api';
+  import { DefaultCardGet } from '../../api/api';
   import { Message } from 'element-ui';
 
 
@@ -140,8 +114,8 @@
         },
         upurl:qiniu.upurl,
 
+
         newgood:{
-          stock_id:'',
           description:'',
           number:'',
           offer:'',
@@ -154,7 +128,6 @@
 
         type_id:'',
 
-        dialogVisible:false,
         goodguige:'',
         date:'',
         pickerOptions:{
@@ -166,40 +139,21 @@
         // norm:false,
 
 
-        guigelist:[],
-
-
-        typeArr1:[],
-        type1:'',
-        typeArr2:[],
-        type2:'',
-        typeArr3:[],
-
-        goodData:[],
-
         selectgood:true,
 
         sameornot:'1',
         showmore:'',
 
-        checkOptions:[],
-        checkList:[],
-        checkList1:[],
-        checkList2:[],
-
-        dialogVisible:false,
-
         defcard:[
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'}
+        // {cover:'../static/images/default1.png'},
+        // {cover:'../static/images/default1.png'},
+        // {cover:'../static/images/default1.png'},
+        // {cover:'../static/images/default1.png'},
+        // {cover:'../static/images/default1.png'}
         ],
 
 
         rules:{
-
           description: [
           {required: true, message: '请输入商品详情', trigger: 'blur'},
           ],
@@ -213,35 +167,48 @@
           {required: true, validator: checkvalue, trigger: 'blur'},
           ],
         },
-
-        currentPage:1,
-        limit:10,
-        count:0,
-
-        allParams:null,
       };
     },
 
 
     methods:{
 
-      getdefcard(){
-        var allParams = '';
-        DefaultCardGet(allParams).then((res) => {
+      // getdefcard(){
+      //   var allParams = '';
+      //   DefaultCardGet(allParams).then((res) => {
 
-          if(res.data==''){
-            this.havecard=false
-          }else{
-            this.defcard=res.data;
-            this.havecard=false
-          }
-        });
-      },
+      //     if(res.data==''){
+      //       this.havecard=false
+      //     }else{
+      //       this.defcard=res.data;
+      //       this.havecard=false
+      //     }
+      //   });
+      // },
+
+      getonecard(){
+       var id = sessionStorage.getItem('cardcheckid');
+       this.actid= id
+       // sessionStorage.removeItem('cardcheckid');
+       var allParams = '?id='+id;
+       CardoneGet(allParams).then((res) => {
+        this.date=[res.data.start,res.data.end]
+        this.newgood=res.data;
+
+
+        this.newgood.list=[];
+        console.log(res)
+
+        // this.defcard=res.data.list
+
+
+      });
+     },
 
 
 
-      getSTime(val){
-        console.log(val[0])
+     getSTime(val){
+      console.log(val[0])
         // var arr = val.split(",")
         this.newgood.start=val[0];
         this.newgood.end=val[1];
@@ -254,29 +221,6 @@
         }else if(val=="2"){
           this.showmore=true
         }
-      },
-
-      handleSelect(index, row){
-
-        var allParams = '?product_id='+ row.id;
-        CardtypeGet(allParams).then((res) => {
-          console.log(res)
-          this.goodname=row.name
-          this.guigelist=res.data
-          this.dialogVisible=true
-        });
-      },
-
-      guigeSelect(index, row){
-        this.goodData=[{
-          name:this.goodname,
-          norm:'',
-          cover:row.cover,
-        }]
-        this.goodguige=row.detail
-        this.selectgood=false
-        this.newgood.stock_id=row.id
-        this.dialogVisible=false
       },
 
 
@@ -329,54 +273,52 @@
         if (valid) {
           if(this.showmore==false){
             var allParams = {
-              stock_id:this.newgood.stock_id,
+              id:this.actid,
               description:this.newgood.description,
               number:this.newgood.number,
               offer:this.newgood.offer,
               clickNum:this.newgood.clickNum,
               start:this.newgood.start,
               end:this.newgood.end,
-              default:1
             };
 
           }else{
             var allParams = {
-              stock_id:this.newgood.stock_id,
-              description:this.newgood.description,
-              number:this.newgood.number,
-              offer:this.newgood.offer,
-              clickNum:this.newgood.clickNum,
-              start:this.newgood.start,
-              end:this.newgood.end,
-              list:this.newgood.list
-            };
-          }
-          CardshopPost(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
+             id:this.actid,
+             description:this.newgood.description,
+             number:this.newgood.number,
+             offer:this.newgood.offer,
+             clickNum:this.newgood.clickNum,
+             start:this.newgood.start,
+             end:this.newgood.end,
+             list:this.newgood.list
+           };
+         }
+         CardshopPost(allParams).then((res) => {
+          console.log(res)
+          if (res.msg === "ok") {
+           this.$message({
+            message: '提交成功',
+            type: 'success'
+          });
 
-             this.$router.push({ path: '/Card/Cardcheck' });
+           this.$router.push({ path: '/Card/Cardcheck' });
 
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }else{
-          return false;
-        }
-      })
+         } else {
+           this.$message({
+            message: res.msg,
+            type: 'error'
+          });
+         }
+       });
+       }else{
+        return false;
+      }
+    })
 
     },
 
     golist(){
-
 
      this.$router.push({ path: '/Card/Cardcheck' });
    },
@@ -396,8 +338,8 @@
 
 
 mounted: function () {
-  this.gettype1()
-  this.getdefcard()
+  // this.getdefcard()
+  this.getonecard()
 }
 }
 </script>

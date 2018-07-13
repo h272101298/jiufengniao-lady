@@ -32,26 +32,27 @@
         <el-table-column prop="number" label="库存" min-width="95" align="center">
         </el-table-column>
 
-        <el-table-column prop="" label="总点击数" min-width="95" align="center">
+<!--         <el-table-column prop="" label="总点击数" min-width="95" align="center">
         </el-table-column>
         <el-table-column prop="" label="已兑换数" min-width="95" align="center">
         </el-table-column>
         <el-table-column prop="" label="平均点击数" min-width="95" align="center">
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
         </el-table-column>
         <el-table-column prop="state" label="状态" min-width="95" align="center">
           <template slot-scope="scope">
             <el-tag type="info" v-show="scope.row.state==1">未审核</el-tag>
             <el-tag type="success" v-show="scope.row.state==2">已通过</el-tag>
+            <el-tag type="danger" v-show="scope.row.state==3">不通过</el-tag>
           </template>
         </el-table-column>
 
         <el-table-column label="操作" min-width="300" align="center">
          <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button type="success" size="small" @click="handleCheck(scope.$index, scope.row)">通过</el-button>
-          <el-button type="info" size="small" @click="handleCheck(scope.$index, scope.row)">不通过</el-button>
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1">编辑</el-button>
+          <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="2">通过</el-button>
+          <el-button type="info" size="small" @click="handleReject(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="3">不通过</el-button>
           <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -84,6 +85,8 @@
 
 
   import { CardcheckGet } from '../../api/api';
+  import { Cardcheck } from '../../api/api';
+  import { Carddelete } from '../../api/api';
 
   import { Message } from 'element-ui';
 
@@ -141,12 +144,26 @@
 
 
     handleEdit(index, row){
-      // sessionStorage.setItem('newcardtype', 'admin');
+      console.log(row.id)
+      sessionStorage.setItem('cardcheckid', row.id);
       this.$router.push({ path: '/Card/Cardchange' });
     },
 
-    handleCheck(){
+    handlePass(index, row){
+      var allParams = '?id='+row.id+'&state=2';
+      Cardcheck(allParams).then((res) => {
+        console.log(res)
+        this.$message.success(`审核成功`);
+        this.getlist()
+      });
+    },
 
+    handleReject(index, row){
+      var allParams = '?id='+row.id+'&state=3';
+      Cardcheck(allParams).then((res) => {
+        this.$message.success(`审核成功`);
+        this.getlist()
+      });
     },
 
     handleDelete(index, row) {
@@ -157,7 +174,7 @@
     submitdel(){
       this.dialogDelVisible = false;
       var allParams='?id='+this.delId
-      typeDel(allParams).then((res) => {
+      Carddelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -195,7 +212,7 @@
 </script>
 
 
-<style>
+<style scope>
 .icon{
   width: 20px;
   height: 20px;

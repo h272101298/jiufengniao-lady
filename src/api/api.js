@@ -61,13 +61,13 @@ axios.interceptors.response.use(
 
 
 
-let base = 'http://192.168.1.172/Shop/public/v1'
+// let base = 'http://192.168.1.172/Shop/public/v1'
 
-let base1 = 'http://192.168.1.172/Shop/public/v2'
+// let base1 = 'http://192.168.1.172/Shop/public/v2'
 
-// let base = 'https://template.geckowing.com/v1'
+let base = 'https://template.geckowing.com/v1'
 
-// let base1 = 'https://template.geckowing.com/v2'
+let base1 = 'https://template.geckowing.com/v2'
 
 export default base
 
@@ -261,10 +261,17 @@ export const CardtypeGet = params => { return axios.get(`${base1}/product/stocks
 
 export const CardshopPost = params => { return axios.post(`${base1}/card/promotion`, params).then(res => res.data)}
 
-
-
 export const CardcheckGet = params => { return axios.get(`${base1}/card/promotions`+`${params}`).then(res => res.data)}
 
+export const CardoneGet = params => { return axios.get(`${base1}/card/promotion`+`${params}`).then(res => res.data)}
+
+export const CardonePut = params => { return axios.put(`${base1}/card/promotion`+`${params}`).then(res => res.data)}
+
+export const Cardcheck = params => { return axios.get(`${base1}/check/promotion`+`${params}`).then(res => res.data)}
+
+export const Carddelete = params => { return axios.delete(`${base1}/card/promotion`+`${params}`).then(res => res.data)}
+
+export const Cardupdown = params => { return axios.get(`${base1}/enable/promotion`+`${params}`).then(res => res.data)}
 
 
 export const DefaultCardPost = params => { return axios.post(`${base1}/default/card`, params).then(res => res.data)}

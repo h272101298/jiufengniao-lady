@@ -17,33 +17,40 @@
     </el-form>
 
     <el-table :data="list" border stripe style="width:95%" size="small">
-      <el-table-column prop="id" label="商品名称" width="100" align="center">
+      <el-table-column prop="product.name" label="商品名称" width="100" align="center">
       </el-table-column>
 
-      <el-table-column prop="id" label="商品分类" width="100" align="center">
+      <el-table-column prop="description" label="活动描述" width="160" align="center">
       </el-table-column>
 
-      <el-table-column prop="logo" label="卡牌图片" width="260" align="center">
+      <el-table-column prop="list" label="卡牌图片" width="240" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.logo" style="max-width:50px;max-height:100px;" />
+          <img v-for="item in scope.row.list" :src="item.cover" style="max-width:35px;max-height:60px;margin-right: 5px;" />
         </template>
       </el-table-column>
 
-      <el-table-column prop="title" label="活动有效时间" width="260" align="center">
+      <el-table-column prop="start" label="活动开始时间" width="150" align="center">
       </el-table-column>
-      <el-table-column prop="level" label="折扣" min-width="100" align="center">
+      <el-table-column prop="end" label="活动开始时间" width="150" align="center">
       </el-table-column>
-      <el-table-column prop="level" label="库存" min-width="100" align="center">
+      <el-table-column prop="offer" label="折扣" min-width="80" align="center">
       </el-table-column>
-
-      <el-table-column prop="level" label="总点击数" min-width="100" align="center">
-      </el-table-column>
-      <el-table-column prop="level" label="已兑换数" min-width="100" align="center">
+      <el-table-column prop="number" label="库存" min-width="80" align="center">
       </el-table-column>
 
-      <el-table-column prop="level" label="期望平均点击数" min-width="110" align="center">
+      <el-table-column prop="clickCount" label="总点击数" min-width="80" align="center">
       </el-table-column>
-      <el-table-column prop="level" label="平均点击数" min-width="100" align="center">
+      <el-table-column prop="exchangeCount" label="已兑换数" min-width="80" align="center">
+      </el-table-column>
+
+      <el-table-column prop="" label="平均点击数" min-width="100" align="center">
+        <template slot-scope="scope">
+          <span v-show="scope.row.exchangeCount!==0">{{ scope.row.clickCount / scope.row.exchangeCount}}</span>
+          <span v-show="scope.row.exchangeCount==0">0</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
       </el-table-column>
 
       <el-table-column label="操作" min-width="240" align="center">
@@ -51,7 +58,6 @@
         <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
-
 
   </el-table>
 
@@ -78,11 +84,8 @@
 
 
 <script>
-
-
-  import {typeGet} from '../../api/api';
-  import {typePost} from '../../api/api';
-  import {typeDel} from '../../api/api';
+  import { CardcheckGet } from '../../api/api';
+  import { Carddelete } from '../../api/api';
 
   import qiniu from '../../api/qiniu';
 
@@ -125,25 +128,15 @@
 
 
     getlist(){
-      // var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
-      // typeGet(allParams).then((res) => {
-      //   this.list=res.data.data;
-      //   this.count=res.data.count
-      // });
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
+      CardcheckGet(allParams).then((res) => {
+        this.list=res.data.data;
+        this.count=res.data.count
+      });
     },
 
 
-    clear(){
-      this.filter={
-        title:'',
-        level:''
-      }
-    },
 
-
-    handleEdit(index, row){
-
-    },
 
     handleDelete(index, row) {
       this.dialogDelVisible = true;
@@ -153,7 +146,7 @@
     submitdel(){
       this.dialogDelVisible = false;
       var allParams='?id='+this.delId
-      typeDel(allParams).then((res) => {
+      Carddelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -196,7 +189,7 @@
 </script>
 
 
-<style>
+<style scope>
 .icon{
   width: 20px;
   height: 20px;

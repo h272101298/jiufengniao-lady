@@ -193,10 +193,10 @@ let router = new Router({
     iconCls: 'iconfont menu-yingxiao',
     children: [
     {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false}, 
-    {path: '/Card/Cardgood',component: Cardgood,name: '活动商品',menuShow: true}, 
+    {path: '/Card/Cardgood',component: Cardgood,name: '活动列表',menuShow: true}, 
     {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true}, 
     {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
-    {path: '/Card/Cardpass',component: Cardpass,name: '通过商品',menuShow: true}
+    {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true}
     ]
 }, 
 
@@ -250,24 +250,26 @@ router.beforeEach((to, from, next) => {
     } else {
 
         let permissions = window.sessionStorage.getItem('permissions')
-
+        if(!permissions){
+            next({path: '/Login'})
+        }
         // console.log(permissions.indexOf(to.meta.permission))
         if (to.meta.permission && permissions) {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-           MessageBox.alert('没有访问权限', '提示', {
-            confirmButtonText: '确定',
-            closeOnPressEscape:false,
-            showClose:false,
-            callback: action => {
+             MessageBox.alert('没有访问权限', '提示', {
+                confirmButtonText: '确定',
+                closeOnPressEscape:false,
+                showClose:false,
+                callback: action => {
 
-            }
-        });
-       }
-   }else{
-     next() 
- }
+                }
+            });
+         }
+     }else{
+       next() 
+   }
 }
 })
 
