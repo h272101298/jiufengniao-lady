@@ -154,6 +154,8 @@ export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`
 //商品列表
 export const goodGet = params => { return axios.get(`${base}/products`+`${params}`).then(res => res.data)}
 
+export const goodnotify = params => { return axios.get(`${base}/product/notify`+`${params}`).then(res => res.data)}
+
 export const goodPost = params => { return axios.post(`${base}/product`, params).then(res => res.data)}
 
 export const goodRecycle = params => { return axios.get(`${base}/del/product`+`${params}`).then(res => res.data)}//加入回收站

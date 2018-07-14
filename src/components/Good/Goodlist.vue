@@ -209,7 +209,8 @@
   import { goodhot } from '../../api/api';
   import { goodnew } from '../../api/api';
   import { goodoffer } from '../../api/api';
-
+  import { goodnotify } from '../../api/api';
+  
   export default {
     data() {
       return {
@@ -217,7 +218,7 @@
         selpush:{
           type:''
         },
-        
+
         list:[],
 
         loading: false,
@@ -227,6 +228,7 @@
 
         dialogDelVisible:false,
         dialogSeeVisible:false,
+        dialogSelVisible:false,
         filter:{
           name:'',
           state:''
