@@ -163,6 +163,9 @@
     top: 38px!important;
     min-width: 100px;
   }
+  .el-button--default{
+    margin-right: 10px;
+  }
 </style>
 
 <style scoped lang="scss">

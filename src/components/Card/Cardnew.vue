@@ -66,7 +66,7 @@
       </el-form-item>
 
       <el-form-item label="期望点击数：" prop="clickNum">
-        <el-input v-model="newgood.clickNum" type="number" min="0" placeholder="建议值30" style="width:500px;"></el-input>
+        <el-input v-model="newgood.clickNum" type="number" min="0" placeholder="建议值30" style="width:500px;"></el-input><span style="margin-left: 10px;">注：期望值低于26百分百能抽到卡牌</span>
       </el-form-item>
 
       <el-form-item label="获得优惠折扣：" prop="offer">

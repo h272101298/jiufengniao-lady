@@ -106,6 +106,10 @@
   <el-tooltip class="icon" effect="dark" content="加入回收站" placement="top">
     <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
   </el-tooltip>
+
+  <el-tooltip class="icon" effect="dark" content="选择推送" placement="bottom">
+    <img src="../../../static/images/icon/select.png" @click="handlepush(scope.$index, scope.row)">
+  </el-tooltip>
 </template>
 </el-table-column>
 </el-table>
@@ -116,7 +120,23 @@
 
 
 
-
+<el-col>
+  <el-dialog title="选择推送" :visible.sync="dialogSelVisible" width="30%">
+    <el-form label-width="110px" :model="selpush" label-position='left'>
+      <el-form-item label="商品名称：" class="fw6" prop="type">
+        <el-select v-model="selpush.type" placeholder="请选择推送类型" @change="bindsel">
+          <el-option label="热门" value="hot">热门</el-option>
+          <el-option label="新品" value="new">新品</el-option>
+          <el-option label="优惠" value="offer">优惠</el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button type="primary" size="small" @click="submitsel()">确 定</el-button>
+      <el-button type="info" size="small" @click="dialogSelVisible = false">取 消</el-button>
+    </div>
+  </el-dialog>
+</el-col>
 
 
 
@@ -194,6 +214,10 @@
     data() {
       return {
 
+        selpush:{
+          type:''
+        },
+        
         list:[],
 
         loading: false,
@@ -244,26 +268,46 @@
         this.getlist();
       },
 
+      handlepush(index,row){
+       this.dialogSelVisible = true;    
+       this.selId = row.id;
+     },
+
+     bindsel(e){
+      console.log(e)
+      this.selpush.type=e
+    },
+
+    submitsel(){
+      console.log(this.selpush)
+      var allParams = '?id='+ this.selId + '&type=' + this.selpush.type;
+      goodnotify(allParams).then((res) => {
+       this.dialogSelVisible = false;
+       this.$message({
+        message: '提交成功',
+        type: 'success'
+      });
+     });
+    },
 
 
+    checkPer(){
+      var per = sessionStorage.getItem('permissions');
+      console.log(per.indexOf('productReview')>-1)
+      if(per.indexOf('productReview')>-1){
+        this.checkper1=true;
+      }
 
-      checkPer(){
-        var per = sessionStorage.getItem('permissions');
-        console.log(per.indexOf('productReview')>-1)
-        if(per.indexOf('productReview')>-1){
-          this.checkper1=true;
-        }
+      if(per.indexOf('productShelf')>-1){
+        this.checkper2=true;
+      }
 
-        if(per.indexOf('productShelf')>-1){
-          this.checkper2=true;
-        }
+      if(per.indexOf('productAdd')>-1){
+        this.checkper2=true;
+      }
+    },
 
-        if(per.indexOf('productAdd')>-1){
-          this.checkper2=true;
-        }
-      },
-
-      changehot(index){
+    changehot(index){
         // console.log(index)
         var allParams = '?product_id='+ index.id;
         goodhot(allParams).then((res) => {
