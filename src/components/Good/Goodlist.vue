@@ -92,7 +92,7 @@
 <el-table-column label="操作" width="150" align="center">
  <template slot-scope="scope">
   <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
-    <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)"  v-show="checkper3">
+    <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)" v-show="checkper3">
   </el-tooltip>
   <el-tooltip class="icon" effect="dark" content="查看详情" placement="bottom">
     <img src="../../../static/images/icon/look.png" @click="handleSee(scope.$index, scope.row)">
@@ -305,7 +305,7 @@
       }
 
       if(per.indexOf('productAdd')>-1){
-        this.checkper2=true;
+        this.checkper3=true;
       }
     },
 

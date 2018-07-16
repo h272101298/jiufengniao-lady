@@ -26,16 +26,21 @@ import Commission from '@/components/Agent/Commission'
 
 import Reportlist from '@/components/Report/Reportlist'
 
-// import Spike from '@/components/Mark/Spike'
-// import Card from '@/components/Mark/Card'
-// import Group from '@/components/Mark/Group'
-
 
 import Cardnew from '@/components/Card/Cardnew'
 import Cardgood from '@/components/Card/Cardgood'
 import Cardcheck from '@/components/Card/Cardcheck'
 import Cardchange from '@/components/Card/Cardchange'
 import Cardpass from '@/components/Card/Cardpass'
+
+
+import Kannew from '@/components/Kan/Kannew'
+import Kangood from '@/components/Kan/Kangood'
+import Kancheck from '@/components/Kan/Kancheck'
+import Kanchange from '@/components/Kan/Kanchange'
+import Kanpass from '@/components/Kan/Kanpass'
+
+
 
 
 // import MyShop from '@/components/Shop/MyShop'
@@ -157,6 +162,7 @@ let router = new Router({
         {path: '/Agent/Withdraw',component: Withdraw,name: '提现管理',menuShow: true,meta:{permission: 'withdrawList'}}
         ]
     }, 
+
 // {
 //     leaf: true,
 //     path: '/',
@@ -167,20 +173,6 @@ let router = new Router({
 //     iconCls: 'iconfont menu-baobiaofenxi-copy',
 //     children: [
 //     {path: '/Report/Reportlist',component: Reportlist,name: '统计图表',menuShow: true}, 
-//     ]
-// }, 
-
-// {
-//     path: '/',
-//     name: '营销活动',
-//     component: Home,
-//     redirect: '/Mark/Spike',
-//     menuShow: true,
-//     iconCls: 'iconfont menu-yingxiao',
-//     children: [
-//     {path: '/Mark/Spike',component: Spike,name: '限时秒杀',menuShow: true}, 
-//     {path: '/Mark/Card',component: Card,name: '集卡牌',menuShow: true}, 
-//     {path: '/Mark/Group',component: Group,name: '团购',menuShow: true}    
 //     ]
 // }, 
 
@@ -197,6 +189,22 @@ let router = new Router({
     {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true}, 
     {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
     {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true}
+    ]
+}, 
+
+{
+    path: '/',
+    name: '限时砍价',
+    component: Home,
+    redirect: '/Kan/Spike',
+    menuShow: true,
+    iconCls: 'iconfont menu-yingxiao',
+    children: [
+    {path: '/Kan/Kannew',component: Kannew,name: '发布活动',menuShow: false}, 
+    {path: '/Kan/Kangood',component: Kangood,name: '活动列表',menuShow: true}, 
+    {path: '/Kan/Kancheck',component: Kancheck,name: '待审核',menuShow: true}, 
+    {path: '/Kan/Kanchange',component: Kanchange,name: ' 编辑活动',menuShow: false}, 
+    {path: '/Kan/Kanpass',component: Kanpass,name: '通过列表',menuShow: true}
     ]
 }, 
 
@@ -258,18 +266,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-             MessageBox.alert('没有访问权限', '提示', {
-                confirmButtonText: '确定',
-                closeOnPressEscape:false,
-                showClose:false,
-                callback: action => {
+           MessageBox.alert('没有访问权限', '提示', {
+            confirmButtonText: '确定',
+            closeOnPressEscape:false,
+            showClose:false,
+            callback: action => {
 
-                }
-            });
-         }
-     }else{
-       next() 
-   }
+            }
+        });
+       }
+   }else{
+     next() 
+ }
 }
 })
 
