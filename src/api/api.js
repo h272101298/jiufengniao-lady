@@ -158,6 +158,8 @@ export const goodnotify = params => { return axios.get(`${base}/product/notify`+
 
 export const goodPost = params => { return axios.post(`${base}/product`, params).then(res => res.data)}
 
+export const goodoneGet = params => { return axios.get(`${base}/product`+`${params}`).then(res => res.data)}
+
 export const goodRecycle = params => { return axios.get(`${base}/del/product`+`${params}`).then(res => res.data)}//加入回收站
 
 export const goodDel = params => { return axios.delete(`${base}/product`+`${params}`).then(res => res.data)}//回收站永久删除

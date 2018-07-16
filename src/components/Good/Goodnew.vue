@@ -200,7 +200,7 @@
   import { deliveryGet } from '../../api/api';
 
   import { goodPost } from '../../api/api';
-
+  import { goodoneGet } from '../../api/api';
 
   import { Message } from 'element-ui';
 
@@ -364,13 +364,62 @@
         })
       },
 
-      // 快递
-      getexpress(){
-        var allParams = '?page=1'+ '&limit=10000';
-        deliveryGet(allParams).then((res) => {
-          this.expressArr=res.data.data;
+            checkgoodid(){//goodoneGet
+        var goodid=sessionStorage.getItem('goodeditid');
+        // sessionStorage.removeItem('goodeditid');
+        // var goodedit=sessionStorage.getItem('goodedit');
+        // var goodedit = JSON.parse(goodedit);
+        // // this.goodedit=goodedit
+        // console.log(goodedit)
+
+        if(goodid){
+
+
+          var allParams = '?id='+ goodid;
+          goodoneGet(allParams).then((res) => {
+            console.log(res.data)
+
+            this.newgood1={
+              name:res.data.name,
+              detail:res.data.detail,
+              brokerage:res.data.brokerage,
+              share_title:res.data.share_title,
+              share_detail:res.data.share_detail
+            }
+
+            if(res.data.norm=="change"){
+              this.sameornot='2'
+              this.showmore=true
+            }else{
+             this.sameornot='1'
+           }
+           this.type1=res.data.typeArray[0]
+           this.gettype2(this.type1)
+           this.type2=res.data.typeArray[1]
+           this.gettype3(this.type2)
+
+           this.newgood2={
+            cover:res.data.default.cover,
+            images:res.data.default.images,
+            origin_price:res.data.default.origin_price,
+            price:res.data.default.price,
+            type_id:res.data.typeArray[2],
+          }
+
+          // this.pricearr=res.data.stocks
+          // console.log(1)
         });
+        }
+
       },
+
+      // 快递
+      // getexpress(){
+      //   var allParams = '?page=1'+ '&limit=10000';
+      //   deliveryGet(allParams).then((res) => {
+      //     this.expressArr=res.data.data;
+      //   });
+      // },
 
       // 分类
       gettype1(){
@@ -653,7 +702,8 @@
 
   mounted: function () {
     this.gettype1()
-    this.getexpress()
+    this.checkgoodid()
+    // this.getexpress()
 
   }
 }
