@@ -47,7 +47,7 @@
           <i class="el-icon-plus"></i>
           <!-- <img :src="imgSrc" class="pre-img" style="max-width:60%;max-height:30%;border:2px dashed #ccc;border-radius:10px;display: block" > -->
           <!-- <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button> -->
-          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为16:9</div>
+          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为5:4</div>
         </el-upload>
       </el-form-item>
 

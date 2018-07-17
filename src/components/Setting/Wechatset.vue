@@ -44,10 +44,6 @@
               <label v-show="set">{{wxset.ssl_cert}}</label>
               <label v-show="set">{{wxset.ssl_key}}</label>
 
-<!--               <el-upload v-show="show" :action="upurl" :data="uptoken" :on-remove="handleRemove" :on-success="handleSuccess" :limit="2" :on-exceed="handleExceed" :file-list="wechatset.File">
-                <el-button size="small" type="primary">上传证书</el-button>
-              </el-upload> -->
-
               <el-upload v-show="show" :action="base" :on-remove="handleRemove" :on-success="handleSuccess" :limit="2" :on-exceed="handleExceed" :on-error="handleError" :file-list="wechatset.File">
                 <el-button size="small" type="primary">上传证书</el-button>
               </el-upload> 
@@ -56,17 +52,21 @@
               <span v-show="show">提示：证书为pem格式文件，第一个为证书部分，第二个为秘钥部分，请按顺序上传</span>
             </el-form-item>
 
-            <el-button v-show="set && checkper1" size="small" type="primary" style="margin-left:162px;margin-top:20px;" @click="changebase" >编辑</el-button>
+            <el-form-item>
 
-            <el-button v-show="show" size="small" type="primary" style="margin-left:122px;margin-top:20px;" @click="confirm">提交</el-button>
-            <el-button v-show="show" size="small" @click="cancel">取消</el-button>
+              <el-button v-show="set && checkper1" size="small" type="primary" style="margin-left:162px;margin-top:20px;" @click="changebase" >编辑</el-button>
+
+              <el-button v-show="show" size="small" type="primary" style="margin-left:122px;margin-top:20px;" @click="confirm">提交</el-button>
+              <el-button v-show="show" size="small" @click="cancel">取消</el-button>
+
+            </el-form-item>
           </el-form>
 
 
         </el-tab-pane>
 
 
-<!--         <el-tab-pane label="模板消息" name="config">
+        <el-tab-pane label="模板消息" name="config">
 
 
           <el-form ref="baseset" :model="baseset" label-width="170px" class="form" status-icon size="small">
@@ -92,7 +92,7 @@
             <el-button v-show="show" size="small" @click="cancel">取消</el-button>
           </el-form>
 
-        </el-tab-pane> -->
+        </el-tab-pane>
       </el-tabs>
 
     </el-row>

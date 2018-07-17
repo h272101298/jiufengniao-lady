@@ -15,7 +15,7 @@
         <el-tab-pane label="基本信息" name="base">
           <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules1" ref="newgood1" :model="newgood1">
            <el-form-item label="商品名称：" prop="name">
-            <el-input v-model="newgood1.name" placeholder="请输入商品名称"></el-input>
+            <el-input v-model="newgood1.name" placeholder="请输入商品名称(26字以内)"></el-input>
           </el-form-item> 
 
 
@@ -143,6 +143,7 @@
     <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
       <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
         <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
+        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片比例为5:4</p>
       </el-upload>
     </el-form-item>
 
@@ -150,6 +151,7 @@
       <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood2.images" :multiple="true" accept="image/*"><!--:on-exceed="handleExceed" :limit="10"  -->
         <!-- <i class="el-icon-plus"></i> -->
         <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
+        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片比例为5:4</p>
       </el-upload>
     </el-form-item>
 
@@ -365,7 +367,7 @@
       },
 
             checkgoodid(){//goodoneGet
-        var goodid=sessionStorage.getItem('goodeditid');
+              var goodid=sessionStorage.getItem('goodeditid');
         // sessionStorage.removeItem('goodeditid');
         // var goodedit=sessionStorage.getItem('goodedit');
         // var goodedit = JSON.parse(goodedit);
@@ -752,5 +754,11 @@
   position: relative;
   left: 1px;
   top: -14px;
+}
+
+
+.upload__tip{
+  font-size: 12px;
+  color: #606266;
 }
 </style>

@@ -194,7 +194,7 @@
         this.editId = row.id;
         this.diatitle='编辑管理员',
         this.dialogNewVisible = true;
-
+        this.putorup='put'
         this.newadmin={
           username:row.username,
           password:row.password,
@@ -243,6 +243,7 @@
     mounted: function () {
       this.getlist();
       this.getrole();
+      this.checkPer();
     }
   }
 </script>
