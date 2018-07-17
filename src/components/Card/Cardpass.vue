@@ -274,12 +274,9 @@
       this.$message.warning(`只能上传5张图片`);
     },
 
-
-
     editcard(){
       var that= this
       that.havecard=true
-
     },
 
 
@@ -345,7 +342,7 @@
 </script>
 
 
-<style scope>
+<style scoped>
 .icon{
   width: 20px;
   height: 20px;

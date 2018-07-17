@@ -88,7 +88,9 @@ export const advertPost = params => { return axios.post(`${base}/advert`, params
 
 export const advertDel = params => { return axios.delete(`${base}/advert`+`${params}`).then(res => res.data)}
 
+export const posterPost = params => { return axios.post(`${base}/poster/configs`, params).then(res => res.data)}
 
+export const posterGet = params => { return axios.get(`${base}/poster/configs`+`${params}`).then(res => res.data)}
 
 
 //经营类目
@@ -256,6 +258,9 @@ export const wxconfigPost = params => { return axios.post(`${base}/tx/config`, p
 
 export const wxconfigGet = params => { return axios.get(`${base}/tx/config`+`${params}`).then(res => res.data)}
 
+export const wxmodelPost = params => { return axios.post(`${base}/notify/config`, params).then(res => res.data)}
+
+export const wxmodelGet = params => { return axios.get(`${base}/notify/configs`+`${params}`).then(res => res.data)}
 
 
 //卡牌

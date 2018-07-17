@@ -143,7 +143,7 @@
     <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
       <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
         <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片比例为5:4</p>
+        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为4:5</p>
       </el-upload>
     </el-form-item>
 
@@ -151,7 +151,7 @@
       <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood2.images" :multiple="true" accept="image/*"><!--:on-exceed="handleExceed" :limit="10"  -->
         <!-- <i class="el-icon-plus"></i> -->
         <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片比例为5:4</p>
+        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为4:5</p>
       </el-upload>
     </el-form-item>
 
