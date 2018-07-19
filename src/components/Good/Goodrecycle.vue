@@ -174,7 +174,7 @@
       submitdel(){
         this.dialogDelVisible = false;
         var allParams='?id='+this.delId
-        goodRecycle(allParams).then((res) => {
+        goodDel(allParams).then((res) => {
           console.log(res)
           if (res.msg === "ok") {
            this.$message({

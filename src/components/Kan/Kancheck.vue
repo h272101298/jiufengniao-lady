@@ -11,36 +11,26 @@
     <el-col :span="24" class="warp-main">
 
       <el-table :data="list" border stripe style="width:95%" size="small">
-        <el-table-column prop="product.name" label="商品名称" width="100" align="center">
+        <el-table-column prop="product.name" label="商品名称" min-width="150" align="center">
         </el-table-column>
 
-        <el-table-column prop="description" label="活动描述" width="160" align="center">
+        <el-table-column prop="description" label="活动标题" min-width="200" align="center">
         </el-table-column>
 
-        <el-table-column prop="list" label="卡牌图片" width="240" align="center">
-          <template slot-scope="scope">
-            <img v-for="item in scope.row.list" :src="item.cover" style="max-width:35px;max-height:60px;margin-right: 5px;" />
-          </template>
+
+        <el-table-column prop="start" label="活动开始时间" width="200" align="center">
+        </el-table-column>
+        <el-table-column prop="end" label="活动结束时间" width="200" align="center">
+        </el-table-column>
+        <el-table-column prop="origin_price" label="原价" min-width="100" align="center">
+        </el-table-column>
+        <el-table-column prop="min_price" label="底价" min-width="100" align="center">
         </el-table-column>
 
-        <el-table-column prop="start" label="活动开始时间" width="150" align="center">
-        </el-table-column>
-        <el-table-column prop="end" label="活动开始时间" width="150" align="center">
-        </el-table-column>
-        <el-table-column prop="offer" label="折扣" min-width="95" align="center">
-        </el-table-column>
-        <el-table-column prop="number" label="库存" min-width="95" align="center">
+        <el-table-column prop="clickNum" label="砍价次数" min-width="100" align="center">
         </el-table-column>
 
-<!--         <el-table-column prop="" label="总点击数" min-width="95" align="center">
-        </el-table-column>
-        <el-table-column prop="" label="已兑换数" min-width="95" align="center">
-        </el-table-column>
-        <el-table-column prop="" label="平均点击数" min-width="95" align="center">
-        </el-table-column> -->
-        <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
-        </el-table-column>
-        <el-table-column prop="state" label="状态" min-width="95" align="center">
+        <el-table-column prop="state" label="状态" min-width="100" align="center">
           <template slot-scope="scope">
             <el-tag type="info" v-show="scope.row.state==1">未审核</el-tag>
             <el-tag type="success" v-show="scope.row.state==2">已通过</el-tag>
@@ -84,9 +74,9 @@
 <script>
 
 
-  import { CardcheckGet } from '../../api/api';
-  import { Cardcheck } from '../../api/api';
-  import { Carddelete } from '../../api/api';
+  import { KancheckGet } from '../../api/api';
+  import { Kancheck } from '../../api/api';
+  import { Kandelete } from '../../api/api';
 
   import { Message } from 'element-ui';
 
@@ -127,8 +117,8 @@
 
 
     getlist(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
-      CardcheckGet(allParams).then((res) => {
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&state=1';
+      KancheckGet(allParams).then((res) => {
         this.list=res.data.data;
         this.count=res.data.count
       });
@@ -145,13 +135,13 @@
 
     handleEdit(index, row){
       console.log(row.id)
-      sessionStorage.setItem('cardcheckid', row.id);
-      this.$router.push({ path: '/Card/Cardchange' });
+      sessionStorage.setItem('kancheckid', row.id);
+      this.$router.push({ path: '/Kan/Kanchange' });
     },
 
     handlePass(index, row){
       var allParams = '?id='+row.id+'&state=2';
-      Cardcheck(allParams).then((res) => {
+      Kancheck(allParams).then((res) => {
         console.log(res)
         this.$message.success(`审核成功`);
         this.getlist()
@@ -160,7 +150,7 @@
 
     handleReject(index, row){
       var allParams = '?id='+row.id+'&state=3';
-      Cardcheck(allParams).then((res) => {
+      Kancheck(allParams).then((res) => {
         this.$message.success(`审核成功`);
         this.getlist()
       });
@@ -174,7 +164,7 @@
     submitdel(){
       this.dialogDelVisible = false;
       var allParams='?id='+this.delId
-      Carddelete(allParams).then((res) => {
+      Kandelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -206,7 +196,7 @@
 
   mounted: function () {
     this.getlist();
-    this.checkPer();
+    // this.checkPer();
   }
 }
 </script>

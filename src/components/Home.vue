@@ -4,7 +4,7 @@
     <el-col :span="24" class="topbar-wrap">
 
       <div class="topbar-title">
-        <span style="font-size: 18px;color: #fff;">模板商城后台</span>
+        <span style="font-size: 18px;color: #fff;">乐芭商城后台</span>
       </div>
 
       <div class="topbar-account topbar-btn">

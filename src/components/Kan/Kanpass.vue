@@ -10,94 +10,64 @@
 
     <el-col :span="24" class="warp-main">
 
-      <el-tabs v-model="activeName" type="card">
-        <el-tab-pane label="通过列表" name="list">
 
-          <el-table :data="list" border stripe style="width:95%" size="small">
-            <el-table-column prop="product.name" label="商品名称" width="100" align="center">
-            </el-table-column>
-
-            <el-table-column prop="description" label="活动描述" width="160" align="center">
-            </el-table-column>
-
-            <el-table-column prop="list" label="卡牌图片" width="240" align="center">
-              <template slot-scope="scope">
-                <img v-for="item in scope.row.list" :src="item.cover" style="max-width:35px;max-height:60px;margin-right: 5px;" />
-              </template>
-            </el-table-column>
-
-            <el-table-column prop="start" label="活动开始时间" width="150" align="center">
-            </el-table-column>
-            <el-table-column prop="end" label="活动开始时间" width="150" align="center">
-            </el-table-column>
-            <el-table-column prop="offer" label="折扣" min-width="80" align="center">
-            </el-table-column>
-            <el-table-column prop="number" label="库存" min-width="80" align="center">
-            </el-table-column>
-
-            <el-table-column prop="clickCount" label="总点击数" min-width="80" align="center">
-            </el-table-column>
-            <el-table-column prop="exchangeCount" label="已兑换数" min-width="80" align="center">
-            </el-table-column>
-
-            <el-table-column prop="" label="平均点击数" min-width="100" align="center">
-              <template slot-scope="scope">
-                <span v-show="scope.row.exchangeCount!==0">{{ scope.row.clickCount / scope.row.exchangeCount}}</span>
-                <span v-show="scope.row.exchangeCount==0">0</span>
-              </template>
-            </el-table-column>
-
-            <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
-            </el-table-column>
-
-            <el-table-column prop="enable" label="状态" min-width="110" align="center">
-             <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1">上线</el-button>
-              <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0">下线</el-button>
-            </template>
-          </el-table-column>
-
-          <el-table-column label="操作" min-width="100" align="center">
-           <template slot-scope="scope">
-            <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          </template>
+      <el-table :data="list" border stripe style="width:95%" size="small">
+        <el-table-column prop="product.name" label="商品名称" width="100" align="center">
         </el-table-column>
 
-      </el-table>
+        <el-table-column prop="description" label="商品名称" width="100" align="center">
+        </el-table-column>
 
-      <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-      </el-pagination>
+        <el-table-column prop="number" label="库存" width="100" align="center">
+        </el-table-column>
 
-    </el-tab-pane>
+        <el-table-column prop="start" label="活动开始时间" width="150" align="center">
+        </el-table-column>
+        <el-table-column prop="end" label="活动结束时间" width="150" align="center">
+        </el-table-column>
+        <el-table-column prop="origin_price" label="原价" min-width="80" align="center">
+        </el-table-column>
+        <el-table-column prop="min_price" label="底价" min-width="80" align="center">
+        </el-table-column>
 
-    <el-tab-pane label="卡牌设置" name="base">
+        <el-table-column prop="clickNum" label="砍价次数" min-width="80" align="center">
+        </el-table-column>
+        <el-table-column prop="bargain_count" label="已砍价次数" min-width="80" align="center">
+        </el-table-column>
+        <el-table-column prop="bargain_price" label="已砍价金额" min-width="100" align="center">
+        </el-table-column>
+        <el-table-column prop="" label="当前价格" min-width="100" align="center">
+         <template slot-scope="scope">
+          <p>{{ scope.row.origin_price - scope.row.bargain_price}}</p>
+        </template>
+      </el-table-column>
 
-      <el-form label-width="120px" width="900px" center style="width: 1000px" ref="defaultcard" :model="defaultcard" v-show="havecard">
-        <el-form-item prop="images" label="上传图片：">
-          <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="defaultcard.images" :multiple="true" accept="image/*" :on-exceed="handleExceed" :limit="5">
-            <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
-          </el-upload>
-        </el-form-item>
+      <el-table-column prop="hot" label="活动页推荐" min-width="100" align="center" v-show="">
+        <template slot-scope="scope">
+          <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1" @click="changehot(scope.row)">是</el-button>
+          <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1" @click="changehot(scope.row)">否</el-button>
+        </template>
+      </el-table-column>
 
-        <el-form-item style="">
-          <el-button type="primary" @click="save()" size="medium">提交</el-button>
-          <el-button @click="cancel" size="medium">取 消</el-button>
-        </el-form-item>
-      </el-form>
+      <el-table-column prop="enable" label="状态" min-width="110" align="center">
+       <template slot-scope="scope">
+        <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1">上线</el-button>
+        <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0">下线</el-button>
+      </template>
+    </el-table-column>
+
+    <el-table-column label="操作" min-width="100" align="center">
+     <template slot-scope="scope">
+      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+    </template>
+  </el-table-column>
+
+</el-table>
+
+<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+</el-pagination>
 
 
-
-      <div v-show="!havecard" class="cardbox">
-
-        <img v-for="item in defcard" :src="item.cover" class="card">
-
-      </div>
-
-      <!-- <p v-show="!havecard">请设置默认卡牌图片</p> -->
-      <el-button type="primary" @click="editcard()" size="medium" v-show="!havecard">设置</el-button>
-
-    </el-tab-pane>
-  </el-tabs>
 </el-col>
 
 
@@ -118,25 +88,17 @@
 
 <script>
 
-  import { CardcheckGet } from '../../api/api';
-  import { DefaultCardPost } from '../../api/api';
-  import { DefaultCardGet } from '../../api/api';
-  import { Cardupdown } from '../../api/api';
-  import { Carddelete } from '../../api/api';
+  import { KancheckGet } from '../../api/api';
+  import { Kanupdown } from '../../api/api';
+  import { Kandelete } from '../../api/api';
+  import { Kanhot } from '../../api/api';
 
-  import qiniu from '../../api/qiniu';
 
   import { Message } from 'element-ui';
 
   export default {
     data() {
       return {
-        uptoken:{
-          token:qiniu.token,
-        },
-        upurl:qiniu.upurl,
-
-        activeName:'list',
 
         currentPage: 1,
         list:[],
@@ -153,18 +115,6 @@
         checkper1:false,
         checkper2:false,
 
-        defcard:[
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'}
-        ],
-        havecard:false,
-
-        defaultcard:{
-          images:[]
-        },
 
       };
     },
@@ -184,12 +134,11 @@
 
     getlist(){
       var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
-      CardcheckGet(allParams).then((res) => {
+      KancheckGet(allParams).then((res) => {
         this.list=res.data.data;
         this.count=res.data.count
       });
     },
-
 
     clear(){
       this.filter={
@@ -198,12 +147,9 @@
       }
     },
 
-
     handleEdit(index, row){
-      // Cardupdown
-
       var allParams = '?id='+row.id;
-      Cardupdown(allParams).then((res) => {
+      Kanupdown(allParams).then((res) => {
         this.$message.success(`修改成功`);
         this.getlist()
       });
@@ -214,10 +160,29 @@
       this.delId = row.id;
     },
 
+    changehot(index){
+      var allParams = '?id='+ index.id;
+      Kanhot(allParams).then((res) => {
+       console.log(res)
+       if (res.msg === "ok") {
+         this.$message({
+          message: '设置成功',
+          type: 'success'
+        });
+         this.getlist();
+       } else {
+         this.$message({
+          message: res.msg,
+          type: 'error'
+        });
+       }
+     })
+    },
+
     submitdel(){
       this.dialogDelVisible = false;
       var allParams='?id='+this.delId
-      Carddelete(allParams).then((res) => {
+      Kandelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -239,91 +204,6 @@
 
 
 
-
-
-
-
-
-
-
-
-    beforeUpload(file) {
-      // const isLt1M = file.size / 1024 / 1024 < 1;
-      // if (!isLt1M) {
-      //   this.$message.error('图片大小不能超过 1MB!');
-      // }
-      // return isLt1M;
-    },
-
-
-    handlelistSuccess(res, file,fileList){
-      this.defaultcard.images=[]
-      for(var i=0;i<fileList.length;i++){
-        this.defaultcard.images.push(qiniu.showurl+ fileList[i].response.key)
-      }
-    },
-
-    handleRemove(file, fileList) {
-      this.defaultcard.images=[]
-      for(var i=0;i<fileList.length;i++){
-        this.defaultcard.images.push(qiniu.showurl+ fileList[i].response.key)
-      }
-    },
-
-    handleExceed(files, fileList) {
-      this.$message.warning(`只能上传5张图片`);
-    },
-
-
-
-    editcard(){
-      var that= this
-      that.havecard=true
-
-    },
-
-
-    getdefcard(){//DefaultCardGet
-      var allParams = '';
-      DefaultCardGet(allParams).then((res) => {
-
-        if(res.data==''){
-          this.havecard=false
-        }else{
-          this.defcard=res.data;
-          this.havecard=false
-        }
-      });
-    },
-
-    save(){//DefaultCardPost
-      // console.log(this.defaultcard.images)
-
-      var allParams={list:this.defaultcard.images}
-      console.log(typeof allParams)
-      DefaultCardPost(allParams).then((res) => {
-        // console.log(res)
-        if (res.msg === "ok") {
-         this.$message({
-          message: '提交成功',
-          type: 'success'
-        });
-         this.havecard=true
-         this.getdefcard();
-       } else {
-         this.$message({
-          message: res.msg,
-          type: 'error'
-        });
-       }
-     });
-    },
-
-
-    cancel(){
-
-    },
-
     handleCurrentChange(val) {
       this.currentPage = val;
       this.getlist();
@@ -337,9 +217,8 @@
   },
 
   mounted: function () {
-    this.getlist();
-    this.getdefcard();
-    this.checkPer();
+    this.getlist(); 
+    // this.checkPer();
   }
 }
 </script>

@@ -31,7 +31,7 @@
 
       <el-table-column prop="start" label="活动开始时间" width="150" align="center">
       </el-table-column>
-      <el-table-column prop="end" label="活动开始时间" width="150" align="center">
+      <el-table-column prop="end" label="活动结束时间" width="150" align="center">
       </el-table-column>
       <el-table-column prop="offer" label="折扣" min-width="80" align="center">
       </el-table-column>

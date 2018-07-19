@@ -53,7 +53,7 @@
       </el-form-item>
 
       <el-form-item label="活动标题：" prop="description">
-        <el-input v-model="newgood.description" placeholder="请输入活动标题（16字以内）" style="width:500px;"></el-input>
+        <el-input v-model="newgood.description" placeholder="请输入活动标题（16字以内）" maxlength="16" style="width:500px;"></el-input>
       </el-form-item>
 
       <el-form-item label="奖品数量：" prop="number">

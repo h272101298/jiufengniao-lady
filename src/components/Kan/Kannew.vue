@@ -52,10 +52,10 @@
       </el-form-item>
 
       <el-form-item label="活动标题：" prop="description">
-        <el-input v-model="newgood.description" placeholder="请输入活动标题（16字以内）" style="width:500px;"></el-input>
+        <el-input v-model="newgood.description" placeholder="请输入活动标题（10字以内）" maxlength="10" style="width:500px;"></el-input>
       </el-form-item>
 
-      <el-form-item label="奖品数量：" prop="number">
+      <el-form-item label="商品数量：" prop="number">
         <el-input v-model="newgood.number" type="number" min="0" placeholder="" style="width:500px;"></el-input>
       </el-form-item>
 
@@ -64,30 +64,16 @@
         </el-date-picker>
       </el-form-item>
 
-      <el-form-item label="期望点击数：" prop="clickNum">
-        <el-input v-model="newgood.clickNum" type="number" min="0" placeholder="建议值30" style="width:500px;"></el-input><span style="margin-left: 10px;">注：期望值低于26百分百能抽到卡牌</span>
+      <el-form-item label="砍价次数：" prop="clickNum">
+        <el-input v-model="newgood.clickNum" type="number" min="0" placeholder="请输入砍价次数" style="width:500px;"></el-input>
       </el-form-item>
 
-      <el-form-item label="获得优惠折扣：" prop="offer">
-        <el-input v-model="newgood.offer" type="number" min="0" max="10" placeholder="请输入0到10之间的数字，填0为免费赠送" style="width:500px;"></el-input>
+      <el-form-item label="原价：" prop="origin">
+        <el-input v-model="newgood.origin" type="number" min="0" placeholder="请输入原价" style="width:500px;"></el-input>
       </el-form-item>
 
-
-      <el-form-item label="卡牌图片：" prop="sameornot">
-        <el-radio-group v-model="sameornot" @change="changeguige">
-          <el-radio label="1">系统默认</el-radio>
-          <el-radio label="2">自定义上传</el-radio>
-        </el-radio-group>
-      </el-form-item>
-
-      <el-form-item v-show="showmore" prop="images">
-        <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood.list" :multiple="true" accept="image/*" :on-exceed="handleExceed" :limit="5">
-          <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
-        </el-upload>
-      </el-form-item>
-
-      <el-form-item v-show="!showmore" prop="images">
-        <img v-for="item in defcard" :src="item.cover" class="card">
+      <el-form-item label="底价：" prop="min">
+        <el-input v-model="newgood.min" type="number" min="0" placeholder="请输入底价" style="width:500px;"></el-input>
       </el-form-item>
 
 
@@ -104,7 +90,6 @@
 
   <el-col>
     <el-dialog title="选择规格" :visible.sync="dialogVisible" width="1000">
-
       <el-table :data="guigelist" style="width: 100%" border size="mini" stripe>
         <el-table-column prop="detail" label="规格名称" min-width="150" align="center">
         </el-table-column>
@@ -123,7 +108,6 @@
         </template>
       </el-table-column>
     </el-table>
-
   </el-dialog>
 </el-col>
 
@@ -136,15 +120,12 @@
 
 <script>
 
-  import qiniu from '../../api/qiniu';
-
   import { typeGet } from '../../api/api';
 
   import { CardgoodGet } from '../../api/api';
   import { CardtypeGet } from '../../api/api';
-  import { CardshopPost } from '../../api/api';
+  import { KanshopPost } from '../../api/api';
 
-  import {DefaultCardGet} from '../../api/api';
   import { Message } from 'element-ui';
 
 
@@ -193,21 +174,16 @@
       };
 
       return {
-        uptoken:{
-          token:qiniu.token,
-        },
-        upurl:qiniu.upurl,
 
         newgood:{
           stock_id:'',
           description:'',
           number:'',
-          offer:'',
-          clickNum:'30',
-          list:[],
+          clickNum:'',
           start:'',
           end:'',
-          default:1
+          origin:'',
+          min:''
         },
 
         type_id:'',
@@ -221,11 +197,7 @@
           }
         },
 
-        // norm:false,
-
-
         guigelist:[],
-
 
         typeArr1:[],
         type1:'',
@@ -237,9 +209,6 @@
 
         selectgood:true,
 
-        sameornot:'1',
-        showmore:'',
-
         checkOptions:[],
         checkList:[],
         checkList1:[],
@@ -247,28 +216,23 @@
 
         dialogVisible:false,
 
-        defcard:[
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'},
-        {cover:'../static/images/default1.png'}
-        ],
 
 
         rules:{
-
           description: [
-          {required: true, message: '请输入商品详情', trigger: 'blur'},
+          {required: true, message: '请输入活动标题', trigger: 'blur'},
           ],
           number: [
           {required: true, validator: checkvalue, trigger: 'blur'},
           ],
-          clickNum: [
+          min: [
+          {required: true, validator: checkvalue1, trigger: 'blur'},
+          ],
+          origin: [
           {required: true, validator: checkvalue, trigger: 'blur'},
           ],
-          offer: [
-          {required: true, validator: checkvalue1, trigger: 'blur'},
+          clickNum: [
+          {required: true, validator: checkvalue, trigger: 'blur'},
           ],
         },
 
@@ -282,19 +246,6 @@
 
 
     methods:{
-
-      getdefcard(){
-        var allParams = '';
-        DefaultCardGet(allParams).then((res) => {
-
-          if(res.data==''){
-            this.havecard=false
-          }else{
-            this.defcard=res.data;
-            this.havecard=false
-          }
-        });
-      },
 
       // 分类
       gettype1(){
@@ -325,14 +276,12 @@
 
 
       getgood(){
-
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&type=' + this.type_id;
         CardgoodGet(allParams).then((res) => {
           this.goodData=res.data.data;
           this.count=res.data.count
         });
       },
-
 
       getSTime(val){
         console.log(val[0])
@@ -341,17 +290,7 @@
         this.newgood.end=val[1];
       },
 
-
-      changeguige(val){
-        if(val=="1"){
-          this.showmore=false
-        }else if(val=="2"){
-          this.showmore=true
-        }
-      },
-
       handleSelect(index, row){
-
         var allParams = '?product_id='+ row.id;
         CardtypeGet(allParams).then((res) => {
           console.log(res)
@@ -374,126 +313,76 @@
       },
 
 
-    //相册
-    beforeUpload(file) {
-      // const isLt1M = file.size / 1024 / 1024 < 1;
-      // if (!isLt1M) {
-      //   this.$message.error('图片大小不能超过 1MB!');
-      // }
-      // return isLt1M;
-    },
 
-    handleSuccess(res, file) {
-      this.newgood.cover =qiniu.showurl+ res.key
-    },
-
-    handlelistSuccess(res, file,fileList){
-      this.newgood.list=[]
-      for(var i=0;i<fileList.length;i++){
-        this.newgood.list.push(qiniu.showurl+ fileList[i].response.key)
-      }
-      // this.newgood.images=fileList
-    },
-
-    handleRemove(file, fileList) {
-      this.newgood.list=[]
-      for(var i=0;i<fileList.length;i++){
-        this.newgood.list.push(qiniu.showurl+ fileList[i].response.key)
-      }
-      // this.newgood.images=fileList
-    },
-
-    handleExceed(files, fileList) {
-      this.$message.warning(`只能上传5张图片`);
-    },
-
-
-    save(){
-      if(this.newgood.stock_id==''){
-        this.$message.error(`请选择商品`);
-        return
-      }
-      if(this.newgood.end=='' || this.newgood.end==''){
-        this.$message.error(`请选择活动时间`);
-        return
-      }
-      if(this.newgood.default==2 && this.newgood.list!==5){
-        this.$message.error(`请选择5张图片`);
-        return
-      }
-
-      this.$refs.newgood.validate((valid) => {
-        if (valid) {
-          if(this.showmore==false){
-            var allParams = {
-              stock_id:this.newgood.stock_id,
-              description:this.newgood.description,
-              number:this.newgood.number,
-              offer:this.newgood.offer,
-              clickNum:this.newgood.clickNum,
-              start:this.newgood.start,
-              end:this.newgood.end,
-              default:1
-            };
-
-          }else{
-            var allParams = {
-              stock_id:this.newgood.stock_id,
-              description:this.newgood.description,
-              number:this.newgood.number,
-              offer:this.newgood.offer,
-              clickNum:this.newgood.clickNum,
-              start:this.newgood.start,
-              end:this.newgood.end,
-              list:this.newgood.list
-            };
-          }
-          CardshopPost(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.$router.push({ path: '/Card/Cardgood' });
-
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }else{
-          return false;
+      save(){
+        if(this.newgood.stock_id==''){
+          this.$message.error(`请选择商品`);
+          return
         }
-      })
+        
+        if(this.newgood.end=='' || this.newgood.end==''){
+          this.$message.error(`请选择活动时间`);
+          return
+        }
 
+        this.$refs.newgood.validate((valid) => {
+          if (valid) {
+            var allParams = {
+              stock_id:this.newgood.stock_id,
+              description:this.newgood.description,
+              number:this.newgood.number,
+              offer:this.newgood.offer,
+              clickNum:this.newgood.clickNum,
+              start:this.newgood.start,
+              end:this.newgood.end,
+              min_price:this.newgood.min,
+              origin_price:this.newgood.origin,
+            };
+            
+            KanshopPost(allParams).then((res) => {
+              console.log(res)
+              if (res.msg === "ok") {
+               this.$message({
+                message: '提交成功',
+                type: 'success'
+              });
+               this.$router.push({ path: '/Kan/Kangood' });
+
+             } else {
+               this.$message({
+                message: res.msg,
+                type: 'error'
+              });
+             }
+           });
+          }else{
+            return false;
+          }
+        })
+
+      },
+
+      golist(){
+       this.$router.push({ path: '/Kan/Kangood' });
+     },
+
+
+     handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getgood();
     },
 
-    golist(){
 
-     this.$router.push({ path: '/Card/Cardgood' });
-   },
-
-
-   handleCurrentChange(val) {
-    this.currentPage = val;
-    this.getgood();
+    handleSizeChange(val){
+      this.limit = val;
+      this.getgood();
+    },
   },
 
 
-  handleSizeChange(val){
-    this.limit = val;
-    this.getgood();
-  },
-},
-
-
-mounted: function () {
-  this.gettype1()
-  this.getdefcard()
-}
+  mounted: function () {
+    this.gettype1()
+  }
 }
 </script>
 
@@ -501,10 +390,4 @@ mounted: function () {
 
 <style scope>
 
-
-.default{
-  width: 100px;
-  height: 144px;
-  /*display: block;*/
-}
 </style>

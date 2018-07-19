@@ -108,6 +108,27 @@
       }, 100);
       };
 
+      var checkvalue1 = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('此项不能为空'));
+        }
+        setTimeout(() => {
+          if (Math.sign(value) == 1) {
+            if(value%1 === 0){
+             callback();
+           }else{
+            callback();
+          }
+        } else if(Math.sign(value) == 0) {
+         callback();
+       } else if(Math.sign(value) == -1) {
+        callback(new Error('请输入正数'));
+      }else{
+        callback(new Error('请输入数字'));
+      }
+    }, 100);
+      };
+
       return {
         uptoken:{
           token:qiniu.token,
@@ -164,7 +185,7 @@
           {required: true, validator: checkvalue, trigger: 'blur'},
           ],
           offer: [
-          {required: true, validator: checkvalue, trigger: 'blur'},
+          {required: true, validator: checkvalue1, trigger: 'blur'},
           ],
         },
       };

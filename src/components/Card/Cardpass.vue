@@ -28,7 +28,7 @@
 
             <el-table-column prop="start" label="活动开始时间" width="150" align="center">
             </el-table-column>
-            <el-table-column prop="end" label="活动开始时间" width="150" align="center">
+            <el-table-column prop="end" label="活动结束时间" width="150" align="center">
             </el-table-column>
             <el-table-column prop="offer" label="折扣" min-width="80" align="center">
             </el-table-column>
@@ -52,7 +52,7 @@
 
             <el-table-column prop="enable" label="状态" min-width="110" align="center">
              <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1">上线</el-button>
+              <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1">上线</el-button>
               <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0">下线</el-button>
             </template>
           </el-table-column>
@@ -305,7 +305,7 @@
           message: '提交成功',
           type: 'success'
         });
-         this.havecard=true
+         this.havecard=false
          this.getdefcard();
        } else {
          this.$message({
@@ -318,7 +318,7 @@
 
 
     cancel(){
-
+      this.havecard=false
     },
 
     handleCurrentChange(val) {

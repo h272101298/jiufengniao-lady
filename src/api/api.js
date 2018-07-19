@@ -282,7 +282,24 @@ export const Carddelete = params => { return axios.delete(`${base1}/card/promoti
 
 export const Cardupdown = params => { return axios.get(`${base1}/enable/promotion`+`${params}`).then(res => res.data)}
 
-
 export const DefaultCardPost = params => { return axios.post(`${base1}/default/card`, params).then(res => res.data)}
 
 export const DefaultCardGet = params => { return axios.get(`${base1}/default/cards`+`${params}`).then(res => res.data)}
+
+
+// 砍价
+export const KanshopPost = params => { return axios.post(`${base1}/bargain/promotion`, params).then(res => res.data)}
+
+export const KancheckGet = params => { return axios.get(`${base1}/bargain/promotions`+`${params}`).then(res => res.data)}
+
+export const KanoneGet = params => { return axios.get(`${base1}/bargain/promotion`+`${params}`).then(res => res.data)}
+
+export const KanonePut = params => { return axios.put(`${base1}/bargain/promotion`+`${params}`).then(res => res.data)}
+
+export const Kancheck = params => { return axios.get(`${base1}/check/bargain/promotion`+`${params}`).then(res => res.data)}
+
+export const Kandelete = params => { return axios.delete(`${base1}/bargain/promotion`+`${params}`).then(res => res.data)}
+
+export const Kanupdown = params => { return axios.get(`${base1}/enable/bargain/promotion`+`${params}`).then(res => res.data)}
+
+export const Kanhot = params => { return axios.get(`${base1}/hot/bargain/promotion`+`${params}`).then(res => res.data)}//推荐

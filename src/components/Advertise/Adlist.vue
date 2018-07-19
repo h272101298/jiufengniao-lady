@@ -46,12 +46,11 @@
 
 
     <el-tab-pane label="集卡牌海报" name="card" style="padding-left: 100px;">
-
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="havecard">
         <el-form-item label="" v-show="havecard">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="cardsuccess" :show-file-list="false" accept="image/*">
             <img :src="cardpost" class="pre-img cardpost">
-            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为1:2</p>
+            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为9:16</p>
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -71,10 +70,7 @@
 
 
 
-
-
-    <el-tab-pane label="砍价背景" name="kan" style="padding-left: 100px;">
-
+    <el-tab-pane label="砍价海报" name="kan" style="padding-left: 100px;">
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="havekan">
         <el-form-item label="" v-show="havekan">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="kansuccess" :show-file-list="false" accept="image/*">
@@ -100,12 +96,11 @@
 
 
     <el-tab-pane label="分销海报" name="agent" style="padding-left: 100px;">
-
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="haveagent">
         <el-form-item label="" v-show="haveagent">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="agentsuccess" :show-file-list="false" accept="image/*">
             <img :src="agentpost" class="pre-img agentpost">
-            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为9:16</p>
+            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -120,12 +115,9 @@
 
       <el-button type="primary" @click="editagent()" size="small" v-show="!haveagent">设置</el-button>
 
-
     </el-tab-pane>
 
-
   </el-tabs>
-
 
 </el-row>
 </el-col>
@@ -142,7 +134,7 @@
           <i class="el-icon-plus"></i>
           <!-- <img :src="imgSrc" class="pre-img" style="max-width:60%;max-height:30%;border:2px dashed #ccc;border-radius:10px;display: block" > -->
           <!-- <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button> -->
-          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为5:4</div>
+          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为9:16</div>
         </el-upload>
       </el-form-item>
 
@@ -575,8 +567,8 @@
 }
 
 .cardpost{
-  width:300px;
-  height:150px;
+  width:320px;
+  height:180px;
   border:1px dashed #ccc;
   border-radius:6px;
   display: block
@@ -584,15 +576,15 @@
 
 .kanbox{
   width: 600px;
-  height: 350px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content:flex-start;
 }
 
 .kanpost{
-  width:180px;
-  height:320px;
+  width:320px;
+  height:180px;
   border:1px dashed #ccc;
   border-radius:6px;
   display: block
