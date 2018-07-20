@@ -94,6 +94,7 @@
 <script>
   import { goodGet } from '../../api/api';
   import { goodRecycle } from '../../api/api';
+  import { goodDel } from '../../api/api';
 
   export default {
     data() {
