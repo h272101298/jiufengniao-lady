@@ -47,7 +47,7 @@
 <!--       <el-table-column prop="name" label="所属商家" min-width="200" align="center">
 </el-table-column> -->
 
-<el-table-column prop="hot" label="热门" min-width="100" align="center" v-show="checkper2">
+<!-- <el-table-column prop="hot" label="热门" min-width="100" align="center" v-show="checkper2">
   <template slot-scope="scope">
     <el-button type="success" size="mini" v-show="scope.row.hot==1" @click="changehot(scope.row)">是</el-button>
     <el-button type="" size="mini" v-show="scope.row.hot==0" @click="changehot(scope.row)">否</el-button>
@@ -59,9 +59,9 @@
     <el-button type="success" size="mini" v-show="scope.row.new==1" @click="changenew(scope.row)">是</el-button>
     <el-button type="" size="mini" v-show="scope.row.new==0" @click="changenew(scope.row)">否</el-button>
   </template>
-</el-table-column>
+</el-table-column> -->
 
-<el-table-column prop="offer" label="优惠" min-width="100" align="center" v-show="checkper2">
+<el-table-column prop="offer" label="首页推荐" min-width="100" align="center" v-show="checkper2">
   <template slot-scope="scope">
     <el-button type="success" size="mini" v-show="scope.row.offer==1" @click="changeoffer(scope.row)">是</el-button>
     <el-button type="" size="mini" v-show="scope.row.offer==0" @click="changeoffer(scope.row)">否</el-button>
