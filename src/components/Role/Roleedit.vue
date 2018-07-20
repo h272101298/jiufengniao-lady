@@ -242,6 +242,18 @@
     },
 
     methods:{
+      getname(){
+        var rolename=sessionStorage.getItem('roleeditname')
+        if(rolename){
+
+          this.newrole.name=rolename
+          sessionStorage.removeItem('roleeditname')
+        }else{
+
+        }
+
+      },
+
       getpermission(){
         var allParams = '';
         permissionGet(allParams).then((res) => {
@@ -288,7 +300,7 @@
               return
             }
 
-            var id=sessionStorage.getItem('roleeditId')
+            var id = sessionStorage.getItem('roleeditId')
             sessionStorage.removeItem('roleeditId')
 
             if(id){
@@ -323,16 +335,17 @@
               });
              }
            });
-         }else{
-          return false;
-        }
-      })
+          }else{
+            return false;
+          }
+        })
       },
 
     },
 
     mounted: function () {
       this.getpermission();
+      this.getname()
     }
   }
 </script>

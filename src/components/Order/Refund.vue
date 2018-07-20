@@ -12,7 +12,7 @@
 
 
       <el-table :data="list" border stripe size="small">
-        <el-table-column prop="order_id" label="ID" min-width="100" align="center">
+        <el-table-column prop="order_id" label="ID" min-width="80" align="center">
         </el-table-column>
         <el-table-column prop="order.group_number" label="订单号" min-width="200" align="center">
         </el-table-column>
@@ -20,27 +20,36 @@
         </el-table-column>
         <el-table-column prop="order.store.name" label="商家" min-width="200" align="center">
         </el-table-column>
-        <el-table-column prop="order.price" label="总计" min-width="200" align="center">
+        <el-table-column prop="order.price" label="总计" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="订单状态" min-width="200" align="center">
+
+        <el-table-column prop="created_at" label="下单时间" min-width="200" align="center">
+        </el-table-column>
+
+        <el-table-column prop="created_at" label="订单详情" min-width="200" align="center">
          <template slot-scope="scope">
-          <div class="cell">待退款</div>
+          <el-button type="primary" size="mini" @click="handleEdit(scope.row)">订单详情</el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="created_at" label="下单时间" min-width="200" align="center">
-      </el-table-column>
 
-      <el-table-column label="操作" min-width="200" align="center"  v-show="checkper1">
+      <el-table-column prop="name" label="订单状态" min-width="150" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" v-show="scope.row.state==1" @click="handleEdit(scope.row)">订单详情</el-button>
-        <el-button type="danger" size="small" v-show="scope.row.state==1" @click="handleDelete(scope.row)">确认退款</el-button>
+        <el-tag type="" size="small" v-show="scope.row.state==1">待退款</el-tag>
         <el-tag type="success" size="small" v-show="scope.row.state==2">已退款</el-tag>
         <el-tag type="info" size="small" v-show="scope.row.state==3">退款失败</el-tag>
       </template>
     </el-table-column>
-  </el-table>
-  <el-pagination style="float:left;margin:20px 0 0 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-  </el-pagination>
+
+    <el-table-column label="操作" min-width="200" align="center">
+     <template slot-scope="scope">
+      <span v-show="scope.row.state!==1 && checkper1" class="fw4">已操作</span>
+      <el-button type="danger" size="mini" v-show="scope.row.state==1 && checkper1" @click="handleDelete(scope.row)">确认退款</el-button>
+    </template>
+  </el-table-column>
+
+</el-table>
+<el-pagination style="float:left;margin:20px 0 0 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+</el-pagination>
 </el-col>
 
 <el-col>

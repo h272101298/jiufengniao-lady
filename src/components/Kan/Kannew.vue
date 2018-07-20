@@ -359,7 +359,6 @@
             return false;
           }
         })
-
       },
 
       golist(){

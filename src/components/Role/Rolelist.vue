@@ -161,6 +161,7 @@
         // this.putorup='put';
         // this.newrole.name=row.name
         this.editId = row.id;
+        sessionStorage.setItem('roleeditname', row.name);
         sessionStorage.setItem('roleeditId', row.id);
         this.$router.push({ path: '/Role/Roleedit' });
         // this.diatitle='编辑角色';

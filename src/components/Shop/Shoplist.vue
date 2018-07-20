@@ -9,18 +9,18 @@
     </el-col>
 
     <el-col :span="24" class="warp-main">
-     <el-form :inline="true">
-<!--       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone">新增店铺</el-button>
-      </el-form-item> -->
-      <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入店铺名称" style="min-width: 200px;" ></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" size="medium" @click="search">搜索</el-button>
-        <el-button size="medium" @click="clear">清空</el-button>
-      </el-form-item>
-    </el-form>
+<!--      <el-form :inline="true">
+<el-form-item>
+   <el-button type="primary" size="medium" @click="newone">新增店铺</el-button>
+ </el-form-item>
+ <el-form-item>
+   <el-input v-model="filter.name" placeholder="请输入店铺名称" style="min-width: 200px;" ></el-input>
+ </el-form-item>
+ <el-form-item>
+   <el-button type="primary" size="medium" @click="search">搜索</el-button>
+   <el-button size="medium" @click="clear">清空</el-button>
+ </el-form-item>
+    </el-form> -->
 
     <el-table :data="list" border stripe size="small">
       <el-table-column prop="name" label="店铺名称" min-width="100" align="center">
@@ -31,21 +31,21 @@
       </el-table-column>
       <el-table-column prop="name" label="商品数量" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="type" label="店铺类型" min-width="200" align="center">
+<!--       <el-table-column prop="type" label="店铺类型" min-width="200" align="center">
         <template slot-scope="scope">
           <span v-show="scope.row.type==1 ? true : false">个人认证</span>
           <span v-show="scope.row.type==2 ? true : false">平台自营</span>
           <span v-show="scope.row.type==3 ? true : false">企业认证</span>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column prop="name" label="经营类目" min-width="200" align="center">
       </el-table-column>
 
-      <el-table-column label="操作" min-width="200" align="center">
+<!--       <el-table-column label="操作" min-width="200" align="center">
         <template slot-scope="scope">
           <el-button type="primary" size="small" @click="detail">店铺详情</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
 
     <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">

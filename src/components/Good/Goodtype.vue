@@ -48,12 +48,12 @@
     <el-table-column prop="level" label="级别" min-width="200" align="center">
     </el-table-column>
 
-    <el-table-column prop="title" label="热门" width="100" align="center">
+<!--     <el-table-column prop="title" label="热门" width="100" align="center">
      <template slot-scope="scope">
       <el-button type="success" size="mini" v-show="scope.row.is_hot==1&&scope.row.level==3" @click="changehot(scope.row)">是</el-button>
       <el-button type="info" size="mini" v-show="scope.row.is_hot==0&&scope.row.level==3" @click="changehot(scope.row)">否</el-button>
     </template>
-  </el-table-column>
+  </el-table-column> -->
 <!--       
       <el-table-column prop="up" label="上级分类" min-width="200" align="center">
       </el-table-column> -->

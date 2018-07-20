@@ -50,7 +50,7 @@
         <el-form-item label="" v-show="havecard">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="cardsuccess" :show-file-list="false" accept="image/*">
             <img :src="cardpost" class="pre-img cardpost">
-            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为9:16</p>
+            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -75,7 +75,7 @@
         <el-form-item label="" v-show="havekan">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="kansuccess" :show-file-list="false" accept="image/*">
             <img :src="kanpost" class="pre-img kanpost">
-            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为9:16</p>
+            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -134,7 +134,7 @@
           <i class="el-icon-plus"></i>
           <!-- <img :src="imgSrc" class="pre-img" style="max-width:60%;max-height:30%;border:2px dashed #ccc;border-radius:10px;display: block" > -->
           <!-- <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button> -->
-          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为9:16</div>
+          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为16:9</div>
         </el-upload>
       </el-form-item>
 
@@ -231,7 +231,7 @@
       getpsoter(){
         var allParams = ''
         posterGet(allParams).then((res) => {
-          console.log(res.data.card_poster)
+          // console.log(res.data.card_poster)
           if(res.data.card_poster){
             this.cardshow=res.data.card_poster
           }else{
@@ -250,9 +250,6 @@
             this.agentshow='../../../static/images/default1.png'
           }
 
-          // this.kanshow=res.data.bargain_poster
-          // this.agentshow=res.data.proxy_poster
-
         });
       },
 
@@ -262,7 +259,6 @@
       },
 
       cardsuccess(res, file,fileList){
-        // console.log(fileList)
         this.cardpost=qiniu.showurl+ fileList[0].response.key
       },
 
@@ -299,8 +295,6 @@
       cancelcard(){
         this.havecard=false
       },
-
-
 
 
 
@@ -402,12 +396,6 @@
 
 
 
-
-
-
-
-
-
       checkPer(){
         var per = sessionStorage.getItem('permissions');
 
@@ -441,11 +429,11 @@
      },
 
      beforeUpload(file) {
-      const isLt1M = file.size / 1024 / 1024 < 1;
-      if (!isLt1M) {
-        this.$message.error('图片大小不能超过 1MB!');
-      }
-      return isLt1M;
+      // const isLt1M = file.size / 1024 / 1024 < 1;
+      // if (!isLt1M) {
+      //   this.$message.error('图片大小不能超过 1MB!');
+      // }
+      // return isLt1M;
     },
 
     handleSuccess(res, file) {
@@ -457,7 +445,7 @@
 
     handleExceed(files, fileList) {
       // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      this.$message.warning(`只能上传1张图片`);
+      this.$message.warning(`一次只能上传1张图片`);
     },
 
     save(){

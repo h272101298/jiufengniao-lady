@@ -67,10 +67,8 @@
 
         <el-table-column label="操作" min-width="200" align="center">
          <template slot-scope="scope">
-          <el-button type="" size="mini" @click="handleSee(scope.row)">订单详情</el-button>
-
-          <el-button type="primary" v-show="scope.row.state=='paid' && checkper1" size="mini" @click="handleSend(scope.row)">发货</el-button>
-
+          <el-button type="primary" size="mini" @click="handleSee(scope.row)">订单详情</el-button>
+          <el-button type="success" v-show="scope.row.state=='paid' && checkper1" size="mini" @click="handleSend(scope.row)">发货</el-button>
         </template>
       </el-table-column>
     </el-table>

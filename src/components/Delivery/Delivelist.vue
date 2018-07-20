@@ -13,9 +13,9 @@
       <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="快递列表" name="list">
           <el-button type="primary" size="medium" @click="newone">新增快递</el-button>
-          <p style="padding: 10px;font-size: 14px;background-color: #E9F0D8;color:#468847;width: 370px; text-align: center;">请<a style="color: #4077ca" href="http://pam213sin.bkt.clouddn.com/ExpressCode.xlsx" download="" mce_href="#">点击下载</a>快递简码填写对应快递的简码，否则查询将失败</p>
+          <span style="padding: 10px;font-size: 14px;background-color: #E9F0D8;color:#468847;width: 370px; text-align: center;margin-left: 10px;">请<a style="color: #4077ca" href="https://sheng.qdbnm.com/ExpressCode.xlsx" download="" mce_href="#">点击下载</a>快递简码，填写对应快递的简码，否则查询将失败</span>
 
-          <el-table :data="list" v-loading="loading" border stripe size="small">
+          <el-table :data="list" v-loading="loading" border stripe size="small" style="margin-top: 10px;">
             <el-table-column prop="title" label="快递名称" min-width="200" align="center">
             </el-table-column>
             <el-table-column prop="code" label="快递简码" min-width="200" align="center">
@@ -40,19 +40,10 @@
 
         <el-form label-width="130px" width="700px" center style="width: 800px" ref="config" :model="config" :rules="configrule">
 
-
-<!--           <el-form-item label="是否开启快递鸟：">
-            <el-radio-group @change="kgchange" v-model="kaiguan">
-              <el-radio :label="1">是</el-radio>
-              <el-radio :label="2">否</el-radio>
-            </el-radio-group>
-          </el-form-item> -->
-
           <el-form-item label="商户ID：" prop="businessId" >
             <el-input v-model="config.businessId" placeholder="请输入商户ID" v-show="noconfig==true"></el-input>
             <span v-show="noconfig==false">{{configinfo.business_id}}</span>
           </el-form-item>
-
 
           <el-form-item label="API key："  prop="apiKey">
             <el-input v-model="config.apiKey" placeholder="请输入API key" v-show="noconfig==true"></el-input>
@@ -62,7 +53,6 @@
           <el-form-item label="注册地址：">
             <a href="http://www.kdniao.com/">http://www.kdniao.com/</a>
           </el-form-item>
-
 
           <el-form-item style="margin-left: calc(50% - 185px);">
             <el-button type="primary" @click="save1()" v-show="noconfig==true">保 存</el-button>
@@ -74,8 +64,6 @@
     </el-tabs>
 
   </el-col>
-
-
 
 
 
@@ -310,7 +298,7 @@
         var that = this;
         var allParams = '';
         kdconfigGet(allParams).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           if(res.data==''){
             that.noconfig = true
           }else{

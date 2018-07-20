@@ -4,7 +4,7 @@ import { Message } from 'element-ui';
 import { MessageBox } from 'element-ui';
 import router from '../router/index'
 
-axios.defaults.timeout = 15000
+axios.defaults.timeout = 1500000
 axios.defaults.withCredentials = true
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 

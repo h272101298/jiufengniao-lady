@@ -26,7 +26,6 @@ import Commission from '@/components/Agent/Commission'
 
 import Reportlist from '@/components/Report/Reportlist'
 
-
 import Cardnew from '@/components/Card/Cardnew'
 import Cardgood from '@/components/Card/Cardgood'
 import Cardcheck from '@/components/Card/Cardcheck'
@@ -41,9 +40,9 @@ import Kanchange from '@/components/Kan/Kanchange'
 import Kanpass from '@/components/Kan/Kanpass'
 
 
+// import Groupnew from '@/components/Group/Groupnew'
 
 
-// import MyShop from '@/components/Shop/MyShop'
 import Shoplist from '@/components/Shop/Shoplist'
 import Newshop from '@/components/Shop/Newshop'
 import Selfshop from '@/components/Shop/Selfshop'
@@ -56,7 +55,6 @@ import Adminlist from '@/components/Role/Adminlist'
 import Rolelist from '@/components/Role/Rolelist'
 import Roleedit from '@/components/Role/Roleedit'
 
-import Baseset from '@/components/Setting/Baseset'
 import Wechatset from '@/components/Setting/Wechatset'
 import Document from '@/components/Setting/Document'
 
@@ -95,8 +93,6 @@ let router = new Router({
         children: [
         {path: '/Shop/Newshop',component: Newshop,name: '我的店铺',menuShow: true,meta:{permission: 'myStore'}}, 
         {path: '/Shop/Shoplist',component: Shoplist,name: '商家列表',menuShow: true,meta:{permission: 'storeList'}}, 
-        // {path: '/Shop/Newshop',component: Newshop,name: '新增商铺',menuShow: false}, 
-        // {path: '/Shop/Selfshop',component: Selfshop,name: '自营商铺',menuShow: true}, 
         {path: '/Shop/Settleapply',component: Settleapply,name: '入驻申请',menuShow: true,meta:{permission: 'settleList'}},
         {path: '/Shop/Shoptype',component: Shoptype,name: '经营类目',menuShow: true,meta:{permission: 'storeCategoryList'}}
         ]
@@ -106,7 +102,7 @@ let router = new Router({
         component: Home,
         redirect: '/Good/Goodlist',
         menuShow: true,
-        iconCls: 'iconfont menu-shangpin',
+        iconCls: 'iconfont menu-good',
         children: [
         {path: '/Good/Goodnew',component: Goodnew,name: '添加商品',menuShow: false,meta:{permission: 'productAdd'}}, 
         {path: '/Good/Goodlist',component: Goodlist,name: '商品列表',menuShow: true,meta:{permission: ''}}, 
@@ -120,7 +116,7 @@ let router = new Router({
         component: Home,
         redirect: '/Order/Orderlist',
         menuShow: true,
-        iconCls: 'iconfont menu-74wodedingdan',
+        iconCls: 'iconfont menu-dingdan',
         children: [
         {path: '/Order/Orderlist',component: Orderlist,name: '购物订单',menuShow: true,meta:{permission: ''}}, 
         // {path: '/Order/Teamwork',component: Teamwork,name: '拼团订单',menuShow: true},    
@@ -134,7 +130,7 @@ let router = new Router({
         component: Home,
         redirect: '/Delivery/Delivelist',
         menuShow: true,
-        iconCls: 'iconfont menu-truck',
+        iconCls: 'iconfont menu-kuaidi',
         children: [
         {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}}
         ]
@@ -152,9 +148,9 @@ let router = new Router({
         path: '/',
         name: '代理管理',
         component: Home,
-        redirect: '/Agent/Userlist',
+        redirect: '/Agent/Proxyapply',
         menuShow: true,
-        iconCls: 'iconfont menu-yonghu',
+        iconCls: 'iconfont menu-agent',
         children: [
         {path: '/Agent/Proxyapply',component: Proxyapply,name: '分销申请',menuShow: true,meta:{permission: 'proxyApplyList'}}, 
         {path: '/Agent/Proxylist',component: Proxylist,name: '代理列表',menuShow: true,meta:{permission: 'proxyList'}}, 
@@ -180,9 +176,9 @@ let router = new Router({
     path: '/',
     name: '集卡牌',
     component: Home,
-    redirect: '/Card/Spike',
+    redirect: '/Card/Cardgood',
     menuShow: true,
-    iconCls: 'iconfont menu-yingxiao',
+    iconCls: 'iconfont menu-card',
     children: [
     {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false}, 
     {path: '/Card/Cardgood',component: Cardgood,name: '活动列表',menuShow: true}, 
@@ -194,11 +190,23 @@ let router = new Router({
 
 {
     path: '/',
+    name: '拼团',
+    component: Home,
+    redirect: '/Group/Groupnew',
+    menuShow: false,
+    iconCls: 'iconfont menu-pintuan',
+    children: [
+    // {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false}, 
+    ]
+}, 
+
+{
+    path: '/',
     name: '限时砍价',
     component: Home,
     redirect: '/Kan/Spike',
     menuShow: true,
-    iconCls: 'iconfont menu-yingxiao',
+    iconCls: 'iconfont menu-kanjia',
     children: [
     {path: '/Kan/Kannew',component: Kannew,name: '发布活动',menuShow: false}, 
     {path: '/Kan/Kangood',component: Kangood,name: '活动列表',menuShow: true}, 
@@ -216,7 +224,7 @@ let router = new Router({
     component: Home,
     redirect: '/Advertise/Adlist',
     menuShow: true,
-    iconCls: 'iconfont menu-guanggaogongguan',
+    iconCls: 'iconfont menu-guanggao',
     children: [
     {path: '/Advertise/Adlist',component: Adlist,name: '广告列表',menuShow: true,meta:{permission: 'advertList'}}
     ]
@@ -226,7 +234,7 @@ let router = new Router({
     component: Home,
     redirect: '/Role/Adminlist',
     menuShow: true,
-    iconCls: 'iconfont menu-yuechi',
+    iconCls: 'iconfont menu-quanxian',
     children: [
     {path: '/Role/Adminlist',component: Adminlist,name: '管理员列表',menuShow: true,            meta:{permission: 'adminList'}}, 
     {path: '/Role/Rolelist',component: Rolelist,name: '角色列表',menuShow: true,meta:{permission: 'roleList'}},
@@ -240,13 +248,10 @@ let router = new Router({
     menuShow: true,
     iconCls: 'iconfont menu-xitong',
     children: [
-    // {path: '/Setting/Baseset',component: Baseset,name: '基本设置',menuShow: true}, 
     {path: '/Setting/Wechatset',component: Wechatset,name: '微信设置',menuShow: true,meta:{permission: 'txConfig'}}, 
     {path: '/Setting/Document',component: Document,name: '关于我们',menuShow: true,meta:{permission: 'documentList'}}]
 }, ]
 })
-
-
 
 
 
@@ -266,18 +271,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-           MessageBox.alert('没有访问权限', '提示', {
-            confirmButtonText: '确定',
-            closeOnPressEscape:false,
-            showClose:false,
-            callback: action => {
+             MessageBox.alert('没有访问权限', '提示', {
+                confirmButtonText: '确定',
+                closeOnPressEscape:false,
+                showClose:false,
+                callback: action => {
 
-            }
-        });
-       }
-   }else{
-     next() 
- }
+                }
+            });
+         }
+     }else{
+       next() 
+   }
 }
 })
 

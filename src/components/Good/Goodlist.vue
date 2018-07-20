@@ -185,7 +185,7 @@
         </template>
       </el-form-item>
 
-      <el-form-item label="分享描述：" class="fw6">
+      <el-form-item label="商品描述：" class="fw6">
         <template slot-scope="scope">
           <span class="fw4">{{currow.share_detail}}</span>    
         </template>
@@ -295,7 +295,7 @@
 
     checkPer(){
       var per = sessionStorage.getItem('permissions');
-      console.log(per.indexOf('productReview')>-1)
+      // console.log(per.indexOf('productReview')>-1)
       if(per.indexOf('productReview')>-1){
         this.checkper1=true;
       }
