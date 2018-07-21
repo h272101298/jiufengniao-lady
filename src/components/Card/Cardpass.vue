@@ -237,16 +237,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
     beforeUpload(file) {
       // const isLt1M = file.size / 1024 / 1024 < 1;
       // if (!isLt1M) {
@@ -356,16 +346,10 @@
   justify-content:flex-start;
 }
 .card{
-
-  /*float: left;*/
   width: 100px;
   height: 150px;
   margin-right: 20px;
   border:1px solid #aaa; 
 }
 
-
-.el-button+.el-button {
-  margin-left: 0px!important;
-}
 </style>

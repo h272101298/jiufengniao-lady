@@ -36,7 +36,7 @@
       </el-tab-pane>
 
 
-      <el-tab-pane label="参数配置" name="config"  v-show="checkper3">
+      <el-tab-pane label="参数配置" name="config" v-if="checkper3">
 
         <el-form label-width="130px" width="700px" center style="width: 800px" ref="config" :model="config" :rules="configrule">
 
@@ -313,6 +313,7 @@
     mounted: function () {
       this.getlist();
       this.getconfig();
+      this.checkPer();
     }
   }
 </script>

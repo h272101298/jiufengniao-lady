@@ -26,8 +26,8 @@
     <el-table-column label="操作" width="500" align="center">
      <template slot-scope="scope">
       <el-button type="primary" size="mini" @click="handleSee(scope.$index, scope.row)">预览</el-button>
-      <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
-      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
+      <el-button type="primary" size="mini" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+      <el-button type="danger" size="mini" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
     </template>
   </el-table-column>
 

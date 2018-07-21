@@ -444,9 +444,9 @@
   height: 20px;
   margin: 2px;
 }
-.el-button+.el-button {
-  margin-left: 0px!important;
-}
+/*.el-button+.el-button {
+  margin-left: 0px;
+}*/
 .seeimg{
   max-width: 150px;
   max-height: 150px;

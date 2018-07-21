@@ -26,118 +26,118 @@
         <!--展开折叠开关-->
         <div class="menu-toggle" @click.prevent="collapse">
           <i class="iconfont menu-angleleft" v-show="!collapsed"></i>
-            <i class="iconfont menu-angleright" v-show="collapsed"></i>
-            <!-- <span v-show="!collapsed" style="color:#bbb;">《</span> -->
-            <!-- <span v-show="collapsed" style="color:#bbb;">》</span> -->
-          </div>
-          <!--导航菜单--> 
-          <!-- <el-menu default-active="0" router :collapse="collapsed"> -->
-            <el-menu default-active="0" router :collapse="collapsed" unique-opened>
-              <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
-                <el-submenu v-if="!item.leaf" :index="index+''">
-                  <template slot="title"><i :class="item.iconCls"></i>
-                    <span slot="title">{{item.name}}</span>
-                  </template>
-                  <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
-                    <i :class="term.iconCls"></i>
-                    <span slot="title">{{term.name}}</span>
-                  </el-menu-item>
-                </el-submenu>
-                <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''">
-                  <i :class="item.iconCls"></i>
-                  <span slot="title">{{item.children[0].name}}</span>
+          <i class="iconfont menu-angleright" v-show="collapsed"></i>
+        </div>
+        <!--导航菜单--> 
+        <!-- <el-menu default-active="0" router :collapse="collapsed"> -->
+          <el-menu default-active="0" router :collapse="collapsed" unique-opened>
+            <template v-for="(item,index) in $router.options.routes" v-if="item.menuShow">
+              <el-submenu v-if="!item.leaf" :index="index+''">
+                <template slot="title"><i :class="item.iconCls"></i>
+                  <span slot="title">{{item.name}}</span>
+                </template>
+                <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
+                  <i :class="term.iconCls"></i>
+                  <span slot="title">{{term.name}}</span>
                 </el-menu-item>
-              </template>
-            </el-menu>
-          </aside>
+              </el-submenu>
+              <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''">
+                <i :class="item.iconCls"></i>
+                <span slot="title">{{item.children[0].name}}</span>
+              </el-menu-item>
+            </template>
+          </el-menu>
+        </aside>
 
-          <!--右侧内容区-->
-          <section class="content-container">
-            <div class="grid-content bg-purple-light">
-              <el-col :span="24" class="content-wrapper">
-                <transition name="fade" mode="out-in">
-                  <router-view></router-view>
-                </transition>
-              </el-col>
-            </div>
-          </section>
-        </el-col>
-      </el-row>
-    </template>
+        <!--右侧内容区-->
+        <section class="content-container">
+          <div class="grid-content bg-purple-light">
+            <el-col :span="24" class="content-wrapper">
+              <transition name="fade" mode="out-in">
+                <router-view></router-view>
+              </transition>
+            </el-col>
+          </div>
+        </section>
+      </el-col>
+    </el-row>
+  </template>
 
-    <script>
-      import { requestLogout } from '../api/api';
-
-
-      export default {
-        name: 'home',
-        created(){
+  <script>
+    import { requestLogout } from '../api/api';
 
 
-        },
-        data () {
-          return {
-            collapsed: false,
-            fullscreen: false,
-            fstext:'全屏',
-            username:''
-          }
-        },
-        methods: {
-          quanping(){
-            let element = document.documentElement;
-            if (this.fullscreen) {
-              this.fstext='全屏'
-              if (document.exitFullscreen) {
-                document.exitFullscreen();
-              } else if (document.webkitCancelFullScreen) {
-                document.webkitCancelFullScreen();
-              } else if (document.mozCancelFullScreen) {
-                document.mozCancelFullScreen();
-              } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-              }
-            } else {
-             this.fstext='退出全屏'
-             if (element.requestFullscreen) {
-              element.requestFullscreen();
-            } else if (element.webkitRequestFullScreen) {
-              element.webkitRequestFullScreen();
-            } else if (element.mozRequestFullScreen) {
-              element.mozRequestFullScreen();
-            } else if (element.msRequestFullscreen) {
+    export default {
+      name: 'home',
+      created(){
 
-              element.msRequestFullscreen();
-            }
-          }
-          this.fullscreen = !this.fullscreen;
-        },
 
-        collapse: function () {
-          this.collapsed = !this.collapsed;
-        },
-
-        showMenu(i, status){
-          this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
-        },
-
-        logout(){
-          var _this = this;
-          this.$confirm('确认退出吗?', '提示', {
-          }).then(() => {
-            var allParams = '';
-            requestLogout(allParams).then((res) => {
-              sessionStorage.removeItem('permissions');
-              sessionStorage.removeItem('username');
-            });
-            _this.$router.push('/login');
-          }).catch(() => {
-          });
+      },
+      data () {
+        return {
+          collapsed: false,
+          fullscreen: false,
+          fstext:'全屏',
+          username:''
         }
       },
-      mounted() {
-        var name = sessionStorage.getItem('username');
-        var arr =name.split('"')
+      methods: {
+        quanping(){
+          let element = document.documentElement;
+          if (this.fullscreen) {
+            this.fstext='全屏'
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitCancelFullScreen) {
+              document.webkitCancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+              document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+              document.msExitFullscreen();
+            }
+          } else {
+           this.fstext='退出全屏'
+           if (element.requestFullscreen) {
+            element.requestFullscreen();
+          } else if (element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen();
+          } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+          } else if (element.msRequestFullscreen) {
+
+            element.msRequestFullscreen();
+          }
+        }
+        this.fullscreen = !this.fullscreen;
+      },
+
+      collapse: function () {
+        this.collapsed = !this.collapsed;
+      },
+
+      showMenu(i, status){
+        this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
+      },
+
+      logout(){
+        var _this = this;
+        this.$confirm('确认退出吗?', '提示', {
+          type: 'warning',
+          center: true
+        }).then(() => {
+          var allParams = '';
+          requestLogout(allParams).then((res) => {
+            sessionStorage.removeItem('permissions');
+            sessionStorage.removeItem('username');
+          });
+          _this.$router.push('/login');
+        }).catch(() => {
+        });
+      }
+    },
+    mounted() {
+      var name = sessionStorage.getItem('username');
+      var arr =name.split('"')
         // console.log(arr[1])
         this.username=arr[1]
 
@@ -163,9 +163,10 @@
     top: 38px!important;
     min-width: 100px;
   }
-  .el-button--default{
-    margin-right: 10px;
-  }
+
+/*  .el-button+.el-button {
+    margin-left: 10px!important;
+  }*/
 </style>
 
 <style scoped lang="scss">

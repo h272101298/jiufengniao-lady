@@ -44,8 +44,8 @@
     </el-tab-pane>
 
 
-
-    <el-tab-pane label="集卡牌海报" name="card" style="padding-left: 100px;">
+    <!-- style="padding-left: 100px;" -->
+    <el-tab-pane label="集卡牌海报" name="card" >
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="havecard">
         <el-form-item label="" v-show="havecard">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="cardsuccess" :show-file-list="false" accept="image/*">
@@ -69,8 +69,8 @@
 
 
 
-
-    <el-tab-pane label="砍价海报" name="kan" style="padding-left: 100px;">
+    <!-- style="padding-left: 100px;" -->
+    <el-tab-pane label="砍价海报" name="kan" >
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="havekan">
         <el-form-item label="" v-show="havekan">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="kansuccess" :show-file-list="false" accept="image/*">
@@ -94,8 +94,8 @@
 
 
 
-
-    <el-tab-pane label="分销海报" name="agent" style="padding-left: 100px;">
+    <!-- style="padding-left: 100px;" -->
+    <el-tab-pane label="分销海报" name="agent" >
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="haveagent">
         <el-form-item label="" v-show="haveagent">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="agentsuccess" :show-file-list="false" accept="image/*">

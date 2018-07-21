@@ -302,7 +302,6 @@
               start:this.newgood.start,
               end:this.newgood.end,
             };
-
           }else{
             var allParams = {
              id:this.actid,

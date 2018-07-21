@@ -51,7 +51,7 @@
 
       <el-table-column label="操作" min-width="200" align="center" v-show="checkper1">
        <template slot-scope="scope">
-        <el-tag size="mini" type="success" v-show="scope.row.state==2 ? true : false">审核通过</el-tag>
+        <el-tag size="mini" type="success" v-show="scope.row.state==2 ? true : false">已发放</el-tag>
         <el-tag size="mini" type="danger" v-show="scope.row.state==3 ? true : false">已拒绝</el-tag>
         <el-button type="primary" v-show="scope.row.state==1 ? true : false" size="mini" @click="handleEdit(scope.row)">确认提现</el-button>
         <el-button type="danger" v-show="scope.row.state==1 ? true : false" size="mini" @click="handleDel(scope.row)">拒绝</el-button>

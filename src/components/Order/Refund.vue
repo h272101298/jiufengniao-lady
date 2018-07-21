@@ -112,13 +112,13 @@
             </template>
           </el-table-column>
 
-          <el-table-column prop="name" label="商品名称" min-width="100" align="center">
+          <el-table-column prop="name" label="商品名称" min-width="200" align="center">
           </el-table-column>
 
           <el-table-column prop="price" label="单价" min-width="100" align="center">
           </el-table-column>
 
-          <el-table-column prop="number" label="数量" min-width="200" align="center">
+          <el-table-column prop="number" label="数量" min-width="100" align="center">
           </el-table-column>
 
         </el-table>

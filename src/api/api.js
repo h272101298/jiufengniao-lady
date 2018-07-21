@@ -81,7 +81,7 @@ export const countdataGet = params => { return axios.get(`${base}/count`+`${para
 
 
 
-//轮播
+//广告
 export const advertsGet = params => { return axios.get(`${base}/adverts`+`${params}`).then(res => res.data)}
 
 export const advertPost = params => { return axios.post(`${base}/advert`, params).then(res => res.data)}
@@ -100,9 +100,6 @@ export const categoryPost = params => { return axios.post(`${base}/store/categor
 
 export const categoryDel = params => { return axios.delete(`${base}/store/category`+`${params}`).then(res => res.data)}
 
-
-//用户
-export const userGet = params => { return axios.get(`${base}/wechat/users`+`${params}`).then(res => res.data)}
 
 
 
@@ -233,6 +230,9 @@ export const documentPost = params => { return axios.post(`${base}/document`, pa
 
 export const documentDel = params => { return axios.delete(`${base}/document`+`${params}`).then(res => res.data)}
 
+
+//用户
+export const userGet = params => { return axios.get(`${base}/wechat/users`+`${params}`).then(res => res.data)}
 
 
 //管理员

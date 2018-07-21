@@ -176,7 +176,7 @@
     },
 
     newone(){
-      sessionStorage.setItem('newcardtype', 'shop');
+      // sessionStorage.setItem('newcardtype', 'shop');
       this.$router.push({ path: '/Card/Cardnew' });
     }
   },

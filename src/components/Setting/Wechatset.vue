@@ -153,7 +153,7 @@
     data() {
       return {
         base:base+'/upload',
-        activeName:'config',
+        activeName:'list',
 
         show:false,
         set:true,
