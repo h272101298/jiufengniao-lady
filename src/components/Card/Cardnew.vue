@@ -336,7 +336,7 @@
 
 
       getSTime(val){
-        console.log(val[0])
+        // console.log(val[0])
         // var arr = val.split(",")
         this.newgood.start=val[0];
         this.newgood.end=val[1];
@@ -346,8 +346,10 @@
       changeguige(val){
         if(val=="1"){
           this.showmore=false
+          this.sameornot='1'
         }else if(val=="2"){
           this.showmore=true
+          this.sameornot='2'
         }
       },
 
@@ -355,7 +357,7 @@
 
         var allParams = '?product_id='+ row.id;
         CardtypeGet(allParams).then((res) => {
-          console.log(res)
+          // console.log(res)
           this.goodname=row.name
           this.guigelist=res.data
           this.dialogVisible=true
@@ -418,10 +420,14 @@
         this.$message.error(`请选择活动时间`);
         return
       }
-      if(this.newgood.default==2 && this.newgood.list!==5){
+      // console.log(this.newgood.list.length)
+      // console.log(this.showmore)
+
+      if(this.showmore==true && this.newgood.list.length!==5){
         this.$message.error(`请选择5张图片`);
         return
       }
+      // console.log(this.newgood)
 
       this.$refs.newgood.validate((valid) => {
         if (valid) {

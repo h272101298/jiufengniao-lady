@@ -145,6 +145,7 @@
 
     handleEdit(index, row){
       console.log(row.id)
+      // sessionStorage.setItem('cardlist', row.list);
       sessionStorage.setItem('cardcheckid', row.id);
       this.$router.push({ path: '/Card/Cardchange' });
     },

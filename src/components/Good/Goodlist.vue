@@ -40,7 +40,7 @@
       </el-table-column>
       <el-table-column prop="name" label="名称" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="brokerage" label="分佣比例" min-width="100" align="center">
+      <el-table-column prop="sales_volume" label="销量" min-width="100" align="center">
       </el-table-column>
 <!--       <el-table-column prop="name" label="价格" min-width="150" align="center">
 </el-table-column> -->
@@ -159,11 +159,18 @@
 
 <el-col>
   <el-dialog title="商品预览" :visible.sync="dialogSeeVisible" width="30%" @open="opendialog" center >
-    <el-form label-width="110px" :model="currow" label-position='left'>
+    <el-form label-width="100px" :model="currow" label-position='left'>
       <el-form-item label="商品名称：" class="fw6">
         <span class="fw4">{{currow.name}}</span>
       </el-form-item>
+
       <el-form-item label="商品描述：" class="fw6">
+        <template slot-scope="scope">
+          <span class="fw4">{{currow.share_detail==null ? '暂无' : currow.share_detail }}</span>    
+        </template>
+      </el-form-item>
+
+      <el-form-item label="商品详情：" class="fw6">
         <template slot-scope="scope">
           <div class="fw4" id="detail">{{currow.detail}}</div>
         </template>
@@ -175,19 +182,13 @@
         </template>
       </el-form-item>
 
-      <el-form-item label="分销佣金：" class="fw6">
+      <el-form-item label="分佣比例：" class="fw6">
         <span class="fw4">{{currow.brokerage}}</span>
       </el-form-item>
 
       <el-form-item label="分享标题：" class="fw6">
         <template slot-scope="scope">
           <span class="fw4">{{currow.share_title}}</span>
-        </template>
-      </el-form-item>
-
-      <el-form-item label="商品描述：" class="fw6">
-        <template slot-scope="scope">
-          <span class="fw4">{{currow.share_detail}}</span>    
         </template>
       </el-form-item>
 
@@ -446,11 +447,11 @@
 }
 /*.el-button+.el-button {
   margin-left: 0px;
-}*/
-.seeimg{
-  max-width: 150px;
-  max-height: 150px;
-}
+  }*/
+  .seeimg{
+    max-width: 150px;
+    max-height: 150px;
+  }
 /*.el-form-item {
  margin-bottom: 0px!important;
  }*/

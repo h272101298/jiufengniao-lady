@@ -270,6 +270,8 @@ export const CardtypeGet = params => { return axios.get(`${base1}/product/stocks
 
 export const CardshopPost = params => { return axios.post(`${base1}/card/promotion`, params).then(res => res.data)}
 
+export const CardshopPut = params => { return axios.put(`${base1}/card/promotion`+`${params}`).then(res => res.data)}
+
 export const CardcheckGet = params => { return axios.get(`${base1}/card/promotions`+`${params}`).then(res => res.data)}
 
 export const CardoneGet = params => { return axios.get(`${base1}/card/promotion`+`${params}`).then(res => res.data)}
@@ -303,3 +305,6 @@ export const Kandelete = params => { return axios.delete(`${base1}/bargain/promo
 export const Kanupdown = params => { return axios.get(`${base1}/enable/bargain/promotion`+`${params}`).then(res => res.data)}
 
 export const Kanhot = params => { return axios.get(`${base1}/hot/bargain/promotion`+`${params}`).then(res => res.data)}//推荐
+
+
+//拼团

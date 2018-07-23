@@ -79,7 +79,7 @@
 
   import { CardoneGet } from '../../api/api';
 
-  import { CardshopPost } from '../../api/api';
+  import { CardshopPut } from '../../api/api';
 
   import { DefaultCardGet } from '../../api/api';
   import { Message } from 'element-ui';
@@ -159,7 +159,6 @@
 
         // norm:false,
 
-
         selectgood:true,
 
         sameornot:'1',
@@ -172,7 +171,6 @@
         // {cover:'../static/images/default1.png'},
         // {cover:'../static/images/default1.png'}
         ],
-
 
         rules:{
           description: [
@@ -210,18 +208,14 @@
       getonecard(){
        var id = sessionStorage.getItem('cardcheckid');
        this.actid= id
-       // sessionStorage.removeItem('cardcheckid');
        var allParams = '?id='+id;
        CardoneGet(allParams).then((res) => {
         this.date=[res.data.start,res.data.end]
         this.newgood=res.data;
 
-
         this.newgood.list=[];
         console.log(res)
-
         // this.defcard=res.data.list
-
 
       });
      },
@@ -239,8 +233,10 @@
       changeguige(val){
         if(val=="1"){
           this.showmore=false
+          this.sameornot='1'
         }else if(val=="2"){
           this.showmore=true
+          this.sameornot='2'
         }
       },
 
@@ -285,56 +281,47 @@
         this.$message.error(`请选择活动时间`);
         return
       }
-      if(this.newgood.default==2 && this.newgood.list!==5){
+      if(this.showmore==true && this.newgood.list.length!==5){
         this.$message.error(`请选择5张图片`);
+        return
+      }
+      if(this.newgood.offer < 0 || this.newgood.offer>10){
+        this.$message.error(`折扣请输入0到10之间的数字`);
         return
       }
 
       this.$refs.newgood.validate((valid) => {
         if (valid) {
+
+          var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end
+
           if(this.showmore==false){
-            var allParams = {
-              id:this.actid,
-              description:this.newgood.description,
-              number:this.newgood.number,
-              offer:this.newgood.offer,
-              clickNum:this.newgood.clickNum,
-              start:this.newgood.start,
-              end:this.newgood.end,
-            };
+            // var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end
           }else{
-            var allParams = {
-             id:this.actid,
-             description:this.newgood.description,
-             number:this.newgood.number,
-             offer:this.newgood.offer,
-             clickNum:this.newgood.clickNum,
-             start:this.newgood.start,
-             end:this.newgood.end,
-             list:this.newgood.list
-           };
-         }
-         CardshopPost(allParams).then((res) => {
-          console.log(res)
-          if (res.msg === "ok") {
-           this.$message({
-            message: '提交成功',
-            type: 'success'
-          });
+            allParams=allParams+'&list[0]='+this.newgood.list[0]+'&list[1]='+this.newgood.list[1]+'&list[2]='+this.newgood.list[2]+'&list[3]='+this.newgood.list[3]+'&list[4]='+this.newgood.list[4]
+            // var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end+'&list[0]='+this.newgood.list[0]+'&list[1]='+this.newgood.list[1]+'&list[2]='+this.newgood.list[2]+'&list[3]='+this.newgood.list[3]+'&list[4]='+this.newgood.list[4]
+          }
+          CardshopPut(allParams).then((res) => {
+            console.log(res)
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
 
-           this.$router.push({ path: '/Card/Cardcheck' });
+             this.$router.push({ path: '/Card/Cardcheck' });
 
-         } else {
-           this.$message({
-            message: res.msg,
-            type: 'error'
-          });
-         }
-       });
-       }else{
-        return false;
-      }
-    })
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
+         });
+        }else{
+          return false;
+        }
+      })
 
     },
 

@@ -10,55 +10,39 @@
 
     <el-col :span="24" class="warp-main">
 
-
-      <el-tabs v-model="activeName" type="card">
+      <el-tabs v-model="activeName" type="card" @tab-click="clicktab">
         <el-tab-pane label="基本信息" name="base">
           <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules1" ref="newgood1" :model="newgood1">
            <el-form-item label="商品名称：" prop="name">
             <el-input v-model="newgood1.name" placeholder="请输入商品名称(26字以内)"></el-input>
           </el-form-item> 
 
-
-
           <el-form-item label="分销佣金：" prop="brokerage">
             <el-input v-model="newgood1.brokerage" type="number" min="0" placeholder="请输入分销佣金(百分比)"></el-input>
           </el-form-item>
 
-<!--           <el-form-item label="快递：" prop="express">
-            <el-select v-model="newgood1.express" placeholder="请选择快递">
-              <el-option v-for="item in expressArr" :label="item.title" :value="item.id" :key="item.id"></el-option>
-            </el-select>
+          <el-form-item label="商品描述：" prop="share_detail">
+            <el-input v-model="newgood1.share_detail" placeholder="请输入商品描述"></el-input>
           </el-form-item>
-
-          <el-form-item label="邮费：" prop="express_price">
-            <el-input v-model="newgood1.express_price" type="number" min="0" placeholder="请输入邮费"></el-input>
-          </el-form-item> -->
 
           <el-form-item label="分享标题：" prop="share_title">
             <el-input v-model="newgood1.share_title" placeholder="请输入分享标题(10字以内)"></el-input>
           </el-form-item>
 
-          <el-form-item label="商品描述：" prop="share_detail">
-            <el-input v-model="newgood1.share_detail" placeholder="请输入分享描述"></el-input>
-          </el-form-item>
-
           <el-form-item label="商品详情：" prop="detail">
-           <!--  <el-input type="textarea" :rows="5" v-model="newgood1.intro" placeholder="请输入商品简介" style="min-width:280px;"></el-input> -->
            <div class="edit_container">
             <quill-editor v-model="newgood1.detail" style="min-height:133px;max-height:2000px;" ref="myQuillEditor" class="editer" placeholder= '请输入详细内容'></quill-editor>
           </div>
         </el-form-item>
 
         <el-form-item>
-          <div style="color: #409EFF" @click="addattr">请继续添加商品属性</div>
+          <el-button type="primary" style="color: #fff" @click="addattr">继续添加商品属性</el-button>
         </el-form-item>
       </el-form>
     </el-tab-pane>
 
-
-    <el-tab-pane label="商品属性" name="attributes">
+    <el-tab-pane label="商品属性" name="attributes" :disabled="attrtab">
       <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules2" ref="newgood2" :model="newgood2">
-
 
         <el-form-item label="商品分类：" prop="type_id">
           <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
@@ -143,7 +127,7 @@
     <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
       <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
         <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为4:5</p>
+        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
       </el-upload>
     </el-form-item>
 
@@ -151,18 +135,19 @@
       <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood2.images" :multiple="true" accept="image/*"><!--:on-exceed="handleExceed" :limit="10"  -->
         <!-- <i class="el-icon-plus"></i> -->
         <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为4:5</p>
+        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
       </el-upload>
     </el-form-item>
 
 
 
-    <el-form-item style="margin-left: calc(50% - 185px);margin-top: 20px;">
-      <el-button type="primary" @click="save()" size="medium">保 存</el-button>
-      <el-button @click="golist()" size="medium">取 消</el-button>
-    </el-form-item>
-  </el-form>
-</el-tab-pane>
+    <!-- <el-form-item style="margin-left: calc(50% - 185px);margin-top: 20px;"> -->
+      <el-form-item>
+        <el-button type="primary" @click="save()" size="medium">保 存</el-button>
+        <el-button @click="golist()" size="medium">取 消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-tab-pane>
 </el-tabs>
 
 
@@ -239,6 +224,7 @@
       return {
         activeName:'base',
         // activeName:'attributes',
+        attrtab:true,
 
         uptoken:{
           token:qiniu.token,
@@ -298,8 +284,6 @@
         }],
 
 
-
-
         rules1:{
           name: [
           {required: true, message: '请输入商品名称', trigger: 'blur'},
@@ -310,12 +294,6 @@
           brokerage: [
           {required: true, message: '请输入分销佣金', trigger: 'blur'},
           ],
-          // express: [
-          // {required: true, message: '请选择快递', trigger: 'change'},
-          // ],
-          // express_price: [
-          // {required: true, message: '请输入邮费', trigger: 'blur'},
-          // ],
           share_title: [
           {required: true, message: '请输入分享标题', trigger: 'blur'},
           ],
@@ -331,18 +309,6 @@
           price: [
           {required: true, validator: checkvalue, trigger: 'blur'},
           ],
-          // type_id: [
-          // {required: true, message: '请选择分类', trigger: 'change'},
-          // ],
-          // sameornot: [
-          // {required: true},
-          // ],
-          // cover: [
-          // {required: true},
-          // ],
-          // images: [
-          // {required: true},
-          // ],
         },
 
 
@@ -360,68 +326,65 @@
         this.$refs.newgood1.validate((valid) => {
           if (valid) {
             this.activeName="attributes"
+            this.attrtab=false
           }else{
-            return false;
+            this.attrtab=true
           }
         })
       },
 
-            checkgoodid(){//goodoneGet
-              var goodid=sessionStorage.getItem('goodeditid');
-        // sessionStorage.removeItem('goodeditid');
-        // var goodedit=sessionStorage.getItem('goodedit');
-        // var goodedit = JSON.parse(goodedit);
-        // // this.goodedit=goodedit
-        // console.log(goodedit)
-
-        if(goodid){
+      clicktab(res){
+        // console.log(res.name=="base")
+        if(res.name=="base"){
+         this.attrtab=true
+       }
+     },
 
 
-          var allParams = '?id='+ goodid;
-          goodoneGet(allParams).then((res) => {
-            console.log(res.data)
 
-            this.newgood1={
-              name:res.data.name,
-              detail:res.data.detail,
-              brokerage:res.data.brokerage,
-              share_title:res.data.share_title,
-              share_detail:res.data.share_detail
-            }
+     checkgoodid(){
+      var goodid=sessionStorage.getItem('goodeditid');
 
-            if(res.data.norm=="change"){
-              this.sameornot='2'
-              this.showmore=true
-            }else{
-             this.sameornot='1'
-           }
-           this.type1=res.data.typeArray[0]
-           this.gettype2(this.type1)
-           this.type2=res.data.typeArray[1]
-           this.gettype3(this.type2)
 
-           this.newgood2={
-            cover:res.data.default.cover,
-            images:res.data.default.images,
-            origin_price:res.data.default.origin_price,
-            price:res.data.default.price,
-            type_id:res.data.typeArray[2],
+      if(goodid){
+
+        var allParams = '?id='+ goodid;
+        goodoneGet(allParams).then((res) => {
+          console.log(res.data)
+
+          this.newgood1={
+            name:res.data.name,
+            detail:res.data.detail,
+            brokerage:res.data.brokerage,
+            share_title:res.data.share_title,
+            share_detail:res.data.share_detail
           }
+
+          if(res.data.norm=="change"){
+            this.sameornot='2'
+            this.showmore=true
+          }else{
+           this.sameornot='1'
+         }
+         this.type1=res.data.typeArray[0]
+         this.gettype2(this.type1)
+         this.type2=res.data.typeArray[1]
+         this.gettype3(this.type2)
+
+         this.newgood2={
+          cover:res.data.default.cover,
+          images:res.data.default.images,
+          origin_price:res.data.default.origin_price,
+          price:res.data.default.price,
+          type_id:res.data.typeArray[2],
+        }
 
           // this.pricearr=res.data.stocks
           // console.log(1)
         });
-        }
+      }
 
-      },
-
-      // 快递
-      // getexpress(){
-      //   var allParams = '?page=1'+ '&limit=10000';
-      //   deliveryGet(allParams).then((res) => {
-      //     this.expressArr=res.data.data;
-      //   });
-      // },
+    },
 
       // 分类
       gettype1(){
@@ -450,8 +413,6 @@
         this.newgood2.type_id=e;
         this.getcategory()
       },
-
-
 
       // 规格
       changeguige(val){
@@ -575,8 +536,6 @@
 
 
 
-
-
     //相册
     beforeUpload(file) {
       // const isLt1M = file.size / 1024 / 1024 < 1;
@@ -605,8 +564,6 @@
       }
       // this.newgood2.images=fileList
     },
-
-
 
 
     save(){
