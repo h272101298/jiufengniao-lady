@@ -3,8 +3,8 @@
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户列表</el-breadcrumb-item>
+        <el-breadcrumb-item>会员管理</el-breadcrumb-item>
+        <el-breadcrumb-item>会员列表</el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
 
@@ -20,29 +20,31 @@
     </el-form>
 
     <el-table :data="list" border stripe size="small" style="width:95%;">
-      <el-table-column prop="id" label="用户编号" min-width="100" align="center">
+      <el-table-column prop="user_id" label="用户编号" min-width="100" align="center">
       </el-table-column>
-      <el-table-column prop="nickname" label="昵称" min-width="140" align="center">
+      <el-table-column prop="user.nickname" label="昵称" min-width="140" align="center">
       </el-table-column>
-
-
-      <el-table-column prop="avatarUrl" label="头像" min-width="100" align="center">
+      <el-table-column prop="user.avatarUrl" label="头像" min-width="100" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.avatarUrl" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
+          <img :src="scope.row.user.avatarUrl" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
         </template>
       </el-table-column>
-
       <el-table-column prop="info.name" label="姓名" min-width="140" align="center">
       </el-table-column>
-
       <el-table-column prop="info.phone" label="联系电话" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="created_at" label="注册日期" min-width="200" align="center">
+      <el-table-column prop="level.name" label="会员等级" min-width="200" align="center">
+      </el-table-column>
+      <el-table-column prop="level.discount" label="折扣" min-width="100" align="center">
+      </el-table-column>
+      <el-table-column prop="created_at" label="开通时间" min-width="200" align="center">
+      </el-table-column>
+      <el-table-column prop="end" label="过期时间" min-width="200" align="center">
       </el-table-column>
 
       <el-table-column label="操作" min-width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="newmember(scope.$index, scope.row)">成为会员</el-button>
+          <el-button type="primary" size="mini" @click="newmember(scope.$index, scope.row)">续费</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -53,7 +55,7 @@
 
 
   <el-col>
-    <el-dialog title="成为会员：" :visible.sync="dialogNewVisible" center>
+    <el-dialog title="会员续费：" :visible.sync="dialogNewVisible" center>
       <el-form label-width="120px" style="width:80%">
         <el-form-item label="选择等级：">
           <el-select placeholder="请选择会员等级" @change="setlevel" v-model="level">
@@ -68,28 +70,27 @@
     </el-dialog>
   </el-col>
 
-
 </el-row>
 </template>
 
 <script>
 
-
-  import { userGet } from '../../api/api';
-
+  import { memberGet } from '../../api/api';
   import { mconfigGet } from '../../api/api';
-
   import { usertohy } from '../../api/api';
-
 
   export default {
     data() {
       return {
         currentPage: 1,
-        list:[],
+        list:[{
+          id:1
+        }],
         count:0,
         limit:10,
+
         dialogNewVisible:false,
+
         filter:{
           name:''
         },
@@ -104,7 +105,7 @@
     methods:{
       getlist(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&name=' + this.filter.name;
-        userGet(allParams).then((res) => {
+        memberGet(allParams).then((res) => {
           this.list=res.data.data;
           this.count=res.data.count;
         });
@@ -118,7 +119,6 @@
         });
       },
 
-
       clear(){
         this.filter={
           name:''
@@ -126,19 +126,31 @@
         this.getlist();
       },
 
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getlist();
+      },
+
+
+      handleSizeChange(val){
+        this.limit = val;
+        this.getlist();
+      },
+
       newmember(index, row){
         this.dialogNewVisible=true
-        this.userid=row.id
+        // console.log(row)
+        this.userid=row.user_id
       },
 
       setlevel(res){
-        console.log(res)
+        // console.log(res)
         this.level=res
       },
 
       memberpost(){
         var allParams={member_id:this.level,user_id:this.userid}
-        console.log(allParams)
+        // console.log(allParams)
         usertohy(allParams).then((res) => {
           // console.log(res)
           if (res.msg === "ok") {
@@ -157,21 +169,11 @@
        });
       },
 
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        this.getlist();
-      },
-
-
-      handleSizeChange(val){
-        this.limit = val;
-        this.getlist();
-      },
     },
 
     mounted: function () {
       this.getlist();
-      this.getlevel();
+      this.getlevel()
     }
 
   }

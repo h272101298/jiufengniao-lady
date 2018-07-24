@@ -56,7 +56,7 @@
             <el-tag type="danger" v-show="scope.row.state=='created'" @click="">未付款</el-tag>
             <el-tag type="primary" v-show="scope.row.state=='paid'" @click="">已支付</el-tag>
             <el-tag type="warning" v-show="scope.row.state=='delivery'" @click="">已发货</el-tag>
-            <el-tag type="success" v-show="scope.row.state=='fihished'" @click="">已完成</el-tag>
+            <el-tag type="success" v-show="scope.row.state=='finished'" @click="">已完成</el-tag>
             <el-tag type="success" v-show="scope.row.state=='closed'" @click="">已完成</el-tag>
             <el-tag type="info" v-show="scope.row.state=='canceled'" @click="">已取消</el-tag>
           </template>
@@ -79,9 +79,6 @@
 
     <el-button type="primary" style="float:left;margin:20px 50px;" @click="exportExcel()" size="small">导出Excel表</el-button>
   </el-col>
-
-
-
 
 
   <el-col>
@@ -111,6 +108,9 @@
         <span v-show="currow.state=='created'" class="fw4">未付款</span>
         <span v-show="currow.state=='paid'" class="fw4">已支付</span>
         <span v-show="currow.state=='delivery'" class="fw4">已发货</span>
+        <span v-show="currow.state=='finished'" class="fw4">已完成</span>
+        <span v-show="currow.state=='closed'" class="fw4">已完成</span>
+        <span v-show="currow.state=='canceled'" class="fw4">已取消</span>
       </el-form-item>
 
       <el-form-item label="物流信息：" class="fw6" v-show="currow.state=='delivery'">

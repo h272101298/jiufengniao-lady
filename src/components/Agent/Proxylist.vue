@@ -59,28 +59,27 @@
 
 
         <el-form :inline="true" :model="filters">
-<!--          <el-form-item lable>提成设置：</el-form-item>
- <el-form-item> -->
-  <el-table border :data="ratio" highlight-current-row size="mini" style="width: 801px; margin-bottom:20px;">
-    <el-table-column prop="system" label="平台" width="200" align="center">
-    </el-table-column>
-    <el-table-column prop="level1" label="一级代理" width="200" align="center">
-    </el-table-column>
-    <el-table-column prop="level2" label="二级代理" width="200" align="center">
-    </el-table-column>
-    <el-table-column prop="level3" label="三级代理" width="200" align="center">
-    </el-table-column>
-  </el-table>
-</el-form-item>
 
-<el-form-item>
-  <el-button type="primary" size="small" @click="dialogEditVisible = true">修改</el-button>
-</el-form-item>
-</el-form>
+          <el-table border :data="ratio" highlight-current-row size="mini" style="width: 801px; margin-bottom:20px;">
+            <el-table-column prop="system" label="平台" width="200" align="center">
+            </el-table-column>
+            <el-table-column prop="level1" label="一级代理" width="200" align="center">
+            </el-table-column>
+            <el-table-column prop="level2" label="二级代理" width="200" align="center">
+            </el-table-column>
+            <el-table-column prop="level3" label="三级代理" width="200" align="center">
+            </el-table-column>
+          </el-table>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" size="small" @click="dialogEditVisible = true">修改</el-button>
+        </el-form-item>
+      </el-form>
 
 
-</el-tab-pane>
-</el-tabs>
+    </el-tab-pane>
+  </el-tabs>
 
 </el-col>
 

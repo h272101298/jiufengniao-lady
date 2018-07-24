@@ -14,10 +14,14 @@ import Goodrecycle from '@/components/Good/Goodrecycle'
 
 import Orderlist from '@/components/Order/Orderlist'
 import Teamwork from '@/components/Order/Teamwork'
-import Ship from '@/components/Order/Ship'
+import Memberpay from '@/components/Order/Memberpay'
 import Refund from '@/components/Order/Refund'
 
 import Userlist from '@/components/User/Userlist'
+
+import Memberlist from '@/components/Member/Memberlist'
+import MemberSet from '@/components/Member/MemberSet'
+
 
 import Proxyapply from '@/components/Agent/Proxyapply'
 import Proxylist from '@/components/Agent/Proxylist'
@@ -120,7 +124,8 @@ let router = new Router({
         children: [
         {path: '/Order/Orderlist',component: Orderlist,name: '购物订单',menuShow: true,meta:{permission: ''}}, 
         // {path: '/Order/Teamwork',component: Teamwork,name: '拼团订单',menuShow: true},    
-        {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}}
+        {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}},
+        {path: '/Order/Memberpay',component: Memberpay,name: '会员充值',menuShow: true,meta:{permission: ''}}
         ]
     },
     {
@@ -144,7 +149,18 @@ let router = new Router({
         children: [
         {path: '/User/Userlist',component: Userlist,name: '用户列表',menuShow: true,meta:{permission: 'userList'}}
         ]
-    }, {
+    },  {
+        path: '/',
+        name: '会员管理',
+        component: Home,
+        redirect: '/Member/Memberlist',
+        menuShow: true,
+        iconCls: 'iconfont menu-yonghu',
+        children: [
+        {path: '/Member/Memberlist',component: Memberlist,name: '会员列表',menuShow: true,meta:{permission: ''}},
+        {path: '/Member/MemberSet',component: MemberSet,name: '等级设置',menuShow: true,meta:{permission: ''}}
+        ]
+    },{
         path: '/',
         name: '代理管理',
         component: Home,

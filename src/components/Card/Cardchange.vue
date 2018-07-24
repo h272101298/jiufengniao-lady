@@ -135,7 +135,6 @@
         },
         upurl:qiniu.upurl,
 
-
         newgood:{
           description:'',
           number:'',
@@ -144,7 +143,7 @@
           list:[],
           start:'',
           end:'',
-          default:1
+          default:1,
         },
 
         type_id:'',
@@ -165,11 +164,7 @@
         showmore:'',
 
         defcard:[
-        // {cover:'../static/images/default1.png'},
-        // {cover:'../static/images/default1.png'},
-        // {cover:'../static/images/default1.png'},
-        // {cover:'../static/images/default1.png'},
-        // {cover:'../static/images/default1.png'}
+
         ],
 
         rules:{
@@ -192,19 +187,6 @@
 
     methods:{
 
-      // getdefcard(){
-      //   var allParams = '';
-      //   DefaultCardGet(allParams).then((res) => {
-
-      //     if(res.data==''){
-      //       this.havecard=false
-      //     }else{
-      //       this.defcard=res.data;
-      //       this.havecard=false
-      //     }
-      //   });
-      // },
-
       getonecard(){
        var id = sessionStorage.getItem('cardcheckid');
        this.actid= id
@@ -213,52 +195,48 @@
         this.date=[res.data.start,res.data.end]
         this.newgood=res.data;
 
-        this.newgood.list=[];
-        console.log(res)
-        // this.defcard=res.data.list
+        var cardlist = sessionStorage.getItem('cardlist');
+        this.defcard=JSON.parse(cardlist);
+        // console.log(cardlist)
 
       });
      },
 
-
-
      getSTime(val){
-      console.log(val[0])
-        // var arr = val.split(",")
-        this.newgood.start=val[0];
-        this.newgood.end=val[1];
-      },
-
-
-      changeguige(val){
-        if(val=="1"){
-          this.showmore=false
-          this.sameornot='1'
-        }else if(val=="2"){
-          this.showmore=true
-          this.sameornot='2'
-        }
-      },
-
-
-    //相册
-    beforeUpload(file) {
-      // const isLt1M = file.size / 1024 / 1024 < 1;
-      // if (!isLt1M) {
-      //   this.$message.error('图片大小不能超过 1MB!');
-      // }
-      // return isLt1M;
+      // console.log(val[0])
+      this.newgood.start=val[0];
+      this.newgood.end=val[1];
     },
 
-    handleSuccess(res, file) {
-      this.newgood.cover =qiniu.showurl+ res.key
-    },
-
-    handlelistSuccess(res, file,fileList){
-      this.newgood.list=[]
-      for(var i=0;i<fileList.length;i++){
-        this.newgood.list.push(qiniu.showurl+ fileList[i].response.key)
+    changeguige(val){
+      if(val=="1"){
+        this.showmore=false
+        this.sameornot='1'
+      }else if(val=="2"){
+        this.showmore=true
+        this.sameornot='2'
+        this.newgood.list=[]
       }
+    },
+
+      //相册
+      beforeUpload(file) {
+        // const isLt1M = file.size / 1024 / 1024 < 1;
+        // if (!isLt1M) {
+        //   this.$message.error('图片大小不能超过 1MB!');
+        // }
+        // return isLt1M;
+      },
+
+      handleSuccess(res, file) {
+        this.newgood.cover =qiniu.showurl+ res.key
+      },
+
+      handlelistSuccess(res, file,fileList){
+        this.newgood.list=[]
+        for(var i=0;i<fileList.length;i++){
+          this.newgood.list.push(qiniu.showurl+ fileList[i].response.key)
+        }
       // this.newgood.images=fileList
     },
 
@@ -267,87 +245,81 @@
       for(var i=0;i<fileList.length;i++){
         this.newgood.list.push(qiniu.showurl+ fileList[i].response.key)
       }
-      // this.newgood.images=fileList
-    },
+        // this.newgood.images=fileList
+      },
 
-    handleExceed(files, fileList) {
-      this.$message.warning(`只能上传5张图片`);
-    },
+      handleExceed(files, fileList) {
+        this.$message.warning(`只能上传5张图片`);
+      },
 
 
-    save(){
+      save(){
 
-      if(this.newgood.end=='' || this.newgood.end==''){
-        this.$message.error(`请选择活动时间`);
-        return
-      }
-      if(this.showmore==true && this.newgood.list.length!==5){
-        this.$message.error(`请选择5张图片`);
-        return
-      }
-      if(this.newgood.offer < 0 || this.newgood.offer>10){
-        this.$message.error(`折扣请输入0到10之间的数字`);
-        return
-      }
-
-      this.$refs.newgood.validate((valid) => {
-        if (valid) {
-
-          var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end
-
-          if(this.showmore==false){
-            // var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end
-          }else{
-            allParams=allParams+'&list[0]='+this.newgood.list[0]+'&list[1]='+this.newgood.list[1]+'&list[2]='+this.newgood.list[2]+'&list[3]='+this.newgood.list[3]+'&list[4]='+this.newgood.list[4]
-            // var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end+'&list[0]='+this.newgood.list[0]+'&list[1]='+this.newgood.list[1]+'&list[2]='+this.newgood.list[2]+'&list[3]='+this.newgood.list[3]+'&list[4]='+this.newgood.list[4]
-          }
-          CardshopPut(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-
-             this.$router.push({ path: '/Card/Cardcheck' });
-
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }else{
-          return false;
+        if(this.newgood.end=='' || this.newgood.end==''){
+          this.$message.error(`请选择活动时间`);
+          return
         }
-      })
+        // console.log(this.newgood.list)
+        if(this.showmore==true && this.newgood.list.length!==5){
+          this.$message.error(`请选择5张图片`);
+          return
+        }
+        if(this.newgood.offer < 0 || this.newgood.offer>10){
+          this.$message.error(`折扣请输入0到10之间的数字`);
+          return
+        }
 
+        this.$refs.newgood.validate((valid) => {
+          if (valid) {
+            var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end
+            if(this.showmore==false){
+              // var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end
+            }else{
+              allParams=allParams+'&list[0]='+this.newgood.list[0]+'&list[1]='+this.newgood.list[1]+'&list[2]='+this.newgood.list[2]+'&list[3]='+this.newgood.list[3]+'&list[4]='+this.newgood.list[4]
+              // var allParams='?id='+this.actid+'&description='+this.newgood.description+'&number='+this.newgood.number+'&offer='+this.newgood.offer+'&clickNum='+this.newgood.clickNum+'&start='+this.newgood.start+'&end='+this.newgood.end+'&list[0]='+this.newgood.list[0]+'&list[1]='+this.newgood.list[1]+'&list[2]='+this.newgood.list[2]+'&list[3]='+this.newgood.list[3]+'&list[4]='+this.newgood.list[4]
+            }
+            CardshopPut(allParams).then((res) => {
+              // console.log(res)
+              if (res.msg === "ok") {
+               this.$message({
+                message: '提交成功',
+                type: 'success'
+              });
+
+               this.$router.push({ path: '/Card/Cardcheck' });
+
+             } else {
+               this.$message({
+                message: res.msg,
+                type: 'error'
+              });
+             }
+           });
+          }else{
+            return false;
+          }
+        })
+      },
+
+      golist(){
+       this.$router.push({ path: '/Card/Cardcheck' });
+     },
+
+     handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getgood();
     },
 
-    golist(){
-
-     this.$router.push({ path: '/Card/Cardcheck' });
-   },
-
-
-   handleCurrentChange(val) {
-    this.currentPage = val;
-    this.getgood();
+    handleSizeChange(val){
+      this.limit = val;
+      this.getgood();
+    },
   },
 
 
-  handleSizeChange(val){
-    this.limit = val;
-    this.getgood();
-  },
-},
-
-
-mounted: function () {
-  // this.getdefcard()
-  this.getonecard()
-}
+  mounted: function () {
+    this.getonecard()
+  }
 }
 </script>
 

@@ -61,13 +61,13 @@ axios.interceptors.response.use(
 
 
 
-// let base = 'http://192.168.1.172/Shop/public/v1'
+let base = 'http://192.168.1.172/Shop/public/v1'
 
-// let base1 = 'http://192.168.1.172/Shop/public/v2'
+let base1 = 'http://192.168.1.172/Shop/public/v2'
 
-let base = 'https://template.geckowing.com/v1'
+// let base = 'https://template.geckowing.com/v1'
 
-let base1 = 'https://template.geckowing.com/v2'
+// let base1 = 'https://template.geckowing.com/v2'
 
 export default base
 
@@ -233,6 +233,20 @@ export const documentDel = params => { return axios.delete(`${base}/document`+`$
 
 //用户
 export const userGet = params => { return axios.get(`${base}/wechat/users`+`${params}`).then(res => res.data)}
+
+//会员
+
+export const mconfigPost = params => { return axios.post(`${base1}/member/level`, params).then(res => res.data)}//设置会员等级
+
+export const mconfigGet = params => { return axios.get(`${base1}/member/levels`+`${params}`).then(res => res.data)}//获取会员等级
+
+export const mconfigDel = params => { return axios.delete(`${base1}/member/level`+`${params}`).then(res => res.data)}//删除会员等级
+
+export const usertohy = params => { return axios.post(`${base1}/member/user`, params).then(res => res.data)}//用户成为会员、续费
+
+export const memberGet = params => { return axios.get(`${base1}/member/users`+`${params}`).then(res => res.data)}//会员列表
+
+export const memberpay = params => { return axios.get(`${base1}/member/records`+`${params}`).then(res => res.data)}//会员充值记录
 
 
 //管理员
