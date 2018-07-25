@@ -42,23 +42,23 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="hot" label="活动页推荐" min-width="100" align="center" v-show="">
+      <el-table-column prop="hot" label="首页推荐" min-width="100" align="center" v-show="">
         <template slot-scope="scope">
-          <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1" @click="changehot(scope.row)">是</el-button>
-          <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1" @click="changehot(scope.row)">否</el-button>
+          <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">是</el-button>
+          <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">否</el-button>
         </template>
       </el-table-column>
 
       <el-table-column prop="enable" label="状态" min-width="110" align="center">
        <template slot-scope="scope">
-        <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1">上线</el-button>
-        <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0">下线</el-button>
+        <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper3">上线</el-button>
+        <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper3">下线</el-button>
       </template>
     </el-table-column>
 
     <el-table-column label="操作" min-width="100" align="center">
      <template slot-scope="scope">
-      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper3">删除</el-button>
     </template>
   </el-table-column>
 
@@ -121,68 +121,72 @@
 
     methods:{
       checkPer(){
-      // var per = sessionStorage.getItem('permissions');
-      // if(per.indexOf('productTypeAdd')>-1){
-      //   this.checkper1=true;
-      // }
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('hotBargainPromotion')>-1){
+          this.checkper1=true;
+        }
 
-      // if(per.indexOf('productTypeDel')>-1){
-      //   this.checkper2=true;
-      // }
-    },
+        if(per.indexOf('enableBargainPromotion')>-1){
+          this.checkper2=true;
+        }
+
+        if(per.indexOf('delBargainPromotion')>-1){
+          this.checkper3=true;
+        }
+      },
 
 
-    getlist(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
-      KancheckGet(allParams).then((res) => {
-        this.list=res.data.data;
-        this.count=res.data.count
-      });
-    },
-
-    clear(){
-      this.filter={
-        title:'',
-        level:''
-      }
-    },
-
-    handleEdit(index, row){
-      var allParams = '?id='+row.id;
-      Kanupdown(allParams).then((res) => {
-        this.$message.success(`修改成功`);
-        this.getlist()
-      });
-    },
-
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
-
-    changehot(index){
-      var allParams = '?id='+ index.id;
-      Kanhot(allParams).then((res) => {
-       console.log(res)
-       if (res.msg === "ok") {
-         this.$message({
-          message: '设置成功',
-          type: 'success'
+      getlist(){
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
+        KancheckGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count
         });
-         this.getlist();
-       } else {
-         this.$message({
-          message: res.msg,
-          type: 'error'
-        });
-       }
-     })
-    },
+      },
 
-    submitdel(){
-      this.dialogDelVisible = false;
-      var allParams='?id='+this.delId
-      Kandelete(allParams).then((res) => {
+      clear(){
+        this.filter={
+          title:'',
+          level:''
+        }
+      },
+
+      handleEdit(index, row){
+        var allParams = '?id='+row.id;
+        Kanupdown(allParams).then((res) => {
+          this.$message.success(`修改成功`);
+          this.getlist()
+        });
+      },
+
+      handleDelete(index, row) {
+        this.dialogDelVisible = true;
+        this.delId = row.id;
+      },
+
+      changehot(index){
+        var allParams = '?id='+ index.id;
+        Kanhot(allParams).then((res) => {
+         console.log(res)
+         if (res.msg === "ok") {
+           this.$message({
+            message: '设置成功',
+            type: 'success'
+          });
+           this.getlist();
+         } else {
+           this.$message({
+            message: res.msg,
+            type: 'error'
+          });
+         }
+       })
+      },
+
+      submitdel(){
+        this.dialogDelVisible = false;
+        var allParams='?id='+this.delId
+        Kandelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -198,27 +202,27 @@
         });
        }
      });
+      },
+
+
+
+
+
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getlist();
+      },
+
+
+      handleSizeChange(val){
+        this.limit = val;
+        this.getlist();
+      },
     },
 
-
-
-
-
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getlist();
-    },
-
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getlist();
-    },
-  },
-
-  mounted: function () {
-    this.getlist(); 
-    // this.checkPer();
+    mounted: function () {
+      this.getlist(); 
+    this.checkPer();
   }
 }
 </script>

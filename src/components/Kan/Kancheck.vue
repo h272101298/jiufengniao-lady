@@ -40,10 +40,10 @@
 
         <el-table-column label="操作" min-width="300" align="center">
          <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1">编辑</el-button>
-          <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="2">通过</el-button>
-          <el-button type="info" size="small" @click="handleReject(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="3">不通过</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper1">编辑</el-button>
+          <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper2" data-state="2">通过</el-button>
+          <el-button type="info" size="small" @click="handleReject(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper2" data-state="3">不通过</el-button>
+          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper3">删除</el-button>
         </template>
       </el-table-column>
 
@@ -99,72 +99,77 @@
 
         checkper1:false,
         checkper2:false,
+        checkper3:false,
 
       };
     },
 
     methods:{
       checkPer(){
-      // var per = sessionStorage.getItem('permissions');
-      // if(per.indexOf('productTypeAdd')>-1){
-      //   this.checkper1=true;
-      // }
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('modifyBargainPromotion')>-1){
+          this.checkper1=true;
+        }
 
-      // if(per.indexOf('productTypeDel')>-1){
-      //   this.checkper2=true;
-      // }
-    },
+        if(per.indexOf('checkBargainPromotion')>-1){
+          this.checkper2=true;
+        }
 
-
-    getlist(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&state=1';
-      KancheckGet(allParams).then((res) => {
-        this.list=res.data.data;
-        this.count=res.data.count
-      });
-    },
+        if(per.indexOf('delBargainPromotion')>-1){
+          this.checkper2=true;
+        }
+      },
 
 
-    clear(){
-      this.filter={
-        title:'',
-        level:''
-      }
-    },
+      getlist(){
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&state=1';
+        KancheckGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count
+        });
+      },
 
 
-    handleEdit(index, row){
-      console.log(row.id)
-      sessionStorage.setItem('kancheckid', row.id);
-      this.$router.push({ path: '/Kan/Kanchange' });
-    },
+      clear(){
+        this.filter={
+          title:'',
+          level:''
+        }
+      },
 
-    handlePass(index, row){
-      var allParams = '?id='+row.id+'&state=2';
-      Kancheck(allParams).then((res) => {
-        console.log(res)
-        this.$message.success(`审核成功`);
-        this.getlist()
-      });
-    },
 
-    handleReject(index, row){
-      var allParams = '?id='+row.id+'&state=3';
-      Kancheck(allParams).then((res) => {
-        this.$message.success(`审核成功`);
-        this.getlist()
-      });
-    },
+      handleEdit(index, row){
+        console.log(row.id)
+        sessionStorage.setItem('kancheckid', row.id);
+        this.$router.push({ path: '/Kan/Kanchange' });
+      },
 
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
+      handlePass(index, row){
+        var allParams = '?id='+row.id+'&state=2';
+        Kancheck(allParams).then((res) => {
+          console.log(res)
+          this.$message.success(`审核成功`);
+          this.getlist()
+        });
+      },
 
-    submitdel(){
-      this.dialogDelVisible = false;
-      var allParams='?id='+this.delId
-      Kandelete(allParams).then((res) => {
+      handleReject(index, row){
+        var allParams = '?id='+row.id+'&state=3';
+        Kancheck(allParams).then((res) => {
+          this.$message.success(`审核成功`);
+          this.getlist()
+        });
+      },
+
+      handleDelete(index, row) {
+        this.dialogDelVisible = true;
+        this.delId = row.id;
+      },
+
+      submitdel(){
+        this.dialogDelVisible = false;
+        var allParams='?id='+this.delId
+        Kandelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -180,23 +185,23 @@
         });
        }
      });
+      },
+
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getlist();
+      },
+
+
+      handleSizeChange(val){
+        this.limit = val;
+        this.getlist();
+      },
     },
 
-    handleCurrentChange(val) {
-      this.currentPage = val;
+    mounted: function () {
       this.getlist();
-    },
-
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getlist();
-    },
-  },
-
-  mounted: function () {
-    this.getlist();
-    // this.checkPer();
+    this.checkPer();
   }
 }
 </script>

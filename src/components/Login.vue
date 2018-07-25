@@ -5,7 +5,7 @@
       <el-input type="text" v-model="account.username" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
     <el-form-item prop="pwd">
-      <el-input type="password" v-model="account.pwd" auto-complete="off" placeholder="密码"></el-input>
+      <el-input type="password" v-model="account.pwd" auto-complete="off" placeholder="密码" @keyup.enter.native="handleLogin()"></el-input>
     </el-form-item>
     <el-form-item style="width:100%;">
       <el-button type="primary" style="width:100%;" @click="handleLogin()" :loading="logining">登录</el-button>
@@ -38,6 +38,7 @@
       };
     },
     methods: {
+
       handleLogin() {
         var that =this;
         that.$refs.AccountFrom.validate((valid) => {

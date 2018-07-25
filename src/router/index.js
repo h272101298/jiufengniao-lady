@@ -14,11 +14,11 @@ import Goodrecycle from '@/components/Good/Goodrecycle'
 
 import Orderlist from '@/components/Order/Orderlist'
 import Teamwork from '@/components/Order/Teamwork'
-import Memberpay from '@/components/Order/Memberpay'
 import Refund from '@/components/Order/Refund'
 
 import Userlist from '@/components/User/Userlist'
 
+import Memberpay from '@/components/Member/Memberpay'
 import Memberlist from '@/components/Member/Memberlist'
 import MemberSet from '@/components/Member/MemberSet'
 
@@ -125,7 +125,6 @@ let router = new Router({
         {path: '/Order/Orderlist',component: Orderlist,name: '购物订单',menuShow: true,meta:{permission: ''}}, 
         // {path: '/Order/Teamwork',component: Teamwork,name: '拼团订单',menuShow: true},    
         {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}},
-        {path: '/Order/Memberpay',component: Memberpay,name: '会员充值',menuShow: true,meta:{permission: ''}}
         ]
     },
     {
@@ -157,8 +156,9 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-yonghu',
         children: [
-        {path: '/Member/Memberlist',component: Memberlist,name: '会员列表',menuShow: true,meta:{permission: ''}},
-        {path: '/Member/MemberSet',component: MemberSet,name: '等级设置',menuShow: true,meta:{permission: ''}}
+        {path: '/Member/Memberlist',component: Memberlist,name: '会员列表',menuShow: true,meta:{permission: 'memberList'}},
+        {path: '/Member/MemberSet',component: MemberSet,name: '等级设置',menuShow: true,meta:{permission: 'memberLevelList'}},
+        {path: '/Member/Memberpay',component: Memberpay,name: '会员充值',menuShow: true,meta:{permission: 'memberRecords'}}
         ]
     },{
         path: '/',
@@ -197,10 +197,10 @@ let router = new Router({
     iconCls: 'iconfont menu-card',
     children: [
     {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false}, 
-    {path: '/Card/Cardgood',component: Cardgood,name: '活动列表',menuShow: true}, 
-    {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true}, 
+    {path: '/Card/Cardgood',component: Cardgood,name: '活动列表',menuShow: true,meta:{permission: 'storeCardPromotions'}}, 
+    {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true,meta:{permission: 'checkCardPromotions'}}, 
     {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
-    {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true}
+    {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true,meta:{permission: 'allCardPromotions'}}
     ]
 }, 
 
@@ -225,10 +225,10 @@ let router = new Router({
     iconCls: 'iconfont menu-kanjia',
     children: [
     {path: '/Kan/Kannew',component: Kannew,name: '发布活动',menuShow: false}, 
-    {path: '/Kan/Kangood',component: Kangood,name: '活动列表',menuShow: true}, 
-    {path: '/Kan/Kancheck',component: Kancheck,name: '待审核',menuShow: true}, 
+    {path: '/Kan/Kangood',component: Kangood,name: '活动列表',menuShow: true,meta:{permission: 'storeBargainPromotions'}}, 
+    {path: '/Kan/Kancheck',component: Kancheck,name: '待审核',menuShow: true,meta:{permission: 'checkBargainPromotions'}}, 
     {path: '/Kan/Kanchange',component: Kanchange,name: ' 编辑活动',menuShow: false}, 
-    {path: '/Kan/Kanpass',component: Kanpass,name: '通过列表',menuShow: true}
+    {path: '/Kan/Kanpass',component: Kanpass,name: '通过列表',menuShow: true,meta:{permission: 'allBargainPromotions'}}
     ]
 }, 
 
@@ -287,18 +287,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-             MessageBox.alert('没有访问权限', '提示', {
-                confirmButtonText: '确定',
-                closeOnPressEscape:false,
-                showClose:false,
-                callback: action => {
+           MessageBox.alert('没有访问权限', '提示', {
+            confirmButtonText: '确定',
+            closeOnPressEscape:false,
+            showClose:false,
+            callback: action => {
 
-                }
-            });
-         }
-     }else{
-       next() 
-   }
+            }
+        });
+       }
+   }else{
+     next() 
+ }
 }
 })
 

@@ -45,7 +45,7 @@
 
       <el-table-column label="操作" min-width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="newmember(scope.$index, scope.row)">续费</el-button>
+          <el-button type="primary" size="mini" @click="newmember(scope.$index, scope.row)" v-show="checkper1">续费</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -104,6 +104,15 @@
     },
 
     methods:{
+
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('setMember')>-1){
+          this.checkper1=true;
+        }
+
+      },
+
       getlist(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&name=' + this.filter.name;
         memberGet(allParams).then((res) => {
@@ -174,7 +183,8 @@
 
     mounted: function () {
       this.getlist();
-      this.getlevel()
+      this.getlevel();
+      this.checkPer()
     }
 
   }

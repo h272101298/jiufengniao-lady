@@ -127,14 +127,10 @@ export const ratioPost = params => { return axios.post(`${base}/brokerage/ratio`
 export const ratioGet = params => { return axios.get(`${base}/brokerage/ratio`+`${params}`).then(res => res.data)}
 
 
-
-
-
 export const comGetAll = params => { return axios.get(`${base}/brokerages`+`${params}`).then(res => res.data)}
 
 
 export const withdrawGet = params => { return axios.get(`${base}/withdraw/applies`+`${params}`).then(res => res.data)}
-
 
 export const withdrawPass = params => { return axios.get(`${base}/withdraw/pass`+`${params}`).then(res => res.data)}
 
@@ -234,6 +230,8 @@ export const documentDel = params => { return axios.delete(`${base}/document`+`$
 //用户
 export const userGet = params => { return axios.get(`${base}/wechat/users`+`${params}`).then(res => res.data)}
 
+export const usertohy = params => { return axios.post(`${base1}/member/user`, params).then(res => res.data)}//用户成为会员、续费
+
 //会员
 
 export const mconfigPost = params => { return axios.post(`${base1}/member/level`, params).then(res => res.data)}//设置会员等级
@@ -241,8 +239,6 @@ export const mconfigPost = params => { return axios.post(`${base1}/member/level`
 export const mconfigGet = params => { return axios.get(`${base1}/member/levels`+`${params}`).then(res => res.data)}//获取会员等级
 
 export const mconfigDel = params => { return axios.delete(`${base1}/member/level`+`${params}`).then(res => res.data)}//删除会员等级
-
-export const usertohy = params => { return axios.post(`${base1}/member/user`, params).then(res => res.data)}//用户成为会员、续费
 
 export const memberGet = params => { return axios.get(`${base1}/member/users`+`${params}`).then(res => res.data)}//会员列表
 
@@ -301,6 +297,8 @@ export const Cardupdown = params => { return axios.get(`${base1}/enable/promotio
 export const DefaultCardPost = params => { return axios.post(`${base1}/default/card`, params).then(res => res.data)}
 
 export const DefaultCardGet = params => { return axios.get(`${base1}/default/cards`+`${params}`).then(res => res.data)}
+
+export const Cardhot = params => { return axios.get(`${base1}/hot/card/promotion`+`${params}`).then(res => res.data)}//推荐
 
 
 // 砍价

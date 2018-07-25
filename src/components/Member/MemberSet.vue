@@ -12,7 +12,7 @@
 
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="small" @click="newlevel">新增等级</el-button>
+        <el-button type="primary" size="small" @click="newlevel" v-show="checkper1">新增等级</el-button>
       </el-form-item>
     </el-form>
 
@@ -30,8 +30,8 @@
       </el-table-column>
       <el-table-column label="操作" min-width="150" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>
     </el-table-column>
 
@@ -207,14 +207,14 @@
 
     methods:{
       checkPer(){
-      // var per = sessionStorage.getItem('permissions');
-      // if(per.indexOf('productTypeAdd')>-1){
-      //   this.checkper1=true;
-      // }
+      var per = sessionStorage.getItem('permissions');
+      if(per.indexOf('addMemberLevel')>-1){
+        this.checkper1=true;
+      }
 
-      // if(per.indexOf('productTypeDel')>-1){
-      //   this.checkper2=true;
-      // }
+      if(per.indexOf('delMemberLevel')>-1){
+        this.checkper2=true;
+      }
     },
 
 

@@ -20,7 +20,6 @@
 
       <div class="tablebox">
         <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
-          <!-- <caption style="margin-bottom:20px;">商铺模块</caption> -->
           <tr>
             <th>商铺模块</th>
           </tr>
@@ -51,7 +50,6 @@
 
       <div class="tablebox">
         <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
-          <!-- <caption style="margin-bottom:20px;">商品模块</caption> -->
           <tr>
             <th>商品模块</th>
           </tr>
@@ -89,7 +87,6 @@
 
       <div class="tablebox">
         <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
-          <!-- <caption style="margin-bottom:20px;">订单模块</caption> -->
           <tr>
             <th>订单模块</th>
           </tr>
@@ -123,7 +120,6 @@
 
       <div class="tablebox">
         <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
-          <!-- <caption style="margin-bottom:20px;">分销模块</caption> -->
           <tr>
             <th>分销模块</th>
           </tr>
@@ -151,9 +147,86 @@
         </table>
       </div>
 
+
+
+
+
       <div class="tablebox">
         <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
-          <!-- <caption style="margin-bottom:20px;">管理员模块</caption> -->
+          <tr>
+            <th>集卡牌</th>
+          </tr>
+          <tr>
+            <td class="ltd">活动管理(商家)</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='storeCardPromotions' false-label='storeCardPromotions1a'>活动列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='addCardPromotion' false-label='addCardPromotion1a'>新增活动</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='delCardPromotion' false-label='delCardPromotion1a'>删除活动</el-checkbox>
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">活动审核</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='checkCardPromotions' false-label='checkCardPromotions1a'>审核列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='modifyCardPromotion' false-label='modifyCardPromotion1a'>编辑活动</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='checkCardPromotion' false-label='checkCardPromotion1a'>审核活动</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='delCardPromotion' false-label='delCardPromotion1a'>删除活动</el-checkbox>
+            </td></td>
+          </tr>
+          <tr>
+            <td class="ltd">活动管理(平台)</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='allCardPromotions' false-label='allCardPromotions1a'>活动列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='enableCardPromotion' false-label='enableCardPromotion1a'>活动上下线</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='delCardPromotion' false-label='delCardPromotion1a'>删除活动</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='hotCardPromotion' false-label='hotCardPromotion1a'>设置首页推荐</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='addDefaultCards' false-label='addDefaultCards1a'>设置默认卡牌</el-checkbox>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="tablebox">
+        <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
+          <tr>
+            <th>限时砍价</th>
+          </tr>
+          <tr>
+            <td class="ltd">活动管理(商家)</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='storeBargainPromotions' false-label='storeBargainPromotions1a'>活动列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='addBargainPromotion' false-label='addBargainPromotion1a'>新增活动</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='delBargainPromotion' false-label='delBargainPromotion1a'>删除活动</el-checkbox><!--  -->
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">活动审核</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='checkBargainPromotions' false-label='checkBargainPromotions1a'>审核列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='modifyBargainPromotion' false-label='modifyBargainPromotion1a'>编辑活动</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='checkBargainPromotion' false-label='checkBargainPromotion1a'>审核活动</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='delBargainPromotion' false-label='delBargainPromotion1a'>删除活动</el-checkbox><!--  -->
+            </td></td>
+          </tr>
+          <tr>
+            <td class="ltd">活动管理(平台)</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='allBargainPromotions' false-label='allBargainPromotions1a'>活动列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='enableBargainPromotion' false-label='enableBargainPromotion1a'>活动上下线</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='delBargainPromotion' false-label='delBargainPromotion1a'>删除活动</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='hotBargainPromotion' false-label='hotBargainPromotion1a'>设置首页推荐</el-checkbox><!--  -->
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+
+
+
+
+      <div class="tablebox">
+        <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
           <tr>
             <th>用户&管理员</th>
           </tr>
@@ -161,6 +234,7 @@
             <td class="ltd">用户列表</td>
             <td class="rtd">
               <el-checkbox @change="xzchange" true-label='userList' false-label='userList1a'>用户列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='setMember' false-label='setMember1a'>成为会员</el-checkbox><!--  -->
             </td>
           </tr>
           <tr>
@@ -184,7 +258,35 @@
 
       <div class="tablebox">
         <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
-          <!--           <caption style="margin-bottom:20px;">系统设置</caption> -->
+          <tr>
+            <th>会员管理</th>
+          </tr>
+          <tr>
+            <td class="ltd">会员列表</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='memberList' false-label='memberList'>会员列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='setMember' false-label='setMember'>会员续费</el-checkbox><!--  -->
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">等级设置</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='memberLevelList' false-label='memberLevelList'>等级列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='addMemberLevel' false-label='addMemberLevel'>编辑等级</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='delMemberLevel' false-label='delMemberLevel'>删除等级</el-checkbox><!--  -->
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">充值列表</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='memberRecords' false-label='memberRecords'>充值列表</el-checkbox>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="tablebox">
+        <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
           <tr>
             <th>系统设置</th>
           </tr>

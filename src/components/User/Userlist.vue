@@ -42,7 +42,7 @@
 
       <el-table-column label="操作" min-width="200" align="center">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="newmember(scope.$index, scope.row)">成为会员</el-button>
+          <el-button type="primary" size="mini" @click="newmember(scope.$index, scope.row)" v-show="checkper1">开通会员</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -96,12 +96,21 @@
 
         levelArr:[],
 
-        level:''
+        level:'',
+        checkper1:false,
+
 
       };
     },
 
     methods:{
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('setMember')>-1){
+          this.checkper1=true;
+        }
+      },
+
       getlist(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&name=' + this.filter.name;
         userGet(allParams).then((res) => {
@@ -172,6 +181,7 @@
     mounted: function () {
       this.getlist();
       this.getlevel();
+      this.checkPer();
     }
 
   }

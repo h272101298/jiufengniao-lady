@@ -50,10 +50,10 @@
 
         <el-table-column label="操作" min-width="300" align="center">
          <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1">编辑</el-button>
-          <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="2">通过</el-button>
-          <el-button type="info" size="small" @click="handleReject(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="3">不通过</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper1">编辑</el-button>
+          <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper2" data-state="2">通过</el-button>
+          <el-button type="info" size="small" @click="handleReject(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper2" data-state="3">不通过</el-button>
+          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper3">删除</el-button>
         </template>
       </el-table-column>
 
@@ -109,41 +109,46 @@
 
         checkper1:false,
         checkper2:false,
+        checkper3:false,
 
       };
     },
 
     methods:{
       checkPer(){
-      // var per = sessionStorage.getItem('permissions');
-      // if(per.indexOf('productTypeAdd')>-1){
-      //   this.checkper1=true;
-      // }
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('modifyCardPromotion')>-1){
+          this.checkper1=true;
+        }
 
-      // if(per.indexOf('productTypeDel')>-1){
-      //   this.checkper2=true;
-      // }
-    },
+        if(per.indexOf('checkCardPromotion')>-1){
+          this.checkper2=true;
+        }
 
-
-    getlist(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&state=1';
-      CardcheckGet(allParams).then((res) => {
-        this.list=res.data.data;
-        this.count=res.data.count
-      });
-    },
+        if(per.indexOf('delCardPromotion')>-1){
+          this.checkper3=true;
+        }
+      },
 
 
-    clear(){
-      this.filter={
-        title:'',
-        level:''
-      }
-    },
+      getlist(){
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&state=1';
+        CardcheckGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count
+        });
+      },
 
 
-    handleEdit(index, row){
+      clear(){
+        this.filter={
+          title:'',
+          level:''
+        }
+      },
+
+
+      handleEdit(index, row){
       // console.log(row.id)
       sessionStorage.setItem('cardlist', JSON.stringify(row.list));
       sessionStorage.setItem('cardcheckid', row.id);
