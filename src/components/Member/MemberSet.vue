@@ -28,46 +28,43 @@
       </el-table-column>
       <el-table-column prop="discount" label="折扣" min-width="150" align="center">
       </el-table-column>
-<!--       <el-table-column prop="count" label="人数" min-width="150" align="center">
-</el-table-column> -->
+      <el-table-column label="操作" min-width="150" align="center">
+       <template slot-scope="scope">
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
 
-<el-table-column label="操作" min-width="150" align="center">
- <template slot-scope="scope">
-  <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-  <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-</template>
-</el-table-column>
+  </el-table>
 
-</el-table>
-
-<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-</el-pagination>
+  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+  </el-pagination>
 
 
 
-<el-col>
-  <el-dialog title="编辑等级" :visible.sync="dialogNewVisible">
-    <el-form label-width="130px" width="900px" center style="max-width: 800px" :rules="rules" ref="levelform" :model="levelform">
+  <el-col>
+    <el-dialog title="编辑等级" :visible.sync="dialogNewVisible">
+      <el-form label-width="130px" width="900px" center style="max-width: 800px" :rules="rules" ref="levelform" :model="levelform">
 
-      <el-form-item label="名称：" prop="name">
-        <el-input v-model="levelform.name" placeholder="请输入名称" size="medium" style="min-width: 200px;" ></el-input>
-      </el-form-item>
+        <el-form-item label="名称：" prop="name">
+          <el-input v-model="levelform.name" placeholder="请输入名称" size="medium" style="min-width: 200px;" ></el-input>
+        </el-form-item>
 
-      <el-form-item label="价格：" prop="price">
-        <el-input v-model="levelform.price" placeholder="请输入价格" type="number" min="0" size="medium" style="min-width: 200px;" ></el-input>
-      </el-form-item>
+        <el-form-item label="价格：" prop="price">
+          <el-input v-model="levelform.price" placeholder="请输入价格" type="number" min="0" size="medium" style="min-width: 200px;" ></el-input>
+        </el-form-item>
 
-      <el-form-item label="时长：" prop="time">
-        <el-input v-model="levelform.time" placeholder="请输入时长(如：30)" type="number" min="0" size="medium" style="min-width: 200px;" ></el-input>
-      </el-form-item>
+        <el-form-item label="时长：" prop="time">
+          <el-input v-model="levelform.time" placeholder="请输入时长(如：30)" type="number" min="0" size="medium" style="min-width: 200px;" ></el-input>
+        </el-form-item>
 
-      <el-form-item label="折扣：" prop="discount">
-        <el-input v-model="levelform.discount" placeholder="请输入折扣(0到10之间的数字)" type="number" min="0" max="10" size="medium" style="min-width: 200px;" ></el-input>
-      </el-form-item>
+        <el-form-item label="折扣：" prop="discount">
+          <el-input v-model="levelform.discount" placeholder="请输入折扣(0到10之间的数字)" type="number" min="0" max="10" size="medium" style="min-width: 200px;" ></el-input>
+        </el-form-item>
 
-      <el-form-item label="介绍：" prop="detail">
-        <el-input v-model="levelform.detail" placeholder="请输入介绍" size="medium" type="textarea" style="min-width: 200px;" ></el-input>
-      </el-form-item>
+        <el-form-item label="介绍：" prop="detail">
+          <el-input v-model="levelform.detail" placeholder="请输入介绍" size="medium" type="textarea" style="min-width: 200px;" ></el-input>
+        </el-form-item>
 
 <!--       <el-form-item label="介绍：" prop="detail">
        <div class="edit_container">
@@ -299,7 +296,7 @@
           message: '删除成功',
           type: 'success'
         });
-         this.dialogDelVisible=false 
+
          this.getconfig()
        } else {
          this.$message({
@@ -307,31 +304,33 @@
           type: 'error'
         });
        }
+     }).catch((res)=>{
+       this.dialogDelVisible=false 
      });
-    },
+   },
 
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getconfig();
-    },
-
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getconfig();
-    },
-
-
-  },
-
-  components: {
-    quillEditor,
-  },
-
-  mounted: function () {
+   handleCurrentChange(val) {
+    this.currentPage = val;
     this.getconfig();
-    this.checkPer();
-  }
+  },
+
+
+  handleSizeChange(val){
+    this.limit = val;
+    this.getconfig();
+  },
+
+
+},
+
+components: {
+  quillEditor,
+},
+
+mounted: function () {
+  this.getconfig();
+  this.checkPer();
+}
 }
 </script>
 

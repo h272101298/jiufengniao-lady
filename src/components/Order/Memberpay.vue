@@ -27,7 +27,6 @@
             <el-tag type="info" v-show="scope.row.state=='created'" @click="">待付款</el-tag>
             <el-tag type="success" v-show="scope.row.state=='finished'" @click="">已支付</el-tag>
           </template>
-
         </el-table-column>
         <el-table-column prop="created_at" label="充值时间" min-width="200" align="center">
         </el-table-column>
@@ -37,11 +36,8 @@
       </el-pagination>
     </el-col>
 
-
   </el-row>
 </template>
-
-
 
 <script>
 

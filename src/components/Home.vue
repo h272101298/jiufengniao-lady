@@ -6,10 +6,10 @@
       <div class="topbar-title">
         <span style="font-size: 18px;color: #fff;">乐芭商城后台</span>
       </div>
-
+        <el-button class="clear" size="mini" type='primary' @click="quanping()">{{fstext}}</el-button>
       <div class="topbar-account topbar-btn">
         <!-- <el-button class="clear" size="mini" type='primary' @click="">清除缓存</el-button> -->
-        <el-button class="clear" size="mini" type='primary' @click="quanping()">{{fstext}}</el-button>
+
         <el-dropdown trigger="click">
           <span class="el-dropdown-link userinfo-inner"><i class="iconfont menu-yonghu" style="margin-right: 10px;"></i> {{username}} <i class="iconfont icon-down" style="margin-left: 10px;"></i></span>
           <el-dropdown-menu slot="dropdown" style="top: 38px!important">
@@ -148,10 +148,10 @@
 
   <style scoped>
   .clear{
-    /*float: right;*/
-    position: absolute;
-    right: 120px;
-    top: 11px;
+    float: right;
+    /*position: absolute;*/
+    margin-right: 10px;
+    margin-top: 11px;
   }
   .fullscreen{
     position: absolute;

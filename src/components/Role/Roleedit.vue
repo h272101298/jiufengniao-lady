@@ -56,7 +56,7 @@
             <th>商品模块</th>
           </tr>
           <tr>
-            <td class="ltd">商品快递</td>
+            <td class="ltd">商品分类</td>
             <td class="rtd">
               <el-checkbox @change="xzchange" true-label='productTypeList' false-label='productTypeList1a'>分类列表</el-checkbox>
               <el-checkbox @change="xzchange" true-label='productTypeAdd' false-label='productTypeAdd1a'>编辑分类</el-checkbox>

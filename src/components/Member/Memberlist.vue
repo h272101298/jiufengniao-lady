@@ -29,6 +29,7 @@
           <img :src="scope.row.user.avatarUrl" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
         </template>
       </el-table-column>
+
       <el-table-column prop="info.name" label="姓名" min-width="140" align="center">
       </el-table-column>
       <el-table-column prop="info.phone" label="联系电话" min-width="200" align="center">

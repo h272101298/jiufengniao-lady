@@ -61,13 +61,13 @@ axios.interceptors.response.use(
 
 
 
-let base = 'http://192.168.1.172/Shop/public/v1'
+// let base = 'http://192.168.1.172/Shop/public/v1'
 
-let base1 = 'http://192.168.1.172/Shop/public/v2'
+// let base1 = 'http://192.168.1.172/Shop/public/v2'
 
-// let base = 'https://template.geckowing.com/v1'
+let base = 'https://template.geckowing.com/v1'
 
-// let base1 = 'https://template.geckowing.com/v2'
+let base1 = 'https://template.geckowing.com/v2'
 
 export default base
 

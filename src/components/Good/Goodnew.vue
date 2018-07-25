@@ -31,7 +31,10 @@
 
           <el-form-item label="商品详情：" prop="detail">
            <div class="edit_container">
-            <quill-editor v-model="newgood1.detail" style="min-height:133px;max-height:2000px;" ref="myQuillEditor" class="editer" placeholder= '请输入详细内容'></quill-editor>
+            <quill-editor v-model="newgood1.detail" style="min-height:133px;" :options="editorOption" ref="myQuillEditor" class="editer"></quill-editor>
+            <el-upload class="avatar-uploader quill-img" :action="upurl" :before-upload='beforeUpload' :data="uptoken" :on-success='quillImgSuccess' style="display: none">
+              <el-button size="small" type="primary" id="imgInput" element-loading-text="插入中,请稍候">点击上传</el-button>
+            </el-upload>
           </div>
         </el-form-item>
 
@@ -232,10 +235,41 @@
         upurl:qiniu.upurl,
 
 
-        newgood1:{
-          name:'',
-          detail:'',
-          brokerage:null,
+        editorOption:{
+          placeholder: '请输入详细内容',
+          theme: 'snow',
+          modules: {
+            toolbar: {
+             container: [
+             ['bold', 'italic', 'underline', 'strike'],
+             ['blockquote', 'code-block'],
+             [{ 'direction': 'rtl' }],
+             [{ 'size': ['small', false, 'large', 'huge'] }],
+             [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+             [{ 'color': [] }, { 'background': [] }],
+             [{ 'font': [] }],
+             [{ 'align': [] }],
+             ['clean'],
+             ['link', 'image']
+             ],
+             handlers: {
+              'image': function (value) {
+                if (value) {
+                  document.querySelector('.quill-img input').click()
+                } else {
+                  this.quill.format('image', false);
+                }
+              }
+            }
+          }
+        }
+      },
+
+
+      newgood1:{
+        name:'',
+        detail:'',
+        brokerage:null,
           // express:null,
           // express_price:null,
           share_title:'',
@@ -322,7 +356,20 @@
 
     methods:{
 
+      quillImgSuccess(res, file) {
+        console.log(res)
+        let quill = this.$refs.myQuillEditor.quill
+        if (res.key) {
+          let length = quill.getSelection().index;
+          quill.insertEmbed(length, 'image', qiniu.showurl+ res.key)
+          quill.setSelection(length + 1)
+        } else {
+          this.$message.error('图片插入失败')
+        }
+      },
+
       addattr(){
+        // console.log(this.newgood1)
         this.$refs.newgood1.validate((valid) => {
           if (valid) {
             this.activeName="attributes"
