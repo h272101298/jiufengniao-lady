@@ -126,7 +126,7 @@
           <tr>
             <td class="ltd">分销申请</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='proxyApplyList' false-label='proxyApplyList1a'>申请列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='proxyApplyList' false-label='proxyApplyList1a' checked>申请列表</el-checkbox>
               <el-checkbox @change="xzchange" true-label='proxyApplyCheck' false-label='proxyApplyCheck1a'>申请审核</el-checkbox>
             </td>
           </tr>
@@ -146,10 +146,6 @@
           </tr>
         </table>
       </div>
-
-
-
-
 
       <div class="tablebox">
         <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
@@ -338,6 +334,89 @@
         },
         options: [],
         checkedlist:[],
+
+        // checkedlist:[
+        // 'storeCategoryList',
+        // 'storeCategoryAdd',
+        // 'storeCategoryDel',
+        // 'settleList',
+        // 'settleCheck',
+        // 'storeList',
+        // 'myStore',
+        // 'productTypeList',
+        // 'productTypeAdd',
+        // 'productTypeDel',
+        // 'productCategoryList',
+        // 'productCategoryAdd',
+        // 'productCategoryDel',
+        // 'productListAll',
+        // 'productListStore',
+        // 'productReview',
+        // 'productShelf',
+        // 'productAdd',
+        // 'productSoftDel',
+        // 'productDel',
+        // 'orderListAll',
+        // 'orderListStore',
+        // 'orderListDo',
+        // 'refuseListAll',
+        // 'refuseListStore',
+        // 'refuseDo',
+        // 'expressConfig',
+        // 'expressList',
+        // 'expressAdd',
+        // 'expressDel',
+        // 'proxyApplyList',
+        // 'proxyApplyCheck',
+        // 'proxyList',
+        // 'brokerageList',
+        // 'withdrawList',
+        // 'withdrawCheck',
+        // 'storeCardPromotions',
+        // 'addCardPromotion',
+        // 'delCardPromotion',
+        // 'checkCardPromotions',
+        // 'modifyCardPromotion',
+        // 'checkCardPromotion',
+        // 'delCardPromotion',
+        // 'allCardPromotions',
+        // 'enableCardPromotion',
+        // 'delCardPromotion',
+        // 'hotCardPromotion',
+        // 'addDefaultCards',
+        // 'storeBargainPromotions',
+        // 'addBargainPromotion',
+        // 'delBargainPromotion',
+        // 'checkBargainPromotions',
+        // 'modifyBargainPromotion',
+        // 'checkBargainPromotion',
+        // 'delBargainPromotion',
+        // 'allBargainPromotions',
+        // 'enableBargainPromotion',
+        // 'delBargainPromotion',
+        // 'hotBargainPromotion',
+        // 'userList',
+        // 'setMember',
+        // 'adminList',
+        // 'adminAdd',
+        // 'advertDel',
+        // 'roleList',
+        // 'roleAdd',
+        // 'roleDel',
+        // 'memberList',
+        // 'setMember',
+        // 'memberLevelList',
+        // 'addMemberLevel',
+        // 'delMemberLevel',
+        // 'memberRecords',
+        // 'txConfig',
+        // 'advertList',
+        // 'advertAdd',
+        // 'advertDel',
+        // 'documentList',
+        // 'documentAdd',
+        // 'documentDel',
+        // ],
         editId:'',
 
       };
@@ -347,13 +426,11 @@
       getname(){
         var rolename=sessionStorage.getItem('roleeditname')
         if(rolename){
-
           this.newrole.name=rolename
           sessionStorage.removeItem('roleeditname')
         }else{
 
         }
-
       },
 
       getpermission(){
@@ -362,7 +439,6 @@
           this.options=res.data;
         });
       },
-
 
       xzchange(val){
         var arr =this.checkedlist;
@@ -374,11 +450,11 @@
         }else{
           arr.push(item[0])
         }
-        // console.log(arr)
+        console.log(this.checkedlist)
       },
 
-
       save(){
+        console.log(this.checkedlist)
         this.$refs.newrole.validate((valid) => {
           if (valid) {
 
