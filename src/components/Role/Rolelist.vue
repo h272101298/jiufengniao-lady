@@ -153,22 +153,15 @@
 
 
     handleEdit(index, row){
-        // console.log(row.permissions);
-        // this.newrole.permissions=[]
-        // for(var i=0;i < row.permissions.length;i++){
-        //   this.newrole.permissions.push(row.permissions[i].id)
-        // }
-        // this.putorup='put';
-        // this.newrole.name=row.name
-        this.editId = row.id;
-        sessionStorage.setItem('roleeditname', row.name);
-        sessionStorage.setItem('roleeditId', row.id);
-        this.$router.push({ path: '/Role/Roleedit' });
-        // this.diatitle='编辑角色';
-        // this.dialogNewVisible = true;
-      },
 
-      handleDelete(index, row) {
+      this.editId = row.id;
+      sessionStorage.setItem('roleeditname', row.name);
+      sessionStorage.setItem('roleeditId', row.id);
+
+      this.$router.push({ path: '/Role/Roleedit' });
+    },
+
+    handleDelete(index, row) {
         // console.log(index, row);
         this.dialogDelVisible = true;
         this.delId = row.id;

@@ -65,6 +65,7 @@ import Document from '@/components/Setting/Document'
 import Delivelist from '@/components/Delivery/Delivelist'
 
 
+
 // 懒加载方式，当路由被访问的时候才加载对应组件
 const Login = resolve => require(['@/components/Login'], resolve)
 
@@ -85,7 +86,7 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-kongzhi',
         children: [
-        {path: '/index/Console',component: Console,name: '控制台',menuShow: true,meta:{permission: ''}}
+        {path: '/index/Console',component: Console,name: '控制台',menuShow: true,meta:{permission: ''}},
         ]
     }, {
         path: '/',
@@ -287,18 +288,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-           MessageBox.alert('没有访问权限', '提示', {
-            confirmButtonText: '确定',
-            closeOnPressEscape:false,
-            showClose:false,
-            callback: action => {
+             MessageBox.alert('没有访问权限', '提示', {
+                confirmButtonText: '确定',
+                closeOnPressEscape:false,
+                showClose:false,
+                callback: action => {
 
-            }
-        });
-       }
-   }else{
-     next() 
- }
+                }
+            });
+         }
+     }else{
+       next() 
+   }
 }
 })
 
