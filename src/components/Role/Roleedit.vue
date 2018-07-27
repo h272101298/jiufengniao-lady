@@ -452,7 +452,7 @@
       },
 
       save(){
-        console.log(this.checkedlist)
+        // console.log(this.checkedlist)
         this.$refs.newrole.validate((valid) => {
           if (valid) {
 

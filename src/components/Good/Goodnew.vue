@@ -59,7 +59,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="商品规格：" prop="sameornot">
+        <el-form-item label="商品规格：" prop="sameornot" v-show="showradio">
           <el-radio-group v-model="sameornot" @change="changeguige">
             <el-radio label="1">统一规格</el-radio>
             <el-radio label="2">多规格</el-radio>
@@ -78,7 +78,7 @@
 
 
         <!-- <el-form-item label="" > -->
-          <el-table :data="pricearr" empty-text="请先选择规格" style="min-width:941px" border size="mini" v-show="showmore">
+          <el-table :data="pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;" border size="mini" v-show="showmore">
             <el-table-column type="index" label="序号" width="60" align="center">
             </el-table-column>
             <el-table-column prop="title" label="规格" width="120" align="center">
@@ -345,6 +345,8 @@
           ],
         },
 
+        showradio:true,
+
 
         allParams:null,
       };
@@ -395,9 +397,12 @@
 
       if(goodid){
 
+        this.showradio=false
+
         var allParams = '?id='+ goodid;
         goodoneGet(allParams).then((res) => {
-          console.log(res.data)
+          console.log(res.data.default.images)
+          console.log(this.newgood2.images)
 
           this.newgood1={
             name:res.data.name,
@@ -426,7 +431,12 @@
           type_id:res.data.typeArray[2],
         }
 
-          // this.pricearr=res.data.stocks
+        if(res.data.norm=="fixed"){
+          this.newgood2.id=res.data.default.id
+        }
+
+
+          this.pricearr=res.data.stocks
           // console.log(1)
         });
       }
@@ -650,6 +660,8 @@
                   type_id:this.newgood2.type_id,
                   stock:[this.newgood2]
                 };
+
+
                 console.log(this.allParams)
               }
             }else{
@@ -670,6 +682,10 @@
             type_id:this.newgood2.type_id,
             stock:this.pricearr
           };
+//
+
+
+
           console.log(this.allParams)
         }
       }
