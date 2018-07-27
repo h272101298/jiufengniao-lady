@@ -660,7 +660,7 @@
                   type_id:this.newgood2.type_id,
                   stock:[this.newgood2]
                 };
-
+#
 
                 console.log(this.allParams)
               }
@@ -668,7 +668,6 @@
               return false;
             }
           }else{
-
 
            this.allParams = {
             name:this.newgood1.name,
