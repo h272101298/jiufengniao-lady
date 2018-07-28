@@ -45,6 +45,10 @@ import Kanpass from '@/components/Kan/Kanpass'
 
 
 // import Groupnew from '@/components/Group/Groupnew'
+// import Groupgood from '@/components/Group/Groupgood'
+// import Groupcheck from '@/components/Group/Groupcheck'
+// import Groupchange from '@/components/Group/Groupchange'
+// import Grouppass from '@/components/Group/Grouppass'
 
 
 import Shoplist from '@/components/Shop/Shoplist'
@@ -124,7 +128,6 @@ let router = new Router({
         iconCls: 'iconfont menu-dingdan',
         children: [
         {path: '/Order/Orderlist',component: Orderlist,name: '购物订单',menuShow: true,meta:{permission: ''}}, 
-        // {path: '/Order/Teamwork',component: Teamwork,name: '拼团订单',menuShow: true},    
         {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}},
         ]
     },
@@ -209,11 +212,15 @@ let router = new Router({
     path: '/',
     name: '拼团',
     component: Home,
-    redirect: '/Group/Groupnew',
+    redirect: '/Group/Groupgood',
     menuShow: false,
     iconCls: 'iconfont menu-pintuan',
     children: [
-    // {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false}, 
+    // {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false},
+    // {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: ''}},
+    // {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: ''}},
+    // {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
+    // {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: ''}},
     ]
 }, 
 
@@ -278,7 +285,6 @@ router.beforeEach((to, from, next) => {
     if (to.path.startsWith('/Login')) {
         next()
     } else {
-
         let permissions = window.sessionStorage.getItem('permissions')
         if(!permissions){
             next({path: '/Login'})

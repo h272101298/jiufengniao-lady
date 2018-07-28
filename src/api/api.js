@@ -320,3 +320,18 @@ export const Kanhot = params => { return axios.get(`${base1}/hot/bargain/promoti
 
 
 //拼团
+export const GroupshopPost = params => { return axios.post(`${base1}/Group/promotion`, params).then(res => res.data)}
+
+export const GroupcheckGet = params => { return axios.get(`${base1}/Group/promotions`+`${params}`).then(res => res.data)}
+
+export const GrouponeGet = params => { return axios.get(`${base1}/Group/promotion`+`${params}`).then(res => res.data)}
+
+export const GrouponePut = params => { return axios.put(`${base1}/Group/promotion`+`${params}`).then(res => res.data)}
+
+export const Groupcheck = params => { return axios.get(`${base1}/check/Group/promotion`+`${params}`).then(res => res.data)}
+
+export const Groupdelete = params => { return axios.delete(`${base1}/Group/promotion`+`${params}`).then(res => res.data)}
+
+export const Groupupdown = params => { return axios.get(`${base1}/enable/Group/promotion`+`${params}`).then(res => res.data)}
+
+export const Grouphot = params => { return axios.get(`${base1}/hot/Group/promotion`+`${params}`).then(res => res.data)}//推荐

@@ -234,7 +234,6 @@
         },
         upurl:qiniu.upurl,
 
-
         editorOption:{
           placeholder: '请输入详细内容',
           theme: 'snow',
@@ -265,183 +264,171 @@
         }
       },
 
-
       newgood1:{
         name:'',
         detail:'',
         brokerage:null,
-          // express:null,
-          // express_price:null,
-          share_title:'',
-          share_detail:''
-        },
+        share_title:'',
+        share_detail:''
+      },
 
-        newgood2:{
-          cover:'../static/images/default1.png',
-          images:[],
-          origin_price:null,
-          price:null,
-          type_id:null,
-          detail:[]
-        },
+      newgood2:{
+        cover:'../static/images/default1.png',
+        images:[],
+        origin_price:null,
+        price:null,
+        type_id:null,
+        detail:[]
+      },
 
-        expressArr:[],
+      expressArr:[],
 
-        typeArr1:[],
-        type1:'',
-        typeArr2:[],
-        type2:'',
-        typeArr3:[],
+      typeArr1:[],
+      type1:'',
+      typeArr2:[],
+      type2:'',
+      typeArr3:[],
 
-        sameornot:'1',
-        showmore:'',
+      sameornot:'1',
+      showmore:'',
 
-        checkOptions:[],
-        checkList:[],
-        checkList1:[],
-        checkList2:[],
-        dialogggVisible:false,
-        ggcoverindex:null,
-        ggimgindex:null,
-        ggtitleindex:null,
+      checkOptions:[],
+      checkList:[],
+      checkList1:[],
+      checkList2:[],
+      dialogggVisible:false,
+      ggcoverindex:null,
+      ggimgindex:null,
+      ggtitleindex:null,
 
-        tempggarr:[],
+      tempggarr:[],
 
-        pricearr:[{
-          id:0,
-          detail:1,
-          title:1,
-          cover:'../static/images/default1.png',
-          images:[],
-          origin_price:null,
-          price:null,
-        }],
+      pricearr:[{
+        id:0,
+        detail:1,
+        title:1,
+        cover:'../static/images/default1.png',
+        images:[],
+        origin_price:null,
+        price:null,
+      }],
 
+      rules1:{
+        name: [
+        {required: true, message: '请输入商品名称', trigger: 'blur'},
+        ],
+        detail: [
+        {required: true, message: '请输入商品详情', trigger: 'blur'},
+        ],
+        brokerage: [
+        {required: true, message: '请输入分销佣金', trigger: 'blur'},
+        ],
+        share_title: [
+        {required: true, message: '请输入分享标题', trigger: 'blur'},
+        ],
+        share_detail: [
+        {required: true, message: '请输入商品描述', trigger: 'blur'},
+        ],
+      },
 
-        rules1:{
-          name: [
-          {required: true, message: '请输入商品名称', trigger: 'blur'},
-          ],
-          detail: [
-          {required: true, message: '请输入商品详情', trigger: 'blur'},
-          ],
-          brokerage: [
-          {required: true, message: '请输入分销佣金', trigger: 'blur'},
-          ],
-          share_title: [
-          {required: true, message: '请输入分享标题', trigger: 'blur'},
-          ],
-          share_detail: [
-          {required: true, message: '请输入商品描述', trigger: 'blur'},
-          ],
-        },
+      rules2:{
+        origin_price: [
+        {required: true, validator: checkvalue, trigger: 'blur'},
+        ],
+        price: [
+        {required: true, validator: checkvalue, trigger: 'blur'},
+        ],
+      },
 
-        rules2:{
-          origin_price: [
-          {required: true, validator: checkvalue, trigger: 'blur'},
-          ],
-          price: [
-          {required: true, validator: checkvalue, trigger: 'blur'},
-          ],
-        },
+      showradio:true,
 
-        showradio:true,
+      allParams:null,
+    };
+  },
 
+  components: {
+    quillEditor,
+  },
 
-        allParams:null,
-      };
+  methods:{
+    quillImgSuccess(res, file) {
+      console.log(res)
+      let quill = this.$refs.myQuillEditor.quill
+      if (res.key) {
+        let length = quill.getSelection().index;
+        quill.insertEmbed(length, 'image', qiniu.showurl+ res.key)
+        quill.setSelection(length + 1)
+      } else {
+        this.$message.error('图片插入失败')
+      }
     },
 
-    components: {
-      quillEditor,
-    },
-
-    methods:{
-
-      quillImgSuccess(res, file) {
-        console.log(res)
-        let quill = this.$refs.myQuillEditor.quill
-        if (res.key) {
-          let length = quill.getSelection().index;
-          quill.insertEmbed(length, 'image', qiniu.showurl+ res.key)
-          quill.setSelection(length + 1)
-        } else {
-          this.$message.error('图片插入失败')
+    addattr(){
+      this.$refs.newgood1.validate((valid) => {
+        if (valid) {
+          this.activeName="attributes"
+          this.attrtab=false
+        }else{
+          this.attrtab=true
         }
-      },
+      })
+    },
 
-      addattr(){
-        // console.log(this.newgood1)
-        this.$refs.newgood1.validate((valid) => {
-          if (valid) {
-            this.activeName="attributes"
-            this.attrtab=false
-          }else{
-            this.attrtab=true
-          }
-        })
-      },
+    clicktab(res){
+      if(res.name=="base"){
+       this.attrtab=true
+     }
+   },
 
-      clicktab(res){
-        // console.log(res.name=="base")
-        if(res.name=="base"){
-         this.attrtab=true
+   checkgoodid(){
+    var goodid=sessionStorage.getItem('goodeditid');
+
+    if(goodid){
+
+      this.showradio=false
+
+      var allParams = '?id='+ goodid;
+      goodoneGet(allParams).then((res) => {
+        console.log(res.data.default.images)
+        console.log(this.newgood2.images)
+
+        this.newgood1={
+          name:res.data.name,
+          detail:res.data.detail,
+          brokerage:res.data.brokerage,
+          share_title:res.data.share_title,
+          share_detail:res.data.share_detail
+        }
+
+        if(res.data.norm=="change"){
+          this.sameornot='2'
+          this.showmore=true
+        }else{
+         this.sameornot='1'
        }
-     },
+       this.type1=res.data.typeArray[0]
+       this.gettype2(this.type1)
+       this.type2=res.data.typeArray[1]
+       this.gettype3(this.type2)
 
-
-
-     checkgoodid(){
-      var goodid=sessionStorage.getItem('goodeditid');
-
-
-      if(goodid){
-
-        this.showradio=false
-
-        var allParams = '?id='+ goodid;
-        goodoneGet(allParams).then((res) => {
-          console.log(res.data.default.images)
-          console.log(this.newgood2.images)
-
-          this.newgood1={
-            name:res.data.name,
-            detail:res.data.detail,
-            brokerage:res.data.brokerage,
-            share_title:res.data.share_title,
-            share_detail:res.data.share_detail
-          }
-
-          if(res.data.norm=="change"){
-            this.sameornot='2'
-            this.showmore=true
-          }else{
-           this.sameornot='1'
-         }
-         this.type1=res.data.typeArray[0]
-         this.gettype2(this.type1)
-         this.type2=res.data.typeArray[1]
-         this.gettype3(this.type2)
-
-         this.newgood2={
-          cover:res.data.default.cover,
-          images:res.data.default.images,
-          origin_price:res.data.default.origin_price,
-          price:res.data.default.price,
-          type_id:res.data.typeArray[2],
-        }
-
-        if(res.data.norm=="fixed"){
-          this.newgood2.id=res.data.default.id
-        }
-
-
-          this.pricearr=res.data.stocks
-          // console.log(1)
-        });
+       this.newgood2={
+        cover:res.data.default.cover,
+        images:res.data.default.images,
+        origin_price:res.data.default.origin_price,
+        price:res.data.default.price,
+        type_id:res.data.typeArray[2],
       }
 
-    },
+      if(res.data.norm=="fixed"){
+        this.newgood2.id=res.data.default.id
+      }
+
+      this.pricearr=res.data.stocks
+          // console.log(1)
+        });
+    }
+
+  },
 
       // 分类
       gettype1(){
@@ -474,10 +461,10 @@
       // 规格
       changeguige(val){
         if(val=="1"){
-          // this.norm='fixed';
+
           this.showmore=false
         }else if(val=="2"){
-          // this.norm='change';
+
           this.getcategory()
           if(this.newgood2.type_id){
             this.showmore=true
@@ -502,7 +489,6 @@
         }
       },
 
-
       ggselect1(index,row){          
         // console.log(row)
         this.checkList1=row.detail;
@@ -519,12 +505,6 @@
       },
 
       ggchange(val){
-        // var ggitem=val.split(',')
-        // console.log(ggitem)
-        // this.checkList.push(ggitem[1]);
-        // this.checkList1.push(ggitem[0]);
-
-
         this.checkList1=[]
         this.checkList2=[]
         for(var i = 0;i<this.checkList.length;i++){
@@ -562,44 +542,35 @@
       },
 
       ggshandleSuccess(res, file) {
-      // console.log(res,file)
-      this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
-    },
+        this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
+      },
 
-    ggmshandleSuccess(res, file,fileList){
-      this.pricearr[this.ggimgindex].images=[]
-      for(var i=0;i<fileList.length;i++){
-        this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
-      }
-    },
+      ggmshandleSuccess(res, file,fileList){
+        this.pricearr[this.ggimgindex].images=[]
+        for(var i=0;i<fileList.length;i++){
+          this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
+        }
+      },
 
+      handleEdit(index, row){
+        this.pricearr.push({
+          id:index+1,
+          detail:1,
+          title:1,
+          cover:'../static/images/default1.png',
+          images:[],
+          origin_price:null,
+          price:null,
+        })
+      },
 
-
-    handleEdit(index, row){
-      this.pricearr.push({
-        id:index+1,
-        detail:1,
-        title:1,
-        cover:'../static/images/default1.png',
-        images:[],
-        origin_price:null,
-        price:null,
-      })
-    },
-
-    handleDelete(index, row){
-      this.pricearr.splice(index,1)
-    },
-
-
+      handleDelete(index, row){
+        this.pricearr.splice(index,1)
+      },
 
     //相册
     beforeUpload(file) {
-      // const isLt1M = file.size / 1024 / 1024 < 1;
-      // if (!isLt1M) {
-      //   this.$message.error('图片大小不能超过 1MB!');
-      // }
-      // return isLt1M;
+
     },
 
     handleSuccess(res, file) {
@@ -611,7 +582,6 @@
       for(var i=0;i<fileList.length;i++){
         this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
       }
-      // this.newgood2.images=fileList
     },
 
     handleRemove(file, fileList) {
@@ -619,9 +589,7 @@
       for(var i=0;i<fileList.length;i++){
         this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
       }
-      // this.newgood2.images=fileList
     },
-
 
     save(){
       this.$refs.newgood2.validate((valid) => {
@@ -652,40 +620,29 @@
                   name:this.newgood1.name,
                   detail:this.newgood1.detail,
                   brokerage:this.newgood1.brokerage,
-                  // express:this.newgood1.express,
-                  // express_price:this.newgood1.express_price,
                   share_title:this.newgood1.share_title,
                   share_detail:this.newgood1.share_detail,
                   norm:'fixed',
                   type_id:this.newgood2.type_id,
                   stock:[this.newgood2]
                 };
-#
-
-                console.log(this.allParams)
+                // console.log(this.allParams)
               }
             }else{
               return false;
             }
           }else{
-
            this.allParams = {
             name:this.newgood1.name,
             detail:this.newgood1.detail,
             brokerage:this.newgood1.brokerage,
-            // express:this.newgood1.express,
-            // express_price:this.newgood1.express_price,
             share_title:this.newgood1.share_title,
             share_detail:this.newgood1.share_detail,
             norm:'change',
             type_id:this.newgood2.type_id,
             stock:this.pricearr
           };
-//
-
-
-
-          console.log(this.allParams)
+          // console.log(this.allParams)
         }
       }
 
@@ -693,7 +650,6 @@
       if(goodeditid){
         this.allParams.id=goodeditid;
       }
-
       // console.log(this.allParams)
 
       goodPost(this.allParams).then((res) => {
@@ -705,8 +661,6 @@
         });
         this.$router.push({ path: '/Good/Goodlist' });
       });
-
-
     })
     },
 
@@ -724,13 +678,9 @@
   mounted: function () {
     this.gettype1()
     this.checkgoodid()
-    // this.getexpress()
-
   }
 }
 </script>
-
-
 
 <style scope>
 
