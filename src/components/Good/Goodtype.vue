@@ -10,60 +10,45 @@
 
     <el-col :span="24" class="warp-main">
 
-<!--       <el-tabs v-model="activeName" type="card">
-  <el-tab-pane label="分类列表" name="list"> -->
 
-   <el-form :inline="true">
-    <el-form-item>
-      <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增分类</el-button>
-    </el-form-item>
-    <el-form-item>
-      <el-input v-model="filter.title" placeholder="请输入分类名称" style="min-width: 260px;" ></el-input>
-    </el-form-item>
+     <el-form :inline="true">
+      <el-form-item>
+        <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增分类</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-input v-model="filter.title" placeholder="请输入分类名称" style="min-width: 260px;" ></el-input>
+      </el-form-item>
 
-    <el-form-item label="分类级别：">
-      <el-select v-model="filter.level" placeholder="全部" @change="searchlevel">
-        <el-option label="一级" value="1"></el-option>
-        <el-option label="二级" value="2"></el-option>
-        <el-option label="三级" value="3"></el-option>
-      </el-select>
-    </el-form-item>
+      <el-form-item label="分类级别：">
+        <el-select v-model="filter.level" placeholder="全部" @change="searchlevel">
+          <el-option label="一级" value="1"></el-option>
+          <el-option label="二级" value="2"></el-option>
+          <el-option label="三级" value="3"></el-option>
+        </el-select>
+      </el-form-item>
 
-    <el-form-item>
-      <el-button type="primary" size="medium" @click="getlist">搜索</el-button>
-      <el-button size="medium" @click="clear">清空</el-button>
-    </el-form-item>
-  </el-form>
+      <el-form-item>
+        <el-button type="primary" size="medium" @click="getlist">搜索</el-button>
+        <el-button size="medium" @click="clear">清空</el-button>
+      </el-form-item>
+    </el-form>
 
-  <el-table :data="list" border stripe style="width:1501px">
-    <el-table-column prop="id" label="编号" width="100" align="center">
-    </el-table-column>
-    <el-table-column prop="logo" label="分类logo" width="300" align="center">
-      <template slot-scope="scope">
-        <img :src="scope.row.logo" style="max-width:50px;max-height:50px;" v-show="scope.row.level==3" />
-      </template>
-    </el-table-column>
-    <el-table-column prop="title" label="名称" width="300" align="center">
-    </el-table-column>
-    <el-table-column prop="level" label="级别" min-width="200" align="center">
-    </el-table-column>
+    <el-table :data="list" border stripe style="width:1501px">
+      <el-table-column prop="id" label="编号" width="100" align="center">
+      </el-table-column>
+      <el-table-column prop="logo" label="分类logo" width="300" align="center">
+        <template slot-scope="scope">
+          <img :src="scope.row.logo" style="max-width:50px;max-height:50px;" v-show="scope.row.level==3" />
+        </template>
+      </el-table-column>
+      <el-table-column prop="title" label="名称" width="300" align="center">
+      </el-table-column>
+      <el-table-column prop="level" label="级别" min-width="200" align="center">
+      </el-table-column>
 
-<!--     <el-table-column prop="title" label="热门" width="100" align="center">
-     <template slot-scope="scope">
-      <el-button type="success" size="mini" v-show="scope.row.is_hot==1&&scope.row.level==3" @click="changehot(scope.row)">是</el-button>
-      <el-button type="info" size="mini" v-show="scope.row.is_hot==0&&scope.row.level==3" @click="changehot(scope.row)">否</el-button>
-    </template>
-  </el-table-column> -->
-<!--       
-      <el-table-column prop="up" label="上级分类" min-width="200" align="center">
-      </el-table-column> -->
-      
       <el-table-column label="操作" width="400" align="center">
        <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
-
-
-
 
         <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>
@@ -74,21 +59,7 @@
   <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
   </el-pagination>
 
-<!-- </el-tab-pane>
 
-
-  <el-tab-pane label="热门分类" name="config"> -->
-
-
-
-
-
-
-
-
-<!-- </el-tab-pane>
-</el-tabs>
--->
 
 </el-col>
 
@@ -124,9 +95,6 @@
         </el-upload>
       </el-form-item>
 
-<!--       <el-form-item label="是否首页推荐:">
-        <el-switch v-model="propose" @change="cgpropose" active-value="1" inactive-value="2"></el-switch>
-      </el-form-item> -->
       <el-form-item style="margin-left: calc(50% - 200px);">
         <el-button type="primary" @click="save()">保 存</el-button>
         <el-button @click="dialogNewVisible = false">取 消</el-button>
@@ -153,10 +121,10 @@
 <script>
 
 
-  import {typeGet} from '../../api/api';
-  import {typePost} from '../../api/api';
-  import {typeDel} from '../../api/api';
-  import {typehot} from '../../api/api';
+  import { typeGet } from '../../api/api';
+  import { typePost } from '../../api/api';
+  import { typeDel } from '../../api/api';
+  import { typehot } from '../../api/api';
 
   import qiniu from '../../api/qiniu';
 
@@ -165,7 +133,6 @@
   export default {
     data() {
       return {
-        // activeName:'list',
 
         loading:false,
         uptoken:{
@@ -220,8 +187,6 @@
         this.checkper2=true;
       }
     },
-
-
 
     getlist(){
       var allParams = '?page='+ this.currentPage + '&limit=' + this.limit +'&title=' + this.filter.title+'&level=' + this.filter.level;

@@ -11,10 +11,10 @@
     <el-col :span="24" class="warp-main">
 
       <el-table :data="list" border stripe style="width:95%" size="small">
-        <el-table-column prop="product.name" label="商品名称" min-width="150" align="center">
+        <el-table-column prop="product.name" label="商品名称" min-width="250" align="center">
         </el-table-column>
 
-        <el-table-column prop="description" label="活动标题" min-width="200" align="center">
+        <el-table-column prop="description" label="活动标题" min-width="250" align="center">
         </el-table-column>
 
 

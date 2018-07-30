@@ -17,10 +17,10 @@
     </el-form>
 
     <el-table :data="list" border stripe style="width:95%" size="small">
-      <el-table-column prop="product.name" label="商品名称" width="100" align="center">
+      <el-table-column prop="product.name" label="商品名称" width="200" align="center">
       </el-table-column>
 
-      <el-table-column prop="description" label="活动描述" width="160" align="center">
+      <el-table-column prop="description" label="活动描述" width="200" align="center">
       </el-table-column>
 
       <el-table-column prop="list" label="卡牌图片" width="240" align="center">
@@ -53,7 +53,7 @@
       <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
       </el-table-column>
 
-      <el-table-column label="操作" min-width="240" align="center">
+      <el-table-column label="操作" min-width="100" align="center">
        <template slot-scope="scope">
         <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>

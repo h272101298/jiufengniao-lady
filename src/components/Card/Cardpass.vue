@@ -14,10 +14,10 @@
         <el-tab-pane label="通过列表" name="list">
 
           <el-table :data="list" border stripe style="width:95%" size="small">
-            <el-table-column prop="product.name" label="商品名称" width="100" align="center">
+            <el-table-column prop="product.name" label="商品名称" width="178" align="center">
             </el-table-column>
 
-            <el-table-column prop="description" label="活动描述" width="160" align="center">
+            <el-table-column prop="description" label="活动描述" width="178" align="center">
             </el-table-column>
 
             <el-table-column prop="list" label="卡牌图片" width="240" align="center">
@@ -26,21 +26,21 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="start" label="活动开始时间" width="150" align="center">
+            <el-table-column prop="start" label="活动开始时间" width="140" align="center">
             </el-table-column>
-            <el-table-column prop="end" label="活动结束时间" width="150" align="center">
+            <el-table-column prop="end" label="活动结束时间" width="140" align="center">
             </el-table-column>
-            <el-table-column prop="offer" label="折扣" min-width="80" align="center">
+            <el-table-column prop="offer" label="折扣" min-width="75" align="center">
             </el-table-column>
-            <el-table-column prop="number" label="库存" min-width="80" align="center">
-            </el-table-column>
-
-            <el-table-column prop="clickCount" label="总点击数" min-width="80" align="center">
-            </el-table-column>
-            <el-table-column prop="exchangeCount" label="已兑换数" min-width="80" align="center">
+            <el-table-column prop="number" label="库存" min-width="75" align="center">
             </el-table-column>
 
-            <el-table-column prop="" label="平均点击数" min-width="100" align="center">
+            <el-table-column prop="clickCount" label="总点击数" min-width="75" align="center">
+            </el-table-column>
+            <el-table-column prop="exchangeCount" label="已兑换数" min-width="75" align="center">
+            </el-table-column>
+
+            <el-table-column prop="" label="平均点击数" min-width="85" align="center">
               <template slot-scope="scope">
                 <span v-show="scope.row.exchangeCount!==0">{{ scope.row.clickCount / scope.row.exchangeCount}}</span>
                 <span v-show="scope.row.exchangeCount==0">0</span>
@@ -57,14 +57,14 @@
               </template>
             </el-table-column>
 
-            <el-table-column prop="enable" label="状态" min-width="100" align="center">
+            <el-table-column prop="enable" label="状态" min-width="80" align="center">
              <template slot-scope="scope">
               <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
               <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper1">下线</el-button>
             </template>
           </el-table-column>
 
-          <el-table-column label="操作" min-width="100" align="center">
+          <el-table-column label="操作" min-width="80" align="center">
            <template slot-scope="scope">
             <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
           </template>

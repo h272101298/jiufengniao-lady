@@ -17,10 +17,10 @@
     </el-form>
 
     <el-table :data="list" border stripe style="width:95%" size="small">
-      <el-table-column prop="product.name" label="商品名称" width="100" align="center">
+      <el-table-column prop="product.name" label="商品名称" width="250" align="center">
       </el-table-column>
 
-      <el-table-column prop="description" label="商品名称" width="100" align="center">
+      <el-table-column prop="description" label="活动标题" width="250" align="center">
       </el-table-column>
 
       <el-table-column prop="number" label="库存" width="100" align="center">
@@ -47,7 +47,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="操作" min-width="240" align="center">
+    <el-table-column label="操作" min-width="150" align="center">
      <template slot-scope="scope">
       <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
     </template>
@@ -110,37 +110,37 @@
 
     methods:{
       checkPer(){
-      var per = sessionStorage.getItem('permissions');
-      if(per.indexOf('addBargainPromotion')>-1){
-        this.checkper1=true;
-      }
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('addBargainPromotion')>-1){
+          this.checkper1=true;
+        }
 
-      if(per.indexOf('delBargainPromotion')>-1){
-        this.checkper2=true;
-      }
-    },
-
-
-    getlist(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
-      KancheckGet(allParams).then((res) => {
-        this.list=res.data.data;
-        this.count=res.data.count
-      });
-    },
+        if(per.indexOf('delBargainPromotion')>-1){
+          this.checkper2=true;
+        }
+      },
 
 
+      getlist(){
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
+        KancheckGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count
+        });
+      },
 
 
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
 
-    submitdel(){
-      this.dialogDelVisible = false;
-      var allParams='?id='+this.delId
-      Kandelete(allParams).then((res) => {
+
+      handleDelete(index, row) {
+        this.dialogDelVisible = true;
+        this.delId = row.id;
+      },
+
+      submitdel(){
+        this.dialogDelVisible = false;
+        var allParams='?id='+this.delId
+        Kandelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -156,29 +156,29 @@
         });
        }
      });
+      },
+
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getlist();
+      },
+
+
+      handleSizeChange(val){
+        this.limit = val;
+        this.getlist();
+      },
+
+      newone(){
+        this.$router.push({ path: '/Kan/Kannew' });
+      }
     },
 
-    handleCurrentChange(val) {
-      this.currentPage = val;
+    mounted: function () {
       this.getlist();
-    },
-
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getlist();
-    },
-
-    newone(){
-      this.$router.push({ path: '/Kan/Kannew' });
+      this.checkPer();
     }
-  },
-
-  mounted: function () {
-    this.getlist();
-    this.checkPer();
   }
-}
 </script>
 
 

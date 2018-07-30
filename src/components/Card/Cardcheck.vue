@@ -11,10 +11,10 @@
     <el-col :span="24" class="warp-main">
 
       <el-table :data="list" border stripe style="width:95%" size="small">
-        <el-table-column prop="product.name" label="商品名称" width="100" align="center">
+        <el-table-column prop="product.name" label="商品名称" width="200" align="center">
         </el-table-column>
 
-        <el-table-column prop="description" label="活动描述" width="160" align="center">
+        <el-table-column prop="description" label="活动描述" width="200" align="center">
         </el-table-column>
 
         <el-table-column prop="list" label="卡牌图片" width="240" align="center">
@@ -40,7 +40,7 @@
         </el-table-column> -->
         <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
         </el-table-column>
-        <el-table-column prop="state" label="状态" min-width="95" align="center">
+        <el-table-column prop="state" label="状态" min-width="90" align="center">
           <template slot-scope="scope">
             <el-tag type="info" v-show="scope.row.state==1">未审核</el-tag>
             <el-tag type="success" v-show="scope.row.state==2">已通过</el-tag>
@@ -48,7 +48,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column label="操作" min-width="300" align="center">
+        <el-table-column label="操作" min-width="280" align="center">
          <template slot-scope="scope">
           <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper1">编辑</el-button>
           <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper2" data-state="2">通过</el-button>

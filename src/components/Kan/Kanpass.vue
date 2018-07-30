@@ -12,13 +12,13 @@
 
 
       <el-table :data="list" border stripe style="width:95%" size="small">
-        <el-table-column prop="product.name" label="商品名称" width="100" align="center">
+        <el-table-column prop="product.name" label="商品名称" width="200" align="center">
         </el-table-column>
 
-        <el-table-column prop="description" label="商品名称" width="100" align="center">
+        <el-table-column prop="description" label="活动标题" width="200" align="center">
         </el-table-column>
 
-        <el-table-column prop="number" label="库存" width="100" align="center">
+        <el-table-column prop="number" label="库存" width="80" align="center">
         </el-table-column>
 
         <el-table-column prop="start" label="活动开始时间" width="150" align="center">
