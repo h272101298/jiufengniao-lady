@@ -10,17 +10,16 @@
 
     <el-col :span="24" class="warp-main">
 
-
       <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules" ref="newgood" :model="newgood">
 
         <el-form-item label="商品分类：" prop="type_id">
-          <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
+          <el-select v-model="type1" placeholder="请选择一级分类" @change="gettype2">
             <el-option v-for="item in typeArr1" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
-          <el-select v-model="type2" placeholder="请选择二级分类" filterable v-show="type1" @change="gettype3">
+          <el-select v-model="type2" placeholder="请选择二级分类" v-show="type1" @change="gettype3">
             <el-option v-for="item in typeArr2" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
-          <el-select v-model="type_id" placeholder="请选择三级分类" filterable v-show="type2" @change="confirmtype">
+          <el-select v-model="type_id" placeholder="请选择三级分类" v-show="type2" @change="confirmtype">
             <el-option v-for="item in typeArr3" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -38,7 +37,7 @@
               <template slot-scope="scope">
                 <el-tag type="success" v-show="scope.row.norm=='fixed'">统一规格</el-tag>
                 <el-tag type="primary" v-show="scope.row.norm=='change'">多规格</el-tag>
-                <span v-show="scope.row.norm!=='fixed' && scope.row.norm!=='change'">{{ goodguige }}</span>
+                <el-tag type="primary" v-show="scope.row.norm!=='fixed' && scope.row.norm!=='change'">{{ goodguige }}</el-tag>
               </template>
             </el-table-column>
             <el-table-column prop="address" label="操作" min-width="150" align="center">
@@ -57,7 +56,7 @@
       </el-form-item>
 
       <el-form-item label="奖品数量：" prop="number">
-        <el-input v-model="newgood.number" type="number" min="0" placeholder="" style="width:500px;"></el-input>
+        <el-input v-model="newgood.number" type="number" min="0" placeholder="请输入奖品数量" style="width:500px;"></el-input>
       </el-form-item>
 
       <el-form-item label="活动时间：" prop="date">
@@ -105,26 +104,28 @@
 
   <el-col>
     <el-dialog title="选择规格" :visible.sync="dialogVisible" width="1000">
-
       <el-table :data="guigelist" style="width: 100%" border size="mini" stripe>
         <el-table-column prop="detail" label="规格名称" min-width="150" align="center">
+          <template slot-scope="scope">
+            <el-tag type="success" size="small" v-show="scope.row.product_detail=='fixed'">统一规格</el-tag>
+            <el-tag type="primary" size="small" v-show="scope.row.product_detail!=='fixed'">{{ scope.row.detail }}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column prop="cover" label="图片" min-width="150" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
           </template>
         </el-table-column>
-        <el-table-column prop="price" label="价格" min-width="150" align="center">
+        <el-table-column prop="price" label="现价" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="origin_price" label="价格" min-width="150" align="center">
+        <el-table-column prop="origin_price" label="原价" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="id" label="原价" min-width="150" align="center">
+        <el-table-column prop="id" label="操作" min-width="150" align="center">
          <template slot-scope="scope">
           <el-button type="primary" size="small" @click="guigeSelect(scope.$index, scope.row)">选择</el-button>
         </template>
       </el-table-column>
     </el-table>
-
   </el-dialog>
 </el-col>
 
@@ -306,6 +307,9 @@
       },
 
       gettype2(e){
+        this.type2='';
+        this.type_id='';
+        
         var allParams = '?parent='+ e;
         typeGet(allParams).then((res) => {
           this.typeArr2=[];
@@ -365,11 +369,15 @@
       },
 
       guigeSelect(index, row){
+        // console.log(row)
         this.goodData=[{
           name:this.goodname,
-          norm:'',
           cover:row.cover,
+          id:row.product_id
         }]
+        if(row.product_detail=='fixed'){
+          this.goodData[0].norm='fixed'
+        }
         this.goodguige=row.detail
         this.selectgood=false
         this.newgood.stock_id=row.id
@@ -416,7 +424,7 @@
         this.$message.error(`请选择商品`);
         return
       }
-      if(this.newgood.end=='' || this.newgood.end==''){
+      if(this.newgood.start=='' || this.newgood.end==''){
         this.$message.error(`请选择活动时间`);
         return
       }

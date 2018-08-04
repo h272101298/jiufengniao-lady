@@ -23,12 +23,11 @@
       <el-table-column prop="description" label="活动标题" width="250" align="center">
       </el-table-column>
 
-      <el-table-column prop="number" label="库存" width="100" align="center">
-      </el-table-column>
-
       <el-table-column prop="start" label="活动开始时间" width="150" align="center">
       </el-table-column>
       <el-table-column prop="end" label="活动结束时间" width="150" align="center">
+      </el-table-column>
+      <el-table-column prop="number" label="库存" width="100" align="center">
       </el-table-column>
       <el-table-column prop="origin_price" label="原价" min-width="80" align="center">
       </el-table-column>

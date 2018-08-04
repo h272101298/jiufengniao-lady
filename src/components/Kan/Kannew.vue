@@ -37,7 +37,7 @@
               <template slot-scope="scope">
                 <el-tag type="success" v-show="scope.row.norm=='fixed'">统一规格</el-tag>
                 <el-tag type="primary" v-show="scope.row.norm=='change'">多规格</el-tag>
-                <span v-show="scope.row.norm!=='fixed' && scope.row.norm!=='change'">{{ goodguige }}</span>
+                <el-tag type="primary" v-show="scope.row.norm!=='fixed' && scope.row.norm!=='change'">{{ goodguige }}</el-tag>
               </template>
             </el-table-column>
             <el-table-column prop="address" label="操作" min-width="150" align="center">
@@ -56,7 +56,7 @@
       </el-form-item>
 
       <el-form-item label="商品数量：" prop="number">
-        <el-input v-model="newgood.number" type="number" min="0" placeholder="" style="width:500px;"></el-input>
+        <el-input v-model="newgood.number" type="number" min="0" placeholder="请输入商品数量" style="width:500px;"></el-input>
       </el-form-item>
 
       <el-form-item label="活动时间：" prop="date">
@@ -92,17 +92,21 @@
     <el-dialog title="选择规格" :visible.sync="dialogVisible" width="1000">
       <el-table :data="guigelist" style="width: 100%" border size="mini" stripe>
         <el-table-column prop="detail" label="规格名称" min-width="150" align="center">
+          <template slot-scope="scope">
+            <el-tag type="success" size="small" v-show="scope.row.product_detail=='fixed'">统一规格</el-tag>
+            <el-tag type="primary" size="small" v-show="scope.row.product_detail!=='fixed'">{{ scope.row.detail }}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column prop="cover" label="图片" min-width="150" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
           </template>
         </el-table-column>
-        <el-table-column prop="price" label="价格" min-width="150" align="center">
+        <el-table-column prop="price" label="现价" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="origin_price" label="价格" min-width="150" align="center">
+        <el-table-column prop="origin_price" label="原价" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="id" label="原价" min-width="150" align="center">
+        <el-table-column prop="id" label="操作" min-width="150" align="center">
          <template slot-scope="scope">
           <el-button type="primary" size="small" @click="guigeSelect(scope.$index, scope.row)">选择</el-button>
         </template>
@@ -256,6 +260,9 @@
       },
 
       gettype2(e){
+        this.type2='';
+        this.type_id='';
+        
         var allParams = '?parent='+ e;
         typeGet(allParams).then((res) => {
           this.typeArr2=[];
@@ -301,11 +308,15 @@
       },
 
       guigeSelect(index, row){
+        // console.log(row)
         this.goodData=[{
           name:this.goodname,
-          norm:'',
           cover:row.cover,
+          id:row.product_id
         }]
+        if(row.product_detail=='fixed'){
+          this.goodData[0].norm='fixed'
+        }
         this.goodguige=row.detail
         this.selectgood=false
         this.newgood.stock_id=row.id
@@ -320,7 +331,7 @@
           return
         }
         
-        if(this.newgood.end=='' || this.newgood.end==''){
+        if(this.newgood.start=='' || this.newgood.end==''){
           this.$message.error(`请选择活动时间`);
           return
         }

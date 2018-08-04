@@ -65,9 +65,15 @@ axios.interceptors.response.use(
 
 // let base1 = 'http://192.168.1.172/Shop/public/v2'
 
+// let base3 = 'http://192.168.1.172/Shop/public/v3'
+
+
 let base = 'https://template.geckowing.com/v1'
 
 let base1 = 'https://template.geckowing.com/v2'
+
+let base3 = 'https://template.geckowing.com/v3'
+
 
 export default base
 
@@ -320,18 +326,18 @@ export const Kanhot = params => { return axios.get(`${base1}/hot/bargain/promoti
 
 
 //拼团
-export const GroupshopPost = params => { return axios.post(`${base1}/Group/promotion`, params).then(res => res.data)}
+export const GroupshopPost = params => { return axios.post(`${base3}/group/buy/promotion`, params).then(res => res.data)}
 
-export const GroupcheckGet = params => { return axios.get(`${base1}/Group/promotions`+`${params}`).then(res => res.data)}
+export const GroupcheckGet = params => { return axios.get(`${base3}/group/buy/promotions`+`${params}`).then(res => res.data)}
 
-export const GrouponeGet = params => { return axios.get(`${base1}/Group/promotion`+`${params}`).then(res => res.data)}
+export const GrouponeGet = params => { return axios.get(`${base3}/group/buy/promotion`+`${params}`).then(res => res.data)}
 
-export const GrouponePut = params => { return axios.put(`${base1}/Group/promotion`+`${params}`).then(res => res.data)}
+export const GrouponePut = params => { return axios.put(`${base3}/group/buy/promotion`+`${params}`).then(res => res.data)}
 
-export const Groupcheck = params => { return axios.get(`${base1}/check/Group/promotion`+`${params}`).then(res => res.data)}
+export const Groupcheck = params => { return axios.get(`${base3}/check/group/buy/promotion`+`${params}`).then(res => res.data)}
 
-export const Groupdelete = params => { return axios.delete(`${base1}/Group/promotion`+`${params}`).then(res => res.data)}
+export const Groupdelete = params => { return axios.delete(`${base3}/group/buy/promotion`+`${params}`).then(res => res.data)}
 
-export const Groupupdown = params => { return axios.get(`${base1}/enable/Group/promotion`+`${params}`).then(res => res.data)}
+export const Groupupdown = params => { return axios.get(`${base3}/enable/group/buy/promotion`+`${params}`).then(res => res.data)}
 
-export const Grouphot = params => { return axios.get(`${base1}/hot/Group/promotion`+`${params}`).then(res => res.data)}//推荐
+export const Grouphot = params => { return axios.get(`${base3}/hot/group/buy/promotion`+`${params}`).then(res => res.data)}//推荐

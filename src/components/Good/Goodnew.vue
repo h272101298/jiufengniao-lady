@@ -67,96 +67,85 @@
         </el-form-item>
 
 
-        <el-form-item label="原价：" v-show="!showmore" prop="origin_price">
-          <el-input v-model="newgood2.origin_price" type="number" min="0" placeholder="请输入原价"></el-input>
-        </el-form-item>
-
-        <el-form-item label="现价：" v-show="!showmore" prop="price">
-          <el-input v-model="newgood2.price" type="number" min="0" placeholder="请输入现价"></el-input>
-        </el-form-item>
-
-
-
-        <!-- <el-form-item label="" > -->
-          <el-table :data="pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;" border size="mini" v-show="showmore">
-            <el-table-column type="index" label="序号" width="60" align="center">
-            </el-table-column>
-            <el-table-column prop="title" label="规格" width="120" align="center">
-              <template slot-scope="scope">
-                <div v-show="scope.row.title==1 ? false : true">
-                  <span v-for="(item,index) in scope.row.title" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
-                </div>
-                <el-button v-show="scope.row.title==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
-              </template>
-            </el-table-column>
-            <el-table-column label="商品缩略图" width="120" align="center" prop="cover">
-             <template slot-scope="scope">
-              <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="ggshandleSuccess" :show-file-list="false" accept="image/*">
-                <img :src="scope.row.cover" class="pre-img" style="width:60px;height:60px;border:1px dashed #ccc;border-radius:5px;display: block;margin: auto 2px;" @click="ggupcover(scope.row.id)">
-              </el-upload>
-            </template>
+        <el-table :data="goodid?aaa:pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;margin-left: 120px" border size="mini" v-show="showmore" @cell-mouse-enter="cellmouseenter" @cell-click="cellclick">
+          <el-table-column type="index" label="序号" width="60" align="center">
           </el-table-column>
-          <el-table-column label="相册" min-width="170" align="center" prop="images">
+          <el-table-column prop="title" label="规格" width="120" align="center">
             <template slot-scope="scope">
-             <!-- <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="ggbeforeUpload" :on-success="gghandleSuccess" :show-file-list="false" accept="image/*"> -->
-              <el-upload id="ggimglist" :action="upurl" :data="uptoken" list-type="picture-card" accept="image/*" :file-list="scope.row.images" :on-success="ggmshandleSuccess" :on-remove="ggmshandleSuccess">
-                <!-- <i class="el-icon-plus" style="margin-top: 15px;" ></i> -->
-                <img src="../../../static/images/default1.png" class="pre-img" style="width:57px;height:57px;display: block;" @click="ggupimg(scope.row.id)">
-              </el-upload>
+              <div v-show="scope.row.title==1 ? false : true">
+                <span v-for="(item,index) in scope.row.title" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
+              </div>
+              <el-button v-show="scope.row.title==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="原价" width="150" align="center">
+          <el-table-column label="商品缩略图" width="120" align="center" prop="cover">
            <template slot-scope="scope">
-            <el-input placeholder="请输入原价" v-model="scope.row.origin_price" min="0" type="number" ></el-input>
+            <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="ggshandleSuccess" :show-file-list="false" accept="image/*">
+              <img :src="scope.row.cover" class="pre-img" style="width:60px;height:60px;border:1px dashed #ccc;border-radius:5px;display: block;margin: auto 2px;;" @click="ggupcover(scope.$index)">
+            </el-upload>
           </template>
         </el-table-column>
-      </el-table-column>
-      <el-table-column prop="" label="现价" width="150" align="center">
-        <template slot-scope="scope">
-          <el-input placeholder="请输入现价" v-model="scope.row.price" min="0" type="number"></el-input>
+        <el-table-column label="相册" min-width="170" align="center" prop="images" >
+          <template slot-scope="scope">
+            <el-upload id="ggimglist" :action="upurl" :data="uptoken" list-type="picture-card" accept="image/*" :file-list="scope.row.images" :on-success="ggmshandleSuccess" :on-remove="ggmshandleRemove">
+              <img src="../../../static/images/default1.png" class="pre-img" style="width:57px;height:57px;display: block;">
+            </el-upload>
+          </template>
+        </el-table-column>
+        <el-table-column label="原价" width="150" align="center">
+         <template slot-scope="scope">
+          <el-input placeholder="请输入原价" v-model="scope.row.origin_price" min="0" type="number" ></el-input>
         </template>
       </el-table-column>
-      <el-table-column prop="" label="操作" width="150" align="center">
-        <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
-          <el-button type="danger" size="small" v-show="scope.$index==0 ? false : true" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- </el-form-item> -->
+    </el-table-column>
+    <el-table-column prop="" label="现价" width="150" align="center">
+      <template slot-scope="scope">
+        <el-input placeholder="请输入现价" v-model="scope.row.price" min="0" type="number"></el-input>
+      </template>
+    </el-table-column>
 
 
-
-    <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
-      <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-        <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
-      </el-upload>
-    </el-form-item>
-
-    <el-form-item label="商品相册：" v-show="!showmore" prop="images">
-      <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood2.images" :multiple="true" accept="image/*"><!--:on-exceed="handleExceed" :limit="10"  -->
-        <!-- <i class="el-icon-plus"></i> -->
-        <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
-      </el-upload>
-    </el-form-item>
+    <el-table-column prop="" label="操作" width="150" align="center">
+      <template slot-scope="scope">
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
+        <el-button type="danger" size="small" v-show="scope.$index==0 ? false : true" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 
 
+  <el-form-item label="原价：" v-show="!showmore" prop="origin_price">
+    <el-input v-model="newgood2.origin_price" type="number" min="0" placeholder="请输入原价"></el-input>
+  </el-form-item>
 
-    <!-- <el-form-item style="margin-left: calc(50% - 185px);margin-top: 20px;"> -->
-      <el-form-item>
-        <el-button type="primary" @click="save()" size="medium">保 存</el-button>
-        <el-button @click="golist()" size="medium">取 消</el-button>
-      </el-form-item>
-    </el-form>
-  </el-tab-pane>
+  <el-form-item label="现价：" v-show="!showmore" prop="price">
+    <el-input v-model="newgood2.price" type="number" min="0" placeholder="请输入现价"></el-input>
+  </el-form-item>
+
+  <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
+    <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
+      <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
+      <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
+    </el-upload>
+  </el-form-item>
+
+  <el-form-item label="商品相册：" v-show="!showmore" prop="images">
+    <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood2.images" :multiple="true" accept="image/*">
+      <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
+      <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
+    </el-upload>
+  </el-form-item>
+
+  <el-form-item>
+    <el-button type="primary" @click="save()" size="medium">保 存</el-button>
+    <el-button @click="golist()" size="medium">取 消</el-button>
+  </el-form-item>
+</el-form>
+</el-tab-pane>
 </el-tabs>
 
 
 </el-col>
-
-
 
 
 <el-col>
@@ -277,7 +266,7 @@
         images:[],
         origin_price:null,
         price:null,
-        type_id:null,
+        type_id:'',
         detail:[]
       },
 
@@ -296,6 +285,8 @@
       checkList:[],
       checkList1:[],
       checkList2:[],
+
+
       dialogggVisible:false,
       ggcoverindex:null,
       ggimgindex:null,
@@ -304,131 +295,172 @@
       tempggarr:[],
 
       pricearr:[{
-        id:0,
-        detail:1,
-        title:1,
-        cover:'../static/images/default1.png',
-        images:[],
-        origin_price:null,
-        price:null,
-      }],
+       index:0,
+       detail:1,
+       title:1,
+       cover:'../static/images/default1.png',
+       images:[],
+       origin_price:null,
+       price:null,
+     }],
 
-      rules1:{
-        name: [
-        {required: true, message: '请输入商品名称', trigger: 'blur'},
-        ],
-        detail: [
-        {required: true, message: '请输入商品详情', trigger: 'blur'},
-        ],
-        brokerage: [
-        {required: true, message: '请输入分销佣金', trigger: 'blur'},
-        ],
-        share_title: [
-        {required: true, message: '请输入分享标题', trigger: 'blur'},
-        ],
-        share_detail: [
-        {required: true, message: '请输入商品描述', trigger: 'blur'},
-        ],
-      },
+     aaa:[],
 
-      rules2:{
-        origin_price: [
-        {required: true, validator: checkvalue, trigger: 'blur'},
-        ],
-        price: [
-        {required: true, validator: checkvalue, trigger: 'blur'},
-        ],
-      },
+     rules1:{
+      name: [
+      {required: true, message: '请输入商品名称', trigger: 'blur'},
+      ],
+      detail: [
+      {required: true, message: '请输入商品详情', trigger: 'blur'},
+      ],
+      brokerage: [
+      {required: true, message: '请输入分销佣金', trigger: 'blur'},
+      ],
+      share_title: [
+      {required: true, message: '请输入分享标题', trigger: 'blur'},
+      ],
+      share_detail: [
+      {required: true, message: '请输入商品描述', trigger: 'blur'},
+      ],
+    },
 
-      showradio:true,
+    rules2:{
+      origin_price: [
+      {required: true, validator: checkvalue, trigger: 'blur'},
+      ],
+      price: [
+      {required: true, validator: checkvalue, trigger: 'blur'},
+      ],
+    },
 
-      allParams:null,
-    };
+    showradio:true,
+
+    allParams:null,
+
+    goodid:''
+  };
+},
+
+components: {
+  quillEditor,
+},
+
+methods:{
+
+  quillImgSuccess(res, file) {
+    console.log(res)
+    let quill = this.$refs.myQuillEditor.quill
+    if (res.key) {
+      let length = quill.getSelection().index;
+      quill.insertEmbed(length, 'image', qiniu.showurl+ res.key)
+      quill.setSelection(length + 1)
+    } else {
+      this.$message.error('图片插入失败')
+    }
   },
 
-  components: {
-    quillEditor,
-  },
-
-  methods:{
-    quillImgSuccess(res, file) {
-      console.log(res)
-      let quill = this.$refs.myQuillEditor.quill
-      if (res.key) {
-        let length = quill.getSelection().index;
-        quill.insertEmbed(length, 'image', qiniu.showurl+ res.key)
-        quill.setSelection(length + 1)
-      } else {
-        this.$message.error('图片插入失败')
+  addattr(){
+    this.$refs.newgood1.validate((valid) => {
+      if (valid) {
+        this.attrtab=false
+        this.activeName="attributes"
+      }else{
+        this.attrtab=true
       }
-    },
+    })
+  },
 
-    addattr(){
-      this.$refs.newgood1.validate((valid) => {
-        if (valid) {
-          this.activeName="attributes"
-          this.attrtab=false
-        }else{
-          this.attrtab=true
-        }
-      })
-    },
+  clicktab(res){
+    if(res.name=="base"){
+     this.attrtab=true
+   }
+ },
 
-    clicktab(res){
-      if(res.name=="base"){
-       this.attrtab=true
+ checkgoodid(){
+  var goodid=sessionStorage.getItem('goodeditid');
+  this.goodid=goodid
+
+  if(goodid){
+
+    this.showradio=false
+
+    var allParams = '?id='+ goodid;
+    goodoneGet(allParams).then((res) => {
+
+      this.newgood1={
+        name:res.data.name,
+        detail:res.data.detail,
+        brokerage:res.data.brokerage,
+        share_title:res.data.share_title,
+        share_detail:res.data.share_detail
+      }
+
+      if(res.data.norm=="change"){
+        this.sameornot='2'
+        this.showmore=true
+      }else{
+       this.sameornot='1'
      }
-   },
+     this.type1=res.data.typeArray[0]
+     this.gettype2(this.type1)
+     this.type2=res.data.typeArray[1]
+     this.gettype3(this.type2)
 
-   checkgoodid(){
-    var goodid=sessionStorage.getItem('goodeditid');
-
-    if(goodid){
-
-      this.showradio=false
-
-      var allParams = '?id='+ goodid;
-      goodoneGet(allParams).then((res) => {
-        console.log(res.data.default.images)
-        console.log(this.newgood2.images)
-
-        this.newgood1={
-          name:res.data.name,
-          detail:res.data.detail,
-          brokerage:res.data.brokerage,
-          share_title:res.data.share_title,
-          share_detail:res.data.share_detail
-        }
-
-        if(res.data.norm=="change"){
-          this.sameornot='2'
-          this.showmore=true
-        }else{
-         this.sameornot='1'
-       }
-       this.type1=res.data.typeArray[0]
-       this.gettype2(this.type1)
-       this.type2=res.data.typeArray[1]
-       this.gettype3(this.type2)
-
-       this.newgood2={
-        cover:res.data.default.cover,
-        images:res.data.default.images,
+     this.newgood2={
+      cover:res.data.default.cover,
+        // images:res.data.default.images,
         origin_price:res.data.default.origin_price,
         price:res.data.default.price,
         type_id:res.data.typeArray[2],
       }
 
+      var images=[];
+      for(var i=0;i<res.data.default.images.length;i++){
+        images.push({
+          uid:i,
+          url:res.data.default.images[i],
+          response:{
+            key:1
+          }
+        })
+      }
+      this.newgood2.images=images
+
       if(res.data.norm=="fixed"){
         this.newgood2.id=res.data.default.id
       }
+      if(res.data.norm=="change"){
+        // console.log(this.pricearr)
+        // console.log(res.data.stocks)
+        var aaa=[]
+        for(var i=0;i<res.data.stocks.length;i++){
+          aaa.push({
+            index:i,
+            id:res.data.stocks[i].id,
+            // detail:res.data.stocks[i].detail,
+            title:res.data.stocks[i].product_detail,
+            cover:res.data.stocks[i].cover,
+            origin_price:res.data.stocks[i].origin_price,
+            price:res.data.stocks[i].price
+          })
 
-      this.pricearr=res.data.stocks
-          // console.log(1)
-        });
-    }
+          aaa[i].images=[];
+          for(var j=0;j<res.data.stocks[i].images.length;j++){
+            // console.log(res.data.stocks[i].images[j])
+            aaa[i].images.push({
+              uid:j,
+              url:res.data.stocks[i].images[j]
+            })
+          }
+        }
+        // console.log(aaa)
+        this.aaa=aaa
 
-  },
+        this.pricearr=res.data.stocks
+      }
+    });
+  }
+},
 
       // 分类
       gettype1(){
@@ -489,7 +521,7 @@
         }
       },
 
-      ggselect1(index,row){          
+      ggselect1(index,row){
         // console.log(row)
         this.checkList1=row.detail;
         this.checkList2=row.title;
@@ -505,15 +537,88 @@
       },
 
       ggchange(val){
+        // console.log(val)
         this.checkList1=[]
-        this.checkList2=[]
+        this.checkList2=[]          
+        // console.log(this.checkList)
         for(var i = 0;i<this.checkList.length;i++){
-          var ggitem=this.checkList[i].split(',')
-          this.checkList1.push(ggitem[0]);
-          this.checkList2.push(ggitem[1]);
+          if(this.checkList[i]){
+            var ggitem=this.checkList[i].split(',')
+            this.checkList1.push(ggitem[0]);
+            this.checkList2.push(ggitem[1]);
+          }else{
+            // console.log(1)
+          }
+          // console.log(this.checkList)
+          // var ggitem=this.checkList[i].split(',')
+          // this.checkList1.push(ggitem[0]);
+          // this.checkList2.push(ggitem[1]);
         }
-        // console.log(this.checkList1)
+        // console.log(this.checkList)
       },
+
+
+
+      ggupcover(e){
+        this.ggcoverindex=e
+      },
+
+      ggupimg(e){
+        // console.log(e)
+        this.ggimgindex=e
+      },
+
+      ggshandleSuccess(res, file) {
+        this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
+      },
+
+      ggmshandleSuccess(res, file,fileList){
+        console.log(this.ggimgindex)
+        this.pricearr[this.ggimgindex].images=[]
+        for(var i=0;i<fileList.length;i++){
+          if(fileList[i].response !== undefined){
+            this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
+          }else {
+            this.pricearr[this.ggimgindex].images.push(fileList[i].url)
+          }
+        }
+      },
+
+      ggmshandleRemove(file, fileList){
+        // console.log(file,fileList)
+        this.pricearr[this.ggimgindex].images=[]
+        for(var i=0;i<fileList.length;i++){
+          this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
+        }
+      },
+
+      cellmouseenter(row, column, cell, event){
+        // console.log(row.index)
+        // this.ggimgindex=row.index
+      },
+
+      cellclick(row, column, cell, event){
+        console.log(row.index)
+        this.ggimgindex=row.index
+      },
+
+      handleEdit(index, row){
+        this.pricearr.push({
+          index:index+1,
+          detail:'',
+          title:1,
+          cover:'../static/images/default1.png',
+          images:[],
+          origin_price:null,
+          price:null,
+        })
+      },
+
+      handleDelete(index, row){
+        console.log(this.pricearr)
+        this.pricearr.splice(index,1)
+      },
+
 
       ggsubmit(){          
         // console.log(this.ggtitleindex)
@@ -532,100 +637,89 @@
         }
       },
 
-      ggupcover(e){
-        this.ggcoverindex=e
+      //相册
+      beforeUpload(file) {
+
       },
 
-      ggupimg(e){
-        console.log(e)
-        this.ggimgindex=e
+      handleSuccess(res, file) {
+        this.newgood2.cover = qiniu.showurl+ res.key
       },
 
-      ggshandleSuccess(res, file) {
-        this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
-      },
-
-      ggmshandleSuccess(res, file,fileList){
-        this.pricearr[this.ggimgindex].images=[]
+      handlelistSuccess(res, file,fileList){
+        this.newgood2.images=[]
         for(var i=0;i<fileList.length;i++){
-          this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
+          if(fileList[i].response.key !== 1){
+            this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)  
+          }else {
+            this.newgood2.images.push(fileList[i].url)
+          }
         }
       },
 
-      handleEdit(index, row){
-        this.pricearr.push({
-          id:index+1,
-          detail:1,
-          title:1,
-          cover:'../static/images/default1.png',
-          images:[],
-          origin_price:null,
-          price:null,
-        })
+      handleRemove(file, fileList) {
+        this.newgood2.images=[]
+        for(var i=0;i<fileList.length;i++){
+          if(fileList[i].response.key !== 1){
+            this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
+          }else {
+            this.newgood2.images.push(fileList[i].url)
+          }
+        }
       },
 
-      handleDelete(index, row){
-        this.pricearr.splice(index,1)
-      },
+      save(){
 
-    //相册
-    beforeUpload(file) {
+        // console.log(this.pricearr)
+        // return
 
-    },
+        var aaa =this.newgood2.images
+        this.newgood2.images=[]
+        for(var i=0; i<aaa.length; i++){
+          if(typeof aaa[i] == 'object'){
+            this.newgood2.images.push(aaa[i].url)
+          }else {
+            this.newgood2.images.push(aaa[i])
+          }
+        }
+        // console.log(this.newgood2.images)
 
-    handleSuccess(res, file) {
-      this.newgood2.cover =qiniu.showurl+ res.key
-    },
 
-    handlelistSuccess(res, file,fileList){
-      this.newgood2.images=[]
-      for(var i=0;i<fileList.length;i++){
-        this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
-      }
-    },
+        this.$refs.newgood2.validate((valid) => {
 
-    handleRemove(file, fileList) {
-      this.newgood2.images=[]
-      for(var i=0;i<fileList.length;i++){
-        this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
-      }
-    },
+          if(this.newgood2.type_id==null){
+            Message({
+              message: "请选择三级分类",
+              type: 'error'
+            });
+            return
+          }else{
+            if(this.sameornot==1){
+              if (valid) {
+                if(this.newgood2.cover=="../static/images/default1.png"){
+                  Message({
+                    message: "请选择商品缩略图",
+                    type: 'error'
+                  });
+                  return
+                }else if(this.newgood2.images.length==0){
+                  Message({
+                    message: "请选择商品相册",
+                    type: 'error'
+                  });
+                  return
+                }else{
 
-    save(){
-      this.$refs.newgood2.validate((valid) => {
-
-        if(this.newgood2.type_id==null){
-          Message({
-            message: "请选择三级分类",
-            type: 'error'
-          });
-          return
-        }else{
-          if(this.sameornot==1){
-            if (valid) {
-              if(this.newgood2.cover=="../static/images/default1.png"){
-                Message({
-                  message: "请选择商品缩略图",
-                  type: 'error'
-                });
-                return
-              }else if(this.newgood2.images.length==0){
-                Message({
-                  message: "请选择商品相册",
-                  type: 'error'
-                });
-                return
-              }else{
-                this.allParams = {
-                  name:this.newgood1.name,
-                  detail:this.newgood1.detail,
-                  brokerage:this.newgood1.brokerage,
-                  share_title:this.newgood1.share_title,
-                  share_detail:this.newgood1.share_detail,
-                  norm:'fixed',
-                  type_id:this.newgood2.type_id,
-                  stock:[this.newgood2]
-                };
+                  this.allParams = {
+                    name:this.newgood1.name,
+                    detail:this.newgood1.detail,
+                    brokerage:this.newgood1.brokerage,
+                    share_title:this.newgood1.share_title,
+                    share_detail:this.newgood1.share_detail,
+                    norm:'fixed',
+                    type_id:this.newgood2.type_id,
+                    stock:[this.newgood2]
+                  };
                 // console.log(this.allParams)
               }
             }else{
@@ -642,31 +736,51 @@
             type_id:this.newgood2.type_id,
             stock:this.pricearr
           };
-          // console.log(this.allParams)
+            // console.log(this.allParams)
+          }
         }
-      }
 
-      var goodeditid = window.sessionStorage.getItem('goodeditid')
-      if(goodeditid){
-        this.allParams.id=goodeditid;
-      }
-      // console.log(this.allParams)
+        var goodeditid = window.sessionStorage.getItem('goodeditid')
+        if(goodeditid){
+          this.allParams.id=goodeditid;
+        }
+         // console.log(this.allParams)
 
-      goodPost(this.allParams).then((res) => {
-        console.log(res)
+         goodPost(this.allParams).then((res) => {
+          console.log(res)
 
-        Message({
-          message: "提交成功",
-          type: 'success'
+          Message({
+            message: "提交成功",
+            type: 'success'
+          });
+          this.$router.push({ path: '/Good/Goodlist' });
         });
-        this.$router.push({ path: '/Good/Goodlist' });
-      });
-    })
-    },
+       })
+      },
 
-    golist(){
-      this.$router.push({ path: '/Good/Goodlist' });
-    }
+      golist(){
+        this.$router.push({ path: '/Good/Goodlist' });
+      },
+
+
+      test(){
+       this.type1=68
+       this.gettype2(this.type1)
+       this.type2=69
+       this.gettype3(this.type2) 
+       this.newgood2.type_id=64
+       this.newgood2.origin_price=64
+       this.newgood2.price=64
+
+       this.newgood1={
+        name:'1',
+        detail:'1',
+        brokerage:1,
+        share_title:'1',
+        share_detail:'1'
+      }
+      this.activeName='attributes'
+    },
   },
 
   computed: {
@@ -678,6 +792,7 @@
   mounted: function () {
     this.gettype1()
     this.checkgoodid()
+    this.test()
   }
 }
 </script>

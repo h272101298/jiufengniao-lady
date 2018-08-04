@@ -20,11 +20,10 @@
     </el-form>
 
     <el-table :data="list" border stripe size="small" style="width:95%;">
-      <el-table-column prop="id" label="用户编号" min-width="100" align="center">
+      <el-table-column prop="id" label="用户编号" width="100" align="center">
       </el-table-column>
       <el-table-column prop="nickname" label="昵称" min-width="140" align="center">
       </el-table-column>
-
 
       <el-table-column prop="avatarUrl" label="头像" min-width="100" align="center">
         <template slot-scope="scope">
@@ -34,10 +33,17 @@
 
       <el-table-column prop="info.name" label="姓名" min-width="140" align="center">
       </el-table-column>
-
-      <el-table-column prop="info.phone" label="联系电话" min-width="200" align="center">
+      <el-table-column prop="gender" label="性别" min-width="140" align="center">
+        <template slot-scope="scope">
+          <el-tag type="primary" v-show="scope.row.gender==1">男</el-tag>
+          <el-tag type="warring" v-show="scope.row.gender==2">女</el-tag>
+        </template>
       </el-table-column>
-      <el-table-column prop="created_at" label="注册日期" min-width="200" align="center">
+      <el-table-column prop="info.phone" label="联系电话" width="150" align="center">
+      </el-table-column>
+      <el-table-column prop="info.email" label="邮箱" width="180" align="center">
+      </el-table-column>
+      <el-table-column prop="created_at" label="注册日期" width="200" align="center">
       </el-table-column>
 
       <el-table-column label="操作" min-width="200" align="center">

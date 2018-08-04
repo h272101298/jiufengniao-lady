@@ -3,23 +3,23 @@
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
-        <el-breadcrumb-item>限时拼团</el-breadcrumb-item>
+        <el-breadcrumb-item>拼团</el-breadcrumb-item>
         <el-breadcrumb-item>发布活动</el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
 
     <el-col :span="24" class="warp-main">
 
-      <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules" ref="newgood" :model="newgood">
+      <el-form label-width="130px" width="900px" center style="width: 1000px" :rules="rules" ref="newone" :model="newone">
 
         <el-form-item label="商品分类：" prop="type_id">
-          <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
+          <el-select v-model="type1" placeholder="请选择一级分类" @change="gettype2">
             <el-option v-for="item in typeArr1" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
-          <el-select v-model="type2" placeholder="请选择二级分类" filterable v-show="type1" @change="gettype3">
+          <el-select v-model="type2" placeholder="请选择二级分类" v-show="type1" @change="gettype3">
             <el-option v-for="item in typeArr2" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
-          <el-select v-model="type_id" placeholder="请选择三级分类" filterable v-show="type2" @change="confirmtype">
+          <el-select v-model="type_id" placeholder="请选择三级分类" v-show="type2" @change="confirmtype">
             <el-option v-for="item in typeArr3" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -37,12 +37,12 @@
               <template slot-scope="scope">
                 <el-tag type="success" v-show="scope.row.norm=='fixed'">统一规格</el-tag>
                 <el-tag type="primary" v-show="scope.row.norm=='change'">多规格</el-tag>
-                <span v-show="scope.row.norm!=='fixed' && scope.row.norm!=='change'">{{ goodguige }}</span>
+                <el-tag type="primary" v-show="scope.row.norm!=='fixed' && scope.row.norm!=='change'">{{ goodguige }}</el-tag>
               </template>
             </el-table-column>
             <el-table-column prop="address" label="操作" min-width="150" align="center">
              <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="handleSelect(scope.$index, scope.row)">选择规格</el-button>
+              <el-button type="primary" size="small" @click="handleSelect(scope.$index, scope.row)">选择</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -51,65 +51,64 @@
         </el-pagination>
       </el-form-item>
 
-      <el-form-item label="活动标题：" prop="description">
-        <el-input v-model="newgood.description" placeholder="请输入活动标题（10字以内）" maxlength="10" style="width:500px;"></el-input>
+      <el-form-item label="活动标题：" prop="title">
+        <el-input v-model="newone.title" placeholder="请输入活动标题（10字以内）" maxlength="10" style="width:500px;"></el-input>
       </el-form-item>
 
-      <el-form-item label="商品数量：" prop="number">
-        <el-input v-model="newgood.number" type="number" min="0" placeholder="" style="width:500px;"></el-input>
-      </el-form-item>
+<!--       <el-form-item label="商品数量：" prop="number">
+        <el-input v-model="newone.number" type="number" min="1" placeholder="请输入商品数量" style="width:500px;"></el-input>
+      </el-form-item> -->
 
-      <el-form-item label="活动时间：" prop="date">
-        <el-date-picker v-model="date" type="datetimerange" :picker-options="pickerOptions" range-separator="-" value-format="yyyy-MM-dd HH:mm:ss" @change="getSTime" style="width:500px;" :editable=false start-placeholder="开始时间" end-placeholder="结束时间">
-        </el-date-picker>
-      </el-form-item>
-
-      <el-form-item label="砍价次数：" prop="clickNum">
-        <el-input v-model="newgood.clickNum" type="number" min="0" placeholder="请输入砍价次数" style="width:500px;"></el-input>
-      </el-form-item>
-
-      <el-form-item label="原价：" prop="origin">
-        <el-input v-model="newgood.origin" type="number" min="0" placeholder="请输入原价" style="width:500px;"></el-input>
-      </el-form-item>
-
-      <el-form-item label="底价：" prop="min">
-        <el-input v-model="newgood.min" type="number" min="0" placeholder="请输入底价" style="width:500px;"></el-input>
+      <el-form-item label="拼团限时：" prop="time">
+        <el-input v-model="newone.time" type="number" min="1" placeholder="请输入拼团限时（小时）" style="width:500px;"></el-input>
       </el-form-item>
 
 
+      <el-form-item label="拼团人数：" prop="people_number">
+        <el-input v-model="newone.people_number" type="number" min="1" placeholder="请输入拼团人数" style="width:500px;"></el-input>
+      </el-form-item>
 
-      <el-form-item style=";margin-top: 20px;">
-        <el-button type="primary" @click="save()" size="medium">提交审核</el-button>
+
+      <el-form-item label="能否使用免单券：" prop="free">
+        <el-switch v-model="newone.free" @change="changequan" active-value="1" inactive-value="0" active-text="是" inactive-text="否"></el-switch>
+      </el-form-item>
+
+      <el-form-item style="margin-top: 20px;">
+        <el-button type="primary" @click="save()" size="medium">提交</el-button>
         <el-button @click="golist()" size="medium">取 消</el-button>
       </el-form-item>
     </el-form>
-
 
   </el-col>
 
 
   <el-col>
-    <el-dialog title="选择规格" :visible.sync="dialogVisible" width="1000">
+    <el-dialog title="选择规格" :visible.sync="dialogVisible" width="1000" center :close-on-click-modal='false' :close-on-press-escape='false'>
       <el-table :data="guigelist" style="width: 100%" border size="mini" stripe>
         <el-table-column prop="detail" label="规格名称" min-width="150" align="center">
+          <template slot-scope="scope">
+            <el-tag type="success" size="small" v-show="scope.row.product_detail=='fixed'">统一规格</el-tag>
+            <el-tag type="primary" size="small" v-show="scope.row.product_detail!=='fixed'">{{ scope.row.detail }}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column prop="cover" label="图片" min-width="150" align="center">
           <template slot-scope="scope">
             <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
           </template>
         </el-table-column>
-        <el-table-column prop="price" label="价格" min-width="150" align="center">
+        <el-table-column prop="price" label="单买价" min-width="150" align="center">
         </el-table-column>
-        <el-table-column prop="origin_price" label="价格" min-width="150" align="center">
+        <el-table-column prop="" label="拼团价" min-width="150" align="center">
+          <template slot-scope="scope">
+            <el-input placeholder="请输入拼团价" v-model="scope.row.ptprice" min="0" type="number"></el-input>
+          </template>
         </el-table-column>
-        <el-table-column prop="id" label="原价" min-width="150" align="center">
-         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="guigeSelect(scope.$index, scope.row)">选择</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-  </el-dialog>
-</el-col>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="confirmprice()" size="medium">确定</el-button>
+      </div>
+    </el-dialog>
+  </el-col>
 
 
 
@@ -174,19 +173,42 @@
       };
 
       return {
-
-        newgood:{
-          stock_id:'',
-          description:'',
+        newone:{
+          product_id:'',
+          // stock_id:'',
+          title:'',
           number:'',
-          clickNum:'',
-          start:'',
-          end:'',
-          origin:'',
-          min:''
+          time:'',
+          people_number:'',
+          // start:'',
+          // end:'',
+          // origin_price:'',
+          // price:'',
+          free:0
         },
 
-        type_id:'',
+        rules:{
+          title: [
+          {required: true, message: '请输入活动标题', trigger: 'blur'},
+          ],
+          // number: [
+          // {required: true, validator: checkvalue, trigger: 'blur'},
+          // ],
+          people_number: [
+          {required: true, validator: checkvalue, trigger: 'blur'},
+          ],
+          time: [
+          {required: true, validator: checkvalue, trigger: 'blur'},
+          ],
+          // origin_price: [
+          // {required: true, validator: checkvalue, trigger: 'blur'},
+          // ],
+          // price: [
+          // {required: true, validator: checkvalue, trigger: 'blur'},
+          // ],
+        },
+
+
 
         dialogVisible:false,
         goodguige:'',
@@ -204,6 +226,7 @@
         typeArr2:[],
         type2:'',
         typeArr3:[],
+        type_id:'',
 
         goodData:[],
 
@@ -214,27 +237,10 @@
         checkList1:[],
         checkList2:[],
 
+        stockarr:[],
+
         dialogVisible:false,
 
-
-
-        rules:{
-          description: [
-          {required: true, message: '请输入活动标题', trigger: 'blur'},
-          ],
-          number: [
-          {required: true, validator: checkvalue, trigger: 'blur'},
-          ],
-          min: [
-          {required: true, validator: checkvalue1, trigger: 'blur'},
-          ],
-          origin: [
-          {required: true, validator: checkvalue, trigger: 'blur'},
-          ],
-          clickNum: [
-          {required: true, validator: checkvalue, trigger: 'blur'},
-          ],
-        },
 
         currentPage:1,
         limit:10,
@@ -256,6 +262,9 @@
       },
 
       gettype2(e){
+        this.type2='';
+        this.type_id='';
+
         var allParams = '?parent='+ e;
         typeGet(allParams).then((res) => {
           this.typeArr2=[];
@@ -274,7 +283,6 @@
         this.getgood()
       },
 
-
       getgood(){
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&type=' + this.type_id;
         CardgoodGet(allParams).then((res) => {
@@ -283,62 +291,90 @@
         });
       },
 
-      getSTime(val){
-        console.log(val[0])
-        // var arr = val.split(",")
-        this.newgood.start=val[0];
-        this.newgood.end=val[1];
-      },
-
       handleSelect(index, row){
+
         var allParams = '?product_id='+ row.id;
         CardtypeGet(allParams).then((res) => {
-          console.log(res)
+          this.newone.product_id=row.id;
+          this.goodData=[row]
+          // console.log(res.data)
           this.goodname=row.name
           this.guigelist=res.data
           this.dialogVisible=true
         });
       },
 
-      guigeSelect(index, row){
-        this.goodData=[{
-          name:this.goodname,
-          norm:'',
-          cover:row.cover,
-        }]
-        this.goodguige=row.detail
-        this.selectgood=false
-        this.newgood.stock_id=row.id
+
+      confirmprice(){
+        // console.log(this.guigelist)
+        var stockarr=[]
+        for(var i=0;i<this.guigelist.length;i++){
+          if(this.guigelist[i].ptprice== undefined){
+            this.$message.error(`请填写拼团价格`);
+            return
+          }
+          stockarr.push({
+            stock_id:this.guigelist[i].id,
+            group_price:this.guigelist[i].ptprice
+          })
+        }
+        console.log(stockarr)
+
+        this.stockarr=stockarr
+        this.guigelist=[]
         this.dialogVisible=false
       },
 
+      // guigeSelect(index, row){
+      //   // console.log(row)
+      //   this.goodData=[{
+      //     name:this.goodname,
+      //     cover:row.cover,
+      //     id:row.product_id
+      //   }]
+      //   if(row.product_detail=='fixed'){
+      //     this.goodData[0].norm='fixed'
+      //   }
+      //   this.goodguige=row.detail
+      //   this.selectgood=false
+      //   this.newone.stock_id=row.id
+      //   this.dialogVisible=false
+      // },
 
+      changequan(val){
+        console.log(val)
+      },
 
       save(){
-        if(this.newgood.stock_id==''){
+        if(this.stockarr.length==0){
           this.$message.error(`请选择商品`);
           return
         }
-        
-        if(this.newgood.end=='' || this.newgood.end==''){
-          this.$message.error(`请选择活动时间`);
-          return
+        // console.log(this.stockarr)
+
+        for(var i=0;i<this.stockarr.length;i++){
+          // console.log(this.stockarr[i].group_price)
+          if(this.stockarr[i].group_price== undefined){
+            this.$message.error(`请填写拼团价格`);
+            return
+          }
         }
 
-        this.$refs.newgood.validate((valid) => {
+        this.$refs.newone.validate((valid) => {
+          // console.log(this.newone)
           if (valid) {
+
             var allParams = {
-              stock_id:this.newgood.stock_id,
-              description:this.newgood.description,
-              number:this.newgood.number,
-              offer:this.newgood.offer,
-              clickNum:this.newgood.clickNum,
-              start:this.newgood.start,
-              end:this.newgood.end,
-              min_price:this.newgood.min,
-              origin_price:this.newgood.origin,
+              product_id:this.newone.product_id,
+              title:this.newone.title,
+              // number:this.newone.number,
+              time:this.newone.time,
+              people_number:this.newone.people_number,
+              free:this.newone.free,
+              stocks:this.stockarr
             };
-            
+            // console.log(allParams)
+
             GroupshopPost(allParams).then((res) => {
               console.log(res)
               if (res.msg === "ok") {
@@ -364,7 +400,6 @@
       golist(){
        this.$router.push({ path: '/Group/Groupgood' });
      },
-
 
      handleCurrentChange(val) {
       this.currentPage = val;

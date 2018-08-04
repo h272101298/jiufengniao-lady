@@ -255,7 +255,7 @@
 
       save(){
 
-        if(this.newgood.end=='' || this.newgood.end==''){
+        if(this.newgood.start=='' || this.newgood.end==''){
           this.$message.error(`请选择活动时间`);
           return
         }

@@ -72,6 +72,8 @@
 
 </script>
 
+
+
 <style>
 body{
   background: url(../../static/images/gold.jpg);

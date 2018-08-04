@@ -44,11 +44,11 @@ import Kanchange from '@/components/Kan/Kanchange'
 import Kanpass from '@/components/Kan/Kanpass'
 
 
-// import Groupnew from '@/components/Group/Groupnew'
-// import Groupgood from '@/components/Group/Groupgood'
-// import Groupcheck from '@/components/Group/Groupcheck'
-// import Groupchange from '@/components/Group/Groupchange'
-// import Grouppass from '@/components/Group/Grouppass'
+import Groupnew from '@/components/Group/Groupnew'
+import Groupgood from '@/components/Group/Groupgood'
+import Groupcheck from '@/components/Group/Groupcheck'
+import Groupchange from '@/components/Group/Groupchange'
+import Grouppass from '@/components/Group/Grouppass'
 
 
 import Shoplist from '@/components/Shop/Shoplist'
@@ -130,19 +130,8 @@ let router = new Router({
         {path: '/Order/Orderlist',component: Orderlist,name: '购物订单',menuShow: true,meta:{permission: ''}}, 
         {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}},
         ]
-    },
-    {
-        leaf: true,
-        path: '/',
-        name: '快递配置',
-        component: Home,
-        redirect: '/Delivery/Delivelist',
-        menuShow: true,
-        iconCls: 'iconfont menu-kuaidi',
-        children: [
-        {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}}
-        ]
     }, {
+        leaf: true,
         path: '/',
         name: '用户管理',
         component: Home,
@@ -210,17 +199,17 @@ let router = new Router({
 
 {
     path: '/',
-    name: '拼团',
+    name: '限时拼团',
     component: Home,
     redirect: '/Group/Groupgood',
-    menuShow: false,
+    menuShow: true,
     iconCls: 'iconfont menu-pintuan',
     children: [
-    // {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false},
-    // {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: ''}},
-    // {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: ''}},
-    // {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
-    // {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: ''}},
+    {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false},
+    {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: ''}},
+    {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: ''}},
+    {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
+    {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: ''}},
     ]
 }, 
 
@@ -253,6 +242,17 @@ let router = new Router({
     {path: '/Advertise/Adlist',component: Adlist,name: '广告列表',menuShow: true,meta:{permission: 'advertList'}}
     ]
 }, {
+    leaf: true,
+    path: '/',
+    name: '快递配置',
+    component: Home,
+    redirect: '/Delivery/Delivelist',
+    menuShow: true,
+    iconCls: 'iconfont menu-kuaidi',
+    children: [
+    {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}}
+    ]
+},{
     path: '/',
     name: '权限管理',
     component: Home,

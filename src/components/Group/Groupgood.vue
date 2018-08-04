@@ -3,7 +3,7 @@
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
-        <el-breadcrumb-item>限时拼团</el-breadcrumb-item>
+        <el-breadcrumb-item>拼团</el-breadcrumb-item>
         <el-breadcrumb-item>活动列表</el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
@@ -12,51 +12,46 @@
 
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="small" @click="newone" v-show="checkper1">发布活动</el-button>
+        <el-button type="primary" size="small" @click="newone">发布活动</el-button>
       </el-form-item>
     </el-form>
 
     <el-table :data="list" border stripe style="width:95%" size="small">
-      <el-table-column prop="product.name" label="商品名称" width="100" align="center">
+      <el-table-column prop="product.name" label="商品名称" min-width="140" align="center">
+      </el-table-column>
+      <el-table-column prop="title" label="活动标题" min-width="170" align="center">
+      </el-table-column>
+<!--       <el-table-column prop="start" label="开始时间" width="200" align="center">
+      </el-table-column>
+      <el-table-column prop="end" label="结束时间" width="200" align="center">
+      </el-table-column> -->
+<!--       <el-table-column prop="number" label="库存" width="85" align="center">
+      </el-table-column> -->
+      <el-table-column prop="time" label="拼团限时（小时）" min-width="120" align="center">
+      </el-table-column>
+      <el-table-column prop="people_number" label="人数" min-width="120" align="center">
+      </el-table-column>
+<!--       <el-table-column prop="origin_price" label="原价" width="85" align="center">
+      </el-table-column>
+      <el-table-column prop="price" label="拼团价" width="85" align="center">
+      </el-table-column> -->
+      <el-table-column prop="free" label="能否免单" min-width="120" align="center">
+        <template slot-scope="scope">
+          <el-tag type="info" v-show="scope.row.free==0">否</el-tag>
+          <el-tag type="success" v-show="scope.row.free==1">是</el-tag>
+        </template>
       </el-table-column>
 
-      <el-table-column prop="description" label="商品名称" width="100" align="center">
-      </el-table-column>
-
-      <el-table-column prop="number" label="库存" width="100" align="center">
-      </el-table-column>
-
-      <el-table-column prop="start" label="活动开始时间" width="150" align="center">
-      </el-table-column>
-      <el-table-column prop="end" label="活动结束时间" width="150" align="center">
-      </el-table-column>
-      <el-table-column prop="origin_price" label="原价" min-width="80" align="center">
-      </el-table-column>
-      <el-table-column prop="min_price" label="底价" min-width="80" align="center">
-      </el-table-column>
-
-      <el-table-column prop="clickNum" label="砍价次数" min-width="80" align="center">
-      </el-table-column>
-      <el-table-column prop="bargain_count" label="已砍价次数" min-width="80" align="center">
-      </el-table-column>
-      <el-table-column prop="bargain_price" label="已砍价金额" min-width="100" align="center">
-      </el-table-column>
-      <el-table-column prop="" label="当前价格" min-width="100" align="center">
+      <el-table-column label="操作" min-width="240" align="center">
        <template slot-scope="scope">
-        <p>{{ scope.row.origin_price - scope.row.bargain_price}}</p>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
 
-    <el-table-column label="操作" min-width="240" align="center">
-     <template slot-scope="scope">
-      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
-    </template>
-  </el-table-column>
+  </el-table>
 
-</el-table>
-
-<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-</el-pagination>
+  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+  </el-pagination>
 
 
 </el-col>
@@ -110,37 +105,37 @@
 
     methods:{
       checkPer(){
-      var per = sessionStorage.getItem('permissions');
-      if(per.indexOf('addBargainPromotion')>-1){
-        this.checkper1=true;
-      }
+        // var per = sessionStorage.getItem('permissions');
+        // if(per.indexOf('addBargainPromotion')>-1){
+        //   this.checkper1=true;
+        // }
 
-      if(per.indexOf('delBargainPromotion')>-1){
-        this.checkper2=true;
-      }
-    },
-
-
-    getlist(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
-      GroupcheckGet(allParams).then((res) => {
-        this.list=res.data.data;
-        this.count=res.data.count
-      });
-    },
+        // if(per.indexOf('delBargainPromotion')>-1){
+        //   this.checkper2=true;
+        // }
+      },
 
 
+      getlist(){
+        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
+        GroupcheckGet(allParams).then((res) => {
+          this.list=res.data.data;
+          this.count=res.data.count
+        });
+      },
 
 
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
 
-    submitdel(){
-      this.dialogDelVisible = false;
-      var allParams='?id='+this.delId
-      Groupdelete(allParams).then((res) => {
+
+      handleDelete(index, row) {
+        this.dialogDelVisible = true;
+        this.delId = row.id;
+      },
+
+      submitdel(){
+        this.dialogDelVisible = false;
+        var allParams='?id='+this.delId
+        Groupdelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -156,29 +151,29 @@
         });
        }
      });
+      },
+
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getlist();
+      },
+
+
+      handleSizeChange(val){
+        this.limit = val;
+        this.getlist();
+      },
+
+      newone(){
+        this.$router.push({ path: '/Group/Groupnew' });
+      }
     },
 
-    handleCurrentChange(val) {
-      this.currentPage = val;
+    mounted: function () {
       this.getlist();
-    },
-
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getlist();
-    },
-
-    newone(){
-      this.$router.push({ path: '/Group/Groupnew' });
+      // this.checkPer();
     }
-  },
-
-  mounted: function () {
-    this.getlist();
-    this.checkPer();
   }
-}
 </script>
 
 

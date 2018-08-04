@@ -17,7 +17,7 @@
             <el-table-column prop="product.name" label="商品名称" width="178" align="center">
             </el-table-column>
 
-            <el-table-column prop="description" label="活动描述" width="178" align="center">
+            <el-table-column prop="description" label="活动标题" width="178" align="center">
             </el-table-column>
 
             <el-table-column prop="list" label="卡牌图片" width="240" align="center">

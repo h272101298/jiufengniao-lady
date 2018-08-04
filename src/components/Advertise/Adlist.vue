@@ -12,25 +12,24 @@
      <el-row>
 
       <el-tabs v-model="activeName" type="card">
-        <el-tab-pane label="轮播设置" name="banner">
+        <el-tab-pane label="首页轮播" name="banner">
 
          <el-form :inline="true">
           <el-form-item>
-            <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增广告</el-button>
+            <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增轮播</el-button>
           </el-form-item>
         </el-form>
 
-        <el-table :data="list" border stripe size="small" style="width:95%">
-          <el-table-column prop="id" label="广告编号" width="200" align="center">
+        <el-table :data="list" border stripe size="small" style="width:1001px">
+          <el-table-column prop="id" label="轮播编号" width="200" align="center">
           </el-table-column>
-          <el-table-column prop="pic" label="广告图片" min-width="500" align="center">
+          <el-table-column prop="pic" label="轮播图片" width="500" align="center">
             <template slot-scope="scope">
               <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
             </template>
           </el-table-column>
 
-
-          <el-table-column label="操作" min-width="300" align="center">
+          <el-table-column label="操作" width="300" align="center">
            <template slot-scope="scope">
             <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
             <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
@@ -44,33 +43,29 @@
     </el-tab-pane>
 
 
-    <!-- style="padding-left: 100px;" -->
-    <el-tab-pane label="集卡牌海报" name="card" >
+    <el-tab-pane label="集卡牌海报" name="card" style="padding-left: 100px;">
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="havecard">
         <el-form-item label="" v-show="havecard">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="cardsuccess" :show-file-list="false" accept="image/*">
-            <img :src="cardpost" class="pre-img cardpost">
-            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
+            <img :src="cardpost" class="pre-img cardpost">         
           </el-upload>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="savecard()" size="small">提交</el-button>
           <el-button @click="cancelcard" size="small">取 消</el-button>
         </el-form-item>
+        <el-form-item>
+          <p class="">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
+        </el-form-item>
       </el-form>
-
       <div v-show="!havecard" class="cardbox">
         <img :src="cardshow" class="cardpost" @click="editcard()">
       </div>
-
       <el-button type="primary" @click="editcard()" size="small" v-show="!havecard">设置</el-button>
-
     </el-tab-pane>
 
 
-
-    <!-- style="padding-left: 100px;" -->
-    <el-tab-pane label="砍价海报" name="kan" >
+    <el-tab-pane label="砍价海报" name="kan" style="padding-left: 100px;">
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="havekan">
         <el-form-item label="" v-show="havekan">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="kansuccess" :show-file-list="false" accept="image/*">
@@ -83,19 +78,14 @@
           <el-button @click="cancelkan" size="small">取 消</el-button>
         </el-form-item>
       </el-form>
-
       <div v-show="!havekan" class="kanbox">
         <img :src="kanshow" class="kanpost" @click="editkan()">
       </div>
-
       <el-button type="primary" @click="editkan()" size="small" v-show="!havekan">设置</el-button>
-
     </el-tab-pane>
 
 
-
-    <!-- style="padding-left: 100px;" -->
-    <el-tab-pane label="分销海报" name="agent" >
+    <el-tab-pane label="分销海报" name="agent" style="padding-left: 100px;">
       <el-form label-width="" width="900px" center style="width: 1000px" v-show="haveagent">
         <el-form-item label="" v-show="haveagent">
           <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="agentsuccess" :show-file-list="false" accept="image/*">
@@ -108,14 +98,53 @@
           <el-button @click="cancelagent" size="small">取 消</el-button>
         </el-form-item>
       </el-form>
-
       <div v-show="!haveagent" class="agentbox">
         <img :src="agentshow" class="agentpost" @click="editagent()">
       </div>
-
       <el-button type="primary" @click="editagent()" size="small" v-show="!haveagent">设置</el-button>
-
     </el-tab-pane>
+
+
+    <el-tab-pane label="拼团海报" name="pin" style="padding-left: 100px;">
+      <el-form label-width="" width="900px" center style="width: 1000px" v-show="havepin">
+        <el-form-item label="" v-show="havepin">
+          <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="pinsuccess" :show-file-list="false" accept="image/*">
+            <img :src="pinpost" class="pre-img pinpost">
+            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="savepin()" size="small">提交</el-button>
+          <el-button @click="cancelpin" size="small">取 消</el-button>
+        </el-form-item>
+      </el-form>
+      <div v-show="!havepin" class="pinbox">
+        <img :src="pinshow" class="pinpost" @click="editpin()">
+      </div>
+      <el-button type="primary" @click="editpin()" size="small" v-show="!havepin">设置</el-button>
+    </el-tab-pane>
+
+
+    <el-tab-pane label="免单海报" name="mpin" style="padding-left: 100px;">
+      <el-form label-width="" width="900px" center style="width: 1000px" v-show="havempin">
+        <el-form-item label="" v-show="havempin">
+          <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="pinsuccess" :show-file-list="false" accept="image/*">
+            <img :src="pinpost" class="pre-img pinpost">
+            <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="savepin()" size="small">提交</el-button>
+          <el-button @click="cancelpin" size="small">取 消</el-button>
+        </el-form-item>
+      </el-form>
+      <div v-show="!havempin" class="pinbox">
+        <img :src="pinshow" class="pinpost" @click="editpin()">
+      </div>
+      <el-button type="primary" @click="editmpin()" size="small" v-show="!havempin">设置</el-button>
+    </el-tab-pane>
+
+
 
   </el-tabs>
 
@@ -217,12 +246,16 @@
         cardpost:'../../../static/images/default.png',
 
         havekan:false,
-        kanshow:'../../../static/images/default1.png',
-        kanpost:'../../../static/images/default1.png',
+        kanshow:'../../../static/images/default.png',
+        kanpost:'../../../static/images/default.png',
 
         haveagent:false,
-        agentshow:'../../../static/images/default1.png',
-        agentpost:'../../../static/images/default1.png',
+        agentshow:'../../../static/images/default2.png',
+        agentpost:'../../../static/images/default2.png',
+
+        havepin:false,
+        pinshow:'../../../static/images/default.png',
+        pinpost:'../../../static/images/default.png',
 
       };
     },
@@ -233,21 +266,21 @@
         posterGet(allParams).then((res) => {
           // console.log(res.data.card_poster)
           if(res.data.card_poster){
-            this.cardshow=res.data.card_poster
+            // this.cardshow=res.data.card_poster
           }else{
             this.cardshow='../../../static/images/default.png'
           }
 
           if(res.data.bargain_poster){
-            this.kanshow=res.data.bargain_poster
+            // this.kanshow=res.data.bargain_poster
           }else{
-            this.kanshow='../../../static/images/default1.png'
+            this.kanshow='../../../static/images/default.png'
           }
 
           if(res.data.proxy_poster){
-            this.agentshow=res.data.proxy_poster
+            // this.agentshow=res.data.proxy_poster
           }else{
-            this.agentshow='../../../static/images/default1.png'
+            this.agentshow='../../../static/images/default2.png'
           }
 
         });
@@ -349,7 +382,7 @@
 
       editagent(){
         this.haveagent=true
-        this.agentpost='../../../static/images/default1.png'
+        this.agentpost='../../../static/images/default2.png'
       },
 
       agentsuccess(res, file,fileList){
@@ -390,6 +423,107 @@
       cancelagent(){
         this.haveagent=false
       },
+
+
+
+
+
+      editpin(){
+        this.havepin=true
+        this.pinpost='../../../static/images/default.png'
+      },
+
+      pinsuccess(res, file,fileList){
+        // console.log(fileList)
+        this.pinpost=qiniu.showurl+ fileList[0].response.key
+      },
+
+      savepin(){
+
+        if(this.pinpost=='../../../static/images/default1.png'){
+          this.$message({
+            message: '请选择图片',
+            type: 'error'
+          });
+        }else{
+          var allParams={
+            proxy_poster:this.pinpost
+          }
+          posterPost(allParams).then((res) => {
+            console.log(res)
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+             this.getpsoter();
+             this.havepin=false
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
+         });
+        }
+      },
+
+      cancelpin(){
+        this.havepin=false
+      },
+
+
+
+
+
+
+      editmpin(){
+        this.havempin=true
+        this.mpinpost='../../../static/images/default.png'
+      },
+
+      pinsuccess(res, file,fileList){
+        // console.log(fileList)
+        this.mpinpost=qiniu.showurl+ fileList[0].response.key
+      },
+
+      savempin(){
+
+        if(this.mpinpost=='../../../static/images/default1.png'){
+          this.$message({
+            message: '请选择图片',
+            type: 'error'
+          });
+        }else{
+          var allParams={
+            proxy_poster:this.mpinpost
+          }
+          posterPost(allParams).then((res) => {
+            console.log(res)
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+             this.getpsoter();
+             this.havepin=false
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
+         });
+        }
+      },
+
+      cancelmpin(){
+        this.havempin=false
+      },
+
+
+
+
 
 
 
@@ -559,7 +693,7 @@
   height:180px;
   border:1px dashed #ccc;
   border-radius:6px;
-  display: block
+  display: block;
 }
 
 .kanbox{
@@ -575,7 +709,7 @@
   height:180px;
   border:1px dashed #ccc;
   border-radius:6px;
-  display: block
+  display: block;
 }
 
 .agentbox{
@@ -591,6 +725,28 @@
   height:320px;
   border:1px dashed #ccc;
   border-radius:6px;
-  display: block
+  display: block;
 }
+
+.pinbox{
+  width: 600px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content:flex-start;
+}
+
+.pinpost{
+  width:320px;
+  height:180px;
+  border:1px dashed #ccc;
+  border-radius:6px;
+  display: block;
+}
+
+
+
+/*.el-form-item {
+  margin-bottom: 0px!important;
+  }*/
 </style>
