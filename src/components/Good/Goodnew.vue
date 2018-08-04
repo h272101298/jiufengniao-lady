@@ -792,7 +792,7 @@ methods:{
   mounted: function () {
     this.gettype1()
     this.checkgoodid()
-    this.test()
+    // this.test()
   }
 }
 </script>
