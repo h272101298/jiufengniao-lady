@@ -17,6 +17,7 @@ import Teamwork from '@/components/Order/Teamwork'
 import Refund from '@/components/Order/Refund'
 
 import Userlist from '@/components/User/Userlist'
+import Assets from '@/components/User/Assets'
 
 import Memberpay from '@/components/Member/Memberpay'
 import Memberlist from '@/components/Member/Memberlist'
@@ -63,6 +64,7 @@ import Adminlist from '@/components/Role/Adminlist'
 import Rolelist from '@/components/Role/Rolelist'
 import Roleedit from '@/components/Role/Roleedit'
 
+import Baseset from '@/components/Setting/Baseset'
 import Wechatset from '@/components/Setting/Wechatset'
 import Document from '@/components/Setting/Document'
 
@@ -131,7 +133,7 @@ let router = new Router({
         {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}},
         ]
     }, {
-        leaf: true,
+        // leaf: true,
         path: '/',
         name: '用户管理',
         component: Home,
@@ -139,7 +141,8 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-yonghu',
         children: [
-        {path: '/User/Userlist',component: Userlist,name: '用户列表',menuShow: true,meta:{permission: 'userList'}}
+        {path: '/User/Userlist',component: Userlist,name: '用户列表',menuShow: true,meta:{permission: 'userList'}},
+        {path: '/User/Assets',component: Assets,name: '零钱提现',menuShow: true,meta:{permission: ''}}
         ]
     },  {
         path: '/',
@@ -272,7 +275,8 @@ let router = new Router({
     menuShow: true,
     iconCls: 'iconfont menu-xitong',
     children: [
-    {path: '/Setting/Wechatset',component: Wechatset,name: '微信设置',menuShow: true,meta:{permission: 'txConfig'}}, 
+    {path: '/Setting/Baseset',component: Baseset,name: '基本设置',menuShow: true,meta:{permission: ''}},
+    {path: '/Setting/Wechatset',component: Wechatset,name: '微信设置',menuShow: true,meta:{permission: 'txConfig'}},
     {path: '/Setting/Document',component: Document,name: '关于我们',menuShow: true,meta:{permission: 'documentList'}}]
 }, ]
 })

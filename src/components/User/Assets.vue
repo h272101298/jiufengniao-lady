@@ -3,8 +3,8 @@
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
-        <el-breadcrumb-item>代理管理</el-breadcrumb-item>
-        <el-breadcrumb-item>提现管理</el-breadcrumb-item>
+        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+        <el-breadcrumb-item>零钱提现</el-breadcrumb-item>
       </el-breadcrumb>
     </el-col>
 
@@ -14,7 +14,7 @@
         <el-form :inline="true" :model="form">
          <!-- <el-form-item lable>代理昵称：</el-form-item> -->
          <el-form-item>
-          <el-input v-model="form.name" placeholder="请输入代理名称" style="min-width: 200px;" ></el-input>
+          <el-input v-model="form.name" placeholder="请输入用户名称" style="min-width: 200px;" ></el-input>
         </el-form-item>
 
 <!--         <el-form-item>
@@ -35,7 +35,7 @@
     <el-table :data="list" border stripe size="small" style="width: 95%;">
       <el-table-column prop="id" label="提现编号" min-width="100" align="center">
       </el-table-column>
-      <el-table-column prop="name" label="代理名称" min-width="200" align="center">
+      <el-table-column prop="name" label="用户名称" min-width="200" align="center">
       </el-table-column>
 <!--       <el-table-column prop="code" label="联系电话" min-width="200" align="center">
       </el-table-column>
@@ -176,7 +176,7 @@
     },
 
     mounted: function () {
-      this.getlist();
+      // this.getlist();
       this.checkPer();
     }
   }
