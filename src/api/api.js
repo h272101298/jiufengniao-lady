@@ -61,18 +61,18 @@ axios.interceptors.response.use(
 
 
 
-let base = 'http://192.168.1.172/Shop/public/v1'
+// let base = 'http://192.168.1.172/Shop/public/v1'
 
-let base1 = 'http://192.168.1.172/Shop/public/v2'
+// let base1 = 'http://192.168.1.172/Shop/public/v2'
 
-let base3 = 'http://192.168.1.172/Shop/public/v3'
+// let base3 = 'http://192.168.1.172/Shop/public/v3'
 
 
-// let base = 'https://template.geckowing.com/v1'
+let base = 'https://template.geckowing.com/v1'
 
-// let base1 = 'https://template.geckowing.com/v2'
+let base1 = 'https://template.geckowing.com/v2'
 
-// let base3 = 'https://template.geckowing.com/v3'
+let base3 = 'https://template.geckowing.com/v3'
 
 
 export default base
@@ -225,14 +225,6 @@ export const kdconfigPost = params => { return axios.post(`${base}/express/confi
 
 
 
-//帮助文档
-export const documentGet = params => { return axios.get(`${base}/documents`+`${params}`).then(res => res.data)}
-
-export const documentPost = params => { return axios.post(`${base}/document`, params).then(res => res.data)}
-
-export const documentDel = params => { return axios.delete(`${base}/document`+`${params}`).then(res => res.data)}
-
-
 //用户
 export const userGet = params => { return axios.get(`${base}/wechat/users`+`${params}`).then(res => res.data)}
 
@@ -277,6 +269,19 @@ export const wxconfigGet = params => { return axios.get(`${base}/tx/config`+`${p
 export const wxmodelPost = params => { return axios.post(`${base}/notify/config`, params).then(res => res.data)}
 
 export const wxmodelGet = params => { return axios.get(`${base}/notify/configs`+`${params}`).then(res => res.data)}
+
+export const signPost = params => { return axios.post(`${base3}/sign/configs`, params).then(res => res.data)}
+
+export const signGet = params => { return axios.get(`${base3}/sign/configs`+`${params}`).then(res => res.data)}
+
+
+
+//帮助文档
+export const documentGet = params => { return axios.get(`${base}/documents`+`${params}`).then(res => res.data)}
+
+export const documentPost = params => { return axios.post(`${base}/document`, params).then(res => res.data)}
+
+export const documentDel = params => { return axios.delete(`${base}/document`+`${params}`).then(res => res.data)}
 
 
 //卡牌
