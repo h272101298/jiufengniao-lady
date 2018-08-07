@@ -195,7 +195,21 @@
           setype:'积分',
         },
 
-        signdata:[],
+        signdata:[{
+          reward:'',type:1
+        },{
+          reward:'',type:1
+        },{
+          reward:'',type:1
+        },{
+          reward:'',type:1
+        },{
+          reward:'',type:1
+        },{
+          reward:'',type:1
+        },{
+          reward:'',type:1
+        },],
 
         signrule:{
           onnum:[{required: true, trigger: 'blur',validator: checkvalue}],
