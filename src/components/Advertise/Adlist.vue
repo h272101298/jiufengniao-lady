@@ -42,14 +42,31 @@
 
 
     <el-tab-pane label="首页海报" name="poster">
-<!--      <el-form :inline="true">
-      <el-form-item>
-        <el-button type="primary" size="medium" @click="newpost">编辑海报</el-button>
-      </el-form-item>
-    </el-form> -->
 
-    <el-table :data="indexpostarr" border size="small" style="width:1001px">
-      <el-table-column prop="id" label="海报编号" width="200" align="center">
+      <el-table :data="indexpostarr" border size="small" style="width:1001px">
+        <el-table-column prop="id" label="海报编号" width="200" align="center">
+        </el-table-column>
+        <el-table-column prop="pic" label="海报图片" width="500" align="center">
+          <template slot-scope="scope">
+            <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作" width="300" align="center">
+         <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="handlepostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </el-tab-pane>
+
+
+  <el-tab-pane label="其它海报" name="otherpost">
+
+    <el-table :data="otherpost" border size="small" style="width:1051px">
+      <el-table-column type="index" label="海报编号" width="100" align="center">
+      </el-table-column>
+      <el-table-column prop="name" label="海报位置" width="150" align="center">
       </el-table-column>
       <el-table-column prop="pic" label="海报图片" width="500" align="center">
         <template slot-scope="scope">
@@ -59,113 +76,10 @@
 
       <el-table-column label="操作" width="300" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="handlepostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+        <el-button type="primary" size="small" @click="otherpostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
       </template>
     </el-table-column>
-
   </el-table>
-
-</el-tab-pane>
-
-<el-tab-pane label="分销海报" name="agent" style="padding-left: 100px;">
-  <el-form label-width="" width="900px" center style="width: 1000px" v-show="haveagent">
-    <el-form-item label="" v-show="haveagent">
-      <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="agentsuccess" :show-file-list="false" accept="image/*">
-        <img :src="agentpost" class="pre-img agentpost">
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
-      </el-upload>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="saveagent()" size="small">提交</el-button>
-      <el-button @click="cancelagent" size="small">取 消</el-button>
-    </el-form-item>
-  </el-form>
-  <div v-show="!haveagent" class="agentbox">
-    <img :src="agentshow" class="agentpost" @click="editagent()">
-  </div>
-  <el-button type="primary" @click="editagent()" size="small" v-show="!haveagent">设置</el-button>
-</el-tab-pane>
-
-
-<el-tab-pane label="集卡牌海报" name="card" style="padding-left: 100px;">
-  <el-form label-width="" width="900px" center style="width: 1000px" v-show="havecard">
-    <el-form-item label="" v-show="havecard">
-      <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="cardsuccess" :show-file-list="false" accept="image/*">
-        <img :src="cardpost" class="pre-img cardpost">         
-      </el-upload>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="savecard()" size="small">提交</el-button>
-      <el-button @click="cancelcard" size="small">取 消</el-button>
-    </el-form-item>
-    <el-form-item>
-      <p class="">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
-    </el-form-item>
-  </el-form>
-  <div v-show="!havecard" class="cardbox">
-    <img :src="cardshow" class="cardpost" @click="editcard()">
-  </div>
-  <el-button type="primary" @click="editcard()" size="small" v-show="!havecard">设置</el-button>
-</el-tab-pane>
-
-
-<el-tab-pane label="砍价海报" name="kan" style="padding-left: 100px;">
-  <el-form label-width="" width="900px" center style="width: 1000px" v-show="havekan">
-    <el-form-item label="" v-show="havekan">
-      <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="kansuccess" :show-file-list="false" accept="image/*">
-        <img :src="kanpost" class="pre-img kanpost">
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
-      </el-upload>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="savekan()" size="small">提交</el-button>
-      <el-button @click="cancelkan" size="small">取 消</el-button>
-    </el-form-item>
-  </el-form>
-  <div v-show="!havekan" class="kanbox">
-    <img :src="kanshow" class="kanpost" @click="editkan()">
-  </div>
-  <el-button type="primary" @click="editkan()" size="small" v-show="!havekan">设置</el-button>
-</el-tab-pane>
-
-
-<el-tab-pane label="拼团海报" name="pin" style="padding-left: 100px;">
-  <el-form label-width="" width="900px" center style="width: 1000px" v-show="havepin">
-    <el-form-item label="" v-show="havepin">
-      <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="pinsuccess" :show-file-list="false" accept="image/*">
-        <img :src="pinpost" class="pre-img pinpost">
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
-      </el-upload>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="savepin()" size="small">提交</el-button>
-      <el-button @click="cancelpin" size="small">取 消</el-button>
-    </el-form-item>
-  </el-form>
-  <div v-show="!havepin" class="pinbox">
-    <img :src="pinshow" class="pinpost" @click="editpin()">
-  </div>
-  <el-button type="primary" @click="editpin()" size="small" v-show="!havepin">设置</el-button>
-</el-tab-pane>
-
-
-<el-tab-pane label="免单海报" name="mpin" style="padding-left: 100px;">
-  <el-form label-width="" width="900px" center style="width: 1000px" v-show="havempin">
-    <el-form-item label="" v-show="havempin">
-      <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="mpinsuccess" :show-file-list="false" accept="image/*">
-        <img :src="mpinpost" class="pre-img pinpost">
-        <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为16:9</p>
-      </el-upload>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="savempin()" size="small">提交</el-button>
-      <el-button @click="cancelpin" size="small">取 消</el-button>
-    </el-form-item>
-  </el-form>
-  <div v-show="!havempin" class="pinbox">
-    <img :src="mpinshow" class="pinpost" @click="editmpin()">
-  </div>
-  <el-button type="primary" @click="editmpin()" size="small" v-show="!havempin">设置</el-button>
 </el-tab-pane>
 
 
@@ -184,8 +98,6 @@
       <el-form-item label="上传图片：">
         <el-upload class="upload-demo" list-type="picture-card" :action="upurl" :data="uptoken" :on-success="handleSuccess" :on-exceed="handleExceed" :file-list="postarr" :limit="1" :show-file-list="true" accept="image/*">
           <i class="el-icon-plus"></i>
-          <!-- <img :src="imgSrc" class="pre-img" style="max-width:60%;max-height:30%;border:2px dashed #ccc;border-radius:10px;display: block" > -->
-          <!-- <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button> -->
           <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为16:9</div>
         </el-upload>
       </el-form-item>
@@ -206,8 +118,6 @@
       <el-form-item label="上传图片：">
         <el-upload class="upload-demo" list-type="picture-card" :action="upurl" :data="uptoken" :on-success="phandleSuccess" :on-exceed="phandleExceed" :file-list="indexpost" :limit="1" :show-file-list="true" accept="image/*">
           <i class="el-icon-plus"></i>
-          <!-- <img :src="imgSrc" class="pre-img" style="max-width:60%;max-height:30%;border:2px dashed #ccc;border-radius:10px;display: block" > -->
-          <!-- <el-button size="small" type="primary" style="display: block;margin-top: 20px;">选取文件</el-button> -->
           <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为5:2</div>
         </el-upload>
       </el-form-item>
@@ -215,6 +125,26 @@
       <el-form-item style="margin-left: calc(50% - 200px);">
         <el-button type="primary" @click="savepost()">保 存</el-button>
         <el-button @click="dialogNewpostVisible = false">取 消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+</el-col>
+
+
+<el-col>
+  <el-dialog title="编辑海报" :visible.sync="dialogotherpostVisible" width="500" center style="min-width: 500px">
+    <el-form ref="newadv" :model="newadv" label-width="120px">
+
+      <el-form-item label="上传图片：">
+        <el-upload class="upload-demo" list-type="picture-card" :action="upurl" :data="uptoken" :on-success="otherleSuccess" :on-exceed="otherleExceed" :file-list="otherarr" :limit="1" :show-file-list="true" accept="image/*">
+          <i class="el-icon-plus"></i>
+          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为16:9</div>
+        </el-upload>
+      </el-form-item>
+
+      <el-form-item style="margin-left: calc(50% - 200px);">
+        <el-button type="primary" @click="savepost()">保 存</el-button>
+        <el-button @click="dialogotherpostVisible = false">取 消</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -256,35 +186,37 @@
   export default {
     data() {
       return {
-        // activeName:'poster',
+        // activeName:'otherpost',
         activeName:'banner',
 
         uptoken:{
           token:qiniu.token,
         },
         upurl:qiniu.upurl,
+
         currentPage: 1,
         list:[],
         count:0,
         limit:10,
         dialogNewVisible:false,
         dialogDelVisible:false,
-        dialogNewpostVisible:false,
-        filter:{
-          name:''
-        },
+
         putorup:'up',
         imgSrc:"",
-        newadv:{
-          link:'',
-          intro:'',
-          positionid:''
-        },
+        newadv:{},
         diatitle:'新增广告',
         postarr:[],
+        editId:'',
+        delId:'',
+
+        checkper1:false,
+        checkper2:false,
+
 
         postimgSrc:"",
 
+
+        dialogNewpostVisible:false,
         indexpostarr:[{
           id:1,
           pic:'../../../static/images/default.png'
@@ -298,35 +230,32 @@
           id:4,
           pic:'../../../static/images/default.png'
         }],
-
         indexpost:[],
 
-        editId:'',
-        delId:'',
 
-        checkper1:false,
-        checkper2:false,
-
-
-        havecard:false,
-        cardshow:'../../../static/images/default.png',
-        cardpost:'../../../static/images/default.png',
-
-        havekan:false,
-        kanshow:'../../../static/images/default.png',
-        kanpost:'../../../static/images/default.png',
-
-        haveagent:false,
-        agentshow:'../../../static/images/default2.png',
-        agentpost:'../../../static/images/default2.png',
-
-        havepin:false,
-        pinshow:'../../../static/images/default.png',
-        pinpost:'../../../static/images/default.png',
-
-        havempin:false,
-        mpinshow:'../../../static/images/default.png',
-        mpinpost:'../../../static/images/default.png',
+        dialogotherpostVisible:false,
+        otherpost:[{
+          id:5,
+          name:'集卡牌海报',
+          pic:'../../../static/images/default.png'
+        },{
+          id:6,
+          name:'拼团海报',
+          pic:'../../../static/images/default.png'
+        },{
+          id:7,
+          name:'免单海报',
+          pic:'../../../static/images/default.png'
+        },{
+          id:8,
+          name:'砍价海报',
+          pic:'../../../static/images/default.png'
+        },{
+          id:9,
+          name:'分销海报',
+          pic:'../../../static/images/default.png'
+        },],
+        otherarr:[],
 
       };
     },
@@ -337,35 +266,34 @@
         posterGet(allParams).then((res) => {
           // console.log(res.data.card_poster)
           if(res.data.card_poster){
-            this.cardshow=res.data.card_poster
+            this.otherpost[0].pic=res.data.card_poster
           }else{
-            this.cardshow='../../../static/images/default.png'
-          }
-
-          if(res.data.bargain_poster){
-            this.kanshow=res.data.bargain_poster
-          }else{
-            this.kanshow='../../../static/images/default.png'
-          }
-
-          if(res.data.proxy_poster){
-            this.agentshow=res.data.proxy_poster
-          }else{
-            this.agentshow='../../../static/images/default2.png'
+            this.otherpost[0].pic='../../../static/images/default.png'
           }
 
           if(res.data.group_poster){
-            this.pinshow=res.data.group_poster
+            this.otherpost[1].pic=res.data.group_poster
           }else{
-            this.pinshow='../../../static/images/default.png'
+            this.otherpost[1].pic='../../../static/images/default.png'
           }
 
           if(res.data.group_free){
-            this.mpinshow=res.data.group_free
+            this.otherpost[2].pic=res.data.group_free
           }else{
-            this.mpinshow='../../../static/images/default.png'
+            this.otherpost[2].pic='../../../static/images/default.png'
           }
 
+          if(res.data.bargain_poster){
+            this.otherpost[3].pic=res.data.bargain_poster
+          }else{
+            this.otherpost[3].pic='../../../static/images/default.png'
+          }
+
+          if(res.data.proxy_poster){
+            this.otherpost[4].pic=res.data.proxy_poster
+          }else{
+            this.otherpost[4].pic='../../../static/images/default2.png'
+          }
 
 
 
@@ -392,252 +320,8 @@
           }else{
             this.indexpostarr[3].pic='../../../static/images/default.png'
           }
-
-
-
         });
       },
-
-      editcard(){
-        this.havecard=true
-        this.cardpost='../../../static/images/default.png'
-      },
-
-      cardsuccess(res, file,fileList){
-        this.cardpost=qiniu.showurl+ fileList[0].response.key
-      },
-
-      savecard(){//posterPost
-
-        if(this.cardpost=='../../../static/images/default.png'){
-          this.$message({
-            message: '请选择图片',
-            type: 'error'
-          });
-        }else{
-          var allParams={
-            card_poster:this.cardpost
-          }
-          posterPost(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.getposter();
-             this.havecard=false
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }
-      },
-
-      cancelcard(){
-        this.havecard=false
-      },
-
-
-
-      editkan(){
-        this.havekan=true
-        this.kanpost='../../../static/images/default.png'
-      },
-
-      kansuccess(res, file,fileList){
-        // console.log(fileList)
-        this.kanpost=qiniu.showurl+ fileList[0].response.key
-      },
-
-      savekan(){
-
-        if(this.kanpost=='../../../static/images/default1.png'){
-          this.$message({
-            message: '请选择图片',
-            type: 'error'
-          });
-        }else{
-          var allParams={
-            bargain_poster:this.kanpost
-          }
-          posterPost(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.getposter();
-             this.havekan=false
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }
-      },
-
-      cancelkan(){
-        this.havekan=false
-      },
-
-
-
-
-
-
-      editagent(){
-        this.haveagent=true
-        this.agentpost='../../../static/images/default2.png'
-      },
-
-      agentsuccess(res, file,fileList){
-        // console.log(fileList)
-        this.agentpost=qiniu.showurl+ fileList[0].response.key
-      },
-
-      saveagent(){
-
-        if(this.agentpost=='../../../static/images/default1.png'){
-          this.$message({
-            message: '请选择图片',
-            type: 'error'
-          });
-        }else{
-          var allParams={
-            proxy_poster:this.agentpost
-          }
-          posterPost(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.getposter();
-             this.haveagent=false
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }
-      },
-
-      cancelagent(){
-        this.haveagent=false
-      },
-
-
-
-
-
-      editpin(){
-        this.havepin=true
-        this.pinpost='../../../static/images/default.png'
-      },
-
-      pinsuccess(res, file,fileList){
-        // console.log(fileList)
-        this.pinpost=qiniu.showurl+ fileList[0].response.key
-      },
-
-      savepin(){
-
-        if(this.pinpost=='../../../static/images/default.png'){
-          this.$message({
-            message: '请选择图片',
-            type: 'error'
-          });
-        }else{
-          var allParams={
-            group_poster:this.pinpost
-          }
-          posterPost(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.getposter();
-             this.havepin=false
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }
-      },
-
-      cancelpin(){
-        this.havepin=false
-      },
-
-
-
-
-
-
-      editmpin(){
-        this.havempin=true
-        this.mpinpost='../../../static/images/default.png'
-      },
-
-      mpinsuccess(res, file,fileList){
-        // console.log(fileList)
-        this.mpinpost=qiniu.showurl+ fileList[0].response.key
-      },
-
-      savempin(){
-
-        if(this.mpinpost=='../../../static/images/default.png'){
-          this.$message({
-            message: '请选择图片',
-            type: 'error'
-          });
-        }else{
-          var allParams={
-            group_free:this.mpinpost
-          }
-          posterPost(allParams).then((res) => {
-            console.log(res)
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.getposter();
-             this.havempin=false
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }
-      },
-
-      cancelmpin(){
-        this.havempin=false
-      },
-
-
-
-
-
-
 
 
 
@@ -675,47 +359,84 @@
      },
 
      handleSuccess(res, file) {
-      // this.upimgurl =qiniu.showurl+ res.key
-      this.imgSrc =qiniu.showurl+ res.key
-      // this.imgSrc = URL.createObjectURL(file.raw);
-      // this.upimgurl = res.data.url;
-    },
+        // this.upimgurl =qiniu.showurl+ res.key
+        this.imgSrc =qiniu.showurl+ res.key
+        // this.imgSrc = URL.createObjectURL(file.raw);
+        // this.upimgurl = res.data.url;
+      },
 
-    handleExceed(files, fileList) {
-      // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-      this.$message.warning(`一次只能上传1张图片`);
-    },
+      handleExceed(files, fileList) {
+        // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+        this.$message.warning(`一次只能上传1张图片`);
+      },
 
-    save(){
-      if(this.imgSrc==''){
-        this.$message({
-          message: '请选择图片',
-          type: 'error'
-        });
-      }else{
-        if( this.putorup=='put'){
-          var allParams = {
-            pic:this.imgSrc,
-            category_id:1,
-            type:1,
-            id:this.editId
-          };
+      save(){
+        if(this.imgSrc==''){
+          this.$message({
+            message: '请选择图片',
+            type: 'error'
+          });
         }else{
-          var allParams = {
-            pic:this.imgSrc,
-            category_id:1,
-            type:1
-          };
+          if( this.putorup=='put'){
+            var allParams = {
+              pic:this.imgSrc,
+              category_id:1,
+              type:1,
+              id:this.editId
+            };
+          }else{
+            var allParams = {
+              pic:this.imgSrc,
+              category_id:1,
+              type:1
+            };
+          }
+          advertPost(allParams).then((res) => {
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+             this.imgSrc=''
+             this.getlist();
+             this.dialogNewVisible=false
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
+         });
         }
-        advertPost(allParams).then((res) => {
+      },
+
+      handleEdit(index, row){
+        this.diatitle='编辑广告';
+        this.dialogNewVisible = true;
+        this.putorup='put';
+        console.log(row.pic)
+        this.editId = row.id;
+        // this.imgSrc=row.pic;`
+        this.postarr.push(Object.assign({},{"url":row.pic}));
+      },
+
+      handleDelete(index, row) {
+        this.dialogDelVisible = true;
+        this.delId = row.id;
+      },
+
+      submitdel(){
+        this.dialogDelVisible = false;
+        var allParams='?id='+this.delId
+        advertDel(allParams).then((res) => {
+          console.log(res)
           if (res.msg === "ok") {
            this.$message({
-            message: '提交成功',
+            message: '删除成功',
             type: 'success'
           });
-           this.imgSrc=''
            this.getlist();
-           this.dialogNewVisible=false
+           this.dialogDelVisible = false;
          } else {
            this.$message({
             message: res.msg,
@@ -723,36 +444,109 @@
           });
          }
        });
+      },
+
+      handleCurrentChange(val) {
+        this.currentPage = val;
+        this.getlist();
+      },
+
+      handleSizeChange(val){
+        this.limit = val;
+        this.getlist();
+      },
+
+      handlepostEdit(index, row){
+        this.dialogNewpostVisible = true;
+        this.postId = row.id;
+        this.indexpost=[];
+      },
+
+      phandleSuccess(res, file){
+        this.postimgSrc = qiniu.showurl+ res.key
+      },
+
+      phandleExceed(files, fileList) {
+        this.$message.warning(`一次只能上传1张图片`);
+      },
+
+
+
+      otherpostEdit(index, row){
+        this.dialogotherpostVisible = true;
+        this.postId = row.id;
+        this.otherarr=[];
+      },
+
+      otherleSuccess(res, file){
+        this.postimgSrc = qiniu.showurl+ res.key
+      },
+
+      otherleExceed(files, fileList) {
+        this.$message.warning(`一次只能上传1张图片`);
+      },
+
+
+      savepost(){
+
+        if(this.postimgSrc==''){
+          this.$message({
+            message: '请选择图片',
+            type: 'error'
+          });
+        }else {
+
+         if( this.postId==1){
+          var allParams={
+            index_bargain:this.postimgSrc
+          }
+        }else if( this.postId==2){
+          var allParams={
+            index_card:this.postimgSrc
+          }
+        }else if( this.postId==3){
+          var allParams={
+            index_group:this.postimgSrc
+          }
+        }else if( this.postId==4){
+          var allParams={
+            index_origin:this.postimgSrc
+          }
+        }else if( this.postId==5){
+          var allParams={
+            card_poster:this.postimgSrc
+          }
+        }else if( this.postId==6){
+          var allParams={
+            group_poster:this.postimgSrc
+          }
+        }else if( this.postId==7){
+          var allParams={
+            group_free:this.postimgSrc
+          }
+        }else if( this.postId==8){
+          var allParams={
+            bargain_poster:this.postimgSrc
+          }
+        }else if( this.postId==9){
+          var allParams={
+            proxy_poster:this.postimgSrc
+          }
+        }
       }
-    },
 
-    handleEdit(index, row){
-      this.diatitle='编辑广告';
-      this.dialogNewVisible = true;
-      this.putorup='put';
-      console.log(row.pic)
-      this.editId = row.id;
-      // this.imgSrc=row.pic;`
-      this.postarr.push(Object.assign({},{"url":row.pic}));
-    },
-
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
-
-    submitdel(){
-      this.dialogDelVisible = false;
-      var allParams='?id='+this.delId
-      advertDel(allParams).then((res) => {
-        console.log(res)
+      // console.log(this.postId)
+      posterPost(allParams).then((res) => {
+        // console.log(res)
         if (res.msg === "ok") {
          this.$message({
-          message: '删除成功',
+          message: '提交成功',
           type: 'success'
         });
-         this.getlist();
-         this.dialogDelVisible = false;
+         this.postimgSrc=''
+         this.getposter();
+         this.dialogNewpostVisible=false
+         this.dialogotherpostVisible = false;
        } else {
          this.$message({
           message: res.msg,
@@ -760,103 +554,16 @@
         });
        }
      });
-    },
 
-    handleCurrentChange(val) {
-      this.currentPage = val;
-      this.getlist();
-    },
-
-    handleSizeChange(val){
-      this.limit = val;
-      this.getlist();
-    },
-
-
-    handlepostEdit(index, row){
-      this.dialogNewpostVisible = true;
-      // console.log(row.pic)
-      this.postId = index;
-      this.indexpost=[];
-      // this.indexpost.push(Object.assign({},{"url":row.pic}));
-    },
-
-
-    phandleSuccess(res, file){
-      // this.indexpost.push(qiniu.showurl+ fileList[0].response.key)  
-      this.postimgSrc = qiniu.showurl+ res.key
-      // this.indexpost=[]
-      // for(var i=0;i<fileList.length;i++){
-      //   if(fileList[i].response.key !== 1){
-      //     this.indexpost.push(qiniu.showurl+ fileList[i].response.key)  
-      //   }else {
-      //     this.indexpost.push(fileList[i].url)
-      //   }
-      // }
-    },
-
-    phandleExceed(files, fileList) {
-      this.$message.warning(`一次只能上传1张图片`);
-    },
-
-
-    savepost(){
-
-      if(this.postimgSrc==''){
-        this.$message({
-          message: '请选择图片',
-          type: 'error'
-        });
-      }else {
-
-       if( this.postId==0){
-        var allParams={
-          index_bargain:this.postimgSrc
-        }
-      }else if( this.postId==1){
-        var allParams={
-          index_card:this.postimgSrc
-        }
-      }else if( this.postId==2){
-        var allParams={
-          index_group:this.postimgSrc
-        }
-      }else if( this.postId==3){
-        var allParams={
-          index_origin:this.postimgSrc
-        }
-      }
     }
 
+  },
 
-    posterPost(allParams).then((res) => {
-      console.log(res)
-      if (res.msg === "ok") {
-       this.$message({
-        message: '提交成功',
-        type: 'success'
-      });
-       this.postimgSrc=''
-       this.getposter();
-       this.dialogNewpostVisible=false
-     } else {
-       this.$message({
-        message: res.msg,
-        type: 'error'
-      });
-     }
-   });
-
+  mounted: function () {
+    this.getlist();
+    this.getposter();
+    this.checkPer();
   }
-
-},
-
-mounted: function () {
-  // this.getpost();
-  this.getlist();
-  this.getposter();
-  this.checkPer();
-}
 }
 </script>
 
