@@ -296,7 +296,6 @@
           }
 
 
-
           if(res.data.index_bargain){
             this.indexpostarr[0].pic=res.data.index_bargain
           }else{
