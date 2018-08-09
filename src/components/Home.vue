@@ -71,7 +71,6 @@
   <script>
     import { requestLogout } from '../api/api';
 
-
     export default {
       name: 'home',
       created(){
@@ -89,7 +88,7 @@
       props: {
         dotsNum: {
           type: Number,
-          default: 100
+          default: 0
         },
         isColor: {
           type: Boolean,
@@ -146,7 +145,10 @@
         var _this = this;
         this.$confirm('确认退出吗?', '提示', {
           type: 'warning',
-          center: true
+          center: true,
+          // showCancelButton:false,
+          cancelButtonClass:'cancelButton'
+
         }).then(() => {
           var allParams = '';
           requestLogout(allParams).then((res) => {
@@ -162,9 +164,7 @@
       var name = sessionStorage.getItem('username');
       var arr =name.split('"');
       this.username=arr[1];
-    // }
 
-    // mounted(){
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
       const rndCl = () => Math.floor(Math.random() * 225);
@@ -325,33 +325,40 @@
   </script>
 
 
-  <style scoped>
-  #canvas{
-    position: fixed;
-    z-index: -0;
-    top: 50px;
-    left: 180px;
-    width: calc(100%-50px);
-    height: calc(100%-180px);
-    opacity: 0.3;
-  }
+  <style>
+  
+  .cancelButton{
+    margin-right: 10px!important;
+  } 
+</style>
 
-  .clear{
-    float: right;
-    /*position: absolute;*/
-    margin-right: 10px;
-    margin-top: 11px;
-  }
-  .fullscreen{
-    position: absolute;
-    right: 220px;
-    top: 11px;
-  }
+<style scoped>
+#canvas{
+  position: fixed;
+  z-index: -999;
+  top: 50px;
+  left: 180px;
+  width: calc(100%-50px);
+  height: calc(100%-180px);
+  opacity: 0.3;
+}
 
-  .el-dropdown-menu, .el-popper{
-    top: 38px!important;
-    min-width: 100px;
-  }
+.clear{
+  float: right;
+  /*position: absolute;*/
+  margin-right: 10px;
+  margin-top: 11px;
+}
+.fullscreen{
+  position: absolute;
+  right: 220px;
+  top: 11px;
+}
+
+.el-dropdown-menu, .el-popper{
+  top: 38px!important;
+  min-width: 100px;
+}
 
 /*  .el-button+.el-button {
     margin-left: 10px!important;
@@ -359,6 +366,7 @@
   </style>
 
   <style scoped lang="scss">
+
   .container {
     position: absolute;
     top: 0px;
@@ -474,14 +482,14 @@
     }
 
     .content-container {
-      background: #fafafa;
+      background: #fff;
       flex: 1;
       overflow-y: auto;
       padding: 10px;
       padding-bottom: 1px;
 
       .content-wrapper {
-        background-color: #fafafa;
+        background-color: #fff;
         box-sizing: border-box;
       }
     }

@@ -45,7 +45,7 @@
     props: {
       dotsNum: {
         type: Number,
-        default: 100
+        default: 0
       },
       isColor: {
         type: Boolean,

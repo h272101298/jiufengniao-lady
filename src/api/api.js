@@ -82,6 +82,7 @@ export const requestLogin = params => { return axios.post(`${base}/login`, param
 
 export const requestLogout = params => { return axios.get(`${base}/logout`+`${params}`).then(res => res.data)}
 
+
 //统计数据
 export const countdataGet = params => { return axios.get(`${base}/count`+`${params}`).then(res => res.data)}
 
@@ -107,7 +108,10 @@ export const categoryPost = params => { return axios.post(`${base}/store/categor
 export const categoryDel = params => { return axios.delete(`${base}/store/category`+`${params}`).then(res => res.data)}
 
 
+//店铺
+export const shopPost = params => { return axios.post(`${base}/store`, params).then(res => res.data)}
 
+export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`).then(res => res.data)}
 
 
 //入驻
@@ -144,12 +148,6 @@ export const withdrawReject = params => { return axios.get(`${base}/withdraw/rej
 
 
 
-
-
-//店铺
-export const shopPost = params => { return axios.post(`${base}/store`, params).then(res => res.data)}
-
-export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`).then(res => res.data)}
 
 
 //商品列表
@@ -273,7 +271,6 @@ export const wxmodelGet = params => { return axios.get(`${base}/notify/configs`+
 export const signPost = params => { return axios.post(`${base3}/sign/configs`, params).then(res => res.data)}
 
 export const signGet = params => { return axios.get(`${base3}/sign/configs`+`${params}`).then(res => res.data)}
-
 
 
 //帮助文档
