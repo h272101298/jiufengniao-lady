@@ -171,114 +171,114 @@ let router = new Router({
         ]
     }, 
 
-// {
-//     leaf: true,
-//     path: '/',
-//     name: '报表统计',
-//     component: Home,
-//     redirect: '/Report/Reportlist',
-//     menuShow: true,
-//     iconCls: 'iconfont menu-baobiaofenxi-copy',
-//     children: [
-//     {path: '/Report/Reportlist',component: Reportlist,name: '统计图表',menuShow: true}, 
-//     ]
-// }, 
+    // {
+    //     leaf: true,
+    //     path: '/',
+    //     name: '报表统计',
+    //     component: Home,
+    //     redirect: '/Report/Reportlist',
+    //     menuShow: true,
+    //     iconCls: 'iconfont menu-baobiaofenxi-copy',
+    //     children: [
+    //     {path: '/Report/Reportlist',component: Reportlist,name: '统计图表',menuShow: true}, 
+    //     ]
+    // }, 
 
-{
-    path: '/',
-    name: '集卡牌',
-    component: Home,
-    redirect: '/Card/Cardgood',
-    menuShow: true,
-    iconCls: 'iconfont menu-card',
-    children: [
-    {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false}, 
-    {path: '/Card/Cardgood',component: Cardgood,name: '活动列表',menuShow: true,meta:{permission: 'storeCardPromotions'}}, 
-    {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true,meta:{permission: 'checkCardPromotions'}}, 
-    {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
-    {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true,meta:{permission: 'allCardPromotions'}}
-    ]
-}, 
+    {
+        path: '/',
+        name: '集卡牌',
+        component: Home,
+        redirect: '/Card/Cardgood',
+        menuShow: true,
+        iconCls: 'iconfont menu-card',
+        children: [
+        {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false}, 
+        {path: '/Card/Cardgood',component: Cardgood,name: '活动列表',menuShow: true,meta:{permission: 'storeCardPromotions'}}, 
+        {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true,meta:{permission: 'checkCardPromotions'}}, 
+        {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
+        {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true,meta:{permission: 'allCardPromotions'}}
+        ]
+    }, 
 
-{
-    path: '/',
-    name: '限时拼团',
-    component: Home,
-    redirect: '/Group/Groupgood',
-    menuShow: true,
-    iconCls: 'iconfont menu-pintuan',
-    children: [
-    {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false},
-    {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: ''}},
-    {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: ''}},
-    {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
-    {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: ''}},
-    ]
-}, 
+    {
+        path: '/',
+        name: '限时拼团',
+        component: Home,
+        redirect: '/Group/Groupgood',
+        menuShow: true,
+        iconCls: 'iconfont menu-pintuan',
+        children: [
+        {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false},
+        {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: ''}},
+        {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: ''}},
+        {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
+        {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: ''}},
+        ]
+    }, 
 
-{
-    path: '/',
-    name: '限时砍价',
-    component: Home,
-    redirect: '/Kan/Spike',
-    menuShow: true,
-    iconCls: 'iconfont menu-kanjia',
-    children: [
-    {path: '/Kan/Kannew',component: Kannew,name: '发布活动',menuShow: false}, 
-    {path: '/Kan/Kangood',component: Kangood,name: '活动列表',menuShow: true,meta:{permission: 'storeBargainPromotions'}}, 
-    {path: '/Kan/Kancheck',component: Kancheck,name: '待审核',menuShow: true,meta:{permission: 'checkBargainPromotions'}}, 
-    {path: '/Kan/Kanchange',component: Kanchange,name: ' 编辑活动',menuShow: false}, 
-    {path: '/Kan/Kanpass',component: Kanpass,name: '通过列表',menuShow: true,meta:{permission: 'allBargainPromotions'}}
-    ]
-}, 
+    {
+        path: '/',
+        name: '限时砍价',
+        component: Home,
+        redirect: '/Kan/Spike',
+        menuShow: true,
+        iconCls: 'iconfont menu-kanjia',
+        children: [
+        {path: '/Kan/Kannew',component: Kannew,name: '发布活动',menuShow: false}, 
+        {path: '/Kan/Kangood',component: Kangood,name: '活动列表',menuShow: true,meta:{permission: 'storeBargainPromotions'}}, 
+        {path: '/Kan/Kancheck',component: Kancheck,name: '待审核',menuShow: true,meta:{permission: 'checkBargainPromotions'}}, 
+        {path: '/Kan/Kanchange',component: Kanchange,name: ' 编辑活动',menuShow: false}, 
+        {path: '/Kan/Kanpass',component: Kanpass,name: '通过列表',menuShow: true,meta:{permission: 'allBargainPromotions'}}
+        ]
+    }, 
 
 
-{
-    leaf: true,
-    path: '/',
-    name: '广告管理',
-    component: Home,
-    redirect: '/Advertise/Adlist',
-    menuShow: true,
-    iconCls: 'iconfont menu-guanggao',
-    children: [
-    {path: '/Advertise/Adlist',component: Adlist,name: '广告列表',menuShow: true,meta:{permission: 'advertList'}}
-    ]
-}, {
-    leaf: true,
-    path: '/',
-    name: '快递配置',
-    component: Home,
-    redirect: '/Delivery/Delivelist',
-    menuShow: true,
-    iconCls: 'iconfont menu-kuaidi',
-    children: [
-    {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}}
-    ]
-},{
-    path: '/',
-    name: '权限管理',
-    component: Home,
-    redirect: '/Role/Adminlist',
-    menuShow: true,
-    iconCls: 'iconfont menu-quanxian',
-    children: [
-    {path: '/Role/Adminlist',component: Adminlist,name: '管理员列表',menuShow: true,            meta:{permission: 'adminList'}}, 
-    {path: '/Role/Rolelist',component: Rolelist,name: '角色列表',menuShow: true,meta:{permission: 'roleList'}},
-    {path: '/Role/Roleedit',component: Roleedit,name: '编辑角色',menuShow: false,meta:{permission: 'roleAdd'}} 
-    ]
-}, {
-    path: '/',
-    name: '系统设置',
-    component: Home,
-    redirect: '/Setting/Baseset',
-    menuShow: true,
-    iconCls: 'iconfont menu-xitong',
-    children: [
-    {path: '/Setting/Baseset',component: Baseset,name: '基本设置',menuShow: true,meta:{permission: ''}},
-    {path: '/Setting/Wechatset',component: Wechatset,name: '微信设置',menuShow: true,meta:{permission: 'txConfig'}},
-    {path: '/Setting/Document',component: Document,name: '关于我们',menuShow: true,meta:{permission: 'documentList'}}]
-}, ]
+    {
+        leaf: true,
+        path: '/',
+        name: '广告管理',
+        component: Home,
+        redirect: '/Advertise/Adlist',
+        menuShow: true,
+        iconCls: 'iconfont menu-guanggao',
+        children: [
+        {path: '/Advertise/Adlist',component: Adlist,name: '广告列表',menuShow: true,meta:{permission: 'advertList'}}
+        ]
+    }, {
+        leaf: true,
+        path: '/',
+        name: '快递配置',
+        component: Home,
+        redirect: '/Delivery/Delivelist',
+        menuShow: true,
+        iconCls: 'iconfont menu-kuaidi',
+        children: [
+        {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}}
+        ]
+    },{
+        path: '/',
+        name: '权限管理',
+        component: Home,
+        redirect: '/Role/Adminlist',
+        menuShow: true,
+        iconCls: 'iconfont menu-quanxian',
+        children: [
+        {path: '/Role/Adminlist',component: Adminlist,name: '管理员列表',menuShow: true,            meta:{permission: 'adminList'}}, 
+        {path: '/Role/Rolelist',component: Rolelist,name: '角色列表',menuShow: true,meta:{permission: 'roleList'}},
+        {path: '/Role/Roleedit',component: Roleedit,name: '编辑角色',menuShow: false,meta:{permission: 'roleAdd'}} 
+        ]
+    }, {
+        path: '/',
+        name: '系统设置',
+        component: Home,
+        redirect: '/Setting/Baseset',
+        menuShow: true,
+        iconCls: 'iconfont menu-xitong',
+        children: [
+        {path: '/Setting/Baseset',component: Baseset,name: '基本设置',menuShow: true,meta:{permission: ''}},
+        {path: '/Setting/Wechatset',component: Wechatset,name: '微信设置',menuShow: true,meta:{permission: 'txConfig'}},
+        {path: '/Setting/Document',component: Document,name: '关于我们',menuShow: true,meta:{permission: 'documentList'}}]
+    }, ]
 })
 
 
@@ -298,18 +298,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-             MessageBox.alert('没有访问权限', '提示', {
-                confirmButtonText: '确定',
-                closeOnPressEscape:false,
-                showClose:false,
-                callback: action => {
+           MessageBox.alert('没有访问权限', '提示', {
+            confirmButtonText: '确定',
+            closeOnPressEscape:false,
+            showClose:false,
+            callback: action => {
 
-                }
-            });
-         }
-     }else{
-       next() 
-   }
+            }
+        });
+       }
+   }else{
+     next() 
+ }
 }
 })
 
