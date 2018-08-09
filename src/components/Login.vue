@@ -100,7 +100,7 @@
       var base_list = [];
       canvas.width = width;
       canvas.height = height;
-        // 绘制园
+        // 绘制
         const drawRounds = (obj, index) => {
           let { x, y, r, color } = obj;
           ctx.beginPath();
@@ -269,7 +269,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 1;
+  opacity: 0;
 }
 
 

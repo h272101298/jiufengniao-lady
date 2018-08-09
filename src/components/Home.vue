@@ -340,7 +340,7 @@
   left: 180px;
   width: calc(100%-50px);
   height: calc(100%-180px);
-  opacity: 0.3;
+  opacity: 0;
 }
 
 .clear{
