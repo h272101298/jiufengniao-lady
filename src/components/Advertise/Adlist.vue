@@ -43,8 +43,10 @@
 
     <el-tab-pane label="首页海报" name="poster">
 
-      <el-table :data="indexpostarr" border size="small" style="width:1001px">
+      <el-table :data="indexpostarr" border size="small" style="width:1201px">
         <el-table-column prop="id" label="海报编号" width="200" align="center">
+        </el-table-column>
+        <el-table-column prop="name" label="海报位置" width="200" align="center">
         </el-table-column>
         <el-table-column prop="pic" label="海报图片" width="500" align="center">
           <template slot-scope="scope">
@@ -218,16 +220,16 @@
 
         dialogNewpostVisible:false,
         indexpostarr:[{
-          id:1,
+          id:1,          name:'砍价海报',
           pic:'../../../static/images/default.png'
         },{
-          id:2,
+          id:2,          name:'集卡牌海报',
           pic:'../../../static/images/default.png'
         },{
-          id:3,
+          id:3,          name:'拼团海报',
           pic:'../../../static/images/default.png'
         },{
-          id:4,
+          id:4,          name:'商品海报',
           pic:'../../../static/images/default.png'
         }],
         indexpost:[],

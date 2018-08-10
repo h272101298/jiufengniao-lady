@@ -146,7 +146,7 @@
   import { CardtypeGet } from '../../api/api';
   import { CardshopPost } from '../../api/api';
 
-  import {DefaultCardGet} from '../../api/api';
+  import { DefaultCardGet } from '../../api/api';
   import { Message } from 'element-ui';
 
 
@@ -182,7 +182,7 @@
             if(value%1 === 0){
              callback();
            }else{
-            callback();
+            callback(new Error('请输入整数'));
           }
         } else if(Math.sign(value) == 0) {
          callback();
@@ -227,7 +227,6 @@
 
 
         guigelist:[],
-
 
         typeArr1:[],
         type1:'',
@@ -330,7 +329,6 @@
 
 
       getgood(){
-
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&type=' + this.type_id;
         CardgoodGet(allParams).then((res) => {
           this.goodData=res.data.data;
@@ -340,8 +338,6 @@
 
 
       getSTime(val){
-        // console.log(val[0])
-        // var arr = val.split(",")
         this.newgood.start=val[0];
         this.newgood.end=val[1];
       },

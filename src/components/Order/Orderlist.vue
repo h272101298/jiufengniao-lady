@@ -53,12 +53,12 @@
 
         <el-table-column prop="state" label="订单状态" width="160" align="center">
           <template slot-scope="scope">
-            <el-tag type="danger" v-show="scope.row.state=='created'" @click="">未付款</el-tag>
-            <el-tag type="primary" v-show="scope.row.state=='paid'" @click="">已支付</el-tag>
-            <el-tag type="warning" v-show="scope.row.state=='delivery'" @click="">已发货</el-tag>
-            <el-tag type="success" v-show="scope.row.state=='finished'" @click="">已完成</el-tag>
-            <el-tag type="success" v-show="scope.row.state=='closed'" @click="">已完成</el-tag>
-            <el-tag type="info" v-show="scope.row.state=='canceled'" @click="">已取消</el-tag>
+            <el-tag type="danger" v-if="scope.row.state=='created'" @click="">未付款</el-tag>
+            <el-tag type="primary" v-if="scope.row.state=='paid'" @click="">已支付</el-tag>
+            <el-tag type="warning" v-if="scope.row.state=='delivery'" @click="">已发货</el-tag>
+            <el-tag type="success" v-if="scope.row.state=='finished'" @click="">已完成</el-tag>
+            <el-tag type="success" v-if="scope.row.state=='closed'" @click="">已完成</el-tag>
+            <el-tag type="info" v-if="scope.row.state=='canceled'" @click="">已取消</el-tag>
           </template>
         </el-table-column>
 
@@ -102,15 +102,15 @@
 
  <el-col>
   <el-dialog title="订单详情" :visible.sync="dialogSeeVisible" width="1200px" center>
-    <el-form label-position="right" label-width="110px">
+    <el-form label-position="right" label-width="110px" size="mini">
 
       <el-form-item label="订单状态：" class="fw6">
-        <span v-show="currow.state=='created'" class="fw4">未付款</span>
-        <span v-show="currow.state=='paid'" class="fw4">已支付</span>
-        <span v-show="currow.state=='delivery'" class="fw4">已发货</span>
-        <span v-show="currow.state=='finished'" class="fw4">已完成</span>
-        <span v-show="currow.state=='closed'" class="fw4">已完成</span>
-        <span v-show="currow.state=='canceled'" class="fw4">已取消</span>
+        <el-tag type="danger" v-if="currow.state=='created'" class="fw4">未付款</el-tag>
+        <el-tag type="primary" v-if="currow.state=='paid'" class="fw4">已支付</el-tag>
+        <el-tag type="warning" v-if="currow.state=='delivery'" class="fw4">已发货</el-tag>
+        <el-tag type="success" v-if="currow.state=='finished'" class="fw4">已完成</el-tag>
+        <el-tag type="success" v-if="currow.state=='closed'" class="fw4">已完成</el-tag>
+        <el-tag type="info" v-if="currow.state=='canceled'" class="fw4">已取消</el-tag>
       </el-form-item>
 
       <el-form-item label="物流信息：" class="fw6" v-show="currow.state=='delivery'">
@@ -144,10 +144,10 @@
 
       <el-form-item label="商品信息：" class="fw6">
 
-        <el-table :data="currow.stocks" border stripe size="small" id="out-table">
+        <el-table :data="currow.stocks" border stripe size="mini" id="out-table">
           <el-table-column prop="cover" label="商品缩略图" width="100" align="center">
             <template slot-scope="scope">
-              <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
+              <img :src="scope.row.cover" style="max-width:80px;max-height:64px;" />
             </template>
           </el-table-column>
 
@@ -155,20 +155,23 @@
           </el-table-column>
 
           <el-table-column prop="price" label="单价" min-width="100" align="center">
-          </el-table-column>
+           <template slot-scope="scope">
+            <p class="fw4">￥{{scope.row.price}}</p>
+          </template>
+        </el-table-column>
 
-          <el-table-column prop="number" label="数量" min-width="200" align="center">
-          </el-table-column>
+        <el-table-column prop="number" label="数量" min-width="100" align="center">
+        </el-table-column>
 
-        </el-table>
-      </el-form-item>
+      </el-table>
+    </el-form-item>
 
-      <el-form-item label="总计：" class="fw6">
-        <div class="fw4" id="detail">{{currow.price}}</div>
-      </el-form-item>
+    <el-form-item label="总计：" class="fw6">
+      <div class="fw4" id="detail">￥{{currow.price}}</div>
+    </el-form-item>
 
-    </el-form>
-  </el-dialog>
+  </el-form>
+</el-dialog>
 </el-col>
 
 
@@ -318,7 +321,7 @@
       var allParams = '?id='+row.id;
       oneorderGet(allParams).then((res) => {
         this.currow=res.data;
-        // console.log(this.currow)
+        // console.log(this.currow.state=='canceled')
       });
 
       this.dialogSeeVisible = true;

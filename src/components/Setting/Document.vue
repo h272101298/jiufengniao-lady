@@ -153,11 +153,12 @@
         currow:'',
 
         editorOption:{
-          placeholder: '请输入详细内容',
+          placeholder: '请输入详细内容（添加图片请点击上方第一个按钮）',
           theme: 'snow',
           modules: {
             toolbar: {
               container: [
+              ['image'],
               ['bold', 'italic', 'underline', 'strike'],
               ['blockquote', 'code-block'],
               [{ 'direction': 'rtl' }],
@@ -166,8 +167,7 @@
               [{ 'color': [] }, { 'background': [] }],
               [{ 'font': [] }],
               [{ 'align': [] }],
-              ['clean'],
-              ['link', 'image']
+              ['clean']
               ],
               handlers: {
                 'image': function (value) {

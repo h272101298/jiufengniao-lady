@@ -13,7 +13,6 @@ import Goodnew from '@/components/Good/Goodnew'
 import Goodrecycle from '@/components/Good/Goodrecycle'
 
 import Orderlist from '@/components/Order/Orderlist'
-import Teamwork from '@/components/Order/Teamwork'
 import Refund from '@/components/Order/Refund'
 
 import Userlist from '@/components/User/Userlist'
@@ -54,7 +53,7 @@ import Grouppass from '@/components/Group/Grouppass'
 
 import Shoplist from '@/components/Shop/Shoplist'
 import Newshop from '@/components/Shop/Newshop'
-import Selfshop from '@/components/Shop/Selfshop'
+import Coupon from '@/components/Shop/Coupon'
 import Shoptype from '@/components/Shop/Shoptype'
 import Settleapply from '@/components/Shop/Settleapply'
 
@@ -105,7 +104,8 @@ let router = new Router({
         {path: '/Shop/Newshop',component: Newshop,name: '我的店铺',menuShow: true,meta:{permission: 'myStore'}}, 
         {path: '/Shop/Shoplist',component: Shoplist,name: '商家列表',menuShow: true,meta:{permission: 'storeList'}}, 
         {path: '/Shop/Settleapply',component: Settleapply,name: '入驻申请',menuShow: true,meta:{permission: 'settleList'}},
-        {path: '/Shop/Shoptype',component: Shoptype,name: '经营类目',menuShow: true,meta:{permission: 'storeCategoryList'}}
+        {path: '/Shop/Shoptype',component: Shoptype,name: '经营类目',menuShow: true,meta:{permission: 'storeCategoryList'}},
+        {path: '/Shop/Coupon',component: Coupon,name: '优惠券',menuShow: true,meta:{permission: ''}},
         ]
     }, {
         path: '/',
@@ -133,7 +133,7 @@ let router = new Router({
         {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}},
         ]
     }, {
-        // leaf: true,
+        leaf: true,
         path: '/',
         name: '用户管理',
         component: Home,
@@ -142,7 +142,7 @@ let router = new Router({
         iconCls: 'iconfont menu-yonghu',
         children: [
         {path: '/User/Userlist',component: Userlist,name: '用户列表',menuShow: true,meta:{permission: 'userList'}},
-        {path: '/User/Assets',component: Assets,name: '零钱提现',menuShow: true,meta:{permission: ''}}
+        // {path: '/User/Assets',component: Assets,name: '零钱提现',menuShow: true,meta:{permission: ''}}
         ]
     },  {
         path: '/',

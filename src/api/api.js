@@ -343,3 +343,9 @@ export const Groupdelete = params => { return axios.delete(`${base3}/group/buy/p
 export const Groupupdown = params => { return axios.get(`${base3}/enable/group/buy/promotion`+`${params}`).then(res => res.data)}
 
 export const Grouphot = params => { return axios.get(`${base3}/hot/group/buy/promotion`+`${params}`).then(res => res.data)}//推荐
+
+
+//优惠券
+export const couponPost = params => { return axios.post(`${base3}/group/buy/promotion`, params).then(res => res.data)}
+
+export const couponGet = params => { return axios.get(`${base3}/group/buy/promotions`+`${params}`).then(res => res.data)}

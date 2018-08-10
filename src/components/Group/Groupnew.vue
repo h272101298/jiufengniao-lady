@@ -60,7 +60,7 @@
       </el-form-item> -->
 
       <el-form-item label="拼团限时：" prop="time">
-        <el-input v-model="newone.time" type="number" min="1" placeholder="请输入拼团限时（小时）" style="width:500px;"></el-input>
+        <el-input v-model="newone.time" type="number" min="1" placeholder="请输入拼团限时（小时）(整数)" style="width:500px;"></el-input>
       </el-form-item>
 
 
@@ -110,12 +110,8 @@
     </el-dialog>
   </el-col>
 
-
-
 </el-row>
 </template>
-
-
 
 <script>
 
@@ -127,7 +123,6 @@
 
   import { Message } from 'element-ui';
 
-
   export default {
     data() {
       var checkvalue = (rule, value, callback) => {
@@ -135,17 +130,18 @@
           return callback(new Error('此项不能为空'));
         }
         setTimeout(() => {
+
           if (Math.sign(value) == 1) {
             if(value%1 === 0){
              callback();
            }else{
-            callback();
+            callback(new Error('请输入整数'));
           }
         } else if(Math.sign(value) == 0) {
           callback(new Error('不能为0'));
         } else if(Math.sign(value) == -1) {
           callback(new Error('请输入正数'));
-        }else{
+        } else{
           callback(new Error('请输入数字'));
         }
       }, 100);
