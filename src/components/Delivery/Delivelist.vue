@@ -68,7 +68,7 @@
 
 
   <el-col>
-    <el-dialog title="新增快递" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
+    <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
       <el-form ref="newdelive" :model="newdelive" label-width="120px" :rules="rules" status-icon>
         <el-form-item label="快递名称:" prop="title">
           <el-input v-model="newdelive.title" placeholder="请输入快递名称"></el-input>
@@ -136,6 +136,8 @@
         },
         editId:'',
         delId:'',
+
+        diatitle:'新增快递',
 
         // kaiguan:1,
         noconfig:false,
@@ -218,6 +220,12 @@
         this.diatitle='编辑快递';
         this.putorup='put';
         this.editId = row.id;
+        this.dialogNewVisible=true
+        this.newdelive={
+          id: row.id,
+          title:row.title,
+          code:row.code
+        }
       },
 
       handleDelete(index, row) {

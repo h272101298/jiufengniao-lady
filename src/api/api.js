@@ -346,6 +346,10 @@ export const Grouphot = params => { return axios.get(`${base3}/hot/group/buy/pro
 
 
 //优惠券
-export const couponPost = params => { return axios.post(`${base3}/group/buy/promotion`, params).then(res => res.data)}
+export const couponPost = params => { return axios.post(`${base3}/coupon`, params).then(res => res.data)}
 
-export const couponGet = params => { return axios.get(`${base3}/group/buy/promotions`+`${params}`).then(res => res.data)}
+export const couponGet = params => { return axios.get(`${base3}/coupons`+`${params}`).then(res => res.data)}
+
+export const couponDel = params => { return axios.delete(`${base3}/coupon`+`${params}`).then(res => res.data)}
+
+export const couponstate = params => { return axios.get(`${base3}/enable/coupon`+`${params}`).then(res => res.data)}

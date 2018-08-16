@@ -15,27 +15,27 @@
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" v-loading="loading" border stripe size="small">
+    <el-table :data="list" v-loading="loading" border stripe size="small" style="width:75%;">
       <el-table-column prop="id" label="编号" width="130" align="center">
       </el-table-column>
       <el-table-column prop="username" label="用户名" min-width="200" align="center">
       </el-table-column>
       <el-table-column prop="phone" label="手机号码" min-width="200" align="center">
       </el-table-column>
-<!--       <el-table-column prop="role" label="所属角色" min-width="200" align="center">
-</el-table-column> -->
-<el-table-column prop="created_at" label="加入时间" min-width="200" align="center">
-</el-table-column>
-<el-table-column label="操作" min-width="200" align="center">
- <template slot-scope="scope">
-  <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编 辑</el-button>
-  <!-- <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button> -->
-</template>
-</el-table-column>
-</el-table>
+      <el-table-column prop="role" label="所属角色" min-width="200" align="center">
+      </el-table-column>
+      <el-table-column prop="created_at" label="加入时间" min-width="200" align="center">
+      </el-table-column>
+      <el-table-column label="操作" min-width="200" align="center">
+       <template slot-scope="scope">
+        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编 辑</el-button>
+        <!-- <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button> -->
+      </template>
+    </el-table-column>
+  </el-table>
 
-<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-</el-pagination>
+  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+  </el-pagination>
 </el-col>
 
 <el-col>

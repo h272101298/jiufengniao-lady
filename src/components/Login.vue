@@ -74,6 +74,7 @@
 
                 sessionStorage.setItem('permissions', JSON.stringify(res.data.role.permissions));
                 sessionStorage.setItem('username', JSON.stringify(res.data.name));
+                sessionStorage.setItem('store_id', JSON.stringify(res.data.store_id));
 
                 that.$router.push('/index/Console');
               } else {

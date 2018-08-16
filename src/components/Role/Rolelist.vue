@@ -15,7 +15,7 @@
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" v-loading="loading" border stripe size="small" style="width:95%;">
+    <el-table :data="list" v-loading="loading" border stripe size="small" style="width:75%;">
       <el-table-column prop="id" label="编号" width="130" align="center">
       </el-table-column>
       <el-table-column prop="name" label="角色名称" min-width="200" align="center">

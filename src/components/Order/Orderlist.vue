@@ -36,7 +36,7 @@
         </el-form-item>
       </el-form>
 
-      <el-table :data="list" border stripe size="small" id="out-table">
+      <el-table :data="list" border stripe size="small" id="out-table" style="width:95%;">
         <el-table-column prop="id" label="ID" width="100" align="center">
         </el-table-column>
         <el-table-column prop="number" label="订单号" min-width="100" align="center">
@@ -124,6 +124,7 @@
       </el-form-item>
 
       <el-form-item label="收货信息：" class="fw6">
+        <div class="fw4">姓名： {{currow.address[0].name}}</div>
         <div class="fw4">地址： {{currow.address[0].address}}</div>
         <div class="fw4">电话： {{currow.address[0].phone}}</div>
         <div class="fw4">邮编： {{currow.address[0].zip_code}}</div>
