@@ -18,86 +18,86 @@
           <el-form ref="signset" :model="signset" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="signrule">
 
             <el-form-item label="连续签到1天奖励：" prop="onnum">
-              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.onnum" v-show="show" ></el-input>
-              <el-radio-group v-model="signset.ontype" size="small" class="mt5" v-show="show" >
+              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.onnum" v-show="show" ><template slot="append">积分</template></el-input>
+              <!-- <el-radio-group v-model="signset.ontype" size="small" class="mt5" v-show="show" >
                 <el-radio-button label="积分"></el-radio-button>
                 <el-radio-button label="零钱"></el-radio-button>
-              </el-radio-group>
+              </el-radio-group> -->
               <div v-show="set" class="showlabel">
-                <label v-show="set">{{signdata[0].reward}}</label>
-                <label v-show="set">{{signdata[0].type==1?'积分':'零钱'}}</label>
+                <label v-show="set">{{signdata[0].reward}}积分</label>
+                <!--<label v-show="set">{{signdata[0].type==1?'积分':'零钱'}}</label> -->
               </div>
             </el-form-item>
 
             <el-form-item label="连续签到2天奖励：" prop="twnum">
-              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.twnum" v-show="show" ></el-input>
-              <el-radio-group v-model="signset.twtype" size="small" class="mt5" v-show="show">
+              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.twnum" v-show="show" ><template slot="append">积分</template></el-input>
+<!--               <el-radio-group v-model="signset.twtype" size="small" class="mt5" v-show="show">
                 <el-radio-button label="积分"></el-radio-button>
                 <el-radio-button label="零钱"></el-radio-button>
-              </el-radio-group>
+              </el-radio-group> -->
               <div v-show="set" class="showlabel">
-                <label v-show="set">{{signdata[1].reward}}</label>
-                <label v-show="set">{{signdata[1].type==1?'积分':'零钱'}}</label>
+                <label v-show="set">{{signdata[1].reward}}积分</label>
+                <!-- <label v-show="set">{{signdata[1].type==1?'积分':'零钱'}}</label> -->
               </div>
             </el-form-item>
 
             <el-form-item label="连续签到3天奖励：" prop="trnum">
-              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.trnum" v-show="show" ></el-input>
-              <el-radio-group v-model="signset.trtype" size="small" class="mt5" v-show="show">
+              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.trnum" v-show="show" ><template slot="append">积分</template></el-input>
+<!--               <el-radio-group v-model="signset.trtype" size="small" class="mt5" v-show="show">
                 <el-radio-button label="积分"></el-radio-button>
                 <el-radio-button label="零钱"></el-radio-button>
-              </el-radio-group>
+              </el-radio-group> -->
               <div v-show="set" class="showlabel">
-                <label v-show="set">{{signdata[2].reward}}</label>
-                <label v-show="set">{{signdata[2].type==1?'积分':'零钱'}}</label>
+                <label v-show="set">{{signdata[2].reward}}积分</label>
+                <!-- <label v-show="set">{{signdata[2].type==1?'积分':'零钱'}}</label> -->
               </div>
             </el-form-item>
 
             <el-form-item label="连续签到4天奖励：" prop="fonum">
-              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.fonum" v-show="show" ></el-input>
-              <el-radio-group v-model="signset.fotype" size="small" class="mt5" v-show="show">
+              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.fonum" v-show="show" ><template slot="append">积分</template></el-input>
+<!--               <el-radio-group v-model="signset.fotype" size="small" class="mt5" v-show="show">
                 <el-radio-button label="积分"></el-radio-button>
                 <el-radio-button label="零钱"></el-radio-button>
-              </el-radio-group>
+              </el-radio-group> -->
               <div v-show="set" class="showlabel">
-                <label v-show="set">{{signdata[3].reward}}</label>
-                <label v-show="set">{{signdata[3].type==1?'积分':'零钱'}}</label>
+                <label v-show="set">{{signdata[3].reward}}积分</label>
+                <!-- <label v-show="set">{{signdata[3].type==1?'积分':'零钱'}}</label> -->
               </div>
             </el-form-item>
 
             <el-form-item label="连续签到5天奖励：" prop="finum">
-              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.finum" v-show="show" ></el-input>
-              <el-radio-group v-model="signset.fitype" size="small" class="mt5" v-show="show">
+              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.finum" v-show="show" ><template slot="append">积分</template></el-input>
+<!--               <el-radio-group v-model="signset.fitype" size="small" class="mt5" v-show="show">
                 <el-radio-button label="积分"></el-radio-button>
                 <el-radio-button label="零钱"></el-radio-button>
-              </el-radio-group>
+              </el-radio-group> -->
               <div v-show="set" class="showlabel">
-                <label v-show="set">{{signdata[4].reward}}</label>
-                <label v-show="set">{{signdata[4].type==1?'积分':'零钱'}}</label>
+                <label v-show="set">{{signdata[4].reward}}积分</label>
+                <!-- <label v-show="set">{{signdata[4].type==1?'积分':'零钱'}}</label> -->
               </div>
             </el-form-item>
 
             <el-form-item label="连续签到6天奖励：" prop="sinum">
-              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.sinum" v-show="show" ></el-input>
-              <el-radio-group v-model="signset.sitype" size="small" class="mt5" v-show="show">
+              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.sinum" v-show="show" ><template slot="append">积分</template></el-input>
+<!--               <el-radio-group v-model="signset.sitype" size="small" class="mt5" v-show="show">
                 <el-radio-button label="积分"></el-radio-button>
                 <el-radio-button label="零钱"></el-radio-button>
-              </el-radio-group>
+              </el-radio-group> -->
               <div v-show="set" class="showlabel">
-                <label v-show="set">{{signdata[5].reward}}</label>
-                <label v-show="set">{{signdata[5].type==1?'积分':'零钱'}}</label>
+                <label v-show="set">{{signdata[5].reward}}积分</label>
+                <!-- <label v-show="set">{{signdata[5].type==1?'积分':'零钱'}}</label> -->
               </div>
             </el-form-item>
 
             <el-form-item label="连续签到7天奖励：" prop="senum">
-              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.senum" v-show="show"></el-input>
-              <el-radio-group v-model="signset.setype" size="small" class="mt5" v-show="show">
+              <el-input class="numinput" placeholder="请输入奖励数量" v-model="signset.senum" v-show="show"><template slot="append">积分</template></el-input>
+<!--               <el-radio-group v-model="signset.setype" size="small" class="mt5" v-show="show">
                 <el-radio-button label="积分"></el-radio-button>
                 <el-radio-button label="零钱"></el-radio-button>
-              </el-radio-group>
+              </el-radio-group> -->
               <div v-show="set" class="showlabel">
-                <label v-show="set">{{signdata[6].reward}}</label>
-                <label v-show="set">{{signdata[6].type==1?'积分':'零钱'}}</label>
+                <label v-show="set">{{signdata[6].reward}}积分</label>
+                <!-- <label v-show="set">{{signdata[6].type==1?'积分':'零钱'}}</label> -->
               </div>
             </el-form-item>
 
@@ -112,7 +112,7 @@
 
 
 
-        <el-tab-pane label="积分设置" name="config">
+        <!-- <el-tab-pane label="积分设置" name="config">
           <el-form ref="modeldata" :model="modeldata" label-width="160px" class="form" status-icon size="small" style="width:600px;">
             <el-form-item label="兑换比例：" prop="collage_notify">
               <el-input placeholder="请输入兑换比例" v-show="modelshow">
@@ -129,7 +129,7 @@
               <el-button v-if="modelshow" size="small" @click="cancelmodel">取消</el-button>     
             </el-form-item>
           </el-form>
-        </el-tab-pane>
+        </el-tab-pane> -->
       </el-tabs>
 
     </el-row>
