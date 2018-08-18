@@ -20,16 +20,24 @@
       </el-table-column>
       <el-table-column prop="name" label="角色名称" min-width="200" align="center">
       </el-table-column>
-      <el-table-column label="操作" min-width="200" align="center">
+
+      <el-table-column prop="name" label="默认角色" min-width="200" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编 辑</el-button>
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删 除</el-button>
+        <el-button type="primary" size="small" @click="setrole(scope.$index, scope.row)" v-if="scope.row.default==1">是</el-button>
+        <el-button type="info" size="small" @click="setrole(scope.$index, scope.row)" v-if="scope.row.default==0">否</el-button>
       </template>
     </el-table-column>
-  </el-table>
 
-  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-  </el-pagination>
+    <el-table-column label="操作" min-width="200" align="center">
+     <template slot-scope="scope">
+      <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编 辑</el-button>
+      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删 除</el-button>
+    </template>
+  </el-table-column>
+</el-table>
+
+<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+</el-pagination>
 </el-col>
 
 
@@ -53,6 +61,7 @@
   import { roleGet } from '../../api/api';
   import { rolePost } from '../../api/api';
   import { roleDel } from '../../api/api';
+  import { defaultrole } from '../../api/api';
 
   export default {
     data() {
@@ -77,91 +86,87 @@
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
         roleGet(allParams).then((res) => {
           this.list=res.data.data;
-          this.count=res.data.count
+        });
+      },
+
+      setrole(index,row){
+        var allParams = '?role_id='+ row.id;
+        defaultrole(allParams).then((res) => {
+          this.getlist()
         });
       },
 
       newone(){
         this.$router.push({ path: '/Role/Roleedit' });
+      },
 
+      save(){
+        this.$refs.newrole.validate((valid) => {
+          if (valid) {
+            console.log(this.newrole)
 
-       // this.putorup='up';
-       //  // this.$refs.newrole.clearValidate()
-       //  this.diatitle='新增角色',
-       //  this.newrole={
-       //    name:'',
-       //    permissions:[]
-       //  },
-       //  this.dialogNewVisible=true
-     },
-
-     save(){
-      this.$refs.newrole.validate((valid) => {
-        if (valid) {
-          console.log(this.newrole)
-
-          if( this.putorup=='put'){
-            var allParams = {
-              id:this.editId,
-              name:this.newrole.name,
-              display_name:this.newrole.name,
-              permissions:this.newrole.permissions
+            if( this.putorup=='put'){
+              var allParams = {
+                id:this.editId,
+                name:this.newrole.name,
+                display_name:this.newrole.name,
+                permissions:this.newrole.permissions
+              }
+            }else{
+              var allParams = {
+                name:this.newrole.name,
+                display_name:this.newrole.name,
+                permissions:this.newrole.permissions
+              }
             }
+
+            rolePost(allParams).then((res) => {
+              if (res.msg === "ok") {
+               this.$message({
+                message: '提交成功',
+                type: 'success'
+              });
+               this.getlist();
+               this.dialogNewVisible=false 
+             } else {
+               this.$message({
+                message: res.msg,
+                type: 'error'
+              });
+             }
+           });
           }else{
-            var allParams = {
-              name:this.newrole.name,
-              display_name:this.newrole.name,
-              permissions:this.newrole.permissions
-            }
+            return false;
           }
+        })
+      },
+      
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
 
-          rolePost(allParams).then((res) => {
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.getlist();
-             this.dialogNewVisible=false 
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
-        }else{
-          return false;
+        if(per.indexOf('roleAdd')>-1){
+          this.checkper1=true;
         }
-      })
-    },
-    
-    checkPer(){
-      var per = sessionStorage.getItem('permissions');
 
-      if(per.indexOf('roleAdd')>-1){
-        this.checkper1=true;
-      }
+        var per = sessionStorage.getItem('permissions');
 
-      var per = sessionStorage.getItem('permissions');
-
-      if(per.indexOf('roleDel')>-1){
-        this.checkper2=true;
-      }
-    },
+        if(per.indexOf('roleDel')>-1){
+          this.checkper2=true;
+        }
+      },
 
 
 
-    handleEdit(index, row){
+      handleEdit(index, row){
 
-      this.editId = row.id;
-      sessionStorage.setItem('roleeditname', row.name);
-      sessionStorage.setItem('roleeditId', row.id);
+        this.editId = row.id;
+        sessionStorage.setItem('roleeditname', row.name);
+        sessionStorage.setItem('roleeditId', row.id);
 
-      this.$router.push({ path: '/Role/Roleedit' });
-    },
+        this.$router.push({ path: '/Role/Roleedit' });
+      },
 
-    handleDelete(index, row) {
+      handleDelete(index, row) {
         // console.log(index, row);
         this.dialogDelVisible = true;
         this.delId = row.id;

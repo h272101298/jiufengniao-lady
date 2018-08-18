@@ -99,6 +99,13 @@ export const posterPost = params => { return axios.post(`${base}/poster/configs`
 
 export const posterGet = params => { return axios.get(`${base}/poster/configs`+`${params}`).then(res => res.data)}
 
+export const iconPost = params => { return axios.post(`${base}/icon/config`, params).then(res => res.data)}
+
+export const iconGet = params => { return axios.get(`${base}/icon/configs`+`${params}`).then(res => res.data)}
+
+
+
+
 
 //经营类目
 export const categoriesGet = params => { return axios.get(`${base}/store/categories`+`${params}`).then(res => res.data)}
@@ -257,6 +264,8 @@ export const roleGet = params => { return axios.get(`${base}/roles`+`${params}`)
 export const rolePost = params => { return axios.post(`${base}/role`, params).then(res => res.data)}
 
 export const roleDel = params => { return axios.delete(`${base}/role`+`${params}`).then(res => res.data)}
+
+export const defaultrole = params => { return axios.get(`${base}/default/role`+`${params}`).then(res => res.data)}
 
 
 //微信设置

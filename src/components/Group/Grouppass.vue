@@ -37,12 +37,12 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="hot" label="首页推荐" width="95" align="center" v-show="">
+<!--         <el-table-column prop="hot" label="首页推荐" width="95" align="center" v-show="">
           <template slot-scope="scope">
             <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">是</el-button>
             <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">否</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
 
         <el-table-column prop="enable" label="状态" width="95" align="center">
          <template slot-scope="scope">

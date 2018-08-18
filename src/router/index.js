@@ -242,7 +242,7 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-guanggao',
         children: [
-        {path: '/Advertise/Adlist',component: Adlist,name: '广告列表',menuShow: true,meta:{permission: 'advertList'}}
+        {path: '/Advertise/Adlist',component: Adlist,name: '广告管理',menuShow: true,meta:{permission: 'advertList'}}
         ]
     }, {
         leaf: true,

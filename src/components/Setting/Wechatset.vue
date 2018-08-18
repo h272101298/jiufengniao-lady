@@ -34,12 +34,12 @@
               <label v-show="set">{{wxset.mch_id}}</label>
             </el-form-item>
 
-            <el-form-item label="AppKey：" prop="api_key">
+            <el-form-item label="商户Api密钥：" prop="api_key">
               <el-input v-model="wechatset.api_key" placeholder="请输入AppKey" v-show="show"></el-input>
               <label v-show="set">{{wxset.api_key}}</label>
             </el-form-item>
 
-            <el-form-item label="商户证书：">
+            <el-form-item label="商户Api证书：">
 
               <label v-show="set">{{wxset.ssl_cert}}</label>
               <label v-show="set">{{wxset.ssl_key}}</label>

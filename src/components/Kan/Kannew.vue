@@ -220,8 +220,6 @@
 
         dialogVisible:false,
 
-
-
         rules:{
           description: [
           {required: true, message: '请输入活动标题', trigger: 'blur'},

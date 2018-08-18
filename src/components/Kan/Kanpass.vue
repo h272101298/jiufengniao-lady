@@ -42,14 +42,14 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="hot" label="首页推荐" min-width="100" align="center" v-show="">
+<!--       <el-table-column prop="hot" label="首页推荐" min-width="90" align="center" v-show="">
         <template slot-scope="scope">
           <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">是</el-button>
           <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">否</el-button>
         </template>
-      </el-table-column>
+      </el-table-column> -->
 
-      <el-table-column prop="enable" label="状态" min-width="110" align="center">
+      <el-table-column prop="enable" label="状态" min-width="90" align="center">
        <template slot-scope="scope">
         <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper3">上线</el-button>
         <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper3">下线</el-button>

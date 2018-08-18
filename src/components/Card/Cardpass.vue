@@ -50,12 +50,12 @@
             <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
             </el-table-column>
 
-            <el-table-column prop="hot" label="首页推荐" min-width="80" align="center" v-show="">
+<!--             <el-table-column prop="hot" label="首页推荐" min-width="80" align="center" v-show="">
               <template slot-scope="scope">
                 <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">是</el-button>
                 <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">否</el-button>
               </template>
-            </el-table-column>
+            </el-table-column> -->
 
             <el-table-column prop="enable" label="状态" min-width="80" align="center">
              <template slot-scope="scope">

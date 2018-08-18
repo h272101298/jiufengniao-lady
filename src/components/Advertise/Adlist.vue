@@ -40,33 +40,32 @@
       </el-pagination>
     </el-tab-pane>
 
+    <el-tab-pane label="首页图标" name="icon">
 
-    <el-tab-pane label="首页海报" name="poster">
-
-      <el-table :data="indexpostarr" border size="small" style="width:1201px">
-        <el-table-column prop="id" label="海报编号" width="200" align="center">
+      <el-table :data="iconarr" border size="small" style="width:1051px">
+        <el-table-column prop="id" label="图标编号" width="100" align="center">
         </el-table-column>
-        <el-table-column prop="name" label="海报位置" width="200" align="center">
+        <el-table-column prop="name" label="图标位置" width="150" align="center">
         </el-table-column>
-        <el-table-column prop="pic" label="海报图片" width="500" align="center">
+        <el-table-column prop="pic" label="图标图片" width="500" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
+            <img :src="scope.row.pic" style="max-width:40px;max-height:40px;" />
           </template>
         </el-table-column>
 
         <el-table-column label="操作" width="300" align="center">
          <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handlepostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+          <el-button type="primary" size="small" @click="handleiconEdit(scope.$index, scope.row)">编辑</el-button>
         </template>
       </el-table-column>
     </el-table>
   </el-tab-pane>
 
 
-  <el-tab-pane label="其它海报" name="otherpost">
+  <el-tab-pane label="首页海报" name="poster">
 
-    <el-table :data="otherpost" border size="small" style="width:1051px">
-      <el-table-column type="index" label="海报编号" width="100" align="center">
+    <el-table :data="indexpostarr" border size="small" style="width:1051px">
+      <el-table-column prop="id" label="海报编号" width="100" align="center">
       </el-table-column>
       <el-table-column prop="name" label="海报位置" width="150" align="center">
       </el-table-column>
@@ -78,11 +77,35 @@
 
       <el-table-column label="操作" width="300" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="otherpostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+        <el-button type="primary" size="small" @click="handlepostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
 </el-tab-pane>
+
+
+<el-tab-pane label="其它海报" name="otherpost">
+
+  <el-table :data="otherpost" border size="small" style="width:1051px">
+    <el-table-column type="index" label="海报编号" width="100" align="center">
+    </el-table-column>
+    <el-table-column prop="name" label="海报位置" width="150" align="center">
+    </el-table-column>
+    <el-table-column prop="pic" label="海报图片" width="500" align="center">
+      <template slot-scope="scope">
+        <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
+      </template>
+    </el-table-column>
+
+    <el-table-column label="操作" width="300" align="center">
+     <template slot-scope="scope">
+      <el-button type="primary" size="small" @click="otherpostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+    </template>
+  </el-table-column>
+</el-table>
+</el-tab-pane>
+
+
 
 
 </el-tabs>
@@ -154,6 +177,27 @@
 
 
 
+<el-col>
+  <el-dialog title="编辑图标" :visible.sync="dialogiconVisible" width="500" center style="min-width: 500px">
+    <el-form ref="newadv" :model="newadv" label-width="120px">
+
+      <el-form-item label="上传图片：">
+        <el-upload class="upload-demo" list-type="picture-card" :action="upurl" :data="uptoken" :on-success="iconSuccess" :on-exceed="iconExceed" :file-list="icon" :limit="1" :show-file-list="true" accept="image/*">
+          <i class="el-icon-plus"></i>
+          <div slot="tip" class="el-upload__tip">可上传JPG/PNG文件，建议图片比例为1:1</div>
+        </el-upload>
+      </el-form-item>
+
+      <el-form-item style="margin-left: calc(50% - 200px);">
+        <el-button type="primary" @click="saveicon()">保 存</el-button>
+        <el-button @click="dialogiconVisible = false">取 消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+</el-col>
+
+
+
 
 <el-col>
   <el-dialog title="删除不可恢复，是否确定删除？" :visible.sync="dialogDelVisible" width="30%">
@@ -181,6 +225,8 @@
   import {advertDel} from '../../api/api';
   import {posterGet} from '../../api/api';
   import {posterPost} from '../../api/api';
+  import {iconPost} from '../../api/api';
+  import {iconGet} from '../../api/api';
 
   import qiniu from '../../api/qiniu';
 
@@ -188,8 +234,8 @@
   export default {
     data() {
       return {
-        // activeName:'otherpost',
-        activeName:'banner',
+        activeName:'icon',
+        // activeName:'banner',
 
         uptoken:{
           token:qiniu.token,
@@ -220,18 +266,24 @@
 
         dialogNewpostVisible:false,
         indexpostarr:[{
-          id:1,          name:'砍价海报',
+          id:1,          
+          name:'砍价海报',
           pic:'../../../static/images/default.png'
         },{
-          id:2,          name:'集卡牌海报',
+          id:2,          
+          name:'集卡牌海报',
           pic:'../../../static/images/default.png'
         },{
-          id:3,          name:'拼团海报',
+          id:3,          
+          name:'拼团海报',
           pic:'../../../static/images/default.png'
-        },{
-          id:4,          name:'商品海报',
-          pic:'../../../static/images/default.png'
-        }],
+        },
+        // {
+        //   id:4,          
+        //   name:'商品海报',
+        //   pic:'../../../static/images/default.png'
+        // }
+        ],
         indexpost:[],
 
 
@@ -258,6 +310,32 @@
           pic:'../../../static/images/default.png'
         },],
         otherarr:[],
+
+
+        dialogiconVisible:false,
+        iconarr:[{
+          id:1,          
+          name:'全部分类',
+          pic:'../../../static/images/icon.png'
+        },{
+          id:2,          
+          name:'新品推荐',
+          pic:'../../../static/images/icon.png'
+        },{
+          id:3,          
+          name:'0元活动',
+          pic:'../../../static/images/icon.png'
+        },{
+          id:4,          
+          name:'积分商城',
+          pic:'../../../static/images/icon.png'
+        },{
+          id:5,          
+          name:'全免团',
+          pic:'../../../static/images/icon.png'
+        }
+        ],
+        icon:[],
 
       };
     },
@@ -316,50 +394,98 @@
             this.indexpostarr[2].pic='../../../static/images/default.png'
           }
 
-          if(res.data.index_origin){
-            this.indexpostarr[3].pic=res.data.index_origin
-          }else{
-            this.indexpostarr[3].pic='../../../static/images/default.png'
+          // if(res.data.index_origin){
+          //   this.indexpostarr[3].pic=res.data.index_origin
+          // }else{
+          //   this.indexpostarr[3].pic='../../../static/images/default.png'
+          // }
+        });
+      },
+
+
+      geticon(){
+        var allParams = ''
+        iconGet(allParams).then((res) => {
+          // console.log(res.data)
+          for (var i = 0;i <res.data.length;  i++) {
+            this.iconarr[i].pic=res.data[i].url
           }
         });
       },
 
-
-
-
-      checkPer(){
-        var per = sessionStorage.getItem('permissions');
-
-        if(per.indexOf('advertAdd')>-1){
-          this.checkper1=true;
-        }
-
-        var per = sessionStorage.getItem('permissions');
-
-        if(per.indexOf('advertDel')>-1){
-          this.checkper2=true;
-        }
+      handleiconEdit(index, row){
+        this.dialogiconVisible = true;
+        this.iconId = row.id;
+        this.icon=[];
       },
 
+      iconSuccess(res, file){
+        this.iconimgSrc = qiniu.showurl+ res.key
+      },
 
-      getlist(){
+      iconExceed(files, fileList) {
+        this.$message.warning(`一次只能上传1张图片`);
+      },
 
-        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
-        advertsGet(allParams).then((res) => {
+      saveicon(){
+        var allParams = {
+         position :this.iconId,
+         url:this.iconimgSrc
+       }
+       iconPost(allParams).then((res) => {
+        if (res.msg === "ok") {
+         this.$message({
+          message: '提交成功',
+          type: 'success'
+        });
+         this.iconimgSrc=''
+         this.geticon();
+         this.dialogiconVisible=false
+       } else {
+         this.$message({
+          message: res.msg,
+          type: 'error'
+        });
+       }
+     });
+     },
+
+
+
+
+     checkPer(){
+      var per = sessionStorage.getItem('permissions');
+
+      if(per.indexOf('advertAdd')>-1){
+        this.checkper1=true;
+      }
+
+      var per = sessionStorage.getItem('permissions');
+
+      if(per.indexOf('advertDel')>-1){
+        this.checkper2=true;
+      }
+    },
+
+
+    getlist(){
+
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+      advertsGet(allParams).then((res) => {
           // console.log(res.msg)
           this.list=res.data.data;
           this.count=res.data.count;
         });
-      },
+    },
 
-      newone(){
-       this.putorup='up';
-       this.postarr=[];
-       this.diatitle='新增广告',
-       this.dialogNewVisible=true
-     },
+    newone(){
+     this.putorup='up';
+     this.postarr=[];
+     this.diatitle='新增广告',
+     this.dialogNewVisible=true
+   },
 
-     handleSuccess(res, file) {
+   handleSuccess(res, file) {
         // this.upimgurl =qiniu.showurl+ res.key
         this.imgSrc =qiniu.showurl+ res.key
         // this.imgSrc = URL.createObjectURL(file.raw);
@@ -555,13 +681,12 @@
         });
        }
      });
-
     }
-
   },
 
   mounted: function () {
     this.getlist();
+    this.geticon();
     this.getposter();
     this.checkPer();
   }
