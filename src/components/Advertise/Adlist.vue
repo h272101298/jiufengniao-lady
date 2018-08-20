@@ -42,14 +42,14 @@
 
     <el-tab-pane label="首页图标" name="icon">
 
-      <el-table :data="iconarr" border size="small" style="width:1051px">
-        <el-table-column prop="id" label="图标编号" width="100" align="center">
+      <el-table :data="iconarr" border size="small" style="width:1051px" :default-sort = "{prop: 'position'}">
+        <el-table-column prop="position" label="图标编号" width="100" align="center">
         </el-table-column>
         <el-table-column prop="name" label="图标位置" width="150" align="center">
         </el-table-column>
-        <el-table-column prop="pic" label="图标图片" width="500" align="center">
+        <el-table-column prop="url" label="图标图片" width="500" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.pic" style="max-width:40px;max-height:40px;" />
+            <img :src="scope.row.url" style="max-width:40px;max-height:40px;" />
           </template>
         </el-table-column>
 
@@ -74,7 +74,6 @@
           <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
         </template>
       </el-table-column>
-
       <el-table-column label="操作" width="300" align="center">
        <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handlepostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
@@ -93,10 +92,9 @@
     </el-table-column>
     <el-table-column prop="pic" label="海报图片" width="500" align="center">
       <template slot-scope="scope">
-        <img :src="scope.row.pic" style="max-width:90px;max-height:90px;" />
+        <img :src="scope.row.pic" style="max-width:90px;max-height:90px;border: 1px solid #ccc" />
       </template>
     </el-table-column>
-
     <el-table-column label="操作" width="300" align="center">
      <template slot-scope="scope">
       <el-button type="primary" size="small" @click="otherpostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
@@ -234,8 +232,8 @@
   export default {
     data() {
       return {
-        activeName:'icon',
-        // activeName:'banner',
+        // activeName:'icon',
+        activeName:'banner',
 
         uptoken:{
           token:qiniu.token,
@@ -308,29 +306,38 @@
           id:9,
           name:'分销海报',
           pic:'../../../static/images/default.png'
+        },{
+          id:10,
+          name:'积分商城海报',
+          pic:'../../../static/images/default.png'
         },],
         otherarr:[],
 
 
         dialogiconVisible:false,
         iconarr:[{
-          id:1,          
+          id:1,
+          position:1,          
           name:'全部分类',
           pic:'../../../static/images/icon.png'
         },{
-          id:2,          
+          id:2,
+          position:2,          
           name:'新品推荐',
           pic:'../../../static/images/icon.png'
         },{
-          id:3,          
+          id:3,
+          position:3,          
           name:'0元活动',
           pic:'../../../static/images/icon.png'
         },{
-          id:4,          
+          id:4,
+          position:4,          
           name:'积分商城',
           pic:'../../../static/images/icon.png'
         },{
-          id:5,          
+          id:5,
+          position:5,          
           name:'全免团',
           pic:'../../../static/images/icon.png'
         }
@@ -375,6 +382,13 @@
             this.otherpost[4].pic='../../../static/images/default2.png'
           }
 
+          if(res.data.poster){//111
+            this.otherpost[5].pic=res.data.proxy_poster//111
+          }else{
+            this.otherpost[5].pic='../../../static/images/default.png'
+          }
+
+
 
           if(res.data.index_bargain){
             this.indexpostarr[0].pic=res.data.index_bargain
@@ -406,16 +420,45 @@
       geticon(){
         var allParams = ''
         iconGet(allParams).then((res) => {
-          // console.log(res.data)
-          for (var i = 0;i <res.data.length;  i++) {
-            this.iconarr[i].pic=res.data[i].url
+          console.log(res.data)
+          var arr=res.data
+          var title=[
+          {
+            text:'全部分类',
+            id:1
+          },
+          {
+            text:'新品推荐',
+            id:2
+          },
+          {
+            text:'0元活动',
+            id:3
+          },
+          {
+            text:'积分商城',
+            id:4
+          },
+          {
+            text:'全免团',
+            id:5
+          }]
+          for (var i = 0;i <arr.length;  i++) {
+            for (var j = 0;j <title.length;  j++) {
+              var index=parseInt(arr[i].position)
+              if(index==title[j].id){
+                arr[i].name=title[j].text
+              }
+            }
           }
+          this.iconarr=arr
         });
       },
 
       handleiconEdit(index, row){
         this.dialogiconVisible = true;
-        this.iconId = row.id;
+        this.iconId = parseInt(row.position);
+        // console.log(this.iconId)
         this.icon=[];
       },
 
@@ -428,6 +471,7 @@
       },
 
       saveicon(){
+        // console.log(this.iconId)
         var allParams = {
          position :this.iconId,
          url:this.iconimgSrc
@@ -658,6 +702,10 @@
         }else if( this.postId==9){
           var allParams={
             proxy_poster:this.postimgSrc
+          }
+        }else if( this.postId==10){
+          var allParams={
+            proxy_poster:this.postimgSrc//
           }
         }
       }

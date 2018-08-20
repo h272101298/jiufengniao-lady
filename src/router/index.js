@@ -12,6 +12,9 @@ import Goodformat from '@/components/Good/Goodformat'
 import Goodnew from '@/components/Good/Goodnew'
 import Goodrecycle from '@/components/Good/Goodrecycle'
 
+import Igoodnew from '@/components/Integral/Igoodnew'
+import Igoodlist from '@/components/Integral/Igoodlist'
+
 import Orderlist from '@/components/Order/Orderlist'
 import Refund from '@/components/Order/Refund'
 
@@ -186,6 +189,17 @@ let router = new Router({
 
     {
         path: '/',
+        name: '积分商城',
+        component: Home,
+        redirect: '/Integral/Cardgood',
+        menuShow: true,
+        iconCls: 'iconfont menu-card',
+        children: [
+        {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false}, 
+        {path: '/Integral/Igoodlist',component: Igoodlist,name: '商品列表',menuShow: true}, 
+        ]
+    },{
+        path: '/',
         name: '集卡牌',
         component: Home,
         redirect: '/Card/Cardgood',
@@ -298,18 +312,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-           MessageBox.alert('没有访问权限', '提示', {
-            confirmButtonText: '确定',
-            closeOnPressEscape:false,
-            showClose:false,
-            callback: action => {
+             MessageBox.alert('没有访问权限', '提示', {
+                confirmButtonText: '确定',
+                closeOnPressEscape:false,
+                showClose:false,
+                callback: action => {
 
-            }
-        });
-       }
-   }else{
-     next() 
- }
+                }
+            });
+         }
+     }else{
+       next() 
+   }
 }
 })
 

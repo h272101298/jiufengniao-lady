@@ -87,7 +87,6 @@ export const requestLogout = params => { return axios.get(`${base}/logout`+`${pa
 export const countdataGet = params => { return axios.get(`${base}/count`+`${params}`).then(res => res.data)}
 
 
-
 //广告
 export const advertsGet = params => { return axios.get(`${base}/adverts`+`${params}`).then(res => res.data)}
 
@@ -102,8 +101,6 @@ export const posterGet = params => { return axios.get(`${base}/poster/configs`+`
 export const iconPost = params => { return axios.post(`${base}/icon/config`, params).then(res => res.data)}
 
 export const iconGet = params => { return axios.get(`${base}/icon/configs`+`${params}`).then(res => res.data)}
-
-
 
 
 
@@ -135,17 +132,13 @@ export const aapplyPass = params => { return axios.get(`${base}/proxy/pass`+`${p
 
 export const aapplyReject = params => { return axios.get(`${base}/proxy/reject`+`${params}`).then(res => res.data)}
 
-
 export const agentGet = params => { return axios.get(`${base}/proxy/users`+`${params}`).then(res => res.data)}
-
 
 export const ratioPost = params => { return axios.post(`${base}/brokerage/ratio`, params).then(res => res.data)}
 
 export const ratioGet = params => { return axios.get(`${base}/brokerage/ratio`+`${params}`).then(res => res.data)}
 
-
 export const comGetAll = params => { return axios.get(`${base}/brokerages`+`${params}`).then(res => res.data)}
-
 
 export const withdrawGet = params => { return axios.get(`${base}/withdraw/applies`+`${params}`).then(res => res.data)}
 
@@ -155,6 +148,10 @@ export const withdrawReject = params => { return axios.get(`${base}/withdraw/rej
 
 
 
+//积分商城
+export const igoodGet = params => { return axios.get(`${base}/products`+`${params}`).then(res => res.data)}
+
+export const igoodPost = params => { return axios.post(`${base}/product`, params).then(res => res.data)}
 
 
 //商品列表

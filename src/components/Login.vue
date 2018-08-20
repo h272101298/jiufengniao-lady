@@ -49,7 +49,7 @@
       },
       isColor: {
         type: Boolean,
-        default: true
+        default: false
       },
       roundColor: {
         type: String,
@@ -262,10 +262,11 @@
   }
 </style>
 
+
 <style scoped>
 #canvas{
   position: fixed;
-  z-index: -999999999;
+  z-index: -1;
   top: 0;
   left: 0;
   width: 100%;
