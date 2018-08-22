@@ -176,7 +176,6 @@
 
   import { typeGet } from '../../api/api';
   import { guigeGet } from '../../api/api';
-  import { deliveryGet } from '../../api/api';
 
   import { goodPost } from '../../api/api';
   import { goodoneGet } from '../../api/api';

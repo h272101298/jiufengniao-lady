@@ -153,6 +153,14 @@ export const igoodGet = params => { return axios.get(`${base}/products`+`${param
 
 export const igoodPost = params => { return axios.post(`${base}/product`, params).then(res => res.data)}
 
+export const igoodDel = params => { return axios.delete(`${base}/product`+`${params}`).then(res => res.data)}
+
+export const igoodCheck = params => { return axios.get(`${base}/check/product`+`${params}`).then(res => res.data)}//审核
+
+export const igoodShelf = params => { return axios.get(`${base}/shelf/product`+`${params}`).then(res => res.data)}//上下架
+
+export const igoodoneGet = params => { return axios.get(`${base}/product`+`${params}`).then(res => res.data)}
+
 
 //商品列表
 export const goodGet = params => { return axios.get(`${base}/products`+`${params}`).then(res => res.data)}

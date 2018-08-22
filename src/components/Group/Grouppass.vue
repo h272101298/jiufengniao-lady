@@ -51,11 +51,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="95" align="center">
+<!--       <el-table-column label="操作" width="95" align="center">
        <template slot-scope="scope">
         <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper3">删除</el-button>
       </template>
-    </el-table-column>
+    </el-table-column> -->
 
   </el-table>
 

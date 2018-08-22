@@ -170,12 +170,6 @@
         </template>
       </el-form-item>
 
-<!--       <el-form-item label="商品详情：" class="fw6">
-        <template slot-scope="scope">
-          <div class="fw4" id="detail">{{currow.detail}}</div>
-        </template>
-      </el-form-item> -->
-
       <el-form-item label="商品缩略图：" class="fw6">
         <template slot-scope="scope">
           <img :src="currow.cover" class="seeimg" />

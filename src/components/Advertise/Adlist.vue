@@ -420,7 +420,7 @@
       geticon(){
         var allParams = ''
         iconGet(allParams).then((res) => {
-          console.log(res.data)
+          // console.log(res.data)
           var arr=res.data
           var title=[
           {
@@ -493,7 +493,6 @@
        }
      });
      },
-
 
 
 
@@ -585,8 +584,9 @@
         this.diatitle='编辑广告';
         this.dialogNewVisible = true;
         this.putorup='put';
-        console.log(row.pic)
+        // console.log(row.pic)
         this.editId = row.id;
+        this.postarr=[]
         // this.imgSrc=row.pic;`
         this.postarr.push(Object.assign({},{"url":row.pic}));
       },
