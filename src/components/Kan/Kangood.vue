@@ -22,21 +22,26 @@
 
       <el-table-column prop="description" label="活动标题" width="250" align="center">
       </el-table-column>
-
-      <el-table-column prop="start" label="活动开始时间" width="150" align="center">
+<!--       <el-table-column prop="start" label="活动开始时间" width="150" align="center">
       </el-table-column>
       <el-table-column prop="end" label="活动结束时间" width="150" align="center">
+      </el-table-column> -->
+      <el-table-column prop="time" label="砍价限时（小时）" width="120" align="center">
       </el-table-column>
       <el-table-column prop="number" label="库存" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="origin_price" label="原价" min-width="80" align="center">
+<!--       <el-table-column prop="origin_price" label="原价" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="min_price" label="底价" min-width="80" align="center">
-      </el-table-column>
+      <el-table-column prop="min_price" label="底价" width="100" align="center">
+      </el-table-column> -->
 
-      <el-table-column prop="clickNum" label="砍价次数" min-width="80" align="center">
+      <el-table-column prop="clickNum" label="砍价次数" width="100" align="center">
       </el-table-column>
-      <el-table-column prop="bargain_count" label="已砍价次数" min-width="80" align="center">
+      <el-table-column prop="count" label="参与人数" width="100" align="center">
+      </el-table-column>
+      <el-table-column prop="updated_at" label="活动开始时间" min-width="80" align="center">
+      </el-table-column>
+<!--       <el-table-column prop="bargain_count" label="已砍价次数" min-width="80" align="center">
       </el-table-column>
       <el-table-column prop="bargain_price" label="已砍价金额" min-width="100" align="center">
       </el-table-column>
@@ -44,7 +49,7 @@
        <template slot-scope="scope">
         <p>{{ scope.row.origin_price - scope.row.bargain_price}}</p>
       </template>
-    </el-table-column>
+    </el-table-column> -->
 
     <el-table-column label="操作" min-width="150" align="center">
      <template slot-scope="scope">
@@ -127,8 +132,6 @@
           this.count=res.data.count
         });
       },
-
-
 
 
       handleDelete(index, row) {

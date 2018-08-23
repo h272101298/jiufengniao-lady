@@ -28,27 +28,19 @@ axios.interceptors.response.use(
 		return response;
 	},
 	error => {
-
-		// console.log(error.response.status)
+		// console.log(error)
 		if(error.response.status==401){
 			var that=this;
-			// router.push('/login');
-			// Message({
-			// 	message: '登录超时',
-			// 	type: 'error'
-			// });
 			MessageBox.alert('请重新登录', '登录超时', {
 				confirmButtonText: '确定',
 				closeOnPressEscape:false,
 				showClose:false,
 				callback: action => {
 					if(action=='confirm'){
-						// window.location.href="https://background.geckowing.com/login" 
 						router.push('/login');
 					}
 				}
 			});
-
 		}else{
 			Message({
 				message: error.response.data.msg,
@@ -59,28 +51,20 @@ axios.interceptors.response.use(
 	})
 
 
+let base = 'http://192.168.1.172/Shop/public/v1'
+let base1 = 'http://192.168.1.172/Shop/public/v2'
+let base3 = 'http://192.168.1.172/Shop/public/v3'
 
-
-// let base = 'http://192.168.1.172/Shop/public/v1'
-
-// let base1 = 'http://192.168.1.172/Shop/public/v2'
-
-// let base3 = 'http://192.168.1.172/Shop/public/v3'
-
-
-let base = 'https://template.geckowing.com/v1'
-
-let base1 = 'https://template.geckowing.com/v2'
-
-let base3 = 'https://template.geckowing.com/v3'
-
+// let base = 'https://template.geckowing.com/v1'
+// let base1 = 'https://template.geckowing.com/v2'
+// let base3 = 'https://template.geckowing.com/v3'
 
 export default base
 
 //登录
-export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }
+export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }//登录
 
-export const requestLogout = params => { return axios.get(`${base}/logout`+`${params}`).then(res => res.data)}
+export const requestLogout = params => { return axios.get(`${base}/logout`+`${params}`).then(res => res.data)}//登出
 
 
 //统计数据
@@ -88,20 +72,19 @@ export const countdataGet = params => { return axios.get(`${base}/count`+`${para
 
 
 //广告
-export const advertsGet = params => { return axios.get(`${base}/adverts`+`${params}`).then(res => res.data)}
+export const advertsGet = params => { return axios.get(`${base}/adverts`+`${params}`).then(res => res.data)}//轮播列表
 
-export const advertPost = params => { return axios.post(`${base}/advert`, params).then(res => res.data)}
+export const advertPost = params => { return axios.post(`${base}/advert`, params).then(res => res.data)}//轮播提交
 
-export const advertDel = params => { return axios.delete(`${base}/advert`+`${params}`).then(res => res.data)}
+export const advertDel = params => { return axios.delete(`${base}/advert`+`${params}`).then(res => res.data)}//轮播删除
 
-export const posterPost = params => { return axios.post(`${base}/poster/configs`, params).then(res => res.data)}
+export const posterPost = params => { return axios.post(`${base}/poster/configs`, params).then(res => res.data)}//海报提交
 
-export const posterGet = params => { return axios.get(`${base}/poster/configs`+`${params}`).then(res => res.data)}
+export const posterGet = params => { return axios.get(`${base}/poster/configs`+`${params}`).then(res => res.data)}//轮播获取
 
-export const iconPost = params => { return axios.post(`${base}/icon/config`, params).then(res => res.data)}
+export const iconPost = params => { return axios.post(`${base}/icon/config`, params).then(res => res.data)}//图标提交
 
-export const iconGet = params => { return axios.get(`${base}/icon/configs`+`${params}`).then(res => res.data)}
-
+export const iconGet = params => { return axios.get(`${base}/icon/configs`+`${params}`).then(res => res.data)}//图标获取
 
 
 //经营类目
@@ -122,7 +105,6 @@ export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`
 export const sappliesGet = params => { return axios.get(`${base}/settle/applies`+`${params}`).then(res => res.data)}
 
 export const sapplyPost = params => { return axios.post(`${base}/check/settle/apply`, params).then(res => res.data)}
-
 
 
 //分销

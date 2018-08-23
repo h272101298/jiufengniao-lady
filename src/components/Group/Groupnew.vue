@@ -42,7 +42,7 @@
             </el-table-column>
             <el-table-column prop="address" label="操作" min-width="150" align="center">
              <template slot-scope="scope">
-              <el-button type="primary" size="small" @click="handleSelect(scope.$index, scope.row)">选择</el-button>
+              <el-button type="primary" size="small" @click="handleSelect(scope.$index, scope.row)">填写价格</el-button>
             </template>
           </el-table-column>
         </el-table>
