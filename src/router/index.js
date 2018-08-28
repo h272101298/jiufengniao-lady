@@ -98,6 +98,17 @@ let router = new Router({
         ]
     }, {
         path: '/',
+        name: '积分商城',
+        component: Home,
+        redirect: '/Integral/Cardgood',
+        menuShow: true,
+        iconCls: 'iconfont menu-card',
+        children: [
+        {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false}, 
+        {path: '/Integral/Igoodlist',component: Igoodlist,name: '商品列表',menuShow: true}, 
+        ]
+    },{
+        path: '/',
         name: '商家管理',
         component: Home,
         redirect: '/Shop/Shoplist',
@@ -186,19 +197,7 @@ let router = new Router({
     //     {path: '/Report/Reportlist',component: Reportlist,name: '统计图表',menuShow: true}, 
     //     ]
     // }, 
-
     {
-        path: '/',
-        name: '积分商城',
-        component: Home,
-        redirect: '/Integral/Cardgood',
-        menuShow: true,
-        iconCls: 'iconfont menu-card',
-        children: [
-        {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false}, 
-        {path: '/Integral/Igoodlist',component: Igoodlist,name: '商品列表',menuShow: true}, 
-        ]
-    },{
         path: '/',
         name: '集卡牌',
         component: Home,
@@ -312,18 +311,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-             MessageBox.alert('没有访问权限', '提示', {
-                confirmButtonText: '确定',
-                closeOnPressEscape:false,
-                showClose:false,
-                callback: action => {
+           MessageBox.alert('没有访问权限', '提示', {
+            confirmButtonText: '确定',
+            closeOnPressEscape:false,
+            showClose:false,
+            callback: action => {
 
-                }
-            });
-         }
-     }else{
-       next() 
-   }
+            }
+        });
+       }
+   }else{
+     next() 
+ }
 }
 })
 

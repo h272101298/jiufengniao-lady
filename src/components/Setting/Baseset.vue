@@ -4,7 +4,7 @@
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>
       <el-breadcrumb-item>系统设置</el-breadcrumb-item>
-      <el-breadcrumb-item>微信设置</el-breadcrumb-item>
+      <el-breadcrumb-item>基本设置</el-breadcrumb-item>
     </el-breadcrumb>
   </el-col>
 
@@ -110,26 +110,32 @@
 
         </el-tab-pane>
 
+        <el-tab-pane label="积分设置" name="config">
 
+          <el-form ref="modeldata" :model="modeldata" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="jfrule">
 
-        <!-- <el-tab-pane label="积分设置" name="config">
-          <el-form ref="modeldata" :model="modeldata" label-width="160px" class="form" status-icon size="small" style="width:600px;">
-            <el-form-item label="兑换比例：" prop="collage_notify">
-              <el-input placeholder="请输入兑换比例" v-show="modelshow">
-                <div id="bgw1" slot="prepend">积分：零钱</div>
-                <div id="bgw2" slot="append">：1</div>
+            <el-form-item label="购买商品获得积分：">
+              <el-radio-group @change="changejifen" v-model="sameornot">
+                <el-radio label="2">关</el-radio>
+                <el-radio label="1">开</el-radio>
+              </el-radio-group>
+            </el-form-item>
+
+            <el-form-item label="积分获得比例：" prop="jfbl" v-show="sameornot==1">
+              <el-input placeholder="请输入获得比例" v-show="modelshow" v-model="modeldata.jfbl">
+                <div id="bgw2" slot="append">%</div>
               </el-input>
               <div class="showlabel" v-show="modelset">
-                <label>20：1</label>
+                <label>20%</label>
               </div>
             </el-form-item>
-            <el-form-item>
+            <el-form-item v-show="sameornot==1">
               <el-button v-if="modelset" size="small" type="primary" style="margin-top:20px;" @click="changemodel">编辑</el-button>
               <el-button v-if="modelshow" size="small" type="primary" style="margin-top:20px;" @click="postmodel">提交</el-button>
               <el-button v-if="modelshow" size="small" @click="cancelmodel">取消</el-button>     
             </el-form-item>
           </el-form>
-        </el-tab-pane> -->
+        </el-tab-pane>
       </el-tabs>
 
     </el-row>
@@ -146,8 +152,6 @@
 
   import { signPost } from '../../api/api';
   import { signGet } from '../../api/api';
-  // import { wxmodelPost } from '../../api/api';
-  // import { wxmodelGet } from '../../api/api';
 
   import { Message } from 'element-ui';
 
@@ -160,23 +164,24 @@
         }
         setTimeout(() => {
           if (Math.sign(value) == 1) {
-              //  if(value%1 === 0){
-              //   callback();
-              // }else{
-                callback();
-             // }
-           } else if(Math.sign(value) == 0) {
-             callback(new Error('不能为0'));
-           } else if(Math.sign(value) == -1) {
-            callback(new Error('请输入正数'));
+           if(value%1 === 0){     
+            callback();     
           }else{
-            callback(new Error('请输入数字'));
+            callback(new Error('请输入整数'));
           }
-        }, 100);
+        } else if(Math.sign(value) == 0) {
+         callback(new Error('不能为0'));
+       } else if(Math.sign(value) == -1) {
+        callback(new Error('请输入正数'));
+      }else{
+        callback(new Error('请输入数字'));
+      }
+    }, 100);
       };
 
       return {
-        activeName:'list',
+        // activeName:'list',
+        activeName:'config',
 
         show:false,
         set:true,
@@ -224,10 +229,16 @@
           senum:[{required: true, trigger: 'blur',validator: checkvalue}]
         },
 
+        sameornot:'2',
+
+        jfrule:{
+          jfbl:[{required: true, trigger: 'blur',validator: checkvalue}],
+        },
+
         modelshow:false,
         modelset:true,
         modeldata:{
-
+          jfbl:10
         },
 
       };
@@ -307,7 +318,9 @@
         this.set=true
       },
 
-
+      changejifen(val){
+        this.showjifen=val
+      },
 
       changemodel(){
         this.modelshow=true
@@ -315,7 +328,15 @@
       },
 
       postmodel(){
+        // console.log(this.modeldata.jfbl)
+        this.$refs.modeldata.validate((valid) => {
+          if (valid) {
 
+
+          }else{
+            return false;
+          }
+        })
       },
 
       cancelmodel(){
@@ -346,7 +367,7 @@
 .showlabel{
   width:320px;
   border-radius: 4px;
-  border: 1px solid #409eff;
+  border: 1px solid #00BB29;
   padding-left: 8px;
 }
 

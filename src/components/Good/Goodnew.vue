@@ -31,7 +31,7 @@
 
           <el-form-item label="商品详情：" prop="detail">
            <div class="edit_container">
-            <quill-editor v-model="newgood1.detail" style="min-height:133px;" :options="editorOption" ref="myQuillEditor" class="editer"></quill-editor>
+            <quill-editor v-model="newgood1.detail" :options="editorOption" ref="myQuillEditor" class="editer"></quill-editor>
             <el-upload class="avatar-uploader quill-img" :action="upurl" :before-upload='beforeUpload' :data="uptoken" :on-success='quillImgSuccess' style="display: none">
               <el-button size="small" type="primary" id="imgInput" element-loading-text="插入中,请稍候">点击上传</el-button>
             </el-upload>

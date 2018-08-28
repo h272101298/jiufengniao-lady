@@ -14,7 +14,7 @@
         <el-button type="primary" size="small" @click="newone">新增商品</el-button>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类/商家名称" style="min-width: 260px;" size="small"></el-input>
+        <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类" style="min-width: 260px;" size="small"></el-input>
       </el-form-item>
 
       <el-form-item label="商品状态：">
@@ -31,22 +31,22 @@
     </el-form>
 
     <el-table :data="list" border stripe size="small">
-      <el-table-column prop="id" label="编号" min-width="70" align="center">
+      <el-table-column prop="id" label="编号" width="80" align="center">
       </el-table-column>
-      <el-table-column prop="cover" label="图片" min-width="140" align="center">
+      <el-table-column prop="cover" label="图片" min-width="100" align="center">
         <template slot-scope="scope">
           <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="名称" min-width="180" align="center">
+      <el-table-column prop="name" label="名称" min-width="200" align="center">
       </el-table-column>
       <el-table-column prop="sales_volume" label="兑换次数" min-width="100" align="center">
       </el-table-column>
 
       <el-table-column prop="offer" label="推荐" min-width="100" align="center">
         <template slot-scope="scope">
-          <el-button type="success" size="mini" v-show="scope.row.offer==1" @click="changeoffer(scope.row)">是</el-button>
-          <el-button type="" size="mini" v-show="scope.row.offer==0" @click="changeoffer(scope.row)">否</el-button>
+          <el-button type="success" size="mini" v-show="scope.row.offer==1&&scope.row.review==1" @click="changeoffer(scope.row)">是</el-button>
+          <el-button type="" size="mini" v-show="scope.row.offer==0&&scope.row.review==1" @click="changeoffer(scope.row)">否</el-button>
         </template>
       </el-table-column>
 
@@ -64,10 +64,10 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="created_at" label="创建时间" min-width="150" align="center">
+      <el-table-column prop="created_at" label="创建时间" width="150" align="center">
       </el-table-column>
 
-      <el-table-column label="操作" width="180" align="center">
+      <el-table-column label="操作" width="200" align="center">
        <template slot-scope="scope">
         <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
           <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
@@ -104,17 +104,17 @@
 <el-col>
   <el-dialog title="商品预览" :visible.sync="dialogSeeVisible" width="30%" @open="opendialog" center >
     <el-form label-width="100px" :model="currow" label-position='left'>
-      <el-form-item label="商品名称：" class="fw6">
+      <el-form-item label="名称：" class="fw6">
         <span class="fw4">{{currow.name}}</span>
       </el-form-item>
 
-      <el-form-item label="商品描述：" class="fw6">
+      <el-form-item label="描述：" class="fw6">
         <template slot-scope="scope">
-          <span class="fw4">{{currow.share_detail==null ? '暂无' : currow.share_detail }}</span>    
+          <span class="fw4">{{currow.description==null ? '暂无' : currow.description }}</span>    
         </template>
       </el-form-item>
 
-      <el-form-item label="商品缩略图：" class="fw6">
+      <el-form-item label="缩略图：" class="fw6">
         <template slot-scope="scope">
           <img :src="currow.cover" class="seeimg" />
         </template>
@@ -132,6 +132,7 @@
 <script>
   import { igoodGet } from '../../api/api';
   import { igoodDel } from '../../api/api';
+  import { igoodoffer } from '../../api/api';
   import { igoodCheck } from '../../api/api';
   import { igoodShelf } from '../../api/api';
 
@@ -162,7 +163,7 @@
     methods:{
      getlist(){
       var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&name=' + this.filter.name+ '&state=' + this.filter.state;
-      goodGet(allParams).then((res) => {
+      igoodGet(allParams).then((res) => {
         this.list=res.data.data;
         this.count=res.data.count
       });
@@ -185,29 +186,9 @@
       this.getlist();
     },
 
-    submitsel(){
-      console.log(this.selpush)
-      var allParams = '?id='+ this.selId + '&type=' + this.selpush.type;
-      goodnotify(allParams).then((res) => {
-       this.dialogSelVisible = false;
-       this.$message({
-        message: '提交成功',
-        type: 'success'
-      });
-     });
-    },
-
-    changeoffer(index){
-      var allParams = '?product_id='+ index.id;
-      goodoffer(allParams).then((res) => {
-       console.log(res)
-       this.getlist();
-     });
-    },
-
     changejia(index){
       var allParams = '?id='+ index.id;
-      goodShelf(allParams).then((res) => {
+      igoodShelf(allParams).then((res) => {
        console.log(res)
        this.getlist();
      });
@@ -215,7 +196,15 @@
 
     handleCheck(index){
       var allParams = '?id='+ index.id;
-      goodCheck(allParams).then((res) => {
+      igoodCheck(allParams).then((res) => {
+       console.log(res)
+       this.getlist();
+     });
+    },
+
+    changeoffer(index){
+      var allParams = '?product_id='+ index.id;
+      igoodoffer(allParams).then((res) => {
        console.log(res)
        this.getlist();
      });
@@ -251,11 +240,11 @@
     submitdel(){
       this.dialogDelVisible = false;
       var allParams='?id='+this.delId
-      goodRecycle(allParams).then((res) => {
+      igoodDel(allParams).then((res) => {
         console.log(res)
         if (res.msg === "ok") {
          this.$message({
-          message: '加入成功',
+          message: '删除成功',
           type: 'success'
         });
          this.getlist();

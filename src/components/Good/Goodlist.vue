@@ -14,7 +14,7 @@
         <el-button type="primary" size="small" @click="newone">新增商品</el-button>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类/商家名称" style="min-width: 260px;" size="small"></el-input>
+        <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类" style="min-width: 260px;" size="small"></el-input>
       </el-form-item>
 
       <el-form-item label="商品状态：">
@@ -63,8 +63,8 @@
 
 <el-table-column prop="offer" label="首页推荐" min-width="100" align="center" v-show="checkper2">
   <template slot-scope="scope">
-    <el-button type="success" size="mini" v-show="scope.row.offer==1" @click="changeoffer(scope.row)">是</el-button>
-    <el-button type="" size="mini" v-show="scope.row.offer==0" @click="changeoffer(scope.row)">否</el-button>
+    <el-button type="success" size="mini" v-show="scope.row.offer==1&&scope.row.review==1" @click="changeoffer(scope.row)">是</el-button>
+    <el-button type="" size="mini" v-show="scope.row.offer==0&&scope.row.review==1" @click="changeoffer(scope.row)">否</el-button>
   </template>
 </el-table-column>
 
@@ -180,11 +180,11 @@
         <span class="fw4">{{currow.brokerage}}</span>
       </el-form-item>
 
-      <el-form-item label="分享标题：" class="fw6">
+<!--       <el-form-item label="分享标题：" class="fw6">
         <template slot-scope="scope">
           <span class="fw4">{{currow.share_title}}</span>
         </template>
-      </el-form-item>
+      </el-form-item> -->
 
     </el-form>
   </el-dialog>
