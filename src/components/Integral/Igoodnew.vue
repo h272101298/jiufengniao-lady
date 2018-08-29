@@ -43,7 +43,7 @@
     <el-tab-pane label="商品属性" name="attributes" :disabled="attrtab">
       <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules2" ref="newgood2" :model="newgood2">
 
-<!--         <el-form-item label="商品分类：" prop="type_id">
+        <!-- <el-form-item label="商品分类：" prop="type_id">
           <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
             <el-option v-for="item in typeArr1" :label="item.title" :value="item.id" :key="item.id"></el-option>
           </el-select>
@@ -62,7 +62,7 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-table :data="goodid?aaa:pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;margin-left: 120px" border size="mini" v-show="showmore" @cell-click="cellclick">
+        <el-table :data="goodid?aaa:pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;margin-left: 0px" border size="mini" v-show="showmore" @cell-click="cellclick">
           <el-table-column type="index" label="序号" width="60" align="center">
           </el-table-column>
           <el-table-column prop="title" label="规格" width="120" align="center">
@@ -99,7 +99,6 @@
       </template>
     </el-table-column>
 
-
     <el-table-column prop="" label="操作" width="150" align="center">
       <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
@@ -107,7 +106,6 @@
       </template>
     </el-table-column>
   </el-table>
-
 
   <el-form-item label="原价：" v-show="!showmore" prop="origin_price">
     <el-input v-model="newgood2.origin_price" type="number" min="0" placeholder="请输入原价"></el-input>
@@ -345,10 +343,10 @@ computed: {
 
 methods:{
  checkgoodid(){
-  var goodid=sessionStorage.getItem('goodeditid');
-  this.goodid=goodid
+  var goodid=sessionStorage.getItem('igoodeditid');
 
   if(goodid){
+    this.goodid=goodid
     this.showradio=false
 
     var allParams = '?id='+ goodid;
@@ -374,17 +372,17 @@ methods:{
      // this.gettype3(this.type2)
 
      this.newgood2={
-      cover:res.data.default.cover,
-      origin_price:res.data.default.origin_price,
-      score:res.data.default.score,
-      type_id:res.data.typeArray[2],
+      cover:res.data.stocks[0].cover,
+      origin_price:res.data.stocks[0].origin_price,
+      score:res.data.stocks[0].score,
+      // type_id:res.data.typeArray[2],
     }
 
     var images=[];
-    for(var i=0;i<res.data.default.images.length;i++){
+    for(var i=0;i<res.data.stocks[0].images.length;i++){
       images.push({
         uid:i,
-        url:res.data.default.images[i],
+        url:res.data.stocks[0].images[i].url,
         response:{
           key:1
         }
@@ -393,7 +391,7 @@ methods:{
     this.newgood2.images=images
 
     if(res.data.norm=="fixed"){
-      this.newgood2.id=res.data.default.id
+      this.newgood2.id=res.data.stocks[0].id
     }
     if(res.data.norm=="change"){
       var aaa=[]
@@ -401,7 +399,7 @@ methods:{
         aaa.push({
           index:i,
           id:res.data.stocks[i].id,
-          title:res.data.stocks[i].product_detail,
+          title:res.data.stocks[i].title,
           cover:res.data.stocks[i].cover,
           origin_price:res.data.stocks[i].origin_price,
           score:res.data.stocks[i].score
@@ -411,9 +409,13 @@ methods:{
         for(var j=0;j<res.data.stocks[i].images.length;j++){
           aaa[i].images.push({
             uid:j,
-            url:res.data.stocks[i].images[j]
+            url:res.data.stocks[i].images[j].url
           })
         }
+        // var bbb=res.data.stocks[i].images
+        // for(var j=0;j<bbb.length;j++){
+        //   bbb[i]
+        // }
       }
       this.aaa=aaa
       this.pricearr=res.data.stocks
@@ -482,7 +484,7 @@ changeguige(val){
   if(val=="1"){
     this.showmore=false
   }else if(val=="2"){
-    this.getcategory()
+    // this.getcategory()
     // if(this.newgood2.type_id){
       this.showmore=true
   //   }
@@ -618,8 +620,9 @@ handleEdit(index, row){
 },
 
 handleDelete(index, row){
-  console.log(this.pricearr)
   this.pricearr.splice(index,1)
+  this.aaa.splice(index,1)
+  console.log(this.pricearr)
 },
 
 ggsubmit(){
@@ -638,15 +641,15 @@ ggsubmit(){
 
 save(){
 
-  var aaa =this.newgood2.images
-  this.newgood2.images=[]
-  for(var i=0; i<aaa.length; i++){
-    if(typeof aaa[i] == 'object'){
-      this.newgood2.images.push(aaa[i].url)
-    }else {
-      this.newgood2.images.push(aaa[i])
-    }
-  }
+  // var aaa =this.newgood2.images
+  // this.newgood2.images=[]
+  // for(var i=0; i<aaa.length; i++){
+  //   if(typeof aaa[i] == 'object'){
+  //     this.newgood2.images.push(aaa[i].url)
+  //   }else {
+  //     this.newgood2.images.push(aaa[i])
+  //   }
+  // }
 
   this.$refs.newgood2.validate((valid) => {
 
@@ -686,19 +689,31 @@ save(){
           return false;
         }
       }else{
-       this.allParams = {
-        name:this.newgood1.name,
-        detail:this.newgood1.detail,
-        share_title:this.newgood1.share_title,
-        description:this.newgood1.description,
-        norm:'change',
-        // type_id:this.newgood2.type_id,
-        stocks:this.pricearr
-      };
-    }
+        var aaa=this.pricearr
+        for (var i=0; i<aaa.length; i++) {
+          // var aaa =this.pricearr[i]
+          for (var j=0; j<aaa[i].images.length; j++) {
+            // var bbb=aaa.images[j]
+            // console.log(bbb)
+            if(aaa[i].images[j].url){
+              aaa[i].images[j]=aaa[i].images[j].url
+            }
+          }
+        }
+        // console.log(aaa)
+
+        this.allParams = {
+          name:this.newgood1.name,
+          detail:this.newgood1.detail,
+          share_title:this.newgood1.share_title,
+          description:this.newgood1.description,
+          norm:'change',
+          stocks:aaa
+        };
+      }
   // }
 
-  var goodeditid = window.sessionStorage.getItem('goodeditid')
+  var goodeditid = window.sessionStorage.getItem('igoodeditid')
   if(goodeditid){
     this.allParams.id=goodeditid;
   }
@@ -722,6 +737,7 @@ save(){
 
 mounted: function () {
   // this.gettype1()
+  this.getcategory()
   this.checkgoodid()
 }
 }

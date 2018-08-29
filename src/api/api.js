@@ -130,20 +130,23 @@ export const withdrawReject = params => { return axios.get(`${base}/withdraw/rej
 
 
 
-//积分商城
-export const igoodGet = params => { return axios.get(`${base3}/score/products`+`${params}`).then(res => res.data)}
+//商品分类
+export const typeGet = params => { return axios.get(`${base}/product/types`+`${params}`).then(res => res.data)}
 
-export const igoodPost = params => { return axios.post(`${base3}/score/product`, params).then(res => res.data)}
+export const typePost = params => { return axios.post(`${base}/product/type`, params).then(res => res.data)}
 
-export const igoodDel = params => { return axios.delete(`${base3}/score/product`+`${params}`).then(res => res.data)}
+export const typeDel = params => { return axios.delete(`${base}/product/type`+`${params}`).then(res => res.data)}
 
-export const igoodCheck = params => { return axios.get(`${base3}/check/product`+`${params}`).then(res => res.data)}//审核
+export const typehot = params => { return axios.get(`${base}/hot/type`+`${params}`).then(res => res.data)}//热门
 
-export const igoodShelf = params => { return axios.get(`${base3}/shelf/product`+`${params}`).then(res => res.data)}//上下架
 
-export const igoodoffer = params => { return axios.get(`${base}/offer`+`${params}`).then(res => res.data)}//优惠
+//商品规格
+export const guigeGet = params => { return axios.get(`${base}/product/categories`+`${params}`).then(res => res.data)}
 
-export const igoodoneGet = params => { return axios.get(`${base3}/product`+`${params}`).then(res => res.data)}
+export const guigePost = params => { return axios.post(`${base}/product/category`, params).then(res => res.data)}
+
+export const guigeDel = params => { return axios.delete(`${base}/product/category`+`${params}`).then(res => res.data)}
+
 
 
 //商品列表
@@ -163,27 +166,9 @@ export const goodCheck = params => { return axios.get(`${base}/check/product`+`$
 
 export const goodShelf = params => { return axios.get(`${base}/shelf/product`+`${params}`).then(res => res.data)}//上下架
 
-export const goodhot = params => { return axios.get(`${base}/hot`+`${params}`).then(res => res.data)}//热门
-export const goodnew = params => { return axios.get(`${base}/new`+`${params}`).then(res => res.data)}//新品
-export const goodoffer = params => { return axios.get(`${base}/offer`+`${params}`).then(res => res.data)}//优惠
-
-
-//商品分类
-export const typeGet = params => { return axios.get(`${base}/product/types`+`${params}`).then(res => res.data)}
-
-export const typePost = params => { return axios.post(`${base}/product/type`, params).then(res => res.data)}
-
-export const typeDel = params => { return axios.delete(`${base}/product/type`+`${params}`).then(res => res.data)}
-
-export const typehot = params => { return axios.get(`${base}/hot/type`+`${params}`).then(res => res.data)}//热门
-
-
-//商品规格
-export const guigeGet = params => { return axios.get(`${base}/product/categories`+`${params}`).then(res => res.data)}
-
-export const guigePost = params => { return axios.post(`${base}/product/category`, params).then(res => res.data)}
-
-export const guigeDel = params => { return axios.delete(`${base}/product/category`+`${params}`).then(res => res.data)}
+// export const goodhot = params => { return axios.get(`${base}/hot`+`${params}`).then(res => res.data)}//热门
+// export const goodnew = params => { return axios.get(`${base}/new`+`${params}`).then(res => res.data)}//新品
+export const goodoffer = params => { return axios.get(`${base}/offer`+`${params}`).then(res => res.data)}//使用推荐
 
 
 
@@ -225,7 +210,6 @@ export const userGet = params => { return axios.get(`${base}/wechat/users`+`${pa
 export const usertohy = params => { return axios.post(`${base1}/member/user`, params).then(res => res.data)}//用户成为会员、续费
 
 //会员
-
 export const mconfigPost = params => { return axios.post(`${base1}/member/level`, params).then(res => res.data)}//设置会员等级
 
 export const mconfigGet = params => { return axios.get(`${base1}/member/levels`+`${params}`).then(res => res.data)}//获取会员等级
@@ -351,3 +335,20 @@ export const couponGet = params => { return axios.get(`${base3}/coupons`+`${para
 export const couponDel = params => { return axios.delete(`${base3}/coupon`+`${params}`).then(res => res.data)}
 
 export const couponstate = params => { return axios.get(`${base3}/enable/coupon`+`${params}`).then(res => res.data)}
+
+
+
+//积分商城
+export const igoodGet = params => { return axios.get(`${base3}/score/products`+`${params}`).then(res => res.data)}
+
+export const igoodPost = params => { return axios.post(`${base3}/score/product`, params).then(res => res.data)}
+
+export const igoodDel = params => { return axios.delete(`${base3}/score/product`+`${params}`).then(res => res.data)}
+
+export const igoodCheck = params => { return axios.get(`${base3}/review/score/product`+`${params}`).then(res => res.data)}//审核
+
+export const igoodShelf = params => { return axios.get(`${base3}/enable/score/product`+`${params}`).then(res => res.data)}//上下架
+
+export const igoodhot = params => { return axios.get(`${base3}/hot/score/product`+`${params}`).then(res => res.data)}//推荐
+
+export const igoodoneGet = params => { return axios.get(`${base3}/score/product`+`${params}`).then(res => res.data)}

@@ -725,16 +725,25 @@ methods:{
               return false;
             }
           }else{
-           this.allParams = {
-            name:this.newgood1.name,
-            detail:this.newgood1.detail,
-            brokerage:this.newgood1.brokerage,
-            share_title:this.newgood1.share_title,
-            share_detail:this.newgood1.share_detail,
-            norm:'change',
-            type_id:this.newgood2.type_id,
-            stock:this.pricearr
-          };
+            var aaa=this.pricearr
+            for (var i=0; i<aaa.length; i++) {
+              for (var j=0; j<aaa[i].images.length; j++) {
+                if(aaa[i].images[j].url){
+                  aaa[i].images[j]=aaa[i].images[j].url
+                }
+              }
+            }
+
+            this.allParams = {
+              name:this.newgood1.name,
+              detail:this.newgood1.detail,
+              brokerage:this.newgood1.brokerage,
+              share_title:this.newgood1.share_title,
+              share_detail:this.newgood1.share_detail,
+              norm:'change',
+              type_id:this.newgood2.type_id,
+              stock:aaa
+            };
             // console.log(this.allParams)
           }
         }

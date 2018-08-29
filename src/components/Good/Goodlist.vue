@@ -201,8 +201,8 @@
   import { goodRecycle } from '../../api/api';
   import { goodCheck } from '../../api/api';
   import { goodShelf } from '../../api/api';
-  import { goodhot } from '../../api/api';
-  import { goodnew } from '../../api/api';
+  // import { goodhot } from '../../api/api';
+  // import { goodnew } from '../../api/api';
   import { goodoffer } from '../../api/api';
   import { goodnotify } from '../../api/api';
   
@@ -304,23 +304,23 @@
       }
     },
 
-    changehot(index){
-        // console.log(index)
-        var allParams = '?product_id='+ index.id;
-        goodhot(allParams).then((res) => {
-         console.log(res)
-         this.getlist();
-       });
-      },
+    // changehot(index){
+    //     // console.log(index)
+    //     var allParams = '?product_id='+ index.id;
+    //     goodhot(allParams).then((res) => {
+    //      console.log(res)
+    //      this.getlist();
+    //    });
+    //   },
 
-      changenew(index){
-        // console.log(index)
-        var allParams = '?product_id='+ index.id;
-        goodnew(allParams).then((res) => {
-         console.log(res)
-         this.getlist();
-       });
-      },
+    //   changenew(index){
+    //     // console.log(index)
+    //     var allParams = '?product_id='+ index.id;
+    //     goodnew(allParams).then((res) => {
+    //      console.log(res)
+    //      this.getlist();
+    //    });
+    //   },
 
       changeoffer(index){
         // console.log(index)

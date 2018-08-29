@@ -30,37 +30,37 @@
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" border stripe size="small">
+    <el-table :data="list" border stripe size="small" style="width:95%;">
       <el-table-column prop="id" label="编号" width="80" align="center">
       </el-table-column>
       <el-table-column prop="cover" label="图片" min-width="100" align="center">
         <template slot-scope="scope">
-          <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
+          <img :src="scope.row.cover" style="max-width:80px;max-height:64px;" />
         </template>
       </el-table-column>
       <el-table-column prop="name" label="名称" min-width="200" align="center">
       </el-table-column>
-      <el-table-column prop="sales_volume" label="兑换次数" min-width="100" align="center">
-      </el-table-column>
-
-      <el-table-column prop="offer" label="推荐" min-width="100" align="center">
-        <template slot-scope="scope">
-          <el-button type="success" size="mini" v-show="scope.row.offer==1&&scope.row.review==1" @click="changeoffer(scope.row)">是</el-button>
-          <el-button type="" size="mini" v-show="scope.row.offer==0&&scope.row.review==1" @click="changeoffer(scope.row)">否</el-button>
-        </template>
-      </el-table-column>
-
-      <el-table-column prop="state" label="上架状态" min-width="100" align="center">
-        <template slot-scope="scope">
-          <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
-          <el-button type="" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
-        </template>
+      <el-table-column prop="exchange" label="兑换次数" min-width="100" align="center">
       </el-table-column>
 
       <el-table-column prop="review" label="审核状态" min-width="100" align="center">
         <template slot-scope="scope">
           <el-tag type="success" v-show="scope.row.review==1">已审核</el-tag>
           <el-tag type="info" v-show="scope.row.review==0">未审核</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="state" label="上架状态" min-width="100" align="center">
+        <template slot-scope="scope">
+          <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
+          <el-button type="info" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="hot" label="推荐" min-width="100" align="center">
+        <template slot-scope="scope">
+          <el-button type="success" size="mini" v-show="scope.row.hot==1&&scope.row.review==1&&scope.row.state==1" @click="changehot(scope.row)">是</el-button>
+          <el-button type="info" size="mini" v-show="scope.row.hot==0&&scope.row.review==1&&scope.row.state==1" @click="changehot(scope.row)">否</el-button>
         </template>
       </el-table-column>
 
@@ -100,10 +100,9 @@
 </el-col>
 
 
-
 <el-col>
-  <el-dialog title="商品预览" :visible.sync="dialogSeeVisible" width="30%" @open="opendialog" center >
-    <el-form label-width="100px" :model="currow" label-position='left'>
+  <el-dialog title="商品预览" :visible.sync="dialogSeeVisible" width="800px" @open="opendialog" center >
+    <el-form label-width="100px" :model="currow" label-position='right'>
       <el-form-item label="名称：" class="fw6">
         <span class="fw4">{{currow.name}}</span>
       </el-form-item>
@@ -114,9 +113,21 @@
         </template>
       </el-form-item>
 
-      <el-form-item label="缩略图：" class="fw6">
+      <el-form-item label="分享标题：" class="fw6">
+        <template slot-scope="scope">
+          <span class="fw4">{{currow.share_title==null ? '暂无' : currow.share_title }}</span>    
+        </template>
+      </el-form-item>
+
+<!--       <el-form-item label="缩略图：" class="fw6">
         <template slot-scope="scope">
           <img :src="currow.cover" class="seeimg" />
+        </template>
+      </el-form-item> -->
+
+      <el-form-item label="详细内容：" class="fw6">
+        <template slot-scope="scope">
+          <div class="fw4" id="detail"></div>
         </template>
       </el-form-item>
 
@@ -132,7 +143,7 @@
 <script>
   import { igoodGet } from '../../api/api';
   import { igoodDel } from '../../api/api';
-  import { igoodoffer } from '../../api/api';
+  import { igoodhot } from '../../api/api';
   import { igoodCheck } from '../../api/api';
   import { igoodShelf } from '../../api/api';
 
@@ -202,9 +213,9 @@
      });
     },
 
-    changeoffer(index){
-      var allParams = '?product_id='+ index.id;
-      igoodoffer(allParams).then((res) => {
+    changehot(index){
+      var allParams = '?id='+ index.id;
+      igoodhot(allParams).then((res) => {
        console.log(res)
        this.getlist();
      });
@@ -223,7 +234,7 @@
 
     setdetail(){
       var seeBox = document.getElementById("detail");
-      console.log(seeBox)
+      // console.log(seeBox)
       seeBox.innerHTML=this.currow.detail;
     },
 
@@ -277,5 +288,13 @@
 
 
 <style scoped>
-
+.icon{
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+}
+.seeimg{
+  max-width: 150px;
+  max-height: 150px;
+}
 </style>
