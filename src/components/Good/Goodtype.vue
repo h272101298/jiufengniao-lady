@@ -13,14 +13,14 @@
 
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增分类</el-button>
+        <el-button type="primary" size="small" @click="newone" v-show="checkper1">新增分类</el-button>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filter.title" placeholder="请输入分类名称" style="min-width: 260px;" ></el-input>
+        <el-input v-model="filter.title" size="small" placeholder="请输入分类名称" style="min-width: 260px;" ></el-input>
       </el-form-item>
 
       <el-form-item label="分类级别：">
-        <el-select v-model="filter.level" placeholder="全部" @change="searchlevel">
+        <el-select v-model="filter.level" placeholder="全部" @change="searchlevel" size="small">
           <el-option label="一级" value="1"></el-option>
           <el-option label="二级" value="2"></el-option>
           <el-option label="三级" value="3"></el-option>
@@ -28,12 +28,12 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" size="medium" @click="getlist">搜索</el-button>
-        <el-button size="medium" @click="clear">清空</el-button>
+        <el-button type="primary" size="small" @click="getlist">搜索</el-button>
+        <el-button size="small" @click="clear">清空</el-button>
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" border stripe style="width:1501px">
+    <el-table :data="list" border stripe style="width:95%" size="small">
       <el-table-column prop="id" label="编号" width="100" align="center">
       </el-table-column>
       <el-table-column prop="logo" label="分类logo" width="300" align="center">

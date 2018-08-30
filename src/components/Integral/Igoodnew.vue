@@ -43,18 +43,6 @@
     <el-tab-pane label="商品属性" name="attributes" :disabled="attrtab">
       <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules2" ref="newgood2" :model="newgood2">
 
-        <!-- <el-form-item label="商品分类：" prop="type_id">
-          <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
-            <el-option v-for="item in typeArr1" :label="item.title" :value="item.id" :key="item.id"></el-option>
-          </el-select>
-          <el-select v-model="type2" placeholder="请选择二级分类" filterable v-show="type1" @change="gettype3">
-            <el-option v-for="item in typeArr2" :label="item.title" :value="item.id" :key="item.id"></el-option>
-          </el-select>
-          <el-select v-model="newgood2.type_id" placeholder="请选择三级分类" filterable v-show="type2" @change="confirmtype">
-            <el-option v-for="item in typeArr3" :label="item.title" :value="item.id" :key="item.id"></el-option>
-          </el-select>
-        </el-form-item> -->
-
         <el-form-item label="商品规格：" prop="sameornot" v-show="showradio">
           <el-radio-group v-model="sameornot" @change="changeguige">
             <el-radio label="1">统一规格</el-radio>
@@ -139,7 +127,6 @@
 
 </el-col>
 
-
 <el-col>
   <el-dialog title="选择规格" :visible.sync="dialogggVisible" width="30%" min-width="30%">
     <div style="border: 1px solid #eee;padding: 0 0 10px 10px;">
@@ -156,8 +143,6 @@
     </div>
   </el-dialog>
 </el-col>
-
-
 
 </el-row>
 </template>
@@ -178,44 +163,30 @@
   import 'quill/dist/quill.snow.css';
   import 'quill/dist/quill.bubble.css';
 
-  import { quillEditor } from 'vue-quill-editor' //调用编辑器
+  import { quillEditor } from 'vue-quill-editor'
 
   export default {
     data() {
-
       var checkvalue = (rule, value, callback) => {
-        if (!value) {
-          return callback(new Error('此项不能为空'));
-        }
+        if (!value) {return callback(new Error('此项不能为空'));}
         setTimeout(() => {
           if (Math.sign(value) == 1) {
-            if(value%1 === 0){
-             callback();
-           }else{
-            callback();
-          }
-        } else if(Math.sign(value) == 0) {
-          callback(new Error('不能为0'));
-        } else if(Math.sign(value) == -1) {
-          callback(new Error('请输入正数'));
-        }else{
-          callback(new Error('请输入数字'));
-        }
-      }, 100);
+            if(value%1 === 0){callback();}
+            else{callback();}
+          } else if(Math.sign(value) == 0) {callback(new Error('不能为0'));} 
+          else if(Math.sign(value) == -1) {callback(new Error('请输入正数'));}
+          else{callback(new Error('请输入数字'));}
+        }, 100);
       };
 
       return {
-
         activeName:'base',
-        // activeName:'attributes',
         attrtab:true,
 
         uptoken:{
           token:qiniu.token,
         },
         upurl:qiniu.upurl,
-
-
 
         editorOption:{
           placeholder: '请输入详细内容（添加图片请点击上方第一个按钮）',
@@ -259,17 +230,8 @@
         images:[],
         origin_price:null,
         score:null,
-        // type_id:'',
         details:[]
       },
-
-      // expressArr:[],
-
-      // typeArr1:[],
-      // type1:'',
-      // typeArr2:[],
-      // type2:'',
-      // typeArr3:[],
 
       sameornot:'1',
       showmore:'',
@@ -355,7 +317,6 @@ methods:{
       this.newgood1={
         name:res.data.name,
         detail:res.data.detail,
-        // brokerage:res.data.brokerage,
         share_title:res.data.share_title,
         description:res.data.description
       }
@@ -366,16 +327,11 @@ methods:{
       }else{
        this.sameornot='1'
      }
-     // this.type1=res.data.typeArray[0]
-     // this.gettype2(this.type1)
-     // this.type2=res.data.typeArray[1]
-     // this.gettype3(this.type2)
 
      this.newgood2={
       cover:res.data.stocks[0].cover,
       origin_price:res.data.stocks[0].origin_price,
       score:res.data.stocks[0].score,
-      // type_id:res.data.typeArray[2],
     }
 
     var images=[];
@@ -412,10 +368,6 @@ methods:{
             url:res.data.stocks[i].images[j].url
           })
         }
-        // var bbb=res.data.stocks[i].images
-        // for(var j=0;j<bbb.length;j++){
-        //   bbb[i]
-        // }
       }
       this.aaa=aaa
       this.pricearr=res.data.stocks
@@ -453,59 +405,22 @@ clicktab(res){
  }
 },
 
-// gettype1(){
-//   var allParams = '?level=1';
-//   typeGet(allParams).then((res) => {
-//     this.typeArr1=res.data.data;
-//   });
-// },
-
-// gettype2(e){
-//   var allParams = '?parent='+ e;
-//   typeGet(allParams).then((res) => {
-//     this.typeArr2=[];
-//     this.typeArr2=res.data.data;
-//   });
-// },
-
-// gettype3(e){
-//   var allParams = '?parent='+ e;
-//   typeGet(allParams).then((res) => {
-//     this.typeArr3=res.data.data;
-//   });
-// },
-
-// confirmtype(e){
-//   this.newgood2.type_id=e;
-//   this.getcategory()
-// },
-
 changeguige(val){
   if(val=="1"){
     this.showmore=false
   }else if(val=="2"){
-    // this.getcategory()
-    // if(this.newgood2.type_id){
-      this.showmore=true
-  //   }
-}
+    this.showmore=true
+  }
 },
 
 getcategory(){
-  // if(this.newgood2.type_id){
-    var allParams = '?page=1'+ '&limit=10000';
-    guigeGet(allParams).then((res) => {
-      this.checkOptions=res.data.data;
-      if(this.sameornot==2){
-        this.showmore=true
-      }
-    });
-  // }else{
-  //   Message({
-  //     message: "请先选择三级分类",
-  //     type: 'error'
-  //   });
-  // }
+  var allParams = '?page=1'+ '&limit=10000';
+  guigeGet(allParams).then((res) => {
+    this.checkOptions=res.data.data;
+    if(this.sameornot==2){
+      this.showmore=true
+    }
+  });
 },
 
 
@@ -640,85 +555,61 @@ ggsubmit(){
 
 
 save(){
-
-  // var aaa =this.newgood2.images
-  // this.newgood2.images=[]
-  // for(var i=0; i<aaa.length; i++){
-  //   if(typeof aaa[i] == 'object'){
-  //     this.newgood2.images.push(aaa[i].url)
-  //   }else {
-  //     this.newgood2.images.push(aaa[i])
-  //   }
-  // }
-
   this.$refs.newgood2.validate((valid) => {
 
-    // if(this.newgood2.type_id==null){
-    //   Message({
-    //     message: "请选择三级分类",
-    //     type: 'error'
-    //   });
-    //   return
-    // }else{
-      if(this.sameornot==1){
-        if (valid) {
-          if(this.newgood2.cover=="../static/images/default1.png"){
-            Message({
-              message: "请选择商品缩略图",
-              type: 'error'
-            });
-            return
-          }else if(this.newgood2.images.length==0){
-            Message({
-              message: "请选择商品相册",
-              type: 'error'
-            });
-            return
-          }else{
-            this.allParams = {
-              name:this.newgood1.name,
-              detail:this.newgood1.detail,
-              share_title:this.newgood1.share_title,
-              description:this.newgood1.description,
-              norm:'fixed',
-              // type_id:this.newgood2.type_id,
-              stocks:[this.newgood2]
-            };
-          }
+    if(this.sameornot==1){
+      if (valid) {
+        if(this.newgood2.cover=="../static/images/default1.png"){
+          Message({
+            message: "请选择商品缩略图",
+            type: 'error'
+          });
+          return
+        }else if(this.newgood2.images.length==0){
+          Message({
+            message: "请选择商品相册",
+            type: 'error'
+          });
+          return
         }else{
-          return false;
+          this.allParams = {
+            name:this.newgood1.name,
+            detail:this.newgood1.detail,
+            share_title:this.newgood1.share_title,
+            description:this.newgood1.description,
+            norm:'fixed',
+            stocks:[this.newgood2]
+          };
         }
       }else{
-        var aaa=this.pricearr
-        for (var i=0; i<aaa.length; i++) {
-          // var aaa =this.pricearr[i]
-          for (var j=0; j<aaa[i].images.length; j++) {
-            // var bbb=aaa.images[j]
-            // console.log(bbb)
-            if(aaa[i].images[j].url){
-              aaa[i].images[j]=aaa[i].images[j].url
-            }
+        return false;
+      }
+    }else{
+      var aaa=this.pricearr
+      for (var i=0; i<aaa.length; i++) {
+        for (var j=0; j<aaa[i].images.length; j++) {
+          if(aaa[i].images[j].url){
+            aaa[i].images[j]=aaa[i].images[j].url
           }
         }
-        // console.log(aaa)
-
-        this.allParams = {
-          name:this.newgood1.name,
-          detail:this.newgood1.detail,
-          share_title:this.newgood1.share_title,
-          description:this.newgood1.description,
-          norm:'change',
-          stocks:aaa
-        };
       }
-  // }
 
-  var goodeditid = window.sessionStorage.getItem('igoodeditid')
-  if(goodeditid){
-    this.allParams.id=goodeditid;
-  }
+      this.allParams = {
+        name:this.newgood1.name,
+        detail:this.newgood1.detail,
+        share_title:this.newgood1.share_title,
+        description:this.newgood1.description,
+        norm:'change',
+        stocks:aaa
+      };
+    }
 
-  console.log(this.allParams)
+    var goodeditid = window.sessionStorage.getItem('igoodeditid')
+    if(goodeditid){
+      this.allParams.id=goodeditid;
+    }
+
+  // console.log(this.allParams)
 
   igoodPost(this.allParams).then((res) => {
     console.log(res)
@@ -736,7 +627,6 @@ save(){
 
 
 mounted: function () {
-  // this.gettype1()
   this.getcategory()
   this.checkgoodid()
 }

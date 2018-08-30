@@ -96,17 +96,6 @@ let router = new Router({
         children: [
         {path: '/index/Console',component: Console,name: '控制台',menuShow: true,meta:{permission: ''}},
         ]
-    }, {
-        path: '/',
-        name: '积分商城',
-        component: Home,
-        redirect: '/Integral/Cardgood',
-        menuShow: true,
-        iconCls: 'iconfont menu-card',
-        children: [
-        {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false}, 
-        {path: '/Integral/Igoodlist',component: Igoodlist,name: '商品列表',menuShow: true}, 
-        ]
     },{
         path: '/',
         name: '商家管理',
@@ -147,6 +136,17 @@ let router = new Router({
         {path: '/Order/Refund',component: Refund,name: '退款',menuShow: true,meta:{permission: ''}},
         ]
     }, {
+        path: '/',
+        name: '积分商城',
+        component: Home,
+        redirect: '/Integral/Cardgood',
+        menuShow: true,
+        iconCls: 'iconfont menu-card',
+        children: [
+        {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false}, 
+        {path: '/Integral/Igoodlist',component: Igoodlist,name: '商品列表',menuShow: true}, 
+        ]
+    },{
         leaf: true,
         path: '/',
         name: '用户管理',
@@ -311,18 +311,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-           MessageBox.alert('没有访问权限', '提示', {
-            confirmButtonText: '确定',
-            closeOnPressEscape:false,
-            showClose:false,
-            callback: action => {
+             MessageBox.alert('没有访问权限', '提示', {
+                confirmButtonText: '确定',
+                closeOnPressEscape:false,
+                showClose:false,
+                callback: action => {
 
-            }
-        });
-       }
-   }else{
-     next() 
- }
+                }
+            });
+         }
+     }else{
+       next() 
+   }
 }
 })
 

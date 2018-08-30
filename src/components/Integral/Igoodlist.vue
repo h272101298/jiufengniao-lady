@@ -1,5 +1,5 @@
 <template>
-  <el-row class="warp">
+  <el-row class="warp" style="padding:20px 0 0 20px;">
     <el-col :span="24" class="warp-breadcrum">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }"><b>首页</b></el-breadcrumb-item>

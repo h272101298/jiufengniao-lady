@@ -29,8 +29,32 @@
             <el-input v-model="newgood1.share_title" placeholder="请输入分享标题(10字以内)"></el-input>
           </el-form-item>
 
+
+
+
+
+
+          <el-form-item label="送货方式：" prop="share_title">
+            <el-checkbox @change="xzshfs" true-label='kuaidi' false-label='kuaidi1a' checked>快递</el-checkbox>
+            <el-checkbox @change="xzshfs" true-label='ziti' false-label='ziti1a' checked>自提</el-checkbox>
+          </el-form-item>
+
+          <el-form-item label="快递：" prop="share_title" v-show="showkd">
+            <el-select v-model="type1" placeholder="请选择快递" filterable @change="xzkuaidi">
+              <el-option v-for="item in kuaidilist" :label="item.title" :value="item.id" :key="item.id"></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="运费：" prop="share_title" v-show="showkd">
+            <el-input v-model="newgood1.share_title" placeholder="请输入运费"></el-input>
+          </el-form-item>
+
+
+
+
+
           <el-form-item label="商品详情：" prop="detail">
-           <div class="edit_container">
+           <div class="edit_container"> 
             <quill-editor v-model="newgood1.detail" :options="editorOption" ref="myQuillEditor" class="editer"></quill-editor>
             <el-upload class="avatar-uploader quill-img" :action="upurl" :before-upload='beforeUpload' :data="uptoken" :on-success='quillImgSuccess' style="display: none">
               <el-button size="small" type="primary" id="imgInput" element-loading-text="插入中,请稍候">点击上传</el-button>
@@ -181,6 +205,8 @@
   import { goodoneGet } from '../../api/api';
 
   import { Message } from 'element-ui';
+
+  import { deliveryGet } from '../../api/api';
 
 
   import 'quill/dist/quill.core.css';
@@ -336,7 +362,13 @@
 
     allParams:null,
 
-    goodid:''
+    goodid:'',
+
+
+
+    shfs:['kuaidi','ziti'],
+    kuaidilist:[],
+    showkd:true
   };
 },
 
@@ -461,33 +493,65 @@ methods:{
   }
 },
 
-      // 分类
-      gettype1(){
-        var allParams = '?level=1';
-        typeGet(allParams).then((res) => {
-          this.typeArr1=res.data.data;
-        });
-      },
 
-      gettype2(e){
-        var allParams = '?parent='+ e;
-        typeGet(allParams).then((res) => {
-          this.typeArr2=[];
-          this.typeArr2=res.data.data;
-        });
-      },
+xzshfs(val){
+  var arr =this.shfs;
+  var item =val.split('1')
+  if(item[1]=='a'){
+    arr.splice(arr.indexOf(item[0]),1)
+  }else{
+    if(arr.indexOf(item[0])==-1){
+      arr.push(item[0])
+    }
+  }
+  console.log(this.shfs)
+  if(this.shfs.indexOf('kuaidi')==-1){
+    this.showkd=false
+  }else{
+    this.showkd=true
+  }
+  console.log(this.showkd)
+},
 
-      gettype3(e){
-        var allParams = '?parent='+ e;
-        typeGet(allParams).then((res) => {
-          this.typeArr3=res.data.data;
-        });
-      },
 
-      confirmtype(e){
-        this.newgood2.type_id=e;
-        this.getcategory()
-      },
+getkuaidi(){
+  var allParams = '?page=1&limit=10000';
+  deliveryGet(allParams).then((res) => {
+    this.kuaidilist=res.data.data;
+  });
+},
+
+xzkuaidi(e){
+  console.log(e)
+},
+
+
+gettype1(){
+  var allParams = '?level=1';
+  typeGet(allParams).then((res) => {
+    this.typeArr1=res.data.data;
+  });
+},
+
+gettype2(e){
+  var allParams = '?parent='+ e;
+  typeGet(allParams).then((res) => {
+    this.typeArr2=[];
+    this.typeArr2=res.data.data;
+  });
+},
+
+gettype3(e){
+  var allParams = '?parent='+ e;
+  typeGet(allParams).then((res) => {
+    this.typeArr3=res.data.data;
+  });
+},
+
+confirmtype(e){
+  this.newgood2.type_id=e;
+  this.getcategory()
+},
 
       // 规格
       changeguige(val){
@@ -800,6 +864,7 @@ methods:{
   mounted: function () {
     this.gettype1()
     this.checkgoodid()
+    this.getkuaidi()
     // this.test()
   }
 }

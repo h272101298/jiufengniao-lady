@@ -11,11 +11,11 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增规格</el-button>
+        <el-button type="primary" size="small" @click="newone" v-show="checkper1">新增规格</el-button>
       </el-form-item>
     </el-form>
 
-    <el-table :data="list" border stripe style="width:1501px">
+    <el-table :data="list" border stripe style="width:1501px" size="small">
       <el-table-column prop="id" label="编号" width="100" align="center">
       </el-table-column>
       <el-table-column prop="title" label="名称" width="400" align="center">

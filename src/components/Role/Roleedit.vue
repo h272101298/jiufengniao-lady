@@ -448,6 +448,7 @@
 
           }
         }
+        // this.checkedlist=arr
         // console.log(this.checkedlist)
       },
 
