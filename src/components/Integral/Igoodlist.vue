@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="small" @click="newone">新增商品</el-button>
+        <el-button type="primary" size="small" @click="newone" v-if="checkper4">新增商品</el-button>
       </el-form-item>
       <el-form-item>
         <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类" style="min-width: 260px;" size="small"></el-input>
@@ -50,14 +50,14 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="state" label="上架状态" min-width="100" align="center">
+      <el-table-column prop="state" label="上架状态" min-width="100" align="center" v-if="checkper2">
         <template slot-scope="scope">
           <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
           <el-button type="info" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
         </template>
       </el-table-column>
 
-      <el-table-column prop="hot" label="推荐" min-width="100" align="center">
+      <el-table-column prop="hot" label="推荐" min-width="100" align="center" v-if="checkper3">
         <template slot-scope="scope">
           <el-button type="success" size="mini" v-show="scope.row.hot==1&&scope.row.review==1&&scope.row.state==1" @click="changehot(scope.row)">是</el-button>
           <el-button type="info" size="mini" v-show="scope.row.hot==0&&scope.row.review==1&&scope.row.state==1" @click="changehot(scope.row)">否</el-button>
@@ -69,16 +69,16 @@
 
       <el-table-column label="操作" width="200" align="center">
        <template slot-scope="scope">
-        <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
+        <el-tooltip class="icon" effect="dark" content="编辑" placement="top" v-if="checkper4">
           <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)">
         </el-tooltip>
         <el-tooltip class="icon" effect="dark" content="查看详情" placement="bottom">
           <img src="../../../static/images/icon/look.png" @click="handleSee(scope.$index, scope.row)">
         </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="审核" placement="top">
+        <el-tooltip class="icon" effect="dark" content="审核" placement="top" v-if="checkper2">
           <img src="../../../static/images/icon/check.png" v-show="scope.row.review==0" @click="handleCheck(scope.row)">
         </el-tooltip>
-        <el-tooltip class="icon" effect="dark" content="删除" placement="bottom">
+        <el-tooltip class="icon" effect="dark" content="删除" placement="bottom" v-if="checkper5">
           <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
         </el-tooltip>
       </template>
@@ -118,12 +118,6 @@
           <span class="fw4">{{currow.share_title==null ? '暂无' : currow.share_title }}</span>    
         </template>
       </el-form-item>
-
-<!--       <el-form-item label="缩略图：" class="fw6">
-        <template slot-scope="scope">
-          <img :src="currow.cover" class="seeimg" />
-        </template>
-      </el-form-item> -->
 
       <el-form-item label="详细内容：" class="fw6">
         <template slot-scope="scope">
@@ -278,10 +272,30 @@
       this.limit = val;
       this.getlist();
     },
+
+    checkPer(){
+      var per = sessionStorage.getItem('permissions');
+      if(per.indexOf('iproductReview')>-1){
+        this.checkper1=true;
+      }
+      if(per.indexOf('iproductShelf')>-1){
+        this.checkper2=true;
+      }
+      if(per.indexOf('iproductSet')>-1){
+        this.checkper3=true;
+      }
+      if(per.indexOf('iproductAdd')>-1){
+        this.checkper4=true;
+      }
+      if(per.indexOf('iproductDel')>-1){
+        this.checkper5=true;
+      }
+    }
   },
 
   mounted: function () {
    this.getlist();
+   this.checkPer()
  }
 }
 </script>

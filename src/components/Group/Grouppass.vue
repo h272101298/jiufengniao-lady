@@ -46,14 +46,14 @@
 
         <el-table-column prop="enable" label="状态" width="95" align="center">
          <template slot-scope="scope">
-          <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper3">上线</el-button>
-          <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper3">下线</el-button>
+          <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
+          <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper1">下线</el-button>
         </template>
       </el-table-column>
 
       <el-table-column label="操作" width="95" align="center">
        <template slot-scope="scope">
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper3">删除</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>
     </el-table-column>
 
@@ -117,16 +117,12 @@
     methods:{
       checkPer(){
         var per = sessionStorage.getItem('permissions');
-        if(per.indexOf('hotBargainPromotion')>-1){
+        if(per.indexOf('enablePintuanPromotion')>-1){
           this.checkper1=true;
         }
 
-        if(per.indexOf('enableBargainPromotion')>-1){
+        if(per.indexOf('delPintuanPromotion')>-1){
           this.checkper2=true;
-        }
-
-        if(per.indexOf('delBargainPromotion')>-1){
-          this.checkper3=true;
         }
       },
 

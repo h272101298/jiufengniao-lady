@@ -103,8 +103,8 @@
 
             <el-form-item>
               <el-button v-if="set" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="changebase" >编辑</el-button>
-              <el-button v-if="show" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="confirm">提交</el-button>
-              <el-button v-if="show" size="small" @click="cancel">取消</el-button>
+              <el-button v-if="show" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="confirmqd">提交</el-button>
+              <el-button v-if="show" size="small" @click="cancelqd">取消</el-button>
             </el-form-item>
           </el-form>
 
@@ -112,27 +112,27 @@
 
         <el-tab-pane label="积分设置" name="config">
 
-          <el-form ref="modeldata" :model="modeldata" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="jfrule">
+          <el-form ref="scoredata" :model="scoredata" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="jfrule">
 
             <el-form-item label="购买商品获得积分：">
-              <el-radio-group @change="changejifen" v-model="sameornot">
+              <el-radio-group @change="jifenkg" v-model="sameornot">
                 <el-radio label="2">关</el-radio>
                 <el-radio label="1">开</el-radio>
               </el-radio-group>
             </el-form-item>
 
             <el-form-item label="积分获得比例：" prop="jfbl" v-show="sameornot==1">
-              <el-input placeholder="请输入获得比例" v-show="modelshow" v-model="modeldata.jfbl">
+              <el-input placeholder="请输入获得比例" v-show="scoreshow" v-model="scoredata.jfbl">
                 <div id="bgw2" slot="append">%</div>
               </el-input>
-              <div class="showlabel" v-show="modelset">
+              <div class="showlabel" v-show="scoreset">
                 <label>20%</label>
               </div>
             </el-form-item>
             <el-form-item v-show="sameornot==1">
-              <el-button v-if="modelset" size="small" type="primary" style="margin-top:20px;" @click="changemodel">编辑</el-button>
-              <el-button v-if="modelshow" size="small" type="primary" style="margin-top:20px;" @click="postmodel">提交</el-button>
-              <el-button v-if="modelshow" size="small" @click="cancelmodel">取消</el-button>     
+              <el-button v-if="scoreset" size="small" type="primary" style="margin-top:20px;" @click="changescore">编辑</el-button>
+              <el-button v-if="scoreshow" size="small" type="primary" style="margin-top:20px;" @click="postscore">提交</el-button>
+              <el-button v-if="scoreshow" size="small" @click="cancelscore">取消</el-button>     
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -152,6 +152,10 @@
 
   import { signPost } from '../../api/api';
   import { signGet } from '../../api/api';
+
+
+  import { scoreSet } from '../../api/api';
+  import { scoreGet } from '../../api/api';
 
   import { Message } from 'element-ui';
 
@@ -235,9 +239,9 @@
           jfbl:[{required: true, trigger: 'blur',validator: checkvalue}],
         },
 
-        modelshow:false,
-        modelset:true,
-        modeldata:{
+        scoreshow:false,
+        scoreset:true,
+        scoredata:{
           jfbl:10
         },
 
@@ -264,9 +268,8 @@
       },
 
 
-      confirm(){
+      confirmqd(){
         // console.log(this.signset)
-
         this.$refs.signset.validate((valid) => {
           if (valid) {
 
@@ -313,25 +316,39 @@
                     })
       },
 
-      cancel(){
+      cancelqd(){
         this.show=false
         this.set=true
       },
 
-      changejifen(val){
+
+
+      getscore(){
+        var allParams=""
+        scoreGet(allParams).then((res) => {
+
+        });
+      },
+
+
+
+      jifenkg(val){
         this.showjifen=val
       },
 
-      changemodel(){
-        this.modelshow=true
-        this.modelset=false
+      changescore(){
+        this.scoreshow=true
+        this.scoreset=false
       },
 
-      postmodel(){
-        // console.log(this.modeldata.jfbl)
-        this.$refs.modeldata.validate((valid) => {
+      postscore(){
+        // console.log(this.scoredata.jfbl)
+        this.$refs.scoredata.validate((valid) => {
           if (valid) {
+            var allParams={}
+            scoreSet(allParams).then((res) => {
 
+            });
 
           }else{
             return false;
@@ -339,14 +356,15 @@
         })
       },
 
-      cancelmodel(){
-        this.modelshow=false
-        this.modelset=true
+      cancelscore(){
+        this.scoreshow=false
+        this.scoreset=true
       },
     },
 
     mounted: function(){
       this.getsign();
+      // this.getscore();
 
     }
   }

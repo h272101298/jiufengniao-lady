@@ -352,3 +352,9 @@ export const igoodShelf = params => { return axios.get(`${base3}/enable/score/pr
 export const igoodhot = params => { return axios.get(`${base3}/hot/score/product`+`${params}`).then(res => res.data)}//推荐
 
 export const igoodoneGet = params => { return axios.get(`${base3}/score/product`+`${params}`).then(res => res.data)}
+
+export const scoreSet = params => { return axios.post(`${base3}/score/set`, params).then(res => res.data)}
+
+export const scoreGet = params => { return axios.get(`${base3}/score/set`+`${params}`).then(res => res.data)}
+
+

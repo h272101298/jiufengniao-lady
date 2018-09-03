@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="small" @click="newone">新增商品</el-button>
+        <el-button type="primary" size="small" @click="newone" v-show="checkper3">新增商品</el-button>
       </el-form-item>
       <el-form-item>
         <el-input v-model="filter.name" placeholder="请输入商品名称/商品分类" style="min-width: 260px;" size="small"></el-input>

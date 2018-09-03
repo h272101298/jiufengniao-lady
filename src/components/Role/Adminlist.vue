@@ -135,8 +135,6 @@
           this.checkper1=true;
         }
 
-        var per = sessionStorage.getItem('permissions');
-
         if(per.indexOf('advertDel')>-1){
           this.checkper2=true;
         }

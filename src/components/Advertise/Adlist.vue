@@ -16,7 +16,7 @@
 
          <el-form :inline="true">
           <el-form-item>
-            <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增轮播</el-button>
+            <el-button type="primary" size="medium" @click="newone">新增轮播</el-button>
           </el-form-item>
         </el-form>
 
@@ -31,8 +31,8 @@
 
           <el-table-column label="操作" width="300" align="center">
            <template slot-scope="scope">
-            <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
-            <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
+            <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -76,7 +76,7 @@
       </el-table-column>
       <el-table-column label="操作" width="300" align="center">
        <template slot-scope="scope">
-        <el-button type="primary" size="small" @click="handlepostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+        <el-button type="primary" size="small" @click="handlepostEdit(scope.$index, scope.row)">编辑</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -97,7 +97,7 @@
     </el-table-column>
     <el-table-column label="操作" width="300" align="center">
      <template slot-scope="scope">
-      <el-button type="primary" size="small" @click="otherpostEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+      <el-button type="primary" size="small" @click="otherpostEdit(scope.$index, scope.row)">编辑</el-button>
     </template>
   </el-table-column>
 </el-table>
@@ -496,19 +496,19 @@
 
 
 
-     checkPer(){
-      var per = sessionStorage.getItem('permissions');
+    //  checkPer(){
+    //   var per = sessionStorage.getItem('permissions');
 
-      if(per.indexOf('advertAdd')>-1){
-        this.checkper1=true;
-      }
+    //   if(per.indexOf('advertAdd')>-1){
+    //     this.checkper1=true;
+    //   }
 
-      var per = sessionStorage.getItem('permissions');
+    //   var per = sessionStorage.getItem('permissions');
 
-      if(per.indexOf('advertDel')>-1){
-        this.checkper2=true;
-      }
-    },
+    //   if(per.indexOf('advertDel')>-1){
+    //     this.checkper2=true;
+    //   }
+    // },
 
 
     getlist(){
@@ -736,7 +736,7 @@
     this.getlist();
     this.geticon();
     this.getposter();
-    this.checkPer();
+    // this.checkPer();
   }
 }
 </script>

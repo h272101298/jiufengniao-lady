@@ -80,6 +80,28 @@
               <el-checkbox @change="xzchange" true-label='productAdd' false-label='productAdd1a' checked>编辑商品</el-checkbox>
               <el-checkbox @change="xzchange" true-label='productSoftDel' false-label='productSoftDel1a' checked>放入回收站</el-checkbox>
               <el-checkbox @change="xzchange" true-label='productDel' false-label='productDel1a' checked>永久删除</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='productRecycle' false-label='productRecycle1a' checked>商品回收站</el-checkbox>
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">积分商城</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='iproductListAll' false-label='iproductListAll1a' checked>商品列表(所有)</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='iproductListStore' false-label='iproductListStore1a'>商品列表(商铺)</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='iproductReview' false-label='iproductReview1a' checked>审核商品</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='iproductShelf' false-label='iproductShelf1a' checked>上下架商品</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='iproductSet' false-label='iproductSet1a' checked>设置推荐</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='iproductAdd' false-label='iproductAdd1a' checked>编辑商品</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='iproductDel' false-label='iproductDel1a' checked>删除商品</el-checkbox>
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">优惠券</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='quanList' false-label='quanList1a' checked>优惠券列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='quanSet' false-label='quanSet1a' checked>启用优惠券</el-checkbox>     
+              <el-checkbox @change="xzchange" true-label='quanAdd' false-label='quanAdd1a' checked>编辑优惠券</el-checkbox>      
+              <el-checkbox @change="xzchange" true-label='quanDel' false-label='quanDel1a' checked>删除优惠券</el-checkbox>
             </td>
           </tr>
         </table>
@@ -175,7 +197,7 @@
               <el-checkbox @change="xzchange" true-label='allCardPromotions' false-label='allCardPromotions1a' checked>活动列表</el-checkbox>
               <el-checkbox @change="xzchange" true-label='enableCardPromotion' false-label='enableCardPromotion1a' checked>活动上下线</el-checkbox>
               <el-checkbox @change="xzchange" true-label='delCardPromotion' false-label='delCardPromotion1a' checked>删除活动</el-checkbox>
-              <el-checkbox @change="xzchange" true-label='hotCardPromotion' false-label='hotCardPromotion1a' checked>设置首页推荐</el-checkbox>
+              <!-- <el-checkbox @change="xzchange" true-label='hotCardPromotion' false-label='hotCardPromotion1a' checked>设置首页推荐</el-checkbox> -->
               <el-checkbox @change="xzchange" true-label='addDefaultCards' false-label='addDefaultCards1a' checked>设置默认卡牌</el-checkbox>
             </td>
           </tr>
@@ -210,7 +232,42 @@
               <el-checkbox @change="xzchange" true-label='allBargainPromotions' false-label='allBargainPromotions1a' checked>活动列表</el-checkbox><!--  -->
               <el-checkbox @change="xzchange" true-label='enableBargainPromotion' false-label='enableBargainPromotion1a' checked>活动上下线</el-checkbox><!--  -->
               <el-checkbox @change="xzchange" true-label='delBargainPromotion' false-label='delBargainPromotion1a' checked>删除活动</el-checkbox><!--  -->
-              <el-checkbox @change="xzchange" true-label='hotBargainPromotion' false-label='hotBargainPromotion1a' checked>设置首页推荐</el-checkbox><!--  -->
+              <!-- <el-checkbox @change="xzchange" true-label='hotBargainPromotion' false-label='hotBargainPromotion1a' checked>设置首页推荐</el-checkbox> -->
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class="tablebox">
+        <table border="1" cellspacing="0" style="border-collapse:collapse;border:#ddd;">
+          <tr>
+            <th>限时拼团</th>
+          </tr>
+          <tr>
+            <td class="ltd">活动管理(商家)</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='storePintuanPromotions' false-label='storePintuanPromotions1a' checked>活动列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='addPintuanPromotion' false-label='addPintuanPromotion1a' checked>新增活动</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='delPintuanPromotion' false-label='delPintuanPromotion1a' checked>删除活动</el-checkbox><!--  -->
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">活动审核</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='checkPintuanPromotions' false-label='checkPintuanPromotions1a' checked>审核列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='modifyPintuanPromotion' false-label='modifyPintuanPromotion1a' checked>编辑活动</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='checkPintuanPromotion' false-label='checkPintuanPromotion1a' checked>审核活动</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='delPintuanPromotion' false-label='delPintuanPromotion1a' checked>删除活动</el-checkbox><!--  -->
+            </td></td>
+          </tr>
+          <tr>
+            <td class="ltd">活动管理(平台)</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='allPintuanPromotions' false-label='allPintuanPromotions1a' checked>活动列表</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='enablePintuanPromotion' false-label='enablePintuanPromotion1a' checked>活动上下线</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='delPintuanPromotion' false-label='delPintuanPromotion1a' checked>删除活动</el-checkbox><!--  -->
+              <!-- <el-checkbox @change="xzchange" true-label='hotBargainPromotion' false-label='hotBargainPromotion1a' checked>设置首页推荐</el-checkbox> -->
             </td>
           </tr>
         </table>
@@ -230,7 +287,6 @@
             <td class="ltd">用户列表</td>
             <td class="rtd">
               <el-checkbox @change="xzchange" true-label='userList' false-label='userList1a' checked>用户列表</el-checkbox>
-              <el-checkbox @change="xzchange" true-label='setMember' false-label='setMember1a' checked>成为会员</el-checkbox><!--  -->
             </td>
           </tr>
           <tr>
@@ -257,25 +313,25 @@
           <tr>
             <th>会员管理</th>
           </tr>
-          <tr>
+          <tr> 
             <td class="ltd">会员列表</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='memberList' false-label='memberList' checked>会员列表</el-checkbox><!--  -->
-              <el-checkbox @change="xzchange" true-label='setMember' false-label='setMember' checked>会员续费</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='memberList' false-label='memberList1a' checked>会员列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='setMember' false-label='setMember1a' checked>成为会员和续费</el-checkbox>
             </td>
           </tr>
           <tr>
             <td class="ltd">等级设置</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='memberLevelList' false-label='memberLevelList' checked>等级列表</el-checkbox><!--  -->
-              <el-checkbox @change="xzchange" true-label='addMemberLevel' false-label='addMemberLevel' checked>编辑等级</el-checkbox><!--  -->
-              <el-checkbox @change="xzchange" true-label='delMemberLevel' false-label='delMemberLevel' checked>删除等级</el-checkbox><!--  -->
+              <el-checkbox @change="xzchange" true-label='memberLevelList' false-label='memberLevelList1a' checked>等级列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='addMemberLevel' false-label='addMemberLevel1a' checked>编辑等级</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='delMemberLevel' false-label='delMemberLevel1a' checked>删除等级</el-checkbox>
             </td>
           </tr>
           <tr>
             <td class="ltd">充值列表</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='memberRecords' false-label='memberRecords' checked>充值列表</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='memberRecords' false-label='memberRecords1a' checked>充值列表</el-checkbox>
             </td>
           </tr>
         </table>
@@ -287,17 +343,23 @@
             <th>系统设置</th>
           </tr>
           <tr>
-            <td class="ltd">微信设置</td>
+            <td class="ltd">广告设置</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='txConfig' false-label='txConfig1a' checked>编辑设置</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='advertList' false-label='advertList1a' checked>查看编辑广告</el-checkbox>
+            <!--               <el-checkbox @change="xzchange" true-label='advertAdd' false-label='advertAdd1a' checked>编辑广告</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='advertDel' false-label='advertDel1a' checked>删除广告</el-checkbox> -->
             </td>
           </tr>
           <tr>
-            <td class="ltd">广告设置</td>
+            <td class="ltd">基本设置</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='advertList' false-label='advertList1a' checked>广告列表</el-checkbox>
-              <el-checkbox @change="xzchange" true-label='advertAdd' false-label='advertAdd1a' checked>编辑广告</el-checkbox>
-              <el-checkbox @change="xzchange" true-label='advertDel' false-label='advertDel1a' checked>删除广告</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='baseConfig' false-label='baseConfig1a' checked>查看编辑设置</el-checkbox>
+            </td>
+          </tr>
+          <tr>
+            <td class="ltd">微信设置</td>
+            <td class="rtd">
+              <el-checkbox @change="xzchange" true-label='txConfig' false-label='txConfig1a' checked>查看编辑设置</el-checkbox>
             </td>
           </tr>
           <tr>
@@ -350,97 +412,139 @@
         'productCategoryAdd',
         'productCategoryDel',
         'productListAll',
-          // 'productListStore',
-          'productReview',
-          'productShelf',
-          'productAdd',
-          'productSoftDel',
-          'productDel',
-          'orderListAll',
-          // 'orderListStore',
-          'orderListDo',
-          'refuseListAll',
-          // 'refuseListStore',
-          'refuseDo',
-          'expressConfig',
-          'expressList',
-          'expressAdd',
-          'expressDel',
-          'proxyApplyList',
-          'proxyApplyCheck',
-          'proxyList',
-          'brokerageList',
-          'withdrawList',
-          'withdrawCheck',
-          'storeCardPromotions',
-          'addCardPromotion',
-          'delCardPromotion',
-          'checkCardPromotions',
-          'modifyCardPromotion',
-          'checkCardPromotion',
-          'delCardPromotion',
-          'allCardPromotions',
-          'enableCardPromotion',
-          'delCardPromotion',
-          'hotCardPromotion',
-          'addDefaultCards',
-          'storeBargainPromotions',
-          'addBargainPromotion',
-          'delBargainPromotion',
-          'checkBargainPromotions',
-          'modifyBargainPromotion',
-          'checkBargainPromotion',
-          'delBargainPromotion',
-          'allBargainPromotions',
-          'enableBargainPromotion',
-          'delBargainPromotion',
-          'hotBargainPromotion',
-          'userList',
-          'setMember',
-          'adminList',
-          'adminAdd',
-          'advertDel',
-          'roleList',
-          'roleAdd',
-          'roleDel',
-          'memberList',
-          'setMember',
-          'memberLevelList',
-          'addMemberLevel',
-          'delMemberLevel',
-          'memberRecords',
-          'txConfig',
-          'advertList',
-          'advertAdd',
-          'advertDel',
-          'documentList',
-          'documentAdd',
-          'documentDel',
-          ],
-          editId:'',
+        // 'productListStore',
+        'productReview',
+        'productShelf',
+        'productAdd',
+        'productSoftDel',
+        'productDel',
+        'productRecycle',
 
-        };
+        'iproductListAll',
+        // 'iproductListStore',
+        'iproductReview',
+        'iproductShelf',
+        'iproductAdd',
+        'iproductSet',
+        'iproductDel',
+
+        'quanList',
+        'quanSet',
+        'quanAdd',
+        'quanDel',
+
+
+
+        'orderListAll',
+        // 'orderListStore',
+        'orderListDo',
+        'refuseListAll',
+        // 'refuseListStore',
+        'refuseDo',
+        'expressConfig',
+        'expressList',
+        'expressAdd',
+        'expressDel',
+        'proxyApplyList',
+        'proxyApplyCheck',
+        'proxyList',
+        'brokerageList',
+        'withdrawList',
+        'withdrawCheck',
+
+        'storeCardPromotions',
+        'addCardPromotion',
+        'delCardPromotion',
+        'checkCardPromotions',
+        'modifyCardPromotion',
+        'checkCardPromotion',
+        'delCardPromotion',
+        'allCardPromotions',
+        'enableCardPromotion',
+        'delCardPromotion',
+        'hotCardPromotion',
+        'addDefaultCards',
+
+        'storeBargainPromotions',
+        'addBargainPromotion',
+        'delBargainPromotion',
+        'checkBargainPromotions',
+        'modifyBargainPromotion',
+        'checkBargainPromotion',
+        'delBargainPromotion',
+        'allBargainPromotions',
+        'enableBargainPromotion',
+        'delBargainPromotion',
+        'hotBargainPromotion',
+
+        'storePintuanPromotions',
+        'addPintuanPromotion',
+        'delPintuanPromotion',
+        'checkPintuanPromotions',
+        'modifyPintuanPromotion',
+        'checkPintuanPromotion',
+        'delPintuanPromotion',
+        'allPintuanPromotions',
+        'enablePintuanPromotion',
+        'delPintuanPromotion',
+
+
+        'userList',
+        'setMember',
+        'adminList',
+        'adminAdd',
+        'advertDel',
+        'roleList',
+        'roleAdd',
+        'roleDel',
+        'memberList',
+        'setMember',
+        'memberLevelList',
+        'addMemberLevel',
+        'delMemberLevel',
+        'memberRecords',
+        'txConfig',
+        'advertList',
+        // 'advertAdd',
+        // 'advertDel',
+        'documentList',
+        'documentAdd',
+        'documentDel',
+
+
+        'memberList',
+        'setMember',
+        'memberLevelList',
+        'addMemberLevel',
+        'delMemberLevel',
+        'memberRecords',
+
+        'baseConfig',
+        ],
+        editId:'',
+
+      };
+    },
+
+    methods:{
+      getname(){
+        var rolename=sessionStorage.getItem('roleeditname')
+        if(rolename){
+          this.newrole.name=rolename
+          sessionStorage.removeItem('roleeditname')
+        }else{
+
+        }
       },
 
-      methods:{
-        getname(){
-          var rolename=sessionStorage.getItem('roleeditname')
-          if(rolename){
-            this.newrole.name=rolename
-            sessionStorage.removeItem('roleeditname')
-          }else{
+      xzchange(val){
+        var arr =this.checkedlist;
 
-          }
-        },
+        var item =val.split('1')
 
-        xzchange(val){
-          var arr =this.checkedlist;
-
-          var item =val.split('1')
-
-          if(item[1]=='a'){
-            arr.splice(arr.indexOf(item[0]),1)
-          }else{
+        if(item[1]=='a'){
+          arr.splice(arr.indexOf(item[0]),1)
+        }else{
           // console.log(arr.indexOf(item[0]))
           if(arr.indexOf(item[0])==-1){
             arr.push(item[0])
@@ -460,6 +564,12 @@
             if(this.checkedlist.indexOf('productListAll')!== -1 && this.checkedlist.indexOf('productListStore')!== -1){
               Message({
                 message: "商品列表(所有)和商品列表(商铺)只能选一个",
+                type: 'error'
+              });
+              return
+            }else if(this.checkedlist.indexOf('iproductListAll')!== -1 && this.checkedlist.indexOf('iproductListStore')!== -1){
+              Message({
+                message: "积分商品列表(所有)和积分商品列表(商铺)只能选一个",
                 type: 'error'
               });
               return

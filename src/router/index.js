@@ -108,7 +108,7 @@ let router = new Router({
         {path: '/Shop/Shoplist',component: Shoplist,name: '商家列表',menuShow: true,meta:{permission: 'storeList'}}, 
         {path: '/Shop/Settleapply',component: Settleapply,name: '入驻申请',menuShow: true,meta:{permission: 'settleList'}},
         {path: '/Shop/Shoptype',component: Shoptype,name: '经营类目',menuShow: true,meta:{permission: 'storeCategoryList'}},
-        {path: '/Shop/Coupon',component: Coupon,name: '优惠券',menuShow: true,meta:{permission: ''}},
+        {path: '/Shop/Coupon',component: Coupon,name: '优惠券',menuShow: true,meta:{permission: 'quanList'}},
         ]
     }, {
         path: '/',
@@ -122,7 +122,7 @@ let router = new Router({
         {path: '/Good/Goodlist',component: Goodlist,name: '商品列表',menuShow: true,meta:{permission: ''}}, 
         {path: '/Good/Goodtype',component: Goodtype,name: '商品分类',menuShow: true,meta:{permission: 'productTypeList'}}, 
         {path: '/Good/Goodformat',component: Goodformat,name: '商品规格',menuShow: true,meta:{permission: 'productCategoryList'}}, 
-        {path: '/Good/Goodrecycle',component: Goodrecycle,name: '商品回收站',menuShow: true,meta:{permission: ''}}
+        {path: '/Good/Goodrecycle',component: Goodrecycle,name: '商品回收站',menuShow: true,meta:{permission: 'productRecycle'}}
         ]
     }, {
         path: '/',
@@ -222,10 +222,10 @@ let router = new Router({
         iconCls: 'iconfont menu-pintuan',
         children: [
         {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false},
-        {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: ''}},
-        {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: ''}},
+        {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: 'storePintuanPromotions'}},
+        {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: 'checkPintuanPromotions'}},
         {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
-        {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: ''}},
+        {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: 'allPintuanPromotions'}},
         ]
     }, 
 
@@ -243,10 +243,7 @@ let router = new Router({
         {path: '/Kan/Kanchange',component: Kanchange,name: ' 编辑活动',menuShow: false}, 
         {path: '/Kan/Kanpass',component: Kanpass,name: '通过列表',menuShow: true,meta:{permission: 'allBargainPromotions'}}
         ]
-    }, 
-
-
-    {
+    }, {
         leaf: true,
         path: '/',
         name: '广告管理',
@@ -276,7 +273,7 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-quanxian',
         children: [
-        {path: '/Role/Adminlist',component: Adminlist,name: '管理员列表',menuShow: true,            meta:{permission: 'adminList'}}, 
+        {path: '/Role/Adminlist',component: Adminlist,name: '管理员列表',menuShow: true,meta:{permission: 'adminList'}}, 
         {path: '/Role/Rolelist',component: Rolelist,name: '角色列表',menuShow: true,meta:{permission: 'roleList'}},
         {path: '/Role/Roleedit',component: Roleedit,name: '编辑角色',menuShow: false,meta:{permission: 'roleAdd'}} 
         ]
@@ -288,7 +285,7 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-xitong',
         children: [
-        {path: '/Setting/Baseset',component: Baseset,name: '基本设置',menuShow: true,meta:{permission: ''}},
+        {path: '/Setting/Baseset',component: Baseset,name: '基本设置',menuShow: true,meta:{permission: 'baseConfig'}},
         {path: '/Setting/Wechatset',component: Wechatset,name: '微信设置',menuShow: true,meta:{permission: 'txConfig'}},
         {path: '/Setting/Document',component: Document,name: '关于我们',menuShow: true,meta:{permission: 'documentList'}}]
     }, ]
@@ -311,18 +308,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-             MessageBox.alert('没有访问权限', '提示', {
-                confirmButtonText: '确定',
-                closeOnPressEscape:false,
-                showClose:false,
-                callback: action => {
+           MessageBox.alert('没有访问权限', '提示', {
+            confirmButtonText: '确定',
+            closeOnPressEscape:false,
+            showClose:false,
+            callback: action => {
 
-                }
-            });
-         }
-     }else{
-       next() 
-   }
+            }
+        });
+       }
+   }else{
+     next() 
+ }
 }
 })
 

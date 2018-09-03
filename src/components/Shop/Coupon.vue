@@ -11,7 +11,7 @@
     <el-col :span="24" class="warp-main">
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="small" @click="newone">新增优惠券</el-button>
+        <el-button type="primary" size="small" @click="newone" v-show="checkper2">新增优惠券</el-button>
       </el-form-item>
     </el-form>
 
@@ -36,15 +36,15 @@
 
       <el-table-column label="状态" min-width="200" align="center">
        <template slot-scope="scope">
-        <el-button type="success" size="mini" v-show="scope.row.enable==1" @click="changestate(scope.$index, scope.row)">启用</el-button>
-        <el-button type="info" size="mini" v-show="scope.row.enable==0" @click="changestate(scope.$index, scope.row)">停用</el-button>
+        <el-button type="success" size="mini" v-show="scope.row.enable==1&&checkper1" @click="changestate(scope.$index, scope.row)">启用</el-button>
+        <el-button type="info" size="mini" v-show="scope.row.enable==0&&checkper1" @click="changestate(scope.$index, scope.row)">停用</el-button>
       </template>
     </el-table-column>
 
     <el-table-column label="操作" min-width="200" align="center">
      <template slot-scope="scope">
-      <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="new Date(scope.row.end)<Date.now()">删除</el-button>
+      <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper2">编辑</el-button>
+      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="new Date(scope.row.end)<Date.now()&&checkper3">删除</el-button>
     </template>
   </el-table-column>
 
@@ -162,6 +162,11 @@
             return time.getTime() < Date.now() || time.getTime() < twoday;
           }
         },
+
+
+        checkper1:false,
+        checkper2:false,
+        checkper3:false,
       };
     },
 
@@ -300,10 +305,25 @@
         this.limit = val;
         this.getlist();
       },
+
+      checkPer(){
+        var per = sessionStorage.getItem('permissions');
+
+        if(per.indexOf('quanSet')>-1){
+          this.checkper1=true;
+        }
+        if(per.indexOf('quanAdd')>-1){
+          this.checkper2=true;
+        }
+        if(per.indexOf('quanDel')>-1){
+          this.checkper3=true;
+        }
+      },
     },
 
     mounted: function () {
       this.getlist();
+      this.checkPer();
     }
   }
 </script>

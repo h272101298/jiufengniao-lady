@@ -20,11 +20,11 @@
         <el-table-column prop="end" label="结束时间" width="200" align="center">
         </el-table-column> -->
 <!--         <el-table-column prop="number" label="库存" width="85" align="center">
-        </el-table-column> -->
-        <el-table-column prop="time" label="拼团限时（小时）" min-width="120" align="center">
-        </el-table-column>
-        <el-table-column prop="people_number" label="人数" min-width="120" align="center">
-        </el-table-column>
+</el-table-column> -->
+<el-table-column prop="time" label="拼团限时（小时）" min-width="120" align="center">
+</el-table-column>
+<el-table-column prop="people_number" label="人数" min-width="120" align="center">
+</el-table-column>
 <!--         <el-table-column prop="origin_price" label="原价" width="85" align="center">
         </el-table-column>
         <el-table-column prop="price" label="拼团价" width="85" align="center">
@@ -44,10 +44,10 @@
         </el-table-column>
         <el-table-column label="操作" min-width="280" align="center">
          <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1">编辑</el-button>
-          <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="2">通过</el-button>
-          <el-button type="info" size="small" @click="handleReject(scope.$index, scope.row)" v-show="scope.row.state==1" data-state="3">不通过</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper1">编辑</el-button>
+          <el-button type="success" size="small" @click="handlePass(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper2" data-state="2">通过</el-button>
+          <el-button type="info" size="small" @click="handleReject(scope.$index, scope.row)" v-show="scope.row.state==1&&checkper2" data-state="3">不通过</el-button>
+          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper3">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -104,18 +104,18 @@
 
     methods:{
       checkPer(){
-        // var per = sessionStorage.getItem('permissions');
-        // if(per.indexOf('modifyBargainPromotion')>-1){
-        //   this.checkper1=true;
-        // }
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('modifyPintuanPromotion')>-1){
+          this.checkper1=true;
+        }
 
-        // if(per.indexOf('checkBargainPromotion')>-1){
-        //   this.checkper2=true;
-        // }
+        if(per.indexOf('checkPintuanPromotion')>-1){
+          this.checkper2=true;
+        }
 
-        // if(per.indexOf('delBargainPromotion')>-1){
-        //   this.checkper2=true;
-        // }
+        if(per.indexOf('delPintuanPromotion')>-1){
+          this.checkper2=true;
+        }
       },
 
 
@@ -202,7 +202,7 @@
 
     mounted: function () {
       this.getlist();
-      // this.checkPer();
+      this.checkPer();
     }
   }
 </script>

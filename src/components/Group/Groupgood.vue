@@ -12,7 +12,7 @@
 
      <el-form :inline="true">
       <el-form-item>
-        <el-button type="primary" size="small" @click="newone">发布活动</el-button>
+        <el-button type="primary" size="small" @click="newone" v-show="checkper1">发布活动</el-button>
       </el-form-item>
     </el-form>
 
@@ -26,11 +26,11 @@
       <el-table-column prop="end" label="结束时间" width="200" align="center">
       </el-table-column> -->
 <!--       <el-table-column prop="number" label="库存" width="85" align="center">
-      </el-table-column> -->
-      <el-table-column prop="time" label="拼团限时（小时）" min-width="120" align="center">
-      </el-table-column>
-      <el-table-column prop="people_number" label="人数" min-width="120" align="center">
-      </el-table-column>
+</el-table-column> -->
+<el-table-column prop="time" label="拼团限时（小时）" min-width="120" align="center">
+</el-table-column>
+<el-table-column prop="people_number" label="人数" min-width="120" align="center">
+</el-table-column>
 <!--       <el-table-column prop="origin_price" label="原价" width="85" align="center">
       </el-table-column>
       <el-table-column prop="price" label="拼团价" width="85" align="center">
@@ -44,7 +44,7 @@
 
       <el-table-column label="操作" min-width="240" align="center">
        <template slot-scope="scope">
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
       </template>
     </el-table-column>
 
@@ -105,14 +105,14 @@
 
     methods:{
       checkPer(){
-        // var per = sessionStorage.getItem('permissions');
-        // if(per.indexOf('addBargainPromotion')>-1){
-        //   this.checkper1=true;
-        // }
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('addPintuanPromotion')>-1){
+          this.checkper1=true;
+        }
 
-        // if(per.indexOf('delBargainPromotion')>-1){
-        //   this.checkper2=true;
-        // }
+        if(per.indexOf('delPintuanPromotion')>-1){
+          this.checkper2=true;
+        }
       },
 
 
@@ -171,7 +171,7 @@
 
     mounted: function () {
       this.getlist();
-      // this.checkPer();
+      this.checkPer();
     }
   }
 </script>

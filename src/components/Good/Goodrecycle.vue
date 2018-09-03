@@ -67,7 +67,7 @@
 </el-table-column> -->
 <el-table-column label="操作" min-width="200" align="center">
  <template slot-scope="scope">
-  <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">重新上架</el-button>
+  <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper2">重新上架</el-button>
   <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">永久删除</el-button>
 
 </template>
@@ -157,9 +157,9 @@
       checkPer(){
         var per = sessionStorage.getItem('permissions');
 
-        if(per.indexOf('productShelf')>-1){
-          this.checkper1=true;
-        }
+        // if(per.indexOf('productShelf')>-1){
+        //   this.checkper1=true;
+        // }
 
         if(per.indexOf('productDel')>-1){
           this.checkper2=true;
