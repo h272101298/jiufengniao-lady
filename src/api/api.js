@@ -51,9 +51,9 @@ axios.interceptors.response.use(
 	})
 
 
-// let base = 'http://192.168.1.172/Shop/public/v1'
-// let base1 = 'http://192.168.1.172/Shop/public/v2'
-// let base3 = 'http://192.168.1.172/Shop/public/v3'
+// let base = 'http://192.168.1.174/Shop/public/v1'
+// let base1 = 'http://192.168.1.174/Shop/public/v2'
+// let base3 = 'http://192.168.1.174/Shop/public/v3'
 
 let base = 'https://template.geckowing.com/v1'
 let base1 = 'https://template.geckowing.com/v2'
@@ -201,6 +201,11 @@ export const kdconfigGet = params => { return axios.get(`${base}/express/config`
 
 export const kdconfigPost = params => { return axios.post(`${base}/express/config`, params).then(res => res.data)}
 
+//商铺设置快递
+export const shopkdGet = params => { return axios.get(`${base3}/store/express`+`${params}`).then(res => res.data)}
+
+export const shopkdPost = params => { return axios.post(`${base3}/store/express`, params).then(res => res.data)}
+
 
 
 
@@ -241,6 +246,19 @@ export const roleDel = params => { return axios.delete(`${base}/role`+`${params}
 export const defaultrole = params => { return axios.get(`${base}/default/role`+`${params}`).then(res => res.data)}
 
 
+
+//基本设置
+export const signPost = params => { return axios.post(`${base3}/sign/configs`, params).then(res => res.data)}
+
+export const signGet = params => { return axios.get(`${base3}/sign/configs`+`${params}`).then(res => res.data)}
+
+export const integralPost = params => { return axios.post(`${base3}/score/config`, params).then(res => res.data)}
+
+export const integralGet = params => { return axios.get(`${base3}/score/config`+`${params}`).then(res => res.data)}
+
+
+
+
 //微信设置
 export const wxconfigPost = params => { return axios.post(`${base}/tx/config`, params).then(res => res.data)}
 
@@ -249,10 +267,6 @@ export const wxconfigGet = params => { return axios.get(`${base}/tx/config`+`${p
 export const wxmodelPost = params => { return axios.post(`${base}/notify/config`, params).then(res => res.data)}
 
 export const wxmodelGet = params => { return axios.get(`${base}/notify/configs`+`${params}`).then(res => res.data)}
-
-export const signPost = params => { return axios.post(`${base3}/sign/configs`, params).then(res => res.data)}
-
-export const signGet = params => { return axios.get(`${base3}/sign/configs`+`${params}`).then(res => res.data)}
 
 
 //帮助文档

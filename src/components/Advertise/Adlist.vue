@@ -382,8 +382,8 @@
             this.otherpost[4].pic='../../../static/images/default2.png'
           }
 
-          if(res.data.poster){//111
-            this.otherpost[5].pic=res.data.proxy_poster//111
+          if(res.data.score_poster){
+            this.otherpost[5].pic=res.data.score_poster
           }else{
             this.otherpost[5].pic='../../../static/images/default.png'
           }
@@ -705,7 +705,7 @@
           }
         }else if( this.postId==10){
           var allParams={
-            proxy_poster:this.postimgSrc//
+            score_poster:this.postimgSrc//
           }
         }
       }

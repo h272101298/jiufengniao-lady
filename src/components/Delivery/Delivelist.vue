@@ -66,7 +66,6 @@
   </el-col>
 
 
-
   <el-col>
     <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
       <el-form ref="newdelive" :model="newdelive" label-width="120px" :rules="rules" status-icon>

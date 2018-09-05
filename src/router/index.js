@@ -71,6 +71,7 @@ import Wechatset from '@/components/Setting/Wechatset'
 import Document from '@/components/Setting/Document'
 
 import Delivelist from '@/components/Delivery/Delivelist'
+import Shopdelive from '@/components/Delivery/Shopdelive'
 
 
 
@@ -96,7 +97,7 @@ let router = new Router({
         children: [
         {path: '/index/Console',component: Console,name: '控制台',menuShow: true,meta:{permission: ''}},
         ]
-    },{
+    }, {
         path: '/',
         name: '商家管理',
         component: Home,
@@ -139,14 +140,14 @@ let router = new Router({
         path: '/',
         name: '积分商城',
         component: Home,
-        redirect: '/Integral/Cardgood',
+        redirect: '/Integral/Igoodlist',
         menuShow: true,
         iconCls: 'iconfont menu-card',
         children: [
         {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false}, 
-        {path: '/Integral/Igoodlist',component: Igoodlist,name: '商品列表',menuShow: true}, 
+        {path: '/Integral/Igoodlist',component: Igoodlist,name: '积分商品',menuShow: true}, 
         ]
-    },{
+    }, {
         leaf: true,
         path: '/',
         name: '用户管理',
@@ -158,7 +159,7 @@ let router = new Router({
         {path: '/User/Userlist',component: Userlist,name: '用户列表',menuShow: true,meta:{permission: 'userList'}},
         // {path: '/User/Assets',component: Assets,name: '零钱提现',menuShow: true,meta:{permission: ''}}
         ]
-    },  {
+    }, {
         path: '/',
         name: '会员管理',
         component: Home,
@@ -170,7 +171,7 @@ let router = new Router({
         {path: '/Member/MemberSet',component: MemberSet,name: '等级设置',menuShow: true,meta:{permission: 'memberLevelList'}},
         {path: '/Member/Memberpay',component: Memberpay,name: '会员充值',menuShow: true,meta:{permission: 'memberRecords'}}
         ]
-    },{
+    }, {
         path: '/',
         name: '代理管理',
         component: Home,
@@ -211,9 +212,7 @@ let router = new Router({
         {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
         {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true,meta:{permission: 'allCardPromotions'}}
         ]
-    }, 
-
-    {
+    }, {
         path: '/',
         name: '限时拼团',
         component: Home,
@@ -227,13 +226,11 @@ let router = new Router({
         {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
         {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: 'allPintuanPromotions'}},
         ]
-    }, 
-
-    {
+    }, {
         path: '/',
         name: '限时砍价',
         component: Home,
-        redirect: '/Kan/Spike',
+        redirect: '/Kan/Kangood',
         menuShow: true,
         iconCls: 'iconfont menu-kanjia',
         children: [
@@ -252,10 +249,10 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-guanggao',
         children: [
-        {path: '/Advertise/Adlist',component: Adlist,name: '广告管理',menuShow: true,meta:{permission: 'advertList'}}
+        {path: '/Advertise/Adlist',component: Adlist,name: '广告设置',menuShow: true,meta:{permission: 'advertList'}}
         ]
     }, {
-        leaf: true,
+        // leaf: true,
         path: '/',
         name: '快递配置',
         component: Home,
@@ -263,9 +260,10 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-kuaidi',
         children: [
-        {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}}
+        {path: '/Delivery/Delivelist',component: Delivelist,name: '快递配置',menuShow: true,meta:{permission: 'expressList'}},
+        {path: '/Delivery/Shopdelive',component: Shopdelive,name: '运费配置',menuShow: true,meta:{permission: 'shopdelive'}},
         ]
-    },{
+    }, {
         path: '/',
         name: '权限管理',
         component: Home,

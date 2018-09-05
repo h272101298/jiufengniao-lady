@@ -116,8 +116,8 @@
 
             <el-form-item label="购买商品获得积分：">
               <el-radio-group @change="jifenkg" v-model="sameornot">
-                <el-radio label="2">关</el-radio>
-                <el-radio label="1">开</el-radio>
+                <el-radio-button label="2">关</el-radio-button>
+                <el-radio-button label="1">开</el-radio-button>
               </el-radio-group>
             </el-form-item>
 
@@ -126,12 +126,12 @@
                 <div id="bgw2" slot="append">%</div>
               </el-input>
               <div class="showlabel" v-show="scoreset">
-                <label>20%</label>
+                <label>{{scoredata.jfbl}}%</label>
               </div>
             </el-form-item>
-            <el-form-item v-show="sameornot==1">
-              <el-button v-if="scoreset" size="small" type="primary" style="margin-top:20px;" @click="changescore">编辑</el-button>
-              <el-button v-if="scoreshow" size="small" type="primary" style="margin-top:20px;" @click="postscore">提交</el-button>
+            <el-form-item v-show="sameornot==1"> 
+              <el-button v-if="scoreset" size="small" type="primary" @click="changescore">编辑</el-button>
+              <el-button v-if="scoreshow" size="small" type="primary" @click="postscore">提交</el-button>
               <el-button v-if="scoreshow" size="small" @click="cancelscore">取消</el-button>     
             </el-form-item>
           </el-form>
@@ -154,8 +154,8 @@
   import { signGet } from '../../api/api';
 
 
-  import { scoreSet } from '../../api/api';
-  import { scoreGet } from '../../api/api';
+  import { integralPost } from '../../api/api';
+  import { integralGet } from '../../api/api';
 
   import { Message } from 'element-ui';
 
@@ -184,8 +184,8 @@
       };
 
       return {
-        // activeName:'list',
-        activeName:'config',
+        activeName:'list',
+        // activeName:'config',
 
         show:false,
         set:true,
@@ -249,7 +249,6 @@
     },
 
     methods:{
-
       getsign(){
         var allParams = '';
         signGet(allParams).then((res) => {
@@ -321,33 +320,49 @@
         this.set=true
       },
 
-
-
       getscore(){
         var allParams=""
-        scoreGet(allParams).then((res) => {
-
+        integralGet(allParams).then((res) => {
+          console.log(res.data.state)
+          if(res.data.state==1){
+            this.scoreshow=false
+            this.scoreset=true
+            this.sameornot=1
+          }else{
+            this.sameornot=2
+          }
+          this.scoredata.jfbl=res.data.ratio
         });
       },
 
-
-
       jifenkg(val){
         this.showjifen=val
-      },
+        // console.log(val)
+        if(val==2){
+         var allParams={
+          state:0,
+        }
+        integralPost(allParams).then((res) => {});
+      }
+    },
 
-      changescore(){
-        this.scoreshow=true
-        this.scoreset=false
-      },
+    changescore(){
+      this.scoreshow=true
+      this.scoreset=false
+    },
 
-      postscore(){
+    postscore(){
         // console.log(this.scoredata.jfbl)
         this.$refs.scoredata.validate((valid) => {
           if (valid) {
-            var allParams={}
-            scoreSet(allParams).then((res) => {
-
+            var allParams={
+              state:1,
+              ratio:this.scoredata.jfbl
+            }
+            console.log(allParams)
+            
+            integralPost(allParams).then((res) => {
+              this.getscore();
             });
 
           }else{
@@ -364,7 +379,7 @@
 
     mounted: function(){
       this.getsign();
-      // this.getscore();
+      this.getscore();
 
     }
   }
