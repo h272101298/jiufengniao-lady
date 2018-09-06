@@ -48,17 +48,25 @@
         </el-table-column>
         <el-table-column prop="name" label="商家" min-width="200" align="center">
         </el-table-column> -->
-        <el-table-column prop="price" label="总计" min-width="200" align="center">
+        <el-table-column prop="price" label="总计" min-width="150" align="center">
         </el-table-column>
+
+        <el-table-column prop="delivery" label="收货方式" min-width="150" align="center">
+          <template slot-scope="scope">
+            <el-tag type="warning" v-if="scope.row.delivery==0">自提</el-tag>
+            <el-tag type="success" v-if="scope.row.delivery==1">快递</el-tag>
+          </template>
+        </el-table-column>
+        <!--  -->
 
         <el-table-column prop="state" label="订单状态" width="160" align="center">
           <template slot-scope="scope">
-            <el-tag type="danger" v-if="scope.row.state=='created'" @click="">未付款</el-tag>
-            <el-tag type="primary" v-if="scope.row.state=='paid'" @click="">已支付</el-tag>
-            <el-tag type="warning" v-if="scope.row.state=='delivery'" @click="">已发货</el-tag>
-            <el-tag type="success" v-if="scope.row.state=='finished'" @click="">已完成</el-tag>
-            <el-tag type="success" v-if="scope.row.state=='closed'" @click="">已完成</el-tag>
-            <el-tag type="info" v-if="scope.row.state=='canceled'" @click="">已取消</el-tag>
+            <el-tag type="danger" v-if="scope.row.state=='created'">未付款</el-tag>
+            <el-tag type="primary" v-if="scope.row.state=='paid'">已支付</el-tag>
+            <el-tag type="warning" v-if="scope.row.state=='delivery'">已发货</el-tag>
+            <el-tag type="success" v-if="scope.row.state=='finished'">已完成</el-tag>
+            <el-tag type="success" v-if="scope.row.state=='closed'">已完成</el-tag>
+            <el-tag type="info" v-if="scope.row.state=='canceled'">已取消</el-tag>
           </template>
         </el-table-column>
 
@@ -68,7 +76,8 @@
         <el-table-column label="操作" min-width="200" align="center">
          <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleSee(scope.row)">订单详情</el-button>
-          <el-button type="success" v-show="scope.row.state=='paid' && checkper1" size="mini" @click="handleSend(scope.row)">发货</el-button>
+          <el-button type="success" v-show="scope.row.state=='paid' && checkper1 && scope.row.delivery==1" size="mini" @click="handleSend(scope.row)">发货</el-button>
+          <el-button type="success" v-show="scope.row.state=='paid' && checkper1 && scope.row.delivery==0" size="mini" @click="handleSend(scope.row)">接单</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -328,8 +337,6 @@
       this.dialogSeeVisible = true;
     },
 
-
-
     getexpress(){
       var allParams = '?page=1&limit=10000';
       deliveryGet(allParams).then((res) => {
@@ -342,21 +349,33 @@
       this.kuaidi.express=val
     },
 
-
     handleSend(row){
-      this.kuaidi={
-        id:row.id,
-        express:'',
-        express_number:''
-      },
-      this.dialogSendVisible = true;
-    },
+      if(row.delivery==1){
+        this.kuaidi={
+          id:row.id,
+          express:'',
+          express_number:''
+        },
+        this.dialogSendVisible = true;
+      }else{
+       var allParams = {
+        id:row.id
+      };
+      shipgoods(allParams).then((res) => {
+        this.getlist();
+        this.$message({
+          message: '提交成功',
+          type: 'success'
+        });
+      });
+    }
+  },
 
-    submitsend(){
-      var that =this;
-      that.$refs.kuaidi.validate((valid) => {
-        if (valid) {
-          var allParams = that.kuaidi;
+  submitsend(){
+    var that =this;
+    that.$refs.kuaidi.validate((valid) => {
+      if (valid) {
+        var allParams = that.kuaidi;
           // console.log(allParams)
           shipgoods(allParams).then((res) => {
             // console.log(res)
@@ -371,18 +390,16 @@
           return false;
         }
       })
-    },
-
   },
+},
 
-  mounted: function () {
-    this.getlist();
-    this.getexpress();
-    this.checkPer();
-  }
+mounted: function () {
+  this.getlist();
+  this.getexpress();
+  this.checkPer();
+}
 }
 </script>
-
 
 <style>
 
