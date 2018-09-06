@@ -346,9 +346,9 @@
           <tr>
             <td class="ltd">广告设置</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='advertList' false-label='advertList1a' checked>查看编辑广告</el-checkbox>
-            <!--               <el-checkbox @change="xzchange" true-label='advertAdd' false-label='advertAdd1a' checked>编辑广告</el-checkbox>
-              <el-checkbox @change="xzchange" true-label='advertDel' false-label='advertDel1a' checked>删除广告</el-checkbox> -->
+              <el-checkbox @change="xzchange" true-label='advertList' false-label='advertList1a' checked>查看广告</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='advertAdd' false-label='advertAdd1a' checked>编辑广告</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='advertDel' false-label='advertDel1a' checked>删除广告</el-checkbox>
             </td>
           </tr>
           <tr>
@@ -506,8 +506,8 @@
         'memberRecords',
         'txConfig',
         'advertList',
-        // 'advertAdd',
-        // 'advertDel',
+        'advertAdd',
+        'advertDel',
         'documentList',
         'documentAdd',
         'documentDel',

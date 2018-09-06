@@ -16,7 +16,7 @@
 
          <el-form :inline="true">
           <el-form-item>
-            <el-button type="primary" size="medium" @click="newone">新增轮播</el-button>
+            <el-button type="primary" size="medium" @click="newone" v-show="checkper1">新增轮播</el-button>
           </el-form-item>
         </el-form>
 
@@ -31,8 +31,8 @@
 
           <el-table-column label="操作" width="300" align="center">
            <template slot-scope="scope">
-            <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>
+            <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -232,8 +232,8 @@
   export default {
     data() {
       return {
-        // activeName:'icon',
-        activeName:'banner',
+        activeName:'icon',
+        // activeName:'banner',
 
         uptoken:{
           token:qiniu.token,
@@ -319,27 +319,27 @@
           id:1,
           position:1,          
           name:'全部分类',
-          pic:'../../../static/images/icon.png'
+          url:'../../../static/images/icon.png'
         },{
           id:2,
           position:2,          
           name:'新品推荐',
-          pic:'../../../static/images/icon.png'
+          url:'../../../static/images/icon.png'
         },{
           id:3,
           position:3,          
           name:'0元活动',
-          pic:'../../../static/images/icon.png'
+          url:'../../../static/images/icon.png'
         },{
           id:4,
           position:4,          
           name:'积分商城',
-          pic:'../../../static/images/icon.png'
+          url:'../../../static/images/icon.png'
         },{
           id:5,
           position:5,          
           name:'全免团',
-          pic:'../../../static/images/icon.png'
+          url:'../../../static/images/icon.png'
         }
         ],
         icon:[],
@@ -382,8 +382,8 @@
             this.otherpost[4].pic='../../../static/images/default2.png'
           }
 
-          if(res.data.score_poster){
-            this.otherpost[5].pic=res.data.score_poster
+          if(res.data.poster){//111
+            this.otherpost[5].pic=res.data.proxy_poster//111
           }else{
             this.otherpost[5].pic='../../../static/images/default.png'
           }
@@ -420,39 +420,19 @@
       geticon(){
         var allParams = ''
         iconGet(allParams).then((res) => {
-          // console.log(res.data)
-          var arr=res.data
-          var title=[
-          {
-            text:'全部分类',
-            id:1
-          },
-          {
-            text:'新品推荐',
-            id:2
-          },
-          {
-            text:'0元活动',
-            id:3
-          },
-          {
-            text:'积分商城',
-            id:4
-          },
-          {
-            text:'全免团',
-            id:5
-          }]
-          for (var i = 0;i <arr.length;  i++) {
-            for (var j = 0;j <title.length;  j++) {
-              var index=parseInt(arr[i].position)
-              if(index==title[j].id){
-                arr[i].name=title[j].text
-              }
-            }
-          }
-          this.iconarr=arr
-        });
+          if(res.data!==''){
+            var arr=res.data
+            var iconarr=this.iconarr
+            for (var i = 0;i <iconarr.length;  i++) {
+              for (var j = 0;j <arr.length;  j++) {
+                if(arr[j].position==iconarr[i].position){
+                 iconarr[i].url= arr[j].url
+               }
+             }
+           }
+           this.iconarr=iconarr
+         }
+       });
       },
 
       handleiconEdit(index, row){
@@ -496,19 +476,19 @@
 
 
 
-    //  checkPer(){
-    //   var per = sessionStorage.getItem('permissions');
+     checkPer(){
+      var per = sessionStorage.getItem('permissions');
 
-    //   if(per.indexOf('advertAdd')>-1){
-    //     this.checkper1=true;
-    //   }
+      if(per.indexOf('advertAdd')>-1){
+        this.checkper1=true;
+      }
 
-    //   var per = sessionStorage.getItem('permissions');
+      var per = sessionStorage.getItem('permissions');
 
-    //   if(per.indexOf('advertDel')>-1){
-    //     this.checkper2=true;
-    //   }
-    // },
+      if(per.indexOf('advertDel')>-1){
+        this.checkper2=true;
+      }
+    },
 
 
     getlist(){
@@ -705,7 +685,7 @@
           }
         }else if( this.postId==10){
           var allParams={
-            score_poster:this.postimgSrc//
+            proxy_poster:this.postimgSrc//
           }
         }
       }

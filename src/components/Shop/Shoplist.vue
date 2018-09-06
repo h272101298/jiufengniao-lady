@@ -20,17 +20,17 @@
    <el-button type="primary" size="medium" @click="search">搜索</el-button>
    <el-button size="medium" @click="clear">清空</el-button>
  </el-form-item>
-    </el-form> -->
+</el-form> -->
 
-    <el-table :data="list" border stripe size="small">
-      <el-table-column prop="name" label="店铺名称" min-width="100" align="center">
-      </el-table-column>
-      <el-table-column prop="name" label="掌柜名称" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="name" label="创建时间" min-width="200" align="center">
-      </el-table-column>
-      <el-table-column prop="name" label="商品数量" min-width="200" align="center">
-      </el-table-column>
+<el-table :data="list" border stripe size="small">
+  <el-table-column prop="name" label="店铺名称" min-width="100" align="center">
+  </el-table-column>
+  <el-table-column prop="name" label="掌柜名称" min-width="200" align="center">
+  </el-table-column>
+  <el-table-column prop="name" label="创建时间" min-width="200" align="center">
+  </el-table-column>
+  <el-table-column prop="name" label="商品数量" min-width="200" align="center">
+  </el-table-column>
 <!--       <el-table-column prop="type" label="店铺类型" min-width="200" align="center">
         <template slot-scope="scope">
           <span v-show="scope.row.type==1 ? true : false">个人认证</span>
@@ -130,6 +130,7 @@
         var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
         shopGet(allParams).then((res) => {
           this.list=res.data.data;
+          this.count=res.data.count;
         });
       },
 

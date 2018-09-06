@@ -264,7 +264,7 @@
       getmodel(){
         var allParams = '';
         wxmodelGet(allParams).then((res) => {
-          if(res.data==''){
+          if(res.data==null){
             this.modelshow=true
             this.modelset=false
           }else{
