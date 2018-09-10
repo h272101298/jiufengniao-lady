@@ -33,7 +33,7 @@
 
 
 
-
+<!-- 
           <el-form-item label="送货方式：" prop="share_title">
             <el-checkbox @change="xzshfs" true-label='kuaidi' false-label='kuaidi1a' checked>快递</el-checkbox>
             <el-checkbox @change="xzshfs" true-label='ziti' false-label='ziti1a' checked>自提</el-checkbox>
@@ -48,7 +48,7 @@
           <el-form-item label="运费：" prop="share_title" v-show="showkd">
             <el-input v-model="newgood1.share_title" placeholder="请输入运费"></el-input>
           </el-form-item>
-
+ -->
 
 
 
@@ -494,36 +494,36 @@ methods:{
 },
 
 
-xzshfs(val){
-  var arr =this.shfs;
-  var item =val.split('1')
-  if(item[1]=='a'){
-    arr.splice(arr.indexOf(item[0]),1)
-  }else{
-    if(arr.indexOf(item[0])==-1){
-      arr.push(item[0])
-    }
-  }
-  console.log(this.shfs)
-  if(this.shfs.indexOf('kuaidi')==-1){
-    this.showkd=false
-  }else{
-    this.showkd=true
-  }
-  console.log(this.showkd)
-},
+// xzshfs(val){
+//   var arr =this.shfs;
+//   var item =val.split('1')
+//   if(item[1]=='a'){
+//     arr.splice(arr.indexOf(item[0]),1)
+//   }else{
+//     if(arr.indexOf(item[0])==-1){
+//       arr.push(item[0])
+//     }
+//   }
+//   console.log(this.shfs)
+//   if(this.shfs.indexOf('kuaidi')==-1){
+//     this.showkd=false
+//   }else{
+//     this.showkd=true
+//   }
+//   console.log(this.showkd)
+// },
 
 
-getkuaidi(){
-  var allParams = '?page=1&limit=10000';
-  deliveryGet(allParams).then((res) => {
-    this.kuaidilist=res.data.data;
-  });
-},
+// getkuaidi(){
+//   var allParams = '?page=1&limit=10000';
+//   deliveryGet(allParams).then((res) => {
+//     this.kuaidilist=res.data.data;
+//   });
+// },
 
-xzkuaidi(e){
-  console.log(e)
-},
+// xzkuaidi(e){
+//   console.log(e)
+// },
 
 
 gettype1(){
@@ -864,7 +864,7 @@ confirmtype(e){
   mounted: function () {
     this.gettype1()
     this.checkgoodid()
-    this.getkuaidi()
+    // this.getkuaidi()
     // this.test()
   }
 }

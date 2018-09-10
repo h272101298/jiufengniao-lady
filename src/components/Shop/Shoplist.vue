@@ -22,15 +22,18 @@
  </el-form-item>
 </el-form> -->
 
-<el-table :data="list" border stripe size="small">
-  <el-table-column prop="name" label="店铺名称" min-width="100" align="center">
+<el-table :data="list" border stripe size="small" style="width: 60%">
+  <el-table-column prop="id" label="编号" min-width="100" align="center">
   </el-table-column>
-  <el-table-column prop="name" label="掌柜名称" min-width="200" align="center">
+
+  <el-table-column prop="name" label="店铺名称" min-width="200" align="center">
   </el-table-column>
-  <el-table-column prop="name" label="创建时间" min-width="200" align="center">
+  <el-table-column prop="manager" label="掌柜名称" min-width="200" align="center">
   </el-table-column>
-  <el-table-column prop="name" label="商品数量" min-width="200" align="center">
+  <el-table-column prop="created_at" label="创建时间" min-width="200" align="center">
   </el-table-column>
+<!--   <el-table-column prop="name" label="商品数量" min-width="200" align="center">
+</el-table-column> -->
 <!--       <el-table-column prop="type" label="店铺类型" min-width="200" align="center">
         <template slot-scope="scope">
           <span v-show="scope.row.type==1 ? true : false">个人认证</span>
@@ -38,8 +41,8 @@
           <span v-show="scope.row.type==3 ? true : false">企业认证</span>
         </template>
       </el-table-column> -->
-      <el-table-column prop="name" label="经营类目" min-width="200" align="center">
-      </el-table-column>
+<!--       <el-table-column prop="name" label="经营类目" min-width="200" align="center">
+</el-table-column> -->
 
 <!--       <el-table-column label="操作" min-width="200" align="center">
         <template slot-scope="scope">

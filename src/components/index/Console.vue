@@ -64,11 +64,11 @@
     data() {
       return {
         countdata:{
-          productCount:50,
-          reviewProductCount:40,
-          todayOrderCount:30,
-          todaySalesCount:20,
-          todayUserCount:10,
+          productCount:0,
+          reviewProductCount:0,
+          todayOrderCount:0,
+          todaySalesCount:0,
+          todayUserCount:0,
         }
       }
     },
