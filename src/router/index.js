@@ -59,6 +59,8 @@ import Newshop from '@/components/Shop/Newshop'
 import Coupon from '@/components/Shop/Coupon'
 import Shoptype from '@/components/Shop/Shoptype'
 import Settleapply from '@/components/Shop/Settleapply'
+import Withdrawls from '@/components/Shop/Withdrawls'
+import Withdrawsq from '@/components/Shop/Withdrawsq'
 
 import Adlist from '@/components/Advertise/Adlist'
 
@@ -72,7 +74,6 @@ import Document from '@/components/Setting/Document'
 
 import Delivelist from '@/components/Delivery/Delivelist'
 import Shopdelive from '@/components/Delivery/Shopdelive'
-
 
 
 // 懒加载方式，当路由被访问的时候才加载对应组件
@@ -97,7 +98,7 @@ let router = new Router({
         children: [
         {path: '/index/Console',component: Console,name: '控制台',menuShow: true,meta:{permission: ''}},
         ]
-    }, {
+    },{
         path: '/',
         name: '商家管理',
         component: Home,
@@ -110,6 +111,8 @@ let router = new Router({
         {path: '/Shop/Settleapply',component: Settleapply,name: '入驻申请',menuShow: true,meta:{permission: 'settleList'}},
         {path: '/Shop/Shoptype',component: Shoptype,name: '经营类目',menuShow: true,meta:{permission: 'storeCategoryList'}},
         {path: '/Shop/Coupon',component: Coupon,name: '优惠券',menuShow: true,meta:{permission: 'quanList'}},
+        {path: '/Shop/Withdrawsq',component: Withdrawsq,name: '提现申请',menuShow: true,meta:{permission: 'StoreWithdrawStore'}},
+        {path: '/Shop/Withdrawls',component: Withdrawls,name: '提现审批',menuShow: true,meta:{permission: 'StoreWithdrawAll'}},
         ]
     }, {
         path: '/',
@@ -144,10 +147,10 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-card',
         children: [
-        {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false}, 
-        {path: '/Integral/Igoodlist',component: Igoodlist,name: '积分商品',menuShow: true}, 
+        {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false,meta:{permission: ''}}, 
+        {path: '/Integral/Igoodlist',component: Igoodlist,name: '积分商品',menuShow: true,meta:{permission: ''}}, 
         ]
-    }, {
+    },{
         leaf: true,
         path: '/',
         name: '用户管理',
@@ -157,9 +160,8 @@ let router = new Router({
         iconCls: 'iconfont menu-yonghu',
         children: [
         {path: '/User/Userlist',component: Userlist,name: '用户列表',menuShow: true,meta:{permission: 'userList'}},
-        // {path: '/User/Assets',component: Assets,name: '零钱提现',menuShow: true,meta:{permission: ''}}
         ]
-    }, {
+    },  {
         path: '/',
         name: '会员管理',
         component: Home,
@@ -171,7 +173,7 @@ let router = new Router({
         {path: '/Member/MemberSet',component: MemberSet,name: '等级设置',menuShow: true,meta:{permission: 'memberLevelList'}},
         {path: '/Member/Memberpay',component: Memberpay,name: '会员充值',menuShow: true,meta:{permission: 'memberRecords'}}
         ]
-    }, {
+    },{
         path: '/',
         name: '代理管理',
         component: Home,
@@ -184,21 +186,7 @@ let router = new Router({
         {path: '/Agent/Commission',component: Commission,name: '佣金管理',menuShow: true,meta:{permission: 'brokerageList'}}, 
         {path: '/Agent/Withdraw',component: Withdraw,name: '提现管理',menuShow: true,meta:{permission: 'withdrawList'}}
         ]
-    }, 
-
-    // {
-    //     leaf: true,
-    //     path: '/',
-    //     name: '报表统计',
-    //     component: Home,
-    //     redirect: '/Report/Reportlist',
-    //     menuShow: true,
-    //     iconCls: 'iconfont menu-baobiaofenxi-copy',
-    //     children: [
-    //     {path: '/Report/Reportlist',component: Reportlist,name: '统计图表',menuShow: true}, 
-    //     ]
-    // }, 
-    {
+    }, {
         path: '/',
         name: '集卡牌',
         component: Home,
@@ -206,13 +194,15 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-card',
         children: [
-        {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false}, 
+        {path: '/Card/Cardnew',component: Cardnew,name: '发布活动',menuShow: false,meta:{permission: ''}}, 
         {path: '/Card/Cardgood',component: Cardgood,name: '活动列表',menuShow: true,meta:{permission: 'storeCardPromotions'}}, 
         {path: '/Card/Cardcheck',component: Cardcheck,name: '待审核',menuShow: true,meta:{permission: 'checkCardPromotions'}}, 
-        {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false}, 
+        {path: '/Card/Cardchange',component: Cardchange,name: ' 编辑活动',menuShow: false,meta:{permission: ''}}, 
         {path: '/Card/Cardpass',component: Cardpass,name: '通过列表',menuShow: true,meta:{permission: 'allCardPromotions'}}
         ]
-    }, {
+    }, 
+
+    {
         path: '/',
         name: '限时拼团',
         component: Home,
@@ -220,13 +210,15 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-pintuan',
         children: [
-        {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false},
+        {path: '/Group/Groupnew',component: Groupnew,name: '发布活动',menuShow: false,meta:{permission: ''}},
         {path: '/Group/Groupgood',component: Groupgood,name: '活动列表',menuShow: true,meta:{permission: 'storePintuanPromotions'}},
         {path: '/Group/Groupcheck',component: Groupcheck,name: '待审核',menuShow: true,meta:{permission: 'checkPintuanPromotions'}},
-        {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false},
+        {path: '/Group/Groupchange',component: Groupchange,name: '编辑活动',menuShow: false,meta:{permission: ''}},
         {path: '/Group/Grouppass',component: Grouppass,name: '通过列表',menuShow: true,meta:{permission: 'allPintuanPromotions'}},
         ]
-    }, {
+    }, 
+
+    {
         path: '/',
         name: '限时砍价',
         component: Home,
@@ -234,10 +226,10 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-kanjia',
         children: [
-        {path: '/Kan/Kannew',component: Kannew,name: '发布活动',menuShow: false}, 
+        {path: '/Kan/Kannew',component: Kannew,name: '发布活动',menuShow: false,meta:{permission: ''}}, 
         {path: '/Kan/Kangood',component: Kangood,name: '活动列表',menuShow: true,meta:{permission: 'storeBargainPromotions'}}, 
         {path: '/Kan/Kancheck',component: Kancheck,name: '待审核',menuShow: true,meta:{permission: 'checkBargainPromotions'}}, 
-        {path: '/Kan/Kanchange',component: Kanchange,name: ' 编辑活动',menuShow: false}, 
+        {path: '/Kan/Kanchange',component: Kanchange,name: ' 编辑活动',menuShow: false,meta:{permission: ''}}, 
         {path: '/Kan/Kanpass',component: Kanpass,name: '通过列表',menuShow: true,meta:{permission: 'allBargainPromotions'}}
         ]
     }, {
@@ -260,10 +252,10 @@ let router = new Router({
         menuShow: true,
         iconCls: 'iconfont menu-kuaidi',
         children: [
-        {path: '/Delivery/Delivelist',component: Delivelist,name: '快递配置',menuShow: true,meta:{permission: 'expressList'}},
+        {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}},
         {path: '/Delivery/Shopdelive',component: Shopdelive,name: '运费配置',menuShow: true,meta:{permission: 'shopdelive'}},
         ]
-    }, {
+    },{
         path: '/',
         name: '权限管理',
         component: Home,
@@ -323,6 +315,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((transition) => {
 
+// console.log(transition)
 
 })
 
