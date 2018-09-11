@@ -41,13 +41,44 @@
           </el-card>
           <el-card shadow="hover" :body-style="{padding: '0px'}">
             <div class="grid-content grid-con-4" @click="gouser">
-              <i class="el-icon-success grid-con-icon"></i>
+              <i class="el-icon-upload2 grid-con-icon"></i>
               <div class="grid-cont-right">
                 <div class="grid-num">{{countdata.todayUserCount}}</div>
                 <div>今日新增用户</div>
               </div>
             </div>
           </el-card>
+        </el-row>
+
+        <el-row :gutter="20" class="mgb20">
+          <el-card shadow="hover" :body-style="{padding: '0px'}">
+            <div class="grid-content grid-con-4" @click="gotxls">
+              <i class="el-icon-date grid-con-icon"></i>
+              <div class="grid-cont-right">
+                <div class="grid-num">{{countdata.storeAmount}}</div>
+                <div>总营业额</div>
+              </div>
+            </div>
+          </el-card>
+          <el-card shadow="hover" :body-style="{padding: '0px'}">
+            <div class="grid-content grid-con-4" @click="gotxls">
+              <i class="el-icon-star-on grid-con-icon"></i>
+              <div class="grid-cont-right">
+                <div class="grid-num">{{countdata.amount}}</div>
+                <div>余额</div>
+              </div>
+            </div>
+          </el-card>
+          <el-card shadow="hover" :body-style="{padding: '0px'}">
+            <div class="grid-content grid-con-4" @click="gotxls">
+              <i class="el-icon-success grid-con-icon"></i>
+              <div class="grid-cont-right">
+                <div class="grid-num">{{countdata.withdrawAmount}}</div>
+                <div>已提现</div>
+              </div>
+            </div>
+          </el-card>
+
         </el-row>
       </el-col>
     </el-row>
@@ -69,6 +100,9 @@
           todayOrderCount:0,
           todaySalesCount:0,
           todayUserCount:0,
+          withdrawAmount:0,
+          amount:0,
+          storeAmount:0,
         }
       }
     },
@@ -90,6 +124,10 @@
 
       gouser(){
         this.$router.push('/User/Userlist');
+      },
+
+      gotxls(){
+        // this.$router.push('/Shop/Withdrawls');
       }
     },
 
@@ -111,7 +149,7 @@
   margin-bottom: 20px;
 }
 .el-card{  
-  min-width: 300px;
+  min-width: 300px;  
   margin-right: 20px;
   border-radius: 50px;
   border: 1px solid #ccc;
@@ -120,7 +158,7 @@
 .grid-content {
   display: flex;
   align-items: center;
-  width: 270px;
+  min-width: 270px;
   height: 100px;
 }
 .grid-cont-right {
@@ -128,6 +166,7 @@
   text-align: center;
   font-size: 12px;
   color: #000;
+  min-width: 190px;
 }
 .grid-num {
   font-size: 30px;

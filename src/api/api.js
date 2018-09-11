@@ -100,6 +100,14 @@ export const shopPost = params => { return axios.post(`${base}/store`, params).t
 
 export const shopGet = params => { return axios.get(`${base}/stores`+`${params}`).then(res => res.data)}
 
+//商家提现
+export const shoptxPost = params => { return axios.post(`${base3}/store/withdraw`, params).then(res => res.data)}
+
+export const shoptxGet = params => { return axios.get(`${base3}/store/withdraws`+`${params}`).then(res => res.data)}
+
+export const shoptxCheck = params => { return axios.post(`${base3}/check/withdraw`, params).then(res => res.data)}
+
+
 
 //入驻
 export const sappliesGet = params => { return axios.get(`${base}/settle/applies`+`${params}`).then(res => res.data)}

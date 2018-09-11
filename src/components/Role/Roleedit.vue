@@ -43,6 +43,11 @@
             <td class="rtd">
               <el-checkbox @change="xzchange" true-label='storeList' false-label='storeList1a' checked>商铺列表</el-checkbox>
               <el-checkbox @change="xzchange" true-label='myStore' false-label='myStore1a' checked>我的店铺</el-checkbox>
+
+              <el-checkbox @change="xzchange" true-label='StoreWithdrawStore' false-label='StoreWithdrawStore1a' checked>提现申请（商家）</el-checkbox>  
+              <el-checkbox @change="xzchange" true-label='StoreWithdrawAll' false-label='StoreWithdrawAll1a'>提现审批（平台）</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='StoreWithdrawcheck' false-label='StoreWithdrawcheck1a' checked>提现审批</el-checkbox>
+
             </td>
           </tr>
         </table>
@@ -131,7 +136,7 @@
           <tr>
             <td class="ltd">快递管理</td>
             <td class="rtd">
-              <el-checkbox @change="xzchange" true-label='expressConfig' false-label='expressConfig1a' checked>快递配置</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='expressConfig' false-label='expressConfig1a' checked>配置快递</el-checkbox>
               <el-checkbox @change="xzchange" true-label='expressList' false-label='expressList1a' checked>快递列表</el-checkbox>
               <el-checkbox @change="xzchange" true-label='expressAdd' false-label='expressAdd1a' checked>编辑快递</el-checkbox>
               <el-checkbox @change="xzchange" true-label='expressDel' false-label='expressDel1a' checked>删除快递</el-checkbox>
@@ -522,7 +527,8 @@
 
         'baseConfig',
 
-        'shopdelive'
+        'shopdelive',
+        'StoreWithdrawAll'
         ],
         editId:'',
 
@@ -585,6 +591,12 @@
             }else if(this.checkedlist.indexOf('refuseListAll')!== -1 && this.checkedlist.indexOf('refuseListStore')!== -1){
               Message({
                 message: "退款列表(所有)和退款列表(商铺)只能选一个",
+                type: 'error'
+              });
+              return
+            }else if(this.checkedlist.indexOf('StoreWithdrawAll')!== -1 && this.checkedlist.indexOf('StoreWithdrawStore')!== -1){
+              Message({
+                message: "提现申请（商家）和提现审批（平台）只能选一个",
                 type: 'error'
               });
               return
