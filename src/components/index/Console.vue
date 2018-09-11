@@ -76,8 +76,8 @@
       getdata(){
         var allParams = '';
         countdataGet(allParams).then((res) => {
-            this.countdata=res.data
-          });
+          this.countdata=res.data
+        });
       },
 
       gogood(){
@@ -111,7 +111,7 @@
   margin-bottom: 20px;
 }
 .el-card{  
-  width: 300px;  
+  min-width: 300px;
   margin-right: 20px;
   border-radius: 50px;
   border: 1px solid #ccc;

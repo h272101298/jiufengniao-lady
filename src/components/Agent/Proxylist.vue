@@ -45,10 +45,10 @@
           </el-table-column>
           <el-table-column prop="user.created_at" label="注册时间" min-width="100" align="center">
           </el-table-column>
-
+<!-- 
           <el-table-column label="操作" width="80" align="center">
 
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
 
 
@@ -174,10 +174,10 @@
           level3:'',
         },
         ratio:[{
-          system:'',
-          level1:'',
-          level2:'',
-          level3:'',
+          system:'请设置',
+          level1:'请设置',
+          level2:'请设置',
+          level3:'请设置',
         }],
         list: [],
         note:{
@@ -237,11 +237,13 @@
       getratio(){
         var allParams = '';
         ratioGet(allParams).then((res) => {
-          // console.log(res.data)
-          this.ratio[0].system=res.data.system;
-          this.ratio[0].level1=res.data.level1;
-          this.ratio[0].level2=res.data.level2;
-          this.ratio[0].level3=res.data.level3;
+          // console.log(res.data==null)
+          if(res.data!==null){
+            this.ratio[0].system=res.data.system;
+            this.ratio[0].level1=res.data.level1;
+            this.ratio[0].level2=res.data.level2;
+            this.ratio[0].level3=res.data.level3;
+          }
         });
       },
 
@@ -256,7 +258,7 @@
                 message: '提交成功',
                 type: 'success'
               });
-               this.dialogNewVisible=false
+               this.dialogEditVisible=false
                this.getratio();
              } else {
                this.$message({
@@ -270,10 +272,6 @@
           }
         })
       },
-
-
-
-
 
 
       //页码更改

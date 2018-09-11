@@ -14,7 +14,7 @@
         <el-tab-pane label="基本信息" name="base">
           <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules1" ref="newgood1" :model="newgood1">
            <el-form-item label="商品名称：" prop="name">
-            <el-input v-model="newgood1.name" placeholder="请输入商品名称(26字以内)"></el-input>
+            <el-input v-model="newgood1.name" placeholder="请输入商品名称(23字以内)"></el-input>
           </el-form-item> 
 
           <el-form-item label="分销佣金：" prop="brokerage">

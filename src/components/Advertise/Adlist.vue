@@ -716,7 +716,7 @@
     this.getlist();
     this.geticon();
     this.getposter();
-    // this.checkPer();
+    this.checkPer();
   }
 }
 </script>

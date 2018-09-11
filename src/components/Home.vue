@@ -37,12 +37,12 @@
                 <template slot="title"><i :class="item.iconCls"></i>
                   <span slot="title">{{item.name}}</span>
                 </template>
-                <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''">
+                <el-menu-item v-for="term in item.children" :key="term.path" :index="term.path" v-if="term.menuShow" :class="$route.path==term.path?'is-active':''" v-per="term.meta.permission">
                   <i :class="term.iconCls"></i>
                   <span slot="title">{{term.name}}</span>
                 </el-menu-item>
               </el-submenu>
-              <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''">
+              <el-menu-item v-else-if="item.leaf&&item.children&&item.children.length" :index="item.children[0].path" :class="$route.path==item.children[0].path?'is-active':''" v-per="item.children[0].meta.permission">
                 <i :class="item.iconCls"></i>
                 <span slot="title">{{item.children[0].name}}</span>
               </el-menu-item>
@@ -70,6 +70,15 @@
 
   <script>
     import { requestLogout } from '../api/api';
+
+    import Vue from 'vue'
+
+    Vue.directive('per',function(el,binding){
+      let permissions = window.sessionStorage.getItem('permissions')
+      if(permissions.indexOf(binding.value)<0){
+        el.style="display:none"
+      }
+    })
 
     export default {
       name: 'home',
