@@ -478,13 +478,9 @@
 
      checkPer(){
       var per = sessionStorage.getItem('permissions');
-
       if(per.indexOf('advertAdd')>-1){
         this.checkper1=true;
       }
-
-      var per = sessionStorage.getItem('permissions');
-
       if(per.indexOf('advertDel')>-1){
         this.checkper2=true;
       }
@@ -530,15 +526,15 @@
           if( this.putorup=='put'){
             var allParams = {
               pic:this.imgSrc,
-              category_id:1,
-              type:1,
+              // category_id:1,
+              // type:1,
               id:this.editId
             };
           }else{
             var allParams = {
               pic:this.imgSrc,
-              category_id:1,
-              type:1
+              // category_id:1,
+              // type:1
             };
           }
           advertPost(allParams).then((res) => {

@@ -136,6 +136,23 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
+
+        <el-tab-pane label="自提设置" name="ziti">
+
+          <el-form ref="scoredata" :model="scoredata" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="jfrule">
+
+            <el-form-item label="收货方式选择自提：">
+              <el-radio-group @change="zitikg" v-model="ztkg">
+                <el-radio-button label="0">关</el-radio-button>
+                <el-radio-button label="1">开</el-radio-button>
+              </el-radio-group>
+            </el-form-item>
+
+          </el-form>
+        </el-tab-pane>
+
+
+
       </el-tabs>
 
     </el-row>
@@ -156,6 +173,10 @@
 
   import { integralPost } from '../../api/api';
   import { integralGet } from '../../api/api';
+
+  import { zitiPost } from '../../api/api';
+  import { zitiGet } from '../../api/api';
+  
 
   import { Message } from 'element-ui';
 
@@ -375,14 +396,30 @@
         this.scoreshow=false
         this.scoreset=true
       },
-    },
 
-    mounted: function(){
-      this.getsign();
-      this.getscore();
 
-    }
+
+      getziti(){
+        var allParams=''
+        zitiGet(allParams).then((res) => {
+          this.ztkg=res.data
+        });
+      },
+
+
+      zitikg(val){
+       var allParams={state:val}
+       zitiPost(allParams).then((res) => {});
+     }
+   },
+
+   mounted: function(){
+    this.getsign();
+    this.getscore();
+
+    this.getziti()
   }
+}
 </script>
 
 <style scoped>

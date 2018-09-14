@@ -197,7 +197,7 @@
     },
 
     getlist1(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit +'&level=' + this.filter1.level;
+      var allParams = '?page=1&limit=10000&level=' + this.filter1.level;
       typeGet(allParams).then((res) => {
         this.levelarr=res.data.data;
       });

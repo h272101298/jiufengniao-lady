@@ -19,7 +19,6 @@ import Orderlist from '@/components/Order/Orderlist'
 import Refund from '@/components/Order/Refund'
 
 import Userlist from '@/components/User/Userlist'
-import Assets from '@/components/User/Assets'
 
 import Memberpay from '@/components/Member/Memberpay'
 import Memberlist from '@/components/Member/Memberlist'

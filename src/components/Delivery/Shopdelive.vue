@@ -123,7 +123,7 @@
         var allParams = '';
         shopkdGet(allParams).then((res) => {
           // console.log(res.data==null)
-          if(res.data==null){
+          if(res.data==null || res.data.express==null){
             that.noconfig = true
           }else{
             that.configinfo=res.data
