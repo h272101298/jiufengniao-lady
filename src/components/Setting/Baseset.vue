@@ -176,7 +176,7 @@
 
   import { zitiPost } from '../../api/api';
   import { zitiGet } from '../../api/api';
-  
+
 
   import { Message } from 'element-ui';
 
@@ -265,6 +265,8 @@
         scoredata:{
           jfbl:10
         },
+
+        ztkg:'0'
 
       };
     },
