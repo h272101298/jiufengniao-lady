@@ -44,7 +44,7 @@
     <el-table-column label="操作" min-width="200" align="center">
      <template slot-scope="scope">
       <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper2">编辑</el-button>
-      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="new Date(scope.row.end)<Date.now()&&checkper3">删除</el-button>
+      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper3">删除</el-button>
     </template>
   </el-table-column>
 
