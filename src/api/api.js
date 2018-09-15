@@ -176,7 +176,7 @@ export const goodShelf = params => { return axios.get(`${base}/shelf/product`+`$
 
 // export const goodhot = params => { return axios.get(`${base}/hot`+`${params}`).then(res => res.data)}//热门
 // export const goodnew = params => { return axios.get(`${base}/new`+`${params}`).then(res => res.data)}//新品
-export const goodoffer = params => { return axios.get(`${base}/offer`+`${params}`).then(res => res.data)}//使用推荐
+export const goodoffer = params => { return axios.get(`${base}/offer`+`${params}`).then(res => res.data)}//首页推荐
 
 
 

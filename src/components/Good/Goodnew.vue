@@ -32,27 +32,6 @@
 
 
 
-
-<!-- 
-          <el-form-item label="送货方式：" prop="share_title">
-            <el-checkbox @change="xzshfs" true-label='kuaidi' false-label='kuaidi1a' checked>快递</el-checkbox>
-            <el-checkbox @change="xzshfs" true-label='ziti' false-label='ziti1a' checked>自提</el-checkbox>
-          </el-form-item>
-
-          <el-form-item label="快递：" prop="share_title" v-show="showkd">
-            <el-select v-model="type1" placeholder="请选择快递" filterable @change="xzkuaidi">
-              <el-option v-for="item in kuaidilist" :label="item.title" :value="item.id" :key="item.id"></el-option>
-            </el-select>
-          </el-form-item>
-
-          <el-form-item label="运费：" prop="share_title" v-show="showkd">
-            <el-input v-model="newgood1.share_title" placeholder="请输入运费"></el-input>
-          </el-form-item>
- -->
-
-
-
-
           <el-form-item label="商品详情：" prop="detail">
            <div class="edit_container"> 
             <quill-editor v-model="newgood1.detail" :options="editorOption" ref="myQuillEditor" class="editer"></quill-editor>
@@ -62,13 +41,13 @@
           </div>
         </el-form-item>
 
-        <el-form-item>
+<!--         <el-form-item>
           <el-button type="primary" style="color: #fff" @click="addattr">继续添加商品属性</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-tab-pane>
 
-    <el-tab-pane label="商品属性" name="attributes" :disabled="attrtab">
+    <el-tab-pane label="商品属性" name="attributes">
       <el-form label-width="120px" width="900px" center style="width: 1000px" :rules="rules2" ref="newgood2" :model="newgood2">
 
         <el-form-item label="商品分类：" prop="type_id">
@@ -736,6 +715,18 @@ confirmtype(e){
         // console.log(this.pricearr)
         // return
 
+        this.$refs.newgood1.validate((valid) => {
+          if (valid) {
+
+          }else{
+            Message({
+              message: "请完善商品基本信息",
+              type: 'error'
+            });
+            return
+          }
+        })
+
         var aaa =this.newgood2.images
         this.newgood2.images=[]
         for(var i=0; i<aaa.length; i++){
@@ -749,8 +740,8 @@ confirmtype(e){
 
 
         this.$refs.newgood2.validate((valid) => {
-
-          if(this.newgood2.type_id==null){
+          // console.log(this.newgood2.type_id=="")
+          if(this.newgood2.type_id==''){
             Message({
               message: "请选择三级分类",
               type: 'error'
@@ -917,5 +908,11 @@ confirmtype(e){
 .upload__tip{
   font-size: 12px;
   color: #606266;
+}
+
+
+.editer{
+  height: 250px;
+  margin-bottom: 70px;
 }
 </style>
