@@ -36,11 +36,12 @@
           <el-table-column prop="name" label="姓名" min-width="140" align="center">
           </el-table-column>
 
-          <el-table-column prop="user.avatarUrl" label="头像" min-width="100" align="center">
+          <el-table-column prop="user" label="头像" min-width="100" align="center">
             <template slot-scope="scope">
-              <img :src="scope.row.user.avatarUrl" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
+              <img :src="scope.row.user.avatarUrl" v-if="scope.row.user" style="width:40px;height:40px;border-radius:50%;margin:5px 0 -5px 0;" />
             </template>
           </el-table-column>
+          
           <el-table-column prop="phone" label="电话号码" min-width="140" align="center">
           </el-table-column>
           <el-table-column prop="user.created_at" label="注册时间" min-width="100" align="center">
