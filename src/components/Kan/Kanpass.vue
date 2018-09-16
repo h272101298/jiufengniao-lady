@@ -31,14 +31,17 @@
         </el-table-column>
         <el-table-column prop="min_price" label="底价" width="100" align="center">
         </el-table-column>
- -->
-        <el-table-column prop="clickNum" label="砍价次数" width="100" align="center">
-        </el-table-column>
+<<<<<<< HEAD
+-->
+<el-table-column prop="clickNum" label="砍价次数" width="100" align="center">
+</el-table-column>
 
-        <el-table-column prop="count" label="参与人数" width="100" align="center">
-        </el-table-column>
-        <el-table-column prop="updated_at" label="活动开始时间" min-width="100" align="center">
-        </el-table-column>
+<el-table-column prop="count" label="参与人数" width="100" align="center">
+</el-table-column>
+<el-table-column prop="updated_at" label="活动开始时间" min-width="100" align="center">
+</el-table-column>
+
+
 <!--         <el-table-column prop="bargain_count" label="已砍价次数" min-width="80" align="center">
         </el-table-column>
         <el-table-column prop="bargain_price" label="已砍价金额" min-width="100" align="center">
@@ -66,6 +69,9 @@
     <el-table-column label="操作" min-width="100" align="center">
      <template slot-scope="scope">
       <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
+
+      <el-button type="success" size="small" @click="handleNotify(scope.$index, scope.row)">推送</el-button>
+
     </template>
   </el-table-column>
 
@@ -88,6 +94,31 @@
   </el-dialog>
 </el-col>
 
+
+
+<el-col>
+  <el-dialog title="活动推送" :visible.sync="dialogTzVisible" width="500" center style="min-width: 500px">
+    <el-form ref="newnotify" :model="newnotify" label-width="120px" :rules="rules" status-icon>
+      <el-form-item label="活动主题:" prop="title">
+        <el-input v-model="newnotify.title" placeholder="请输入活动主题(20字以内)" maxlength="20"></el-input>
+      </el-form-item>
+      <el-form-item label="活动时间:" prop="time">
+        <el-date-picker v-model="date" type="daterange" range-separator="-" value-format="yyyy-MM-dd" @change="getSTime" style="width:500px;" :editable=false start-placeholder="开始时间" end-placeholder="结束时间">
+        </el-date-picker>
+      </el-form-item>
+      <el-form-item label="备注:" prop="remark">
+        <el-input v-model="newnotify.remark" placeholder="请输入备注"></el-input>
+      </el-form-item>
+      <el-form-item style="margin-left: calc(50% - 200px);">
+        <el-button type="primary" @click="submitnotify()">提 交</el-button>
+        <el-button @click="dialogTzVisible = false">取 消</el-button>
+      </el-form-item>
+    </el-form>
+  </el-dialog>
+</el-col>
+
+
+
 </el-row>
 </template>
 
@@ -100,6 +131,8 @@
   import { Kandelete } from '../../api/api';
   import { Kanhot } from '../../api/api';
 
+  import { hdnotify } from '../../api/api';
+
 
   import { Message } from 'element-ui';
 
@@ -111,7 +144,7 @@
         list:[],
         count:0,
         limit:10,
-        dialogNewVisible:false,
+
         dialogDelVisible:false,
         filter:{
 
@@ -119,14 +152,82 @@
         editId:'',
         delId:'',
 
+
+
+
+        dialogTzVisible:false,
+
+        notifyid:0,
+        date:'',
+
+        newnotify:{
+          id:'',
+          type:'bargain',
+          title:'',
+          time:'',
+          remark:''
+        },
+        rules:{
+          title:[
+          {required: true, message: '请输入活动主题', trigger: 'blur'},
+          ],  
+          remark: [
+          {required: true, message: '请输入备注', trigger: 'blur'},
+          ],
+        },
+
+
+
         checkper1:false,
         checkper2:false,
-
 
       };
     },
 
     methods:{
+
+
+      handleNotify(index, row){
+        this.newnotify.id=row.id
+        this.dialogTzVisible=true
+      },
+
+      getSTime(val){
+        this.newnotify.time=""+val[0]+"——"+val[0]+"";
+        console.log(this.newnotify.time)
+        
+      },
+
+      submitnotify(){
+        console.log(this.newnotify)
+
+        if(this.newnotify.time==''){
+          this.$message.error(`请选择活动时间`);
+          return
+        }
+
+        this.$refs.newnotify.validate((valid) => {
+          if (valid) {
+            var allParams=this.newnotify
+            hdnotify(allParams).then((res) => {
+
+              this.$message.success(`提交成功`);
+              this.dialogTzVisible=false
+              this.newnotify={
+                type:'bargain',
+                title:'',
+                time:'',
+                remark:''
+              }
+            });
+
+          }else{
+            return false;
+          }
+        })
+      },
+
+
       checkPer(){
         var per = sessionStorage.getItem('permissions');
         if(per.indexOf('enableBargainPromotion')>-1){

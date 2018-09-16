@@ -111,6 +111,13 @@
               <label v-show="modelset">{{modeldata.proxy_notify}}</label>
             </el-form-item>
 
+
+            <el-form-item label="活动推送：" prop="promotion_notify">
+              <el-input v-model="modeldata.promotion_notify" placeholder="请输入模板消息ID" v-show="modelshow"></el-input>
+              <label class="grey" v-show="modelshow">选择关键词：活动主题、活动时间、活动类型、温馨提示</label>
+              <label v-show="modelset">{{modeldata.promotion_notify}}</label>
+            </el-form-item>
+
             <el-form-item>
               <el-button v-if="modelset" size="small" type="primary" style="margin-top:20px;" @click="changemodel">编辑</el-button>
               <el-button v-if="modelshow" size="small" type="primary" style="margin-top:20px;" @click="postmodel">提交</el-button>
@@ -206,6 +213,7 @@
           reduce_notify:'',
           voucher_notify:'',
           proxy_notify:'',
+          promotion_notify:''
         },
 
         rules2:{
@@ -231,6 +239,9 @@
           {required: true, message: '请输入模板消息ID', trigger: 'blur'},
           ],
           proxy_notify: [
+          {required: true, message: '请输入模板消息ID', trigger: 'blur'},
+          ],
+          promotion_notify: [
           {required: true, message: '请输入模板消息ID', trigger: 'blur'},
           ],
         }

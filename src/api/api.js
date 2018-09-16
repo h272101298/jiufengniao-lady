@@ -291,6 +291,13 @@ export const documentPost = params => { return axios.post(`${base}/document`, pa
 export const documentDel = params => { return axios.delete(`${base}/document`+`${params}`).then(res => res.data)}
 
 
+
+
+//活动通知
+export const hdnotify = params => { return axios.post(`${base3}/notify/promotion`, params).then(res => res.data)}
+
+
+
 //卡牌
 export const CardgoodGet = params => { return axios.get(`${base}/type/products`+`${params}`).then(res => res.data)}
 
@@ -383,6 +390,5 @@ export const igoodoneGet = params => { return axios.get(`${base3}/score/product`
 
 export const scoreSet = params => { return axios.post(`${base3}/score/set`, params).then(res => res.data)}
 
+
 export const scoreGet = params => { return axios.get(`${base3}/score/set`+`${params}`).then(res => res.data)}
-
-
