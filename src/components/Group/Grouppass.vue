@@ -39,13 +39,6 @@
           </template>
         </el-table-column>
 
-<!--         <el-table-column prop="hot" label="首页推荐" width="95" align="center" v-show="">
-          <template slot-scope="scope">
-            <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">是</el-button>
-            <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">否</el-button>
-          </template>
-        </el-table-column> -->
-
         <el-table-column prop="enable" label="状态" width="95" align="center">
          <template slot-scope="scope">
           <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
@@ -53,7 +46,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" width="95" align="center">
+      <el-table-column label="操作" min-width="95" align="center">
        <template slot-scope="scope">
         <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
 
@@ -67,9 +60,7 @@
   <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
   </el-pagination>
 
-
 </el-col>
-
 
 
 <el-col>
@@ -172,111 +163,111 @@
 
     methods:{
 
-       handleNotify(index, row){
-        this.newnotify.id=row.id
-        this.dialogTzVisible=true
-      },
+     handleNotify(index, row){
+      this.newnotify.id=row.id
+      this.dialogTzVisible=true
+    },
 
-      getSTime(val){
-        this.newnotify.time=""+val[0]+"——"+val[0]+"";
-        console.log(this.newnotify.time)
-        
-      },
+    getSTime(val){
+      this.newnotify.time=""+val[0]+"——"+val[0]+"";
+      console.log(this.newnotify.time)
+      
+    },
 
-      submitnotify(){
-        console.log(this.newnotify)
+    submitnotify(){
+      console.log(this.newnotify)
 
-        if(this.newnotify.time==''){
-          this.$message.error(`请选择活动时间`);
-          return
-        }
+      if(this.newnotify.time==''){
+        this.$message.error(`请选择活动时间`);
+        return
+      }
 
-        this.$refs.newnotify.validate((valid) => {
-          if (valid) {
-            var allParams=this.newnotify
-            hdnotify(allParams).then((res) => {
+      this.$refs.newnotify.validate((valid) => {
+        if (valid) {
+          var allParams=this.newnotify
+          hdnotify(allParams).then((res) => {
 
-              this.$message.success(`提交成功`);
-              this.dialogTzVisible=false
-              this.newnotify={
-                type:'bargain',
-                title:'',
-                time:'',
-                remark:''
-              }
-            });
-
-          }else{
-            return false;
-          }
-        })
-      },
-
-
-
-      checkPer(){
-        var per = sessionStorage.getItem('permissions');
-        if(per.indexOf('enablePintuanPromotion')>-1){
-          this.checkper1=true;
-        }
-
-        if(per.indexOf('delPintuanPromotion')>-1){
-          this.checkper2=true;
-        }
-      },
-
-
-      getlist(){
-        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
-        GroupcheckGet(allParams).then((res) => {
-          this.list=res.data.data;
-          this.count=res.data.count
-        });
-      },
-
-      clear(){
-        this.filter={
-          title:'',
-          level:''
-        }
-      },
-
-      handleEdit(index, row){
-        var allParams = '?id='+row.id;
-        Groupupdown(allParams).then((res) => {
-          this.$message.success(`修改成功`);
-          this.getlist()
-        });
-      },
-
-      handleDelete(index, row) {
-        this.dialogDelVisible = true;
-        this.delId = row.id;
-      },
-
-      changehot(index){
-        var allParams = '?id='+ index.id;
-        Grouphot(allParams).then((res) => {
-         console.log(res)
-         if (res.msg === "ok") {
-           this.$message({
-            message: '设置成功',
-            type: 'success'
+            this.$message.success(`提交成功`);
+            this.dialogTzVisible=false
+            this.newnotify={
+              type:'bargain',
+              title:'',
+              time:'',
+              remark:''
+            }
           });
-           this.getlist();
-         } else {
-           this.$message({
-            message: res.msg,
-            type: 'error'
-          });
-         }
-       })
-      },
 
-      submitdel(){
-        this.dialogDelVisible = false;
-        var allParams='?id='+this.delId
-        Groupdelete(allParams).then((res) => {
+        }else{
+          return false;
+        }
+      })
+    },
+
+
+
+    checkPer(){
+      var per = sessionStorage.getItem('permissions');
+      if(per.indexOf('enablePintuanPromotion')>-1){
+        this.checkper1=true;
+      }
+
+      if(per.indexOf('delPintuanPromotion')>-1){
+        this.checkper2=true;
+      }
+    },
+
+
+    getlist(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
+      GroupcheckGet(allParams).then((res) => {
+        this.list=res.data.data;
+        this.count=res.data.count
+      });
+    },
+
+    clear(){
+      this.filter={
+        title:'',
+        level:''
+      }
+    },
+
+    handleEdit(index, row){
+      var allParams = '?id='+row.id;
+      Groupupdown(allParams).then((res) => {
+        this.$message.success(`修改成功`);
+        this.getlist()
+      });
+    },
+
+    handleDelete(index, row) {
+      this.dialogDelVisible = true;
+      this.delId = row.id;
+    },
+
+    changehot(index){
+      var allParams = '?id='+ index.id;
+      Grouphot(allParams).then((res) => {
+       console.log(res)
+       if (res.msg === "ok") {
+         this.$message({
+          message: '设置成功',
+          type: 'success'
+        });
+         this.getlist();
+       } else {
+         this.$message({
+          message: res.msg,
+          type: 'error'
+        });
+       }
+     })
+    },
+
+    submitdel(){
+      this.dialogDelVisible = false;
+      var allParams='?id='+this.delId
+      Groupdelete(allParams).then((res) => {
         // console.log(res)
         if (res.msg === "ok") {
          this.$message({
@@ -292,27 +283,27 @@
         });
        }
      });
-      },
-
-
-
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        this.getlist();
-      },
-
-
-      handleSizeChange(val){
-        this.limit = val;
-        this.getlist();
-      },
     },
 
-    mounted: function () {
-      this.getlist(); 
-      this.checkPer();
-    }
+
+
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getlist();
+    },
+
+
+    handleSizeChange(val){
+      this.limit = val;
+      this.getlist();
+    },
+  },
+
+  mounted: function () {
+    this.getlist(); 
+    this.checkPer();
   }
+}
 </script>
 
 

@@ -18,67 +18,41 @@
         <el-table-column prop="description" label="活动标题" width="200" align="center">
         </el-table-column>
 
-<!--         <el-table-column prop="start" label="活动开始时间" width="150" align="center">
-        </el-table-column>
-        <el-table-column prop="end" label="活动结束时间" width="150" align="center">
-        </el-table-column> -->
+
         <el-table-column prop="time" label="砍价限时（小时）" min-width="120" align="center">
         </el-table-column>
         <el-table-column prop="number" label="库存" width="100" align="center">
         </el-table-column>
 
-<!--         <el-table-column prop="origin_price" label="原价" width="100" align="center">
+        <el-table-column prop="clickNum" label="砍价次数" width="100" align="center">
         </el-table-column>
-        <el-table-column prop="min_price" label="底价" width="100" align="center">
-        </el-table-column>
-<<<<<<< HEAD
--->
-<el-table-column prop="clickNum" label="砍价次数" width="100" align="center">
-</el-table-column>
 
-<el-table-column prop="count" label="参与人数" width="100" align="center">
-</el-table-column>
-<el-table-column prop="updated_at" label="活动开始时间" min-width="100" align="center">
-</el-table-column>
+        <el-table-column prop="count" label="参与人数" width="100" align="center">
+        </el-table-column>
+        <el-table-column prop="updated_at" label="活动开始时间" min-width="100" align="center">
+        </el-table-column>
 
 
-<!--         <el-table-column prop="bargain_count" label="已砍价次数" min-width="80" align="center">
-        </el-table-column>
-        <el-table-column prop="bargain_price" label="已砍价金额" min-width="100" align="center">
-        </el-table-column>
-        <el-table-column prop="" label="当前价格" min-width="100" align="center">
+        <el-table-column prop="enable" label="状态" min-width="90" align="center">
          <template slot-scope="scope">
-          <p>{{ scope.row.origin_price - scope.row.bargain_price}}</p>
+          <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
+          <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper1">下线</el-button>
         </template>
-      </el-table-column> -->
+      </el-table-column>
 
-<!--       <el-table-column prop="hot" label="首页推荐" min-width="90" align="center" v-show="">
-        <template slot-scope="scope">
-          <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">是</el-button>
-          <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">否</el-button>
-        </template>
-      </el-table-column> -->
-
-      <el-table-column prop="enable" label="状态" min-width="90" align="center">
+      <el-table-column label="操作" min-width="100" align="center">
        <template slot-scope="scope">
-        <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
-        <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper1">下线</el-button>
+        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
+
+        <el-button type="success" size="small" @click="handleNotify(scope.$index, scope.row)">推送</el-button>
+
       </template>
     </el-table-column>
 
-    <el-table-column label="操作" min-width="100" align="center">
-     <template slot-scope="scope">
-      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
+  </el-table>
 
-      <el-button type="success" size="small" @click="handleNotify(scope.$index, scope.row)">推送</el-button>
-
-    </template>
-  </el-table-column>
-
-</el-table>
-
-<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-</el-pagination>
+  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+  </el-pagination>
 
 
 </el-col>

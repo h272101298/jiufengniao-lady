@@ -30,9 +30,9 @@
             </el-table-column>
             <el-table-column prop="end" label="活动结束时间" width="140" align="center">
             </el-table-column>
-            <el-table-column prop="offer" label="折扣" min-width="75" align="center">
+            <el-table-column prop="offer" label="折扣" width="75" align="center">
             </el-table-column>
-            <el-table-column prop="number" label="库存" min-width="75" align="center">
+            <el-table-column prop="number" label="库存" width="75" align="center">
             </el-table-column>
 
             <el-table-column prop="clickCount" label="总点击数" min-width="75" align="center">
@@ -50,13 +50,6 @@
             <el-table-column prop="clickNum" label="期望平均点击数" min-width="110" align="center">
             </el-table-column>
 
-<!--             <el-table-column prop="hot" label="首页推荐" min-width="80" align="center" v-show="">
-              <template slot-scope="scope">
-                <el-button type="success" size="mini" v-show="scope.row.hot==1 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">是</el-button>
-                <el-button type="info" size="mini" v-show="scope.row.hot==0 && scope.row.enable==1&&checkper3" @click="changehot(scope.row)">否</el-button>
-              </template>
-            </el-table-column> -->
-
             <el-table-column prop="enable" label="状态" min-width="80" align="center">
              <template slot-scope="scope">
               <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
@@ -64,7 +57,7 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="操作" min-width="80" align="center">
+          <el-table-column label="操作" min-width="140" align="center">
            <template slot-scope="scope">
             <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
 
@@ -239,87 +232,87 @@
 
     methods:{
 
-       handleNotify(index, row){
-        this.newnotify.id=row.id
-        this.dialogTzVisible=true
-      },
+     handleNotify(index, row){
+      this.newnotify.id=row.id
+      this.dialogTzVisible=true
+    },
 
-      getSTime(val){
-        this.newnotify.time=""+val[0]+"——"+val[0]+"";
-        console.log(this.newnotify.time)
-        
-      },
+    getSTime(val){
+      this.newnotify.time=""+val[0]+"——"+val[0]+"";
+      console.log(this.newnotify.time)
 
-      submitnotify(){
-        console.log(this.newnotify)
+    },
 
-        if(this.newnotify.time==''){
-          this.$message.error(`请选择活动时间`);
-          return
+    submitnotify(){
+      console.log(this.newnotify)
+
+      if(this.newnotify.time==''){
+        this.$message.error(`请选择活动时间`);
+        return
+      }
+
+      this.$refs.newnotify.validate((valid) => {
+        if (valid) {
+          var allParams=this.newnotify
+          hdnotify(allParams).then((res) => {
+
+            this.$message.success(`提交成功`);
+            this.dialogTzVisible=false
+            this.newnotify={
+              type:'bargain',
+              title:'',
+              time:'',
+              remark:''
+            }
+          });
+
+        }else{
+          return false;
         }
-
-        this.$refs.newnotify.validate((valid) => {
-          if (valid) {
-            var allParams=this.newnotify
-            hdnotify(allParams).then((res) => {
-
-              this.$message.success(`提交成功`);
-              this.dialogTzVisible=false
-              this.newnotify={
-                type:'bargain',
-                title:'',
-                time:'',
-                remark:''
-              }
-            });
-
-          }else{
-            return false;
-          }
-        })
-      },
+      })
+    },
 
 
 
 
-      checkPer(){
-        var per = sessionStorage.getItem('permissions');
-        if(per.indexOf('enableCardPromotion')>-1){
-          this.checkper1=true;
-        }
+    checkPer(){
+      var per = sessionStorage.getItem('permissions');
+      if(per.indexOf('enableCardPromotion')>-1){
+        this.checkper1=true;
+      }
 
-        if(per.indexOf('delCardPromotion')>-1){
-          this.checkper2=true;
-        }
+      if(per.indexOf('delCardPromotion')>-1){
+        this.checkper2=true;
+      }
 
-        if(per.indexOf('hotCardPromotion')>-1){
-          this.checkper3=true;
-        }
+      if(per.indexOf('hotCardPromotion')>-1){
+        this.checkper3=true;
+      }
 
-        if(per.indexOf('addDefaultCards')>-1){
-          this.checkper4=true;
-        }
-      },
-
-
-      getlist(){
-        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
-        CardcheckGet(allParams).then((res) => {
-          this.list=res.data.data;
-          this.count=res.data.count
-        });
-      },
+      if(per.indexOf('addDefaultCards')>-1){
+        this.checkper4=true;
+      }
+    },
 
 
-      clear(){
-        this.filter={
-          title:'',
-          level:''
-        }
-      },
+    getlist(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit + '&state=2';
+      CardcheckGet(allParams).then((res) => {
+        this.list=res.data.data;
+        this.count=res.data.count
+      });
+    },
 
 
-      handleEdit(index, row){
+    clear(){
+      this.filter={
+        title:'',
+        level:''
+      }
+    },
+
+
+    handleEdit(index, row){
       // Cardupdown
 
       var allParams = '?id='+row.id;
