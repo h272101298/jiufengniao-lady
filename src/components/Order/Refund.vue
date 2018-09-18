@@ -14,7 +14,7 @@
       <el-table :data="list" border stripe size="small">
         <el-table-column prop="order_id" label="ID" min-width="80" align="center">
         </el-table-column>
-        <el-table-column prop="order.group_number" label="订单号" min-width="200" align="center">
+        <el-table-column prop="order.number" label="订单号" min-width="200" align="center">
         </el-table-column>
         <el-table-column prop="order.store.name" label="商品名称" min-width="200" align="center">
         </el-table-column>
