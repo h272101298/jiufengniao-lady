@@ -232,8 +232,8 @@
   export default {
     data() {
       return {
-        activeName:'icon',
-        // activeName:'banner',
+        // activeName:'icon',
+        activeName:'banner',
 
         uptoken:{
           token:qiniu.token,
