@@ -16,7 +16,7 @@
         </el-table-column>
         <el-table-column prop="order.number" label="订单号" min-width="200" align="center">
         </el-table-column>
-        <el-table-column prop="order.store.name" label="商品名称" min-width="200" align="center">
+        <el-table-column prop="order.user.nickname" label="用户" min-width="100" align="center">
         </el-table-column>
         <el-table-column prop="order.store.name" label="商家" min-width="200" align="center">
         </el-table-column>
