@@ -11,16 +11,30 @@
     <el-col :span="24" class="warp-main">
 
       <el-form :inline="true">
-<!--         <el-form-item label="订单状态：">
-          <el-select v-model="filter.state" placeholder="全部订单" @change="changestate">
-            <el-option label="全部订单" value="0"></el-option>
-            <el-option label="待发货" value="1"></el-option>
-            <el-option label="待收货" value="2"></el-option>
-            <el-option label="已完成" value="3"></el-option>
+
+        <el-form-item label="订单类型：">
+          <el-select v-model="filter.type" placeholder="普通订单" @change="changetype">
+            <el-option label="普通订单" value="origin"></el-option>
+            <el-option label="拼团" value="groupCreate"></el-option>
+            <el-option label="砍价" value="bargain"></el-option>
+            <el-option label="集卡牌" value="card"></el-option>
+            <el-option label="积分" value="scoreOrder"></el-option>
           </el-select>
-        </el-form-item> -->
+        </el-form-item>
+
+        <el-form-item label="订单状态：">
+          <el-select v-model="filter.state" placeholder="全部订单" @change="changestate">
+            <el-option label="全部订单" value=""></el-option>
+            <el-option label="未付款" value="created"></el-option>
+            <el-option label="已支付" value="paid"></el-option>
+            <el-option label="已发货" value="delivery"></el-option>
+            <el-option label="已完成" value="finished"></el-option>
+            <el-option label="已取消" value="canceled"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item>
-          <el-input v-model="filter.search" placeholder="请输入订单号/店铺名称/收货人" style="min-width: 225px;" ></el-input>
+          <el-input v-model="filter.search" placeholder="请输入订单号" style="min-width: 225px;" ></el-input>
         </el-form-item>
 
         <el-form-item>
@@ -38,16 +52,12 @@
 
       <el-table :data="list" border stripe size="small" id="out-table" style="width:95%;">
         <el-table-column prop="id" label="ID" width="100" align="center">
-        </el-table-column>
+        </el-table-column>+
         <el-table-column prop="number" label="订单号" min-width="100" align="center">
         </el-table-column>
 
         <el-table-column prop="user" label="用户" min-width="100" align="center">
         </el-table-column>
-<!--         <el-table-column prop="name" label="商品名称" min-width="200" align="center">
-        </el-table-column>
-        <el-table-column prop="name" label="商家" min-width="200" align="center">
-        </el-table-column> -->
         <el-table-column prop="price" label="总计" min-width="150" align="center">
         </el-table-column>
 
@@ -57,7 +67,6 @@
             <el-tag type="success" v-if="scope.row.delivery==1">快递</el-tag>
           </template>
         </el-table-column>
-        <!--  -->
 
         <el-table-column prop="state" label="订单状态" width="160" align="center">
           <template slot-scope="scope">
@@ -82,11 +91,11 @@
       </el-table-column>
     </el-table>
 
-    <el-pagination style="float:left;margin:20px 0 200px 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+    <el-pagination style="float:left;margin:20px 0 200px 0px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40, 50,100,200]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
     </el-pagination>
 
 
-    <el-button type="primary" style="float:left;margin:20px 50px;" @click="exportExcel()" size="small">导出Excel表</el-button>
+    <el-button type="primary" style="float:left;margin:20px 50px;" size="small"><a style="color:#fff;" :href="orderexcel" download="" mce_href="#">导出Excel表</a></el-button>
   </el-col>
 
 
@@ -195,10 +204,14 @@
   import { shipgoods } from '../../api/api';
   import { deliveryGet } from '../../api/api';
 
+  import base3 from '../../api/api';
+
+
   import { Message } from 'element-ui';
 
-  import FileSaver from 'file-saver'
-  import XLSX from 'xlsx'
+
+  // import FileSaver from 'file-saver'
+  // import XLSX from 'xlsx'
 
 
   export default {
@@ -214,7 +227,8 @@
           search:'',
           state:'',
           start:'',
-          end:''
+          end:'',
+          type:'origin'
         },
         filter1:{
           date:''
@@ -260,6 +274,8 @@
            zip_code: "",
          }],
        },
+
+       orderexcel:'',
      };
    },
 
@@ -271,31 +287,39 @@
         this.checkper1=true;
       }
 
-
     },
 
 
     getlist(){
-      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end;
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end+'&state='+this.filter.state+'&type='+this.filter.type;
       allorderGet(allParams).then((res) => {
         this.list=res.data.data;
         this.count=res.data.count
+
+        console.log(base3)
+
+        this.orderexcel=base3+'/export/orders'+'?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end+'&state='+this.filter.state+'&type='+this.filter.type
       });
     },
 
-    exportExcel () {
-     var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
-     var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
-     try {FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '购物订单.xlsx')}
-     catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
-     return wbout
-   },
+   //  exportExcel () {
+   //   var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+   //   var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+   //   try {FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '购物订单.xlsx')}
+   //   catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+   //   return wbout
+   // },
 
-   getSTime(val){
+  getSTime(val){
     this.filter.start=val[0];
     this.filter.end=val[1];
     console.log(this.filter)
       // this.getlist();
+    },
+
+    changetype(val){
+      this.filter.type=val;
+      this.getlist();
     },
 
     changestate(val){
@@ -308,11 +332,13 @@
         search:'',
         state:'',
         start:'',
-        end:''
+        end:'',
+        type:'origin'
       }
       this.filter1={
         date:''
       }
+      this.getlist();
     },
 
     handleCurrentChange(val) {

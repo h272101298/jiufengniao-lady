@@ -51,15 +51,15 @@ axios.interceptors.response.use(
 	})
 
 
-// let base = 'http://192.168.1.174/Shop/public/v1'
-// let base1 = 'http://192.168.1.174/Shop/public/v2'
-// let base3 = 'http://192.168.1.174/Shop/public/v3'
+// let base = 'http://192.168.1.172/Shop/public/v1'
+// let base1 = 'http://192.168.1.172/Shop/public/v2'
+// let base3 = 'http://192.168.1.172/Shop/public/v3'
 
 let base = 'https://template.geckowing.com/v1'
 let base1 = 'https://template.geckowing.com/v2'
 let base3 = 'https://template.geckowing.com/v3'
 
-export default base
+export default base3
 
 //登录
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }//登录
@@ -194,6 +194,7 @@ export const refundPost = params => { return axios.get(`${base}/refuse`+`${param
 
 // export const orderDel = params => { return axios.delete(`${base}/order/list`+`${params}`).then(res => res.data)}
 
+// export const exportOrder = params => { return axios.get(`${base3}/export/orders`+`${params}`).then(res => res.data)}
 
 
 
