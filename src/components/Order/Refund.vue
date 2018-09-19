@@ -42,8 +42,9 @@
 
     <el-table-column label="操作" min-width="200" align="center">
      <template slot-scope="scope">
-      <span v-show="scope.row.state!==1 && checkper1" class="fw4">已操作</span>
+      <span v-show="scope.row.state ==2 && checkper1" class="fw4">已退款</span>
       <el-button type="danger" size="mini" v-show="scope.row.state==1 && checkper1" @click="handleDelete(scope.row)">确认退款</el-button>
+      <el-button type="danger" size="mini" v-show="scope.row.state==3 && checkper1" @click="handleDelete(scope.row)">重新退款</el-button>
     </template>
   </el-table-column>
 
@@ -60,7 +61,6 @@
     </div>
   </el-dialog>
 </el-col>
-
 
 
 <el-col>
