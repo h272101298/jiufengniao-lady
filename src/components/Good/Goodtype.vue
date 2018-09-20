@@ -46,6 +46,9 @@
       <el-table-column prop="level" label="级别" min-width="200" align="center">
       </el-table-column>
 
+      <el-table-column prop="parent.title" label="上级分类" min-width="200" align="center">
+      </el-table-column>
+
       <el-table-column label="操作" width="400" align="center">
        <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="checkper1">编辑</el-button>

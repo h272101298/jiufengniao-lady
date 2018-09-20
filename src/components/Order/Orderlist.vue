@@ -77,6 +77,11 @@
             <el-tag type="success" v-if="scope.row.state=='finished'">已完成</el-tag>
             <el-tag type="success" v-if="scope.row.state=='closed'">已完成</el-tag>
             <el-tag type="info" v-if="scope.row.state=='canceled'">已取消</el-tag>
+
+            <el-tag type="warning" v-if="groupState==1" v-show="scope.row.type=='groupCreate' || scope.row.type=='groupJoin'">拼团中</el-tag>
+            <el-tag type="warning" v-if="groupState==2" v-show="scope.row.type=='groupCreate' || scope.row.type=='groupJoin'">拼团成功</el-tag>
+            <el-tag type="warning" v-if="groupState==3" v-show="scope.row.type=='groupCreate' || scope.row.type=='groupJoin'">拼团失败</el-tag>
+
           </template>
         </el-table-column>
 
@@ -86,7 +91,8 @@
         <el-table-column label="操作" min-width="200" align="center">
          <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleSee(scope.row)">订单详情</el-button>
-          <el-button type="success" v-show="scope.row.state=='paid' && checkper1 && scope.row.delivery==1" size="mini" @click="handleSend(scope.row)">发货</el-button>
+          <el-button type="success" v-show="scope.row.state=='paid' && checkper1 && scope.row.delivery==1 && groupState==2" size="mini" @click="handleSend(scope.row)">发货</el-button>
+
           <el-button type="success" v-show="scope.row.state=='paid' && checkper1 && scope.row.delivery==0" size="mini" @click="handleSend(scope.row)">接单</el-button>
         </template>
       </el-table-column>
