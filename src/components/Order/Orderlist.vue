@@ -13,7 +13,8 @@
       <el-form :inline="true">
 
         <el-form-item label="订单类型：">
-          <el-select v-model="filter.type" placeholder="普通订单" @change="changetype">
+          <el-select v-model="filter.type" placeholder="全部订单" @change="changetype">
+            <el-option label="全部订单" value=""></el-option>
             <el-option label="普通订单" value="origin"></el-option>
             <el-option label="拼团" value="groupCreate"></el-option>
             <el-option label="砍价" value="bargain"></el-option>
@@ -24,7 +25,7 @@
 
         <el-form-item label="订单状态：">
           <el-select v-model="filter.state" placeholder="全部订单" @change="changestate">
-            <el-option label="全部订单" value=""></el-option>
+            <el-option label="全部状态" value=""></el-option>
             <el-option label="未付款" value="created"></el-option>
             <el-option label="已支付" value="paid"></el-option>
             <el-option label="已发货" value="delivery"></el-option>
@@ -228,7 +229,7 @@
           state:'',
           start:'',
           end:'',
-          type:'origin'
+          type:''
         },
         filter1:{
           date:''
@@ -296,7 +297,7 @@
         this.list=res.data.data;
         this.count=res.data.count
 
-        console.log(base3)
+        // console.log(base3)
 
         this.orderexcel=base3+'/export/orders'+'?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end+'&state='+this.filter.state+'&type='+this.filter.type
       });
