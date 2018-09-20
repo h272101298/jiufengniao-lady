@@ -69,7 +69,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="state" label="订单状态" width="160" align="center">
+        <el-table-column prop="state" label="订单状态" min-width="160" align="center">
           <template slot-scope="scope">
             <el-tag type="danger" v-if="scope.row.state=='created'">未付款</el-tag>
             <el-tag type="primary" v-if="scope.row.state=='paid'">已支付</el-tag>
