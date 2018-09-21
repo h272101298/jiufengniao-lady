@@ -69,7 +69,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column prop="state" label="订单状态" min-width="160" align="center">
+        <el-table-column prop="state" label="订单状态" min-width="200" align="center">
           <template slot-scope="scope">
             <el-tag type="danger" v-if="scope.row.state=='created'">未付款</el-tag>
             <el-tag type="primary" v-if="scope.row.state=='paid'">已支付</el-tag>
@@ -79,7 +79,7 @@
             <el-tag type="info" v-if="scope.row.state=='canceled'">已取消</el-tag>
 
             <el-tag type="warning" v-if="scope.row.groupState==1">拼团中</el-tag>
-            <el-tag type="warning" v-if="scope.row.groupState==2">拼团成功</el-tag>
+            <el-tag type="warning" v-if="scope.row.groupState==2 && scope.row.state!=='canceled'">拼团成功</el-tag>
             <el-tag type="warning" v-if="scope.row.groupState==3">拼团失败</el-tag>
 
           </template>
