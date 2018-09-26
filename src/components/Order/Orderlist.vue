@@ -303,7 +303,7 @@
         this.list=res.data.data;
         this.count=res.data.count
 
-        // console.log(base3)
+        // console.log(hosturl+'v3'+'/export/orders'+'?page=1')
 
         this.orderexcel=hosturl+'v3'+'/export/orders'+'?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end+'&state='+this.filter.state+'&type='+this.filter.type
       });
