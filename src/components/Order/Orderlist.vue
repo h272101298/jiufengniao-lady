@@ -211,7 +211,7 @@
   import { shipgoods } from '../../api/api';
   import { deliveryGet } from '../../api/api';
 
-  import base3 from '../../api/api';
+  import hosturl from '../../api/api';
 
 
   import { Message } from 'element-ui';
@@ -305,7 +305,7 @@
 
         // console.log(base3)
 
-        this.orderexcel=base3+'/export/orders'+'?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end+'&state='+this.filter.state+'&type='+this.filter.type
+        this.orderexcel=hosturl+'v3'+'/export/orders'+'?page='+ this.currentPage + '&limit=' + this.limit+ '&search=' + this.filter.search+'&start=' + this.filter.start+'&end=' + this.filter.end+'&state='+this.filter.state+'&type='+this.filter.type
       });
     },
 

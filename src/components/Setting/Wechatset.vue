@@ -144,7 +144,7 @@
 
   import qiniu from '../../api/qiniu';
 
-  import base from '../../api/api';
+  import hosturl from '../../api/api';
 
   import { wxconfigPost } from '../../api/api';
   import { wxconfigGet } from '../../api/api';
@@ -157,7 +157,7 @@
   export default {
     data() {
       return {
-        base:base+'/upload',
+        base:hosturl+'v1'+'/upload',
         activeName:'list',
 
         show:false,

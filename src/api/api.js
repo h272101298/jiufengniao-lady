@@ -54,12 +54,13 @@ axios.interceptors.response.use(
 // let base = 'http://192.168.1.172/Shop/public/v1'
 // let base1 = 'http://192.168.1.172/Shop/public/v2'
 // let base3 = 'http://192.168.1.172/Shop/public/v3'
+let hosturl ='https://template.geckowing.com/'
 
-let base = 'https://template.geckowing.com/v1'
-let base1 = 'https://template.geckowing.com/v2'
-let base3 = 'https://template.geckowing.com/v3'
+let base = hosturl+'v1'
+let base1 = hosturl+'v2'
+let base3 = hosturl+'v3'
 
-export default base3
+export default hosturl
 
 //登录
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data) }//登录
