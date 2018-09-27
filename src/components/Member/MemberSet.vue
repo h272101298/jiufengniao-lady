@@ -207,86 +207,86 @@
 
     methods:{
       checkPer(){
-      var per = sessionStorage.getItem('permissions');
-      if(per.indexOf('addMemberLevel')>-1){
-        this.checkper1=true;
-      }
-
-      if(per.indexOf('delMemberLevel')>-1){
-        this.checkper2=true;
-      }
-    },
-
-
-    getconfig(){
-      var that= this;
-      var allParams = '';
-      mconfigGet(allParams).then((res) => {
-        that.list=res.data.data;
-        that.count=res.data.count;
-      });
-    },
-
-    newlevel(){
-      this.levelform={
-        name:'',
-        price:'',
-        time:'',
-        discount:'',
-        detail:''
-      }
-      this.dialogNewVisible=true
-    },
-
-    handleEdit(index, row){
-      console.log(row.detail)
-      this.levelform=row
-      this.editId=row.id
-      this.dialogNewVisible=true
-    },
-
-    save(){
-      console.log(this.levelform)
-      this.$refs.levelform.validate((valid) => {
-        if (valid) {
-
-         var allParams =this.levelform
-         console.log(this.editId)
-         if(this.editId){
-          allParams.id=this.editId
-          this.editId=''
+        var per = sessionStorage.getItem('permissions');
+        if(per.indexOf('addMemberLevel')>-1){
+          this.checkper1=true;
         }
 
-        mconfigPost(allParams).then((res) => {
-          if (res.msg === "ok") {
-           this.$message({
-            message: '提交成功',
-            type: 'success'
-          });
-           this.dialogNewVisible=false 
-           this.getconfig()
-         } else {
-           this.$message({
-            message: res.msg,
-            type: 'error'
-          });
-         }
-       });
+        if(per.indexOf('delMemberLevel')>-1){
+          this.checkper2=true;
+        }
+      },
 
-      }else{
-        return false;
-      }
-    })
-    },
 
-    cancel(){
-      this.dialogNewVisible=false
-    },
+      getconfig(){
+        var that= this;
+        var allParams = '';
+        mconfigGet(allParams).then((res) => {
+          that.list=res.data.data;
+          that.count=res.data.count;
+        });
+      },
 
-    handleDelete(index, row) {
-      this.dialogDelVisible = true;
-      this.delId = row.id;
-    },
+      newlevel(){
+        this.levelform={
+          name:'',
+          price:'',
+          time:'',
+          discount:'',
+          detail:''
+        }
+        this.dialogNewVisible=true
+      },
+
+      handleEdit(index, row){
+        console.log(row.detail)
+        this.levelform=row
+        this.editId=row.id
+        this.dialogNewVisible=true
+      },
+
+      save(){
+        console.log(this.levelform)
+        this.$refs.levelform.validate((valid) => {
+          if (valid) {
+
+           var allParams =this.levelform
+           console.log(this.editId)
+           if(this.editId){
+            allParams.id=this.editId
+            this.editId=''
+          }
+
+          mconfigPost(allParams).then((res) => {
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+             this.dialogNewVisible=false 
+             this.getconfig()
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
+         });
+
+        }else{
+          return false;
+        }
+      })
+      },
+
+      cancel(){
+        this.dialogNewVisible=false
+      },
+
+      handleDelete(index, row) {
+        this.dialogDelVisible = true;
+        this.delId = row.id;
+      },
 
     submitdel(){//mconfigDel
       var allParams='?id='+this.delId
@@ -296,7 +296,7 @@
           message: '删除成功',
           type: 'success'
         });
-
+        this.dialogDelVisible = false;
          this.getconfig()
        } else {
          this.$message({

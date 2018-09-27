@@ -14,6 +14,7 @@ import Goodrecycle from '@/components/Good/Goodrecycle'
 
 import Igoodnew from '@/components/Integral/Igoodnew'
 import Igoodlist from '@/components/Integral/Igoodlist'
+// import Idraw from '@/components/Integral/Idraw'
 
 import Orderlist from '@/components/Order/Orderlist'
 import Refund from '@/components/Order/Refund'
@@ -148,6 +149,7 @@ let router = new Router({
         children: [
         {path: '/Integral/Igoodnew',component: Igoodnew,name: '添加商品',menuShow: false,meta:{permission: ''}}, 
         {path: '/Integral/Igoodlist',component: Igoodlist,name: '积分商品',menuShow: true,meta:{permission: ''}}, 
+        // {path: '/Integral/Idraw',component: Idraw,name: '抽奖设置',menuShow: true,meta:{permission: ''}}, 
         ]
     },{
         leaf: true,

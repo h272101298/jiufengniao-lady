@@ -393,5 +393,10 @@ export const igoodoneGet = params => { return axios.get(`${base3}/score/product`
 
 export const scoreSet = params => { return axios.post(`${base3}/score/set`, params).then(res => res.data)}
 
-
 export const scoreGet = params => { return axios.get(`${base3}/score/set`+`${params}`).then(res => res.data)}
+
+
+
+export const drawSet = params => { return axios.post(`${base3}/draw/set`, params).then(res => res.data)}
+
+export const drawGet = params => { return axios.get(`${base3}/draw/set`+`${params}`).then(res => res.data)}

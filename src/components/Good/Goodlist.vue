@@ -42,80 +42,65 @@
       </el-table-column>
       <el-table-column prop="sales_volume" label="销量" min-width="100" align="center">
       </el-table-column>
-<!--       <el-table-column prop="name" label="价格" min-width="150" align="center">
-</el-table-column> -->
-<!--       <el-table-column prop="name" label="所属商家" min-width="200" align="center">
-</el-table-column> -->
-
-<!-- <el-table-column prop="hot" label="热门" min-width="100" align="center" v-show="checkper2">
-  <template slot-scope="scope">
-    <el-button type="success" size="mini" v-show="scope.row.hot==1" @click="changehot(scope.row)">是</el-button>
-    <el-button type="" size="mini" v-show="scope.row.hot==0" @click="changehot(scope.row)">否</el-button>
-  </template>
-</el-table-column>
-
-<el-table-column prop="new" label="新品" min-width="100" align="center" v-show="checkper2">
-  <template slot-scope="scope">
-    <el-button type="success" size="mini" v-show="scope.row.new==1" @click="changenew(scope.row)">是</el-button>
-    <el-button type="" size="mini" v-show="scope.row.new==0" @click="changenew(scope.row)">否</el-button>
-  </template>
-</el-table-column> -->
-
-<el-table-column prop="offer" label="首页推荐" min-width="100" align="center" v-show="checkper2">
-  <template slot-scope="scope">
-    <el-button type="success" size="mini" v-show="scope.row.offer==1&&scope.row.review==1 && scope.row.state==1" @click="changeoffer(scope.row)">是</el-button>
-    <el-button type="" size="mini" v-show="scope.row.offer==0&&scope.row.review==1" @click="changeoffer(scope.row)">否</el-button>
-  </template>
-</el-table-column>
-
-<el-table-column prop="state" label="上架状态" min-width="100" align="center" v-show="checkper2">
-  <template slot-scope="scope">
-    <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
-    <el-button type="" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
-  </template>
-</el-table-column>
-
-<el-table-column prop="review" label="审核状态" min-width="100" align="center">
-  <template slot-scope="scope">
-    <el-tag type="success" v-show="scope.row.review==1">已审核</el-tag>
-    <el-tag type="info" v-show="scope.row.review==0">未审核</el-tag>
-  </template>
-</el-table-column>
 
 
-<!-- <el-table-column prop="express_price" label="邮费" min-width="150" align="center">
-</el-table-column> -->
-<el-table-column prop="created_at" label="创建时间" min-width="150" align="center">
-</el-table-column>
-<!--       <el-table-column prop="name" label="审核状态" min-width="150" align="center">
-</el-table-column> -->
-<el-table-column label="操作" width="180" align="center">
- <template slot-scope="scope">
-  <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
-    <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)" v-show="checkper3">
-  </el-tooltip>
-  <el-tooltip class="icon" effect="dark" content="查看详情" placement="bottom">
-    <img src="../../../static/images/icon/look.png" @click="handleSee(scope.$index, scope.row)">
-  </el-tooltip>
-<!--   <el-tooltip class="icon" effect="dark" content="生成二维码" placement="top">
-    <img src="../../../static/images/icon/ewcode.png">
-  </el-tooltip> -->
-  <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
-    <img src="../../../static/images/icon/check.png" v-show="scope.row.review==0 && checkper1" @click="handleCheck(scope.row)">
-  </el-tooltip>
-  <el-tooltip class="icon" effect="dark" content="加入回收站" placement="top">
-    <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
-  </el-tooltip>
+      <el-table-column label="排序" width="100" align="center">
+        <template slot-scope="scope">
+          <el-input v-model="scope.row.offersort" v-if="scope.row.offer==0&&scope.row.review==1&&scope.row.state==1" size="mini" type="number" min="0"></el-input>
+          <div v-if="scope.row.offerData">{{scope.row.offerData.sort}}</div>
+        </template>
+      </el-table-column>
 
-  <el-tooltip class="icon" effect="dark" content="选择推送" placement="bottom">
-    <img src="../../../static/images/icon/select.png" @click="handlepush(scope.$index, scope.row)">
-  </el-tooltip>
-</template>
-</el-table-column>
-</el-table>
+      <el-table-column prop="offer" label="首页推荐" min-width="100" align="center" v-show="checkper2">
+        <template slot-scope="scope">
+          <el-button type="success" size="mini" v-show="scope.row.offer==1&&scope.row.review==1 && scope.row.state==1" @click="changeoffer(scope.row)">是</el-button>
+          <el-button type="" size="mini" v-show="scope.row.offer==0&&scope.row.review==1" @click="changeoffer(scope.row)">否</el-button>
+        </template>
+      </el-table-column>
 
-<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-</el-pagination>
+      <el-table-column prop="state" label="上架状态" min-width="100" align="center" v-show="checkper2">
+        <template slot-scope="scope">
+          <el-button type="success" size="mini" v-show="scope.row.state==1&&scope.row.review==1" @click="changejia(scope.row)">上架</el-button>
+          <el-button type="" size="mini" v-show="scope.row.state==0&&scope.row.review==1" @click="changejia(scope.row)">下架</el-button>
+        </template>
+      </el-table-column>
+
+      <el-table-column prop="review" label="审核状态" min-width="100" align="center">
+        <template slot-scope="scope">
+          <el-tag type="success" v-show="scope.row.review==1">已审核</el-tag>
+          <el-tag type="info" v-show="scope.row.review==0">未审核</el-tag>
+        </template>
+      </el-table-column>
+
+
+      <el-table-column prop="created_at" label="创建时间" min-width="150" align="center">
+      </el-table-column>
+
+      <el-table-column label="操作" width="180" align="center">
+       <template slot-scope="scope">
+        <el-tooltip class="icon" effect="dark" content="编辑" placement="top">
+          <img src="../../../static/images/icon/edit.png" @click="handleEdit(scope.$index, scope.row)" v-show="checkper3">
+        </el-tooltip>
+        <el-tooltip class="icon" effect="dark" content="查看详情" placement="bottom">
+          <img src="../../../static/images/icon/look.png" @click="handleSee(scope.$index, scope.row)">
+        </el-tooltip>
+
+        <el-tooltip class="icon" effect="dark" content="审核" placement="bottom">
+          <img src="../../../static/images/icon/check.png" v-show="scope.row.review==0 && checkper1" @click="handleCheck(scope.row)">
+        </el-tooltip>
+        <el-tooltip class="icon" effect="dark" content="加入回收站" placement="top">
+          <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
+        </el-tooltip>
+
+        <el-tooltip class="icon" effect="dark" content="选择推送" placement="bottom">
+          <img src="../../../static/images/icon/select.png" @click="handlepush(scope.$index, scope.row)">
+        </el-tooltip>
+      </template>
+    </el-table-column>
+  </el-table>
+
+  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+  </el-pagination>
 </el-col>
 
 
@@ -322,18 +307,31 @@
     //    });
     //   },
 
-      changeoffer(index){
+    changeoffer(row){
         // console.log(index)
-        var allParams = '?product_id='+ index.id;
+       //  var allParams = '?product_id='+ index.id;
+       //  goodoffer(allParams).then((res) => {
+       //   console.log(res)
+       //   this.getlist();
+       // });
+
+       if(row.offer==0&&!row.offersort){
+        this.$message({
+          message: '请先输入排序值',
+          type: 'error'
+        });
+      }else{
+        var allParams = '?product_id='+ row.id+"&sort="+row.offersort;
         goodoffer(allParams).then((res) => {
          console.log(res)
          this.getlist();
        });
-      },
+      }
+    },
 
 
 
-      changejia(index){
+    changejia(index){
         // console.log(index)
         var allParams = '?id='+ index.id;
         goodShelf(allParams).then((res) => {
