@@ -56,8 +56,8 @@ axios.interceptors.response.use(
 // let base3 = 'http://192.168.1.172/Shop/public/v3'
 
 
-let hosturl = 'http://192.168.1.172/Shop/public/'
-// let hosturl ='https://template.geckowing.com/'
+// let hosturl = 'http://192.168.1.172/Shop/public/'
+let hosturl ='https://template.geckowing.com/'
 
 let base = hosturl+'v1'
 let base1 = hosturl+'v2'
