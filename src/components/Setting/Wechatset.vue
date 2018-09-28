@@ -89,7 +89,7 @@
 
             <el-form-item label="商品信息上传成功：" prop="product_notify">
               <el-input v-model="modeldata.product_notify" placeholder="请输入模板消息ID" v-show="modelshow"></el-input>
-              <label class="grey" v-show="modelshow">选择关键词：图片、商品名称、卖家信息、商品简介、单价</label>
+              <label class="grey" v-show="modelshow">选择关键词：商品名称、卖家信息、上传时间、原价、单价、商品简介</label>
               <label v-show="modelset">{{modeldata.product_notify}}</label>
             </el-form-item>
 

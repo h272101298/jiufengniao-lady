@@ -164,7 +164,7 @@ export const guigeDel = params => { return axios.delete(`${base}/product/categor
 //商品列表
 export const goodGet = params => { return axios.get(`${base}/products`+`${params}`).then(res => res.data)}
 
-export const goodnotify = params => { return axios.get(`${base}/product/notify`+`${params}`).then(res => res.data)}
+export const goodnotify = params => { return axios.post(`${base}/product/notify`, params).then(res => res.data)}
 
 export const goodPost = params => { return axios.post(`${base}/product`, params).then(res => res.data)}
 

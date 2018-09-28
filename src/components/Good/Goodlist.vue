@@ -92,7 +92,7 @@
           <img src="../../../static/images/icon/delete.png" @click="handleDelete(scope.$index, scope.row)">
         </el-tooltip>
 
-        <el-tooltip class="icon" effect="dark" content="选择推送" placement="bottom">
+        <el-tooltip class="icon" effect="dark" content="推送" placement="bottom">
           <img src="../../../static/images/icon/select.png" @click="handlepush(scope.$index, scope.row)">
         </el-tooltip>
       </template>
@@ -107,14 +107,21 @@
 
 <el-col>
   <el-dialog title="选择推送" :visible.sync="dialogSelVisible" width="30%">
-    <el-form label-width="110px" :model="selpush" label-position='left'>
-      <el-form-item label="商品名称：" class="fw6" prop="type">
-        <el-select v-model="selpush.type" placeholder="请选择推送类型" @change="bindsel">
+    <el-form label-width="110px" :model="selpush" label-position='left' :rules="pushrule" ref="selpush">
+      <el-form-item label="商品名称：" class="fw6" prop="name">
+
+<!--         <el-select v-model="selpush.type" placeholder="请选择推送类型" @change="bindsel">
           <el-option label="热门" value="hot">热门</el-option>
           <el-option label="新品" value="new">新品</el-option>
           <el-option label="优惠" value="offer">优惠</el-option>
-        </el-select>
+        </el-select> -->
+        <el-input v-model="selpush.name" placeholder="请输入商品名称"></el-input>
       </el-form-item>
+
+      <el-form-item label="商品简介：" class="fw6" prop="detail">
+        <el-input v-model="selpush.detail" placeholder="请输入商品简介"></el-input>
+      </el-form-item>
+
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" size="small" @click="submitsel()">确 定</el-button>
@@ -195,10 +202,6 @@
     data() {
       return {
 
-        selpush:{
-          type:''
-        },
-
         list:[],
 
         loading: false,
@@ -221,48 +224,72 @@
         checkper2:false,
         checkper3:false,
         editable:[],
-      };
-    },
 
-    methods:{
-      getlist(){
-        var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&name=' + this.filter.name+ '&state=' + this.filter.state;
-        goodGet(allParams).then((res) => {
-          this.list=res.data.data;
-          this.count=res.data.count
-        });
-      },
 
-      newone(){
-        this.$router.push({ path: '/Good/Goodnew' });
-        window.sessionStorage.removeItem('goodeditid')
-      },
-
-      changestate(val){
-        this.filter.state=val
-      },
-
-      clear(){
-        this.filter={
+        selpush:{
           name:'',
-          state:''
-        }
-        this.getlist();
-      },
+          detail:''
+        },
+        pushrule:{
+         name: [
+         {required: true, message: '请输入商品名称', trigger: 'blur'},
+         ],
+         detail: [
+         {required: true, message: '请输入商品简介', trigger: 'blur'},
+         ],
+       }
+     };
+   },
 
-      handlepush(index,row){
-       this.dialogSelVisible = true;    
-       this.selId = row.id;
-     },
-
-     bindsel(e){
-      console.log(e)
-      this.selpush.type=e
+   methods:{
+    getlist(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&name=' + this.filter.name+ '&state=' + this.filter.state;
+      goodGet(allParams).then((res) => {
+        this.list=res.data.data;
+        this.count=res.data.count
+      });
     },
 
-    submitsel(){
-      console.log(this.selpush)
-      var allParams = '?id='+ this.selId + '&type=' + this.selpush.type;
+    newone(){
+      this.$router.push({ path: '/Good/Goodnew' });
+      window.sessionStorage.removeItem('goodeditid')
+    },
+
+    changestate(val){
+      this.filter.state=val
+    },
+
+    clear(){
+      this.filter={
+        name:'',
+        state:''
+      }
+      this.getlist();
+    },
+
+    handlepush(index,row){
+     this.dialogSelVisible = true;    
+     this.selId = row.id;
+     this.selpush={
+      name:'',
+      detail:''
+    }
+  },
+
+  bindsel(e){
+    console.log(e)
+    this.selpush.type=e
+  },
+
+  submitsel(){
+    // console.log(this.selpush)
+    this.$refs.selpush.validate((valid) => {
+     if (valid) {
+       var allParams ={
+        id:this.selId,
+        name:this.selpush.name,
+        intro:this.selpush.detail
+      }
       goodnotify(allParams).then((res) => {
        this.dialogSelVisible = false;
        this.$message({
@@ -270,11 +297,15 @@
         type: 'success'
       });
      });
-    },
+    }else{
+      return false;
+    }
+  })
+  },
 
 
-    checkPer(){
-      var per = sessionStorage.getItem('permissions');
+  checkPer(){
+    var per = sessionStorage.getItem('permissions');
       // console.log(per.indexOf('productReview')>-1)
       if(per.indexOf('productReview')>-1){
         this.checkper1=true;
