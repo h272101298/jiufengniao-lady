@@ -55,7 +55,9 @@ axios.interceptors.response.use(
 // let base1 = 'http://192.168.1.172/Shop/public/v2'
 // let base3 = 'http://192.168.1.172/Shop/public/v3'
 
-let hosturl ='https://template.geckowing.com/'
+
+let hosturl = 'http://192.168.1.172/Shop/public/'
+// let hosturl ='https://template.geckowing.com/'
 
 let base = hosturl+'v1'
 let base1 = hosturl+'v2'
@@ -396,7 +398,13 @@ export const scoreSet = params => { return axios.post(`${base3}/score/set`, para
 export const scoreGet = params => { return axios.get(`${base3}/score/set`+`${params}`).then(res => res.data)}
 
 
+export const drawSet = params => { return axios.post(`${base3}/prize`, params).then(res => res.data)}
 
-export const drawSet = params => { return axios.post(`${base3}/draw/set`, params).then(res => res.data)}
+export const drawGet = params => { return axios.get(`${base3}/prizes`+`${params}`).then(res => res.data)}
 
-export const drawGet = params => { return axios.get(`${base3}/draw/set`+`${params}`).then(res => res.data)}
+export const drawDel = params => { return axios.delete(`${base3}/prize`+`${params}`).then(res => res.data)}
+
+export const drawsetSet = params => { return axios.post(`${base3}/prize/config`, params).then(res => res.data)}
+
+export const drawsetGet = params => { return axios.get(`${base3}/prize/config`+`${params}`).then(res => res.data)}
+

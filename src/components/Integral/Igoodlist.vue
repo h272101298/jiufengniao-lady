@@ -158,6 +158,14 @@
           state:''
         },
 
+        checkper1:false,
+        checkper2:false,
+        checkper3:false,
+        checkper4:false,
+        checkper5:false,
+
+
+
         currow:'',
         editId:'',
         delId:'',
