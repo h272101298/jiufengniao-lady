@@ -205,8 +205,9 @@
         list:[],
 
         loading: false,
-        currentPage: 1,
         count:0,
+        currentPage: 1,
+        // limit:100,
         limit:10,
 
         dialogDelVisible:false,

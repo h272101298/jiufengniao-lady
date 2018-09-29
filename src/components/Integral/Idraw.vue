@@ -18,68 +18,71 @@
         </el-form-item>
       </el-form>
 
-      <el-table :data="prizelist" border stripe size="small" style="width:75%;">
+      <el-table :data="prizelist" border stripe size="small" style="width:85%;">
         <el-table-column prop="name" label="奖品名称" width="130" align="center">
         </el-table-column>
-        <el-table-column prop="score" label="获得积分" min-width="200" align="center">
-        </el-table-column>
-        <el-table-column prop="count" label="获奖概率" min-width="200" align="center">
-        </el-table-column>
-        <el-table-column prop="num" label="奖品数量" min-width="200" align="center">
-        </el-table-column>
-        <el-table-column prop="created_at" label="修改时间" min-width="200" align="center">
-        </el-table-column>
-        <el-table-column label="操作" min-width="200" align="center">
-         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编 辑</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+<!--         <el-table-column prop="score" label="获得积分" min-width="200" align="center">
+</el-table-column> -->
+
+<el-table-column prop="score" label="图标" min-width="200" align="center">
+  <template slot-scope="scope">
+    <img :src="scope.row.icon" style="max-width:60px;max-height:60px;" />
+  </template>
+</el-table-column>
+
+<el-table-column prop="count" label="获奖概率" min-width="200" align="center">
+</el-table-column>
+<el-table-column prop="num" label="奖品数量" min-width="200" align="center">
+</el-table-column>
+<el-table-column prop="created_at" label="修改时间" min-width="200" align="center">
+</el-table-column>
+<el-table-column label="操作" min-width="200" align="center">
+ <template slot-scope="scope">
+  <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编 辑</el-button>
+  <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button>
+</template>
+</el-table-column>
+</el-table>
+
+</el-tab-pane>
+
+<el-tab-pane label="其它设置" name="config">
+
+  <el-form ref="scoreset" :model="scoreset" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="setrule">
+
+    <el-form-item label="注册获得积分：" prop="register_score">
+      <el-input class="numinput" placeholder="请输入注册获得积分" v-model="scoreset.register_score" v-show="show" ><template slot="append">积分</template></el-input>
+      <div v-show="set" class="showlabel">
+        <label v-show="set">{{setdata.register_score}}积分</label>
+      </div>
+    </el-form-item>
+
+    <el-form-item label="抽奖消耗积分：" prop="prize_score">
+      <el-input class="numinput" placeholder="请输入抽奖消耗积分" v-model="scoreset.prize_score" v-show="show" ><template slot="append">积分</template></el-input>
+      <div v-show="set" class="showlabel">
+        <label v-show="set">{{setdata.prize_score}}积分</label>
+      </div>
+    </el-form-item>
+
+    <el-form-item label="分享获得积分：" prop="share_score">
+      <el-input class="numinput" placeholder="请输入分享获得积分" v-model="scoreset.share_score" v-show="show" ><template slot="append">积分</template></el-input>
+      <div v-show="set" class="showlabel">
+        <label v-show="set">{{setdata.share_score}}积分</label>
+      </div>
+    </el-form-item>
+
+    <el-form-item>
+      <el-button v-if="set" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="changeset" >编辑</el-button>
+      <el-button v-if="show" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="confirmset">提交</el-button>
+      <el-button v-if="show" size="small" @click="cancelset">取消</el-button>
+    </el-form-item>
 
 
-  </el-tab-pane>
+
+  </el-form>
 
 
-
-  <el-tab-pane label="其它设置" name="config">
-
-
-    <el-form ref="scoreset" :model="scoreset" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="setrule">
-
-      <el-form-item label="注册获得积分：" prop="register_score">
-        <el-input class="numinput" placeholder="请输入注册获得积分" v-model="scoreset.register_score" v-show="show" ><template slot="append">积分</template></el-input>
-        <div v-show="set" class="showlabel">
-          <label v-show="set">{{setdata.register_score}}积分</label>
-        </div>
-      </el-form-item>
-
-      <el-form-item label="抽奖消耗积分：" prop="prize_score">
-        <el-input class="numinput" placeholder="请输入抽奖消耗积分" v-model="scoreset.prize_score" v-show="show" ><template slot="append">积分</template></el-input>
-        <div v-show="set" class="showlabel">
-          <label v-show="set">{{setdata.prize_score}}积分</label>
-        </div>
-      </el-form-item>
-
-      <el-form-item label="分享获得积分：" prop="share_score">
-        <el-input class="numinput" placeholder="请输入分享获得积分" v-model="scoreset.share_score" v-show="show" ><template slot="append">积分</template></el-input>
-        <div v-show="set" class="showlabel">
-          <label v-show="set">{{setdata.share_score}}积分</label>
-        </div>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button v-if="set" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="changeset" >编辑</el-button>
-        <el-button v-if="show" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="confirmset">提交</el-button>
-        <el-button v-if="show" size="small" @click="cancelset">取消</el-button>
-      </el-form-item>
-
-
-
-    </el-form>
-
-
-  </el-tab-pane>
+</el-tab-pane>
 
 
 </el-tabs>
@@ -101,6 +104,14 @@
       <el-form-item label="奖品数量:" prop="num">
         <el-input v-model="newprize.num" type="number" placeholder="请输入奖品数量"></el-input>
       </el-form-item>
+
+      <el-form-item label="图标">
+        <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
+          <img :src="icon" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
+          <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为1:1</p>
+        </el-upload>
+      </el-form-item>
+
       <el-form-item style="margin-left: calc(50% - 200px);">
         <el-button type="primary" @click="save()">保 存</el-button>
         <el-button @click="dialogNewVisible = false">取 消</el-button>
@@ -127,7 +138,7 @@
 
 <script>
 
-
+  import qiniu from '../../api/qiniu';
 
   import { drawSet } from '../../api/api';
   import { drawGet } from '../../api/api';
@@ -146,7 +157,7 @@
     data() {
 
       var checkvalue = (rule, value, callback) => {
-        if (!value) {
+        if (!value && value!==0) {
           return callback(new Error('此项不能为空'));
         }
         setTimeout(() => {
@@ -170,6 +181,11 @@
       return {
         activeName:'list',
 
+        uptoken:{
+          token:qiniu.token,
+        },
+        upurl:qiniu.upurl,
+
         currentPage: 1,
         list:[],
         count:0,
@@ -183,8 +199,10 @@
           name:'', 
           score:'',
           count:'',
-          num:''
+          num:'',
         },
+
+        icon:'../static/images/default1.png',
 
         rules: {
           name: [{required: true, trigger: 'blur',message: '请输入奖品名称'}],
@@ -238,35 +256,45 @@
           count:'',
           num:''
         }
+        this.icon='../static/images/default1.png'
       },
 
       save(){
         this.$refs.newprize.validate((valid) => {
           if (valid) {
             // console.log(this.newadmin)
-
-            if( this.putorup=='put'){
-              this.newprize.id=this.editId
-            }
-            drawSet(this.newprize).then((res) => {
-              if (res.msg === "ok") {
-               this.$message({
-                message: '提交成功',
-                type: 'success'
-              });
-               this.getlist();
-               this.dialogNewVisible=false 
-             } else {
-               this.$message({
-                message: res.msg,
-                type: 'error'
-              });
-             }
-           });
-          }else{
-            return false;
+            // console.log(this.icon=='../static/images/default1.png')
+            if(this.icon=='../static/images/default1.png'){
+             this.$message({
+              message: '请选择图标',
+              type: 'error'
+            });
+             return
+           }else{
+            this.newprize.icon=this.icon
+           }
+           if( this.putorup=='put'){
+            this.newprize.id=this.editId
           }
-        })
+          drawSet(this.newprize).then((res) => {
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+             this.getlist();
+             this.dialogNewVisible=false 
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
+         });
+        }else{
+          return false;
+        }
+      })
       },
 
       handleEdit(index, row){
@@ -279,6 +307,7 @@
           count:row.count,
           num:row.num
         }
+        this.icon=row.icon
       },
 
       handleDelete(index, row) {
@@ -338,35 +367,39 @@
         this.set=false
       },
 
+      handleSuccess(res, file) {
+        this.icon = qiniu.showurl+ res.key
+        // console.log(this.icon)
+      },
+
       confirmset(){
-        // console.log(this.scoreset)
         this.$refs.scoreset.validate((valid) => {
           if (valid) {
-            var allParams=this.scoreset
-            console.log(allParams)
-            drawsetSet(allParams).then((res) => {
-              if (res.msg === "ok") {
-               this.$message({
-                message: '提交成功',
-                type: 'success'
-              });
-               this.getset();
+           var allParams=this.scoreset
+           console.log(allParams)
+           drawsetSet(allParams).then((res) => {
+            if (res.msg === "ok") {
+             this.$message({
+              message: '提交成功',
+              type: 'success'
+            });
+             this.getset();
 
-               this.cancelset()
+             this.cancelset()
 
-             } else {
-               this.$message({
-                message: res.msg,
-                type: 'error'
-              });
-             }
+           } else {
+             this.$message({
+              message: res.msg,
+              type: 'error'
+            });
+           }
 
-           });
+         });
 
-          }else{
-            return false;
-          }
-        })
+         }else{
+          return false;
+        }
+      })
       },
 
       cancelset(){
@@ -399,4 +432,8 @@
 }
 
 
+.upload__tip{
+  font-size: 12px;
+  color: #606266;
+}
 </style>

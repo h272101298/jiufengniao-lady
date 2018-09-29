@@ -29,21 +29,14 @@
             <el-input v-model="newgood1.share_title" placeholder="请输入分享标题(10字以内)"></el-input>
           </el-form-item>
 
-
-
-
           <el-form-item label="商品详情：" prop="detail">
            <div class="edit_container"> 
             <quill-editor v-model="newgood1.detail" :options="editorOption" ref="myQuillEditor" class="editer"></quill-editor>
-            <el-upload class="avatar-uploader quill-img" :action="upurl" :before-upload='beforeUpload' :data="uptoken" :on-success='quillImgSuccess' style="display: none">
+            <el-upload class="avatar-uploader quill-img" :action="upurl" :data="uptoken" :on-success='quillImgSuccess' style="display: none">
               <el-button size="small" type="primary" id="imgInput" element-loading-text="插入中,请稍候">点击上传</el-button>
             </el-upload>
           </div>
         </el-form-item>
-
-<!--         <el-form-item>
-          <el-button type="primary" style="color: #fff" @click="addattr">继续添加商品属性</el-button>
-        </el-form-item> -->
       </el-form>
     </el-tab-pane>
 
@@ -69,8 +62,7 @@
           </el-radio-group>
         </el-form-item>
 
-
-        <el-table :data="goodid?aaa:pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;margin-left: 120px" border size="mini" v-show="showmore" @cell-mouse-enter="cellmouseenter" @cell-click="cellclick">
+        <el-table :data="goodid?aaa:pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;margin-left: 120px" border size="mini" v-show="showmore" @cell-click="cellclick">
           <el-table-column type="index" label="序号" width="60" align="center">
           </el-table-column>
           <el-table-column prop="title" label="规格" width="120" align="center">
@@ -88,7 +80,7 @@
             </el-upload>
           </template>
         </el-table-column>
-        <el-table-column label="相册" min-width="170" align="center" prop="images" >
+        <el-table-column label="相册" min-width="170" align="center" prop="images">
           <template slot-scope="scope">
             <el-upload id="ggimglist" :action="upurl" :data="uptoken" list-type="picture-card" accept="image/*" :file-list="scope.row.images" :on-success="ggmshandleSuccess" :on-remove="ggmshandleRemove">
               <img src="../../../static/images/default1.png" class="pre-img" style="width:57px;height:57px;display: block;">
@@ -107,7 +99,6 @@
       </template>
     </el-table-column>
 
-
     <el-table-column prop="" label="操作" width="150" align="center">
       <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
@@ -115,7 +106,6 @@
       </template>
     </el-table-column>
   </el-table>
-
 
   <el-form-item label="原价：" v-show="!showmore" prop="origin_price">
     <el-input v-model="newgood2.origin_price" type="number" min="0" placeholder="请输入原价"></el-input>
@@ -126,7 +116,7 @@
   </el-form-item>
 
   <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
-    <el-upload class="upload-demo" :action="upurl" :data="uptoken" :before-upload="beforeUpload" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
+    <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
       <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
       <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
     </el-upload>
@@ -219,7 +209,6 @@
 
       return {
         activeName:'base',
-        // activeName:'attributes',
         attrtab:true,
 
         uptoken:{
@@ -343,8 +332,6 @@
 
     goodid:'',
 
-
-
     shfs:['kuaidi','ziti'],
     kuaidilist:[],
     showkd:true
@@ -440,6 +427,7 @@ methods:{
         this.newgood2.id=res.data.default.id
       }
       if(res.data.norm=="change"){
+        this.getcategory()
         // console.log(this.pricearr)
         // console.log(res.data.stocks)
         var aaa=[]
@@ -463,7 +451,7 @@ methods:{
             })
           }
         }
-        // console.log(aaa)
+
         this.aaa=aaa
 
         this.pricearr=res.data.stocks
@@ -472,37 +460,6 @@ methods:{
   }
 },
 
-
-// xzshfs(val){
-//   var arr =this.shfs;
-//   var item =val.split('1')
-//   if(item[1]=='a'){
-//     arr.splice(arr.indexOf(item[0]),1)
-//   }else{
-//     if(arr.indexOf(item[0])==-1){
-//       arr.push(item[0])
-//     }
-//   }
-//   console.log(this.shfs)
-//   if(this.shfs.indexOf('kuaidi')==-1){
-//     this.showkd=false
-//   }else{
-//     this.showkd=true
-//   }
-//   console.log(this.showkd)
-// },
-
-
-// getkuaidi(){
-//   var allParams = '?page=1&limit=10000';
-//   deliveryGet(allParams).then((res) => {
-//     this.kuaidilist=res.data.data;
-//   });
-// },
-
-// xzkuaidi(e){
-//   console.log(e)
-// },
 
 
 gettype1(){
@@ -532,330 +489,290 @@ confirmtype(e){
   this.getcategory()
 },
 
-      // 规格
-      changeguige(val){
-        if(val=="1"){
 
-          this.showmore=false
-        }else if(val=="2"){
+changeguige(val){
+  if(val=="1"){
+    this.showmore=false
+  }else if(val=="2"){
+    this.getcategory()
+    if(this.newgood2.type_id){
+      this.showmore=true
+    }
+  }
+},
 
-          this.getcategory()
-          if(this.newgood2.type_id){
-            this.showmore=true
-          }
-        }
-      },
+getcategory(){
+  if(this.newgood2.type_id){
+    var allParams = '?page=1'+ '&limit=10000'+ '&typeid='+this.newgood2.type_id;
+    guigeGet(allParams).then((res) => {
+      this.checkOptions=res.data.data;
+      if(this.sameornot==2){
+        this.showmore=true
+      }
+    });
+  }else{
+    Message({
+      message: "请先选择三级分类",
+      type: 'error'
+    });
+  }
+},
 
-      getcategory(){
-        if(this.newgood2.type_id){
-          var allParams = '?page=1'+ '&limit=10000'+ '&typeid='+this.newgood2.type_id;
-          guigeGet(allParams).then((res) => {
-            this.checkOptions=res.data.data;
-            if(this.sameornot==2){
-              this.showmore=true
-            }
-          });
-        }else{
-          Message({
-            message: "请先选择三级分类",
-            type: 'error'
-          });
-        }
-      },
+ggselect1(index,row){
 
-      ggselect1(index,row){
-        // console.log(row)
-        this.checkList1=row.detail;
-        this.checkList2=row.title;
-        this.dialogggVisible=true;
-        this.ggtitleindex=index;
-      },
+  this.checkList1=row.detail;
+  this.checkList2=row.title;
+  this.dialogggVisible=true;
+  this.ggtitleindex=index;
+},
 
-      ggselect2(index,row){  
-        // console.log(row)
-        this.checkList=[];
-        this.dialogggVisible=true;
-        this.ggtitleindex=index;
-      },
+ggselect2(index,row){  
 
-      ggchange(val){
-        // console.log(val)
-        this.checkList1=[]
-        this.checkList2=[]          
-        // console.log(this.checkList)
-        for(var i = 0;i<this.checkList.length;i++){
-          if(this.checkList[i]){
-            var ggitem=this.checkList[i].split(',')
-            this.checkList1.push(ggitem[0]);
-            this.checkList2.push(ggitem[1]);
-          }else{
-            // console.log(1)
-          }
-          // console.log(this.checkList)
-          // var ggitem=this.checkList[i].split(',')
-          // this.checkList1.push(ggitem[0]);
-          // this.checkList2.push(ggitem[1]);
-        }
-        // console.log(this.checkList)
-      },
+  this.checkList=[];
+  this.dialogggVisible=true;
+  this.ggtitleindex=index;
+},
 
+ggchange(val){
 
+  this.checkList1=[]
+  this.checkList2=[]          
+  for(var i = 0;i<this.checkList.length;i++){
+    if(this.checkList[i]){
+      var ggitem=this.checkList[i].split(',')
+      this.checkList1.push(ggitem[0]);
+      this.checkList2.push(ggitem[1]);
+    }
+  }
+},
 
-      ggupcover(e){
-        this.ggcoverindex=e
-      },
+ggupcover(e){
+  this.ggcoverindex=e
+},
 
-      ggupimg(e){
-        // console.log(e)
-        this.ggimgindex=e
-      },
+ggupimg(e){
+  this.ggimgindex=e
+},
 
-      ggshandleSuccess(res, file) {
-        this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
-      },
+ggshandleSuccess(res, file) {
+  this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
+},
 
-      ggmshandleSuccess(res, file,fileList){
-        console.log(this.ggimgindex)
-        this.pricearr[this.ggimgindex].images=[]
-        for(var i=0;i<fileList.length;i++){
-          if(fileList[i].response !== undefined){
-            this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
-          }else {
-            this.pricearr[this.ggimgindex].images.push(fileList[i].url)
-          }
-        }
-      },
+ggmshandleSuccess(res, file,fileList){
+  console.log(this.ggimgindex)
+  this.pricearr[this.ggimgindex].images=[]
+  for(var i=0;i<fileList.length;i++){
+    if(fileList[i].response !== undefined){
+      this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
+    }else {
+      this.pricearr[this.ggimgindex].images.push(fileList[i].url)
+    }
+  }
+},
 
-      ggmshandleRemove(file, fileList){
-        // console.log(file,fileList)
-        this.pricearr[this.ggimgindex].images=[]
-        for(var i=0;i<fileList.length;i++){
-          this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
-        }
-      },
+ggmshandleRemove(file, fileList){
+  this.pricearr[this.ggimgindex].images=[]
+  for(var i=0;i<fileList.length;i++){
+    this.pricearr[this.ggimgindex].images.push(qiniu.showurl+ fileList[i].response.key)
+  }
+},
 
-      cellmouseenter(row, column, cell, event){
-        // console.log(row.index)
-        // this.ggimgindex=row.index
-      },
+cellclick(row, column, cell, event){
+  this.ggimgindex=row.index
+},
 
-      cellclick(row, column, cell, event){
-        console.log(row.index)
-        this.ggimgindex=row.index
-      },
+handleEdit(index, row){
+  this.pricearr.push({
+    index:index+1,
+    detail:'',
+    title:1,
+    cover:'../static/images/default1.png',
+    images:[],
+    origin_price:null,
+    price:null,
+  })
+},
 
-      handleEdit(index, row){
-        this.pricearr.push({
-          index:index+1,
-          detail:'',
-          title:1,
-          cover:'../static/images/default1.png',
-          images:[],
-          origin_price:null,
-          price:null,
-        })
-      },
-
-      handleDelete(index, row){
-        console.log(this.pricearr)
-        this.pricearr.splice(index,1)
-      },
+handleDelete(index, row){
+  console.log(this.pricearr)
+  this.pricearr.splice(index,1)
+},
 
 
-      ggsubmit(){          
-        // console.log(this.ggtitleindex)
-        // console.log(this.checkList)
-        if(this.checkList.length==0){
-          Message({
-            message: "至少选择一个规格",
-            type: 'error'
-          });
-        }else{
-          this.dialogggVisible=false;
-          this.pricearr[this.ggtitleindex].detail=this.checkList1;
-          this.pricearr[this.ggtitleindex].title=this.checkList2;
-          // console.log(this.checkList)
-          // console.log(this.checkList1)
-        }
-      },
+ggsubmit(){          
+  if(this.checkList.length==0){
+    Message({
+      message: "至少选择一个规格",
+      type: 'error'
+    });
+  }else{
+    this.dialogggVisible=false;
+    this.pricearr[this.ggtitleindex].detail=this.checkList1;
+    this.pricearr[this.ggtitleindex].title=this.checkList2;
+  }
+},
 
-      //相册
-      beforeUpload(file) {
+handleSuccess(res, file) {
+  this.newgood2.cover = qiniu.showurl+ res.key
+},
 
-      },
+handlelistSuccess(res, file,fileList){
+  this.newgood2.images=[]
+  for(var i=0;i<fileList.length;i++){
+    if(fileList[i].response.key !== 1){
+      this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)  
+    }else {
+      this.newgood2.images.push(fileList[i].url)
+    }
+  }
+},
 
-      handleSuccess(res, file) {
-        this.newgood2.cover = qiniu.showurl+ res.key
-      },
+handleRemove(file, fileList) {
+  this.newgood2.images=[]
+  for(var i=0;i<fileList.length;i++){
+    if(fileList[i].response.key !== 1){
+      this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
+    }else {
+      this.newgood2.images.push(fileList[i].url)
+    }
+  }
+},
 
-      handlelistSuccess(res, file,fileList){
-        this.newgood2.images=[]
-        for(var i=0;i<fileList.length;i++){
-          if(fileList[i].response.key !== 1){
-            this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)  
-          }else {
-            this.newgood2.images.push(fileList[i].url)
-          }
-        }
-      },
+save(){
+  this.$refs.newgood1.validate((valid) => {
+    if (valid) {
 
-      handleRemove(file, fileList) {
-        this.newgood2.images=[]
-        for(var i=0;i<fileList.length;i++){
-          if(fileList[i].response.key !== 1){
-            this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)
-          }else {
-            this.newgood2.images.push(fileList[i].url)
-          }
-        }
-      },
+    }else{
+      Message({
+        message: "请完善商品基本信息",
+        type: 'error'
+      });
+      return
+    }
+  })
 
-      save(){
+  var aaa =this.newgood2.images
+  this.newgood2.images=[]
+  for(var i=0; i<aaa.length; i++){
+    if(typeof aaa[i] == 'object'){
+      this.newgood2.images.push(aaa[i].url)
+    }else {
+      this.newgood2.images.push(aaa[i])
+    }
+  }
 
-        // console.log(this.pricearr)
-        // return
-
-        this.$refs.newgood1.validate((valid) => {
-          if (valid) {
-
-          }else{
+  this.$refs.newgood2.validate((valid) => {
+    if(this.newgood2.type_id==''){
+      Message({
+        message: "请选择三级分类",
+        type: 'error'
+      });
+      return
+    }else{
+      if(this.sameornot==1){
+        if (valid) {
+          if(this.newgood2.cover=="../static/images/default1.png"){
             Message({
-              message: "请完善商品基本信息",
+              message: "请选择商品缩略图",
               type: 'error'
             });
             return
-          }
-        })
-
-        var aaa =this.newgood2.images
-        this.newgood2.images=[]
-        for(var i=0; i<aaa.length; i++){
-          if(typeof aaa[i] == 'object'){
-            this.newgood2.images.push(aaa[i].url)
-          }else {
-            this.newgood2.images.push(aaa[i])
-          }
-        }
-        // console.log(this.newgood2.images)
-
-
-        this.$refs.newgood2.validate((valid) => {
-          // console.log(this.newgood2.type_id=="")
-          if(this.newgood2.type_id==''){
+          }else if(this.newgood2.images.length==0){
             Message({
-              message: "请选择三级分类",
+              message: "请选择商品相册",
               type: 'error'
             });
             return
           }else{
-            if(this.sameornot==1){
-              if (valid) {
-                if(this.newgood2.cover=="../static/images/default1.png"){
-                  Message({
-                    message: "请选择商品缩略图",
-                    type: 'error'
-                  });
-                  return
-                }else if(this.newgood2.images.length==0){
-                  Message({
-                    message: "请选择商品相册",
-                    type: 'error'
-                  });
-                  return
-                }else{
-
-                  this.allParams = {
-                    name:this.newgood1.name,
-                    detail:this.newgood1.detail,
-                    brokerage:this.newgood1.brokerage,
-                    share_title:this.newgood1.share_title,
-                    share_detail:this.newgood1.share_detail,
-                    norm:'fixed',
-                    type_id:this.newgood2.type_id,
-                    stock:[this.newgood2]
-                  };
-                // console.log(this.allParams)
-              }
-            }else{
-              return false;
-            }
-          }else{
-            var aaa=this.pricearr
-            for (var i=0; i<aaa.length; i++) {
-              for (var j=0; j<aaa[i].images.length; j++) {
-                if(aaa[i].images[j].url){
-                  aaa[i].images[j]=aaa[i].images[j].url
-                }
-              }
-            }
-
             this.allParams = {
               name:this.newgood1.name,
               detail:this.newgood1.detail,
               brokerage:this.newgood1.brokerage,
               share_title:this.newgood1.share_title,
               share_detail:this.newgood1.share_detail,
-              norm:'change',
+              norm:'fixed',
               type_id:this.newgood2.type_id,
-              stock:aaa
+              stock:[this.newgood2]
             };
-            // console.log(this.allParams)
+          }
+        }else{
+          return false;
+        }
+      }else{
+        var aaa=this.pricearr
+        for (var i=0; i<aaa.length; i++) {
+          for (var j=0; j<aaa[i].images.length; j++) {
+            if(aaa[i].images[j].url){
+              aaa[i].images[j]=aaa[i].images[j].url
+            }
           }
         }
 
-        var goodeditid = window.sessionStorage.getItem('goodeditid')
-        if(goodeditid){
-          this.allParams.id=goodeditid;
-        }
-         // console.log(this.allParams)
-
-         goodPost(this.allParams).then((res) => {
-          console.log(res)
-
-          Message({
-            message: "提交成功",
-            type: 'success'
-          });
-          this.$router.push({ path: '/Good/Goodlist' });
-        });
-       })
-      },
-
-      golist(){
-        this.$router.push({ path: '/Good/Goodlist' });
-      },
-
-
-      test(){
-       this.type1=68
-       this.gettype2(this.type1)
-       this.type2=69
-       this.gettype3(this.type2) 
-       this.newgood2.type_id=64
-       this.newgood2.origin_price=64
-       this.newgood2.price=64
-
-       this.newgood1={
-        name:'1',
-        detail:'1',
-        brokerage:1,
-        share_title:'1',
-        share_detail:'1'
+        this.allParams = {
+          name:this.newgood1.name,
+          detail:this.newgood1.detail,
+          brokerage:this.newgood1.brokerage,
+          share_title:this.newgood1.share_title,
+          share_detail:this.newgood1.share_detail,
+          norm:'change',
+          type_id:this.newgood2.type_id,
+          stock:aaa
+        };
       }
-      this.activeName='attributes'
-    },
-  },
-
-  computed: {
-    editor() {
-      return this.$refs.myQuillEditor.quill
     }
-  },
 
-  mounted: function () {
-    this.gettype1()
-    this.checkgoodid()
-    // this.getkuaidi()
+    var goodeditid = window.sessionStorage.getItem('goodeditid')
+    if(goodeditid){
+      this.allParams.id=goodeditid;
+    }
+
+    goodPost(this.allParams).then((res) => {
+      console.log(res)
+
+      Message({
+        message: "提交成功",
+        type: 'success'
+      });
+      this.$router.push({ path: '/Good/Goodlist' });
+    });
+  })
+},
+
+golist(){
+  this.$router.push({ path: '/Good/Goodlist' });
+},
+
+
+test(){
+ this.type1=68
+ this.gettype2(this.type1)
+ this.type2=69
+ this.gettype3(this.type2) 
+ this.newgood2.type_id=64
+ this.newgood2.origin_price=64
+ this.newgood2.price=64
+
+ this.newgood1={
+  name:'1',
+  detail:'1',
+  brokerage:1,
+  share_title:'1',
+  share_detail:'1'
+}
+this.activeName='attributes'
+},
+
+},
+
+computed: {
+  editor() {
+    return this.$refs.myQuillEditor.quill
+  }
+},
+
+mounted: function () {
+  this.gettype1()
+  this.checkgoodid()
     // this.test()
   }
 }
@@ -904,12 +821,10 @@ confirmtype(e){
   top: -14px;
 }
 
-
 .upload__tip{
   font-size: 12px;
   color: #606266;
 }
-
 
 .editer{
   height: 250px;

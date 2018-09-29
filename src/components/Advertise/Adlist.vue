@@ -232,8 +232,8 @@
   export default {
     data() {
       return {
-        // activeName:'icon',
-        activeName:'banner',
+        activeName:'otherpost',
+        // activeName:'banner',
 
         uptoken:{
           token:qiniu.token,
@@ -310,7 +310,13 @@
           id:10,
           name:'积分商城海报',
           pic:'../../../static/images/default.png'
-        },],
+        },{
+          id:11,
+          name:'抽奖背景',
+          pic:'../../../static/images/default.png'
+        },
+
+        ],
         otherarr:[],
 
 
@@ -382,10 +388,16 @@
             this.otherpost[4].pic='../../../static/images/default2.png'
           }
 
-          if(res.data.poster){//111
-            this.otherpost[5].pic=res.data.proxy_poster//111
+          if(res.data.score_poster){
+            this.otherpost[5].pic=res.data.score_poster
           }else{
             this.otherpost[5].pic='../../../static/images/default.png'
+          }
+
+          if(res.data.prize_poster){
+            this.otherpost[6].pic=res.data.prize_poster
+          }else{
+            this.otherpost[6].pic='../../../static/images/default.png'
           }
 
 
@@ -681,7 +693,11 @@
           }
         }else if( this.postId==10){
           var allParams={
-            proxy_poster:this.postimgSrc//
+            score_poster:this.postimgSrc//
+          }
+        }else if( this.postId==11){
+          var allParams={
+            prize_poster:this.postimgSrc//
           }
         }
       }
