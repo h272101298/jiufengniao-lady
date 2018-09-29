@@ -21,68 +21,68 @@
       <el-table :data="prizelist" border stripe size="small" style="width:85%;">
         <el-table-column prop="name" label="奖品名称" width="130" align="center">
         </el-table-column>
-<!--         <el-table-column prop="score" label="获得积分" min-width="200" align="center">
-</el-table-column> -->
+        <el-table-column prop="score" label="获得积分" min-width="200" align="center">
+        </el-table-column>
 
-<el-table-column prop="score" label="图标" min-width="200" align="center">
-  <template slot-scope="scope">
-    <img :src="scope.row.icon" style="max-width:60px;max-height:60px;" />
-  </template>
-</el-table-column>
+        <el-table-column prop="score" label="图标" min-width="200" align="center">
+          <template slot-scope="scope">
+            <img :src="scope.row.icon" style="max-width:60px;max-height:60px;" />
+          </template>
+        </el-table-column>
 
-<el-table-column prop="count" label="获奖概率" min-width="200" align="center">
-</el-table-column>
-<el-table-column prop="num" label="奖品数量" min-width="200" align="center">
-</el-table-column>
-<el-table-column prop="created_at" label="修改时间" min-width="200" align="center">
-</el-table-column>
-<el-table-column label="操作" min-width="200" align="center">
- <template slot-scope="scope">
-  <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编 辑</el-button>
-  <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button>
-</template>
-</el-table-column>
-</el-table>
+        <el-table-column prop="count" label="获奖概率" min-width="200" align="center">
+        </el-table-column>
+        <el-table-column prop="num" label="奖品数量" min-width="200" align="center">
+        </el-table-column>
+        <el-table-column prop="created_at" label="修改时间" min-width="200" align="center">
+        </el-table-column>
+        <el-table-column label="操作" min-width="200" align="center">
+         <template slot-scope="scope">
+          <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">编 辑</el-button>
+          <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)">删 除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-</el-tab-pane>
+  </el-tab-pane>
 
-<el-tab-pane label="其它设置" name="config">
+  <el-tab-pane label="其它设置" name="config">
 
-  <el-form ref="scoreset" :model="scoreset" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="setrule">
+    <el-form ref="scoreset" :model="scoreset" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="setrule">
 
-    <el-form-item label="注册获得积分：" prop="register_score">
-      <el-input class="numinput" placeholder="请输入注册获得积分" v-model="scoreset.register_score" v-show="show" ><template slot="append">积分</template></el-input>
-      <div v-show="set" class="showlabel">
-        <label v-show="set">{{setdata.register_score}}积分</label>
-      </div>
-    </el-form-item>
+      <el-form-item label="注册获得积分：" prop="register_score">
+        <el-input class="numinput" placeholder="请输入注册获得积分" v-model="scoreset.register_score" v-show="show" ><template slot="append">积分</template></el-input>
+        <div v-show="set" class="showlabel">
+          <label v-show="set">{{setdata.register_score}}积分</label>
+        </div>
+      </el-form-item>
 
-    <el-form-item label="抽奖消耗积分：" prop="prize_score">
-      <el-input class="numinput" placeholder="请输入抽奖消耗积分" v-model="scoreset.prize_score" v-show="show" ><template slot="append">积分</template></el-input>
-      <div v-show="set" class="showlabel">
-        <label v-show="set">{{setdata.prize_score}}积分</label>
-      </div>
-    </el-form-item>
+      <el-form-item label="抽奖消耗积分：" prop="prize_score">
+        <el-input class="numinput" placeholder="请输入抽奖消耗积分" v-model="scoreset.prize_score" v-show="show" ><template slot="append">积分</template></el-input>
+        <div v-show="set" class="showlabel">
+          <label v-show="set">{{setdata.prize_score}}积分</label>
+        </div>
+      </el-form-item>
 
-    <el-form-item label="分享获得积分：" prop="share_score">
-      <el-input class="numinput" placeholder="请输入分享获得积分" v-model="scoreset.share_score" v-show="show" ><template slot="append">积分</template></el-input>
-      <div v-show="set" class="showlabel">
-        <label v-show="set">{{setdata.share_score}}积分</label>
-      </div>
-    </el-form-item>
+      <el-form-item label="分享获得积分：" prop="share_score">
+        <el-input class="numinput" placeholder="请输入分享获得积分" v-model="scoreset.share_score" v-show="show" ><template slot="append">积分</template></el-input>
+        <div v-show="set" class="showlabel">
+          <label v-show="set">{{setdata.share_score}}积分</label>
+        </div>
+      </el-form-item>
 
-    <el-form-item>
-      <el-button v-if="set" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="changeset" >编辑</el-button>
-      <el-button v-if="show" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="confirmset">提交</el-button>
-      <el-button v-if="show" size="small" @click="cancelset">取消</el-button>
-    </el-form-item>
-
-
-
-  </el-form>
+      <el-form-item>
+        <el-button v-if="set" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="changeset" >编辑</el-button>
+        <el-button v-if="show" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="confirmset">提交</el-button>
+        <el-button v-if="show" size="small" @click="cancelset">取消</el-button>
+      </el-form-item>
 
 
-</el-tab-pane>
+
+    </el-form>
+
+
+  </el-tab-pane>
 
 
 </el-tabs>
@@ -272,8 +272,8 @@
              return
            }else{
             this.newprize.icon=this.icon
-           }
-           if( this.putorup=='put'){
+          }
+          if( this.putorup=='put'){
             this.newprize.id=this.editId
           }
           drawSet(this.newprize).then((res) => {
