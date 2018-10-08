@@ -362,17 +362,22 @@
     },
 
 
-
     changejia(index){
-        // console.log(index)
-        var allParams = '?id='+ index.id;
-        goodShelf(allParams).then((res) => {
-         console.log(res)
-         this.getlist();
-       });
-      },
+      // console.log(index)
+      var allParams = '?id='+ index.id;
+      goodShelf(allParams).then((res) => {
+       console.log(res)
+       this.getlist();
+     });
+      
+      // console.log(index.offer==1)
 
-      handleCheck(index){
+      if(index.offer==1){
+        this.changeoffer(index)
+      }
+    },
+
+    handleCheck(index){
         // console.log(index)
         var allParams = '?id='+ index.id;
         goodCheck(allParams).then((res) => {

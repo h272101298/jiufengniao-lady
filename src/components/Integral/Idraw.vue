@@ -51,14 +51,14 @@
     <el-form ref="scoreset" :model="scoreset" label-width="160px" class="form" status-icon size="small" style="width:600px;" :rules="setrule">
 
       <el-form-item label="注册获得积分：" prop="register_score">
-        <el-input class="numinput" placeholder="请输入注册获得积分" v-model="scoreset.register_score" v-show="show" ><template slot="append">积分</template></el-input>
+        <el-input class="numinput" placeholder="请输入注册获得积分" v-model="scoreset.register_score" v-show="show"><template slot="append">积分</template></el-input>
         <div v-show="set" class="showlabel">
           <label v-show="set">{{setdata.register_score}}积分</label>
         </div>
       </el-form-item>
 
       <el-form-item label="抽奖消耗积分：" prop="prize_score">
-        <el-input class="numinput" placeholder="请输入抽奖消耗积分" v-model="scoreset.prize_score" v-show="show" ><template slot="append">积分</template></el-input>
+        <el-input class="numinput" placeholder="请输入抽奖消耗积分" v-model="scoreset.prize_score" v-show="show"><template slot="append">积分</template></el-input>
         <div v-show="set" class="showlabel">
           <label v-show="set">{{setdata.prize_score}}积分</label>
         </div>
@@ -77,10 +77,7 @@
         <el-button v-if="show" size="small" @click="cancelset">取消</el-button>
       </el-form-item>
 
-
-
     </el-form>
-
 
   </el-tab-pane>
 
