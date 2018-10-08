@@ -53,8 +53,8 @@
 
       <el-table-column prop="offer" label="首页推荐" min-width="100" align="center" v-show="checkper2">
         <template slot-scope="scope">
-          <el-button type="success" size="mini" v-show="scope.row.offer==1&&scope.row.review==1 && scope.row.state==1" @click="changeoffer(scope.row)">是</el-button>
-          <el-button type="" size="mini" v-show="scope.row.offer==0&&scope.row.review==1" @click="changeoffer(scope.row)">否</el-button>
+          <el-button type="success" size="mini" v-show="scope.row.offer==1&&scope.row.review==1 && scope.row.state==1&&scope.row.state==1" @click="changeoffer(scope.row)">是</el-button>
+          <el-button type="" size="mini" v-show="scope.row.offer==0&&scope.row.review==1&&scope.row.state==1" @click="changeoffer(scope.row)">否</el-button>
         </template>
       </el-table-column>
 
