@@ -46,9 +46,9 @@
         <el-input v-model="nedoc.title" style="max-width: 300px;" placeholder="请输入标题"></el-input>
       </el-form-item>
 
-      <el-form-item label="详细内容:" prop="detail">
+      <el-form-item label="详细内容:" prop="detail" style="margin-bottom: 40px">
         <div class="edit_container">
-          <quill-editor v-model="nedoc.detail" style="min-height:133px;" ref="myQuillEditor" :options="editorOption" class="editer" placeholder= '请输入详细内容'></quill-editor>
+          <quill-editor v-model="nedoc.detail" style="min-height:200px;" ref="myQuillEditor" :options="editorOption" class="editer" placeholder= '请输入详细内容'></quill-editor>
           <el-upload class="avatar-uploader quill-img" :action="upurl" :data="uptoken" :on-success='quillImgSuccess' style="display: none">
             <el-button size="small" type="primary" id="imgInput" element-loading-text="插入中,请稍候">点击上传</el-button>
           </el-upload>
