@@ -404,10 +404,10 @@
             this.otherpost[6].pic='../../../static/images/default.png'
           }
 
-          if(res.data.index_poster){
-            this.otherpost[6].pic=res.data.index_poster
+          if(res.data.idnex_poster){
+            this.otherpost[7].pic=res.data.idnex_poster
           }else{
-            this.otherpost[6].pic='../../../static/images/default.png'
+            this.otherpost[7].pic='../../../static/images/default.png'
           }
 
 
