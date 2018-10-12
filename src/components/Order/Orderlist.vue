@@ -138,6 +138,11 @@
         <el-tag type="info" v-if="currow.state=='canceled'" class="fw4">已取消</el-tag>
       </el-form-item>
 
+
+      <el-form-item label="总计：" class="fw6">
+        <div class="fw4" id="detail">￥{{currow.price}}</div>
+      </el-form-item>
+
       <el-form-item label="物流信息：" class="fw6" v-show="currow.state=='delivery'">
         <div class="fw4">快递公司： {{currow.express}}</div>
         <div class="fw4">快递编号： {{currow.express_number}}</div>
@@ -153,19 +158,6 @@
         <div class="fw4">地址： {{currow.address[0].address}}</div>
         <div class="fw4">电话： {{currow.address[0].phone}}</div>
         <div class="fw4">邮编： {{currow.address[0].zip_code}}</div>
-      </el-form-item>
-
-
-      <el-form-item label="商铺名称：" class="fw6">
-        <template slot-scope="scope">
-          <div class="fw4" id="detail">{{currow.store.name}}</div>
-        </template>
-      </el-form-item>
-
-      <el-form-item label="商铺掌柜：" class="fw6">
-        <template slot-scope="scope">
-          <div class="fw4" id="detail">{{currow.store.manager}}</div>
-        </template>
       </el-form-item>
 
       <el-form-item label="商品信息：" class="fw6">
@@ -199,9 +191,20 @@
       </el-table>
     </el-form-item>
 
-    <el-form-item label="总计：" class="fw6">
-      <div class="fw4" id="detail">￥{{currow.price}}</div>
+
+    <el-form-item label="商铺名称：" class="fw6">
+      <template slot-scope="scope">
+        <div class="fw4" id="detail">{{currow.store.name}}</div>
+      </template>
     </el-form-item>
+
+    <el-form-item label="商铺掌柜：" class="fw6">
+      <template slot-scope="scope">
+        <div class="fw4" id="detail">{{currow.store.manager}}</div>
+      </template>
+    </el-form-item>
+
+
 
   </el-form>
 </el-dialog>
