@@ -67,10 +67,10 @@
           </el-table-column>
           <el-table-column prop="title" label="规格" width="120" align="center">
             <template slot-scope="scope">
-              <div v-show="scope.row.title==1 ? false : true">
-                <span v-for="(item,index) in scope.row.title" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
+              <div v-show="scope.row.detail==1 ? false : true">
+                <span v-for="(item,index) in scope.row.detail" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
               </div>
-              <el-button v-show="scope.row.title==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
+              <el-button v-show="scope.row.detail==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
             </template>
           </el-table-column>
           <el-table-column label="商品缩略图" width="120" align="center" prop="cover">
@@ -85,17 +85,17 @@
             <el-upload id="ggimglist" :action="upurl" :data="uptoken" list-type="picture-card" accept="image/*" :file-list="scope.row.images" :on-success="ggmshandleSuccess" :on-remove="ggmshandleRemove">
               <img src="../../../static/images/default1.png" class="pre-img" style="width:57px;height:57px;display: block;">
             </el-upload>
-          </template>
+          </template>-
         </el-table-column>
         <el-table-column label="原价" width="150" align="center">
          <template slot-scope="scope">
-          <el-input placeholder="请输入原价" v-model="scope.row.origin_price" min="0" type="number" ></el-input>
+          <el-input placeholder="请输入原价" v-model="scope.row.origin_price" min="0" type="number" @change="ggorigin_price"></el-input>
         </template>
       </el-table-column>
     </el-table-column>
     <el-table-column prop="" label="现价" width="150" align="center">
       <template slot-scope="scope">
-        <el-input placeholder="请输入现价" v-model="scope.row.price" min="0" type="number"></el-input>
+        <el-input placeholder="请输入现价" v-model="scope.row.price" min="0" type="number" @change="ggprice"></el-input>
       </template>
     </el-table-column>
 
@@ -209,6 +209,7 @@
 
       return {
         activeName:'base',
+        // activeName:'attributes',
         attrtab:true,
 
         uptoken:{
@@ -290,7 +291,7 @@
       pricearr:[{
        index:0,
        detail:1,
-       title:1,
+       product_detail:1,
        cover:'../static/images/default1.png',
        images:[],
        origin_price:null,
@@ -334,7 +335,11 @@
 
     shfs:['kuaidi','ziti'],
     kuaidilist:[],
-    showkd:true
+    showkd:true,
+
+
+
+    delStocks:[]
   };
 },
 
@@ -435,8 +440,8 @@ methods:{
           aaa.push({
             index:i,
             id:res.data.stocks[i].id,
-            // detail:res.data.stocks[i].detail,
-            title:res.data.stocks[i].product_detail,
+            detail:res.data.stocks[i].detail_title,
+            product_detail:res.data.stocks[i].product_detail,
             cover:res.data.stocks[i].cover,
             origin_price:res.data.stocks[i].origin_price,
             price:res.data.stocks[i].price
@@ -453,14 +458,11 @@ methods:{
         }
 
         this.aaa=aaa
-
         this.pricearr=res.data.stocks
       }
     });
   }
 },
-
-
 
 gettype1(){
   var allParams = '?level=1';
@@ -519,7 +521,6 @@ getcategory(){
 },
 
 ggselect1(index,row){
-
   this.checkList1=row.detail;
   this.checkList2=row.title;
   this.dialogggVisible=true;
@@ -527,7 +528,6 @@ ggselect1(index,row){
 },
 
 ggselect2(index,row){  
-
   this.checkList=[];
   this.dialogggVisible=true;
   this.ggtitleindex=index;
@@ -556,6 +556,7 @@ ggupimg(e){
 
 ggshandleSuccess(res, file) {
   this.pricearr[this.ggcoverindex].cover=qiniu.showurl+ res.key
+  this.aaa[this.ggcoverindex].cover=qiniu.showurl+ res.key
 },
 
 ggmshandleSuccess(res, file,fileList){
@@ -581,11 +582,31 @@ cellclick(row, column, cell, event){
   this.ggimgindex=row.index
 },
 
+ggorigin_price(res){
+  console.log(res)
+  this.pricearr[this.ggimgindex].origin_price=res
+},
+
+ggprice(res){
+  this.pricearr[this.ggimgindex].price=res
+},
+
+
 handleEdit(index, row){
   this.pricearr.push({
     index:index+1,
-    detail:'',
-    title:1,
+    detail:1,
+    product_detail:1,
+    cover:'../static/images/default1.png',
+    images:[],
+    origin_price:null,
+    price:null,
+  })
+
+  this.aaa.push({
+    index:index+1,
+    detail:1,
+    product_detail:1,
     cover:'../static/images/default1.png',
     images:[],
     origin_price:null,
@@ -594,12 +615,18 @@ handleEdit(index, row){
 },
 
 handleDelete(index, row){
-  console.log(this.pricearr)
+
+  if(row.id){ 
+   console.log(row.id)
+   this.delStocks.push(row.id)
+ }
+
+  // console.log(this.pricearr)
   this.pricearr.splice(index,1)
+  this.aaa.splice(index,1)
 },
 
-
-ggsubmit(){          
+ggsubmit(){
   if(this.checkList.length==0){
     Message({
       message: "至少选择一个规格",
@@ -607,8 +634,18 @@ ggsubmit(){
     });
   }else{
     this.dialogggVisible=false;
-    this.pricearr[this.ggtitleindex].detail=this.checkList1;
-    this.pricearr[this.ggtitleindex].title=this.checkList2;
+    this.pricearr[this.ggtitleindex].product_detail=this.checkList1;
+    this.pricearr[this.ggtitleindex].detail=this.checkList2;
+
+    // console.log(this.checkList1)
+    // console.log(this.checkList2)
+
+    this.checkList=[]
+    
+    if(this.goodid){
+      this.aaa[this.ggtitleindex].product_detail=this.checkList1;
+      this.aaa[this.ggtitleindex].detail=this.checkList2;
+    }
   }
 },
 
@@ -716,7 +753,8 @@ save(){
           share_detail:this.newgood1.share_detail,
           norm:'change',
           type_id:this.newgood2.type_id,
-          stock:aaa
+          stock:aaa,
+          delStocks:this.delStocks
         };
       }
     }
@@ -724,11 +762,20 @@ save(){
     var goodeditid = window.sessionStorage.getItem('goodeditid')
     if(goodeditid){
       this.allParams.id=goodeditid;
+
+      this.allParams.stock.forEach(function (item) {
+        if(item.detail){
+          item.detail=item.product_detail
+          delete item.product_detail
+          console.log(item.detail)
+        }
+      })
     }
+
+    console.log(this.allParams)
 
     goodPost(this.allParams).then((res) => {
       console.log(res)
-
       Message({
         message: "提交成功",
         type: 'success'
