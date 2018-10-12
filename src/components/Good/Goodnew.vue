@@ -874,7 +874,7 @@ mounted: function () {
 }
 
 .editer{
-  height: 250px;
+  height: 950px;
   margin-bottom: 70px;
 }
 </style>

@@ -177,6 +177,13 @@
             </template>
           </el-table-column>
 
+          <el-table-column prop="detail" label="商品规格" min-width="100" align="center">
+            <template slot-scope="scope">
+              <el-tag type="warning" v-if="scope.row.detail=='fixed'">统一规格</el-tag>
+              <el-tag type="success" v-if="scope.row.detail!=='fixed'">{{scope.row.detail}}</el-tag>
+            </template>
+          </el-table-column>
+
           <el-table-column prop="name" label="商品名称" min-width="100" align="center">
           </el-table-column>
 
