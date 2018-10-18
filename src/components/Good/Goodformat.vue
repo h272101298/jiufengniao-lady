@@ -162,7 +162,9 @@
           detailArray:[{
             title:''
           }]
-        }
+        },
+
+        cangai:true
       }
     },
 
@@ -195,141 +197,136 @@
     },
 
     postgai(){
-      // console.log(this.gaiformat.detailArray.length)
-     //  if(this.gaiformat.detailArray.length==0){
-     //   this.$message({
-     //    message: '规格详细不能为空，请添加',
-     //    type: 'error'
-     //  });
-     // }else{
-      // var that=this
-      // this.gaiformat.detailArray.forEach(function (item,ind) {
-      //   if(item.title==''){
-      //     console.log(2)
-      //     that.$message({
-      //       message: '规格详细不能为空，请添加',
-      //       type: 'error'
-      //     });
-      //     return
-      //   }
-      // })
 
-      console.log(this.gaiformat)
+      var that=this
+      this.cangai=true
+      this.gaiformat.detailArray.forEach(function (item,ind) {
+        if(item.title==''){
+          console.log(2)
+          that.$message({
+            message: '规格详细不能为空，请添加',
+            type: 'error'
+          });
+          that.cangai=false
+          // return
+        }
+      })
 
-      guigeGai(this.gaiformat).then((res) => {
-        if (res.msg === "ok") {
-         this.$message({
-          message: '提交成功',
-          type: 'success'
-        });
-         this.getlist();
-         this.dialogGaiVisible=false
-       } else {
-         this.$message({
-          message: res.msg,
-          type: 'error'
-        });
-       }
-     });
+      // console.log(this.gaiformat)
+
+      if(that.cangai){
+        guigeGai(this.gaiformat).then((res) => {
+          if (res.msg === "ok") {
+           this.$message({
+            message: '提交成功',
+            type: 'success'
+          });
+           this.getlist();
+           this.dialogGaiVisible=false
+         } else {
+           this.$message({
+            message: res.msg,
+            type: 'error'
+          });
+         }
+       });
+      }
+    },
+
+    canclegai(){
+     this.dialogGaiVisible=false
+     this.gaiformat={
+      title:'',
+      detailArray:[{
+        title:''
+      }]
+    }
+    this.getlist();
+  },
 
 
-   // }
+
+
+  checkPer(){
+    var per = sessionStorage.getItem('permissions');
+    if(per.indexOf('productCategoryAdd')>-1){
+      this.checkper1=true;
+    }
+
+    if(per.indexOf('productCategoryDel')>-1){
+      this.checkper2=true;
+    }
+  },
+
+  getlist(){
+    var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
+    guigeGet(allParams).then((res) => {
+      this.list=res.data.data;
+      this.count=res.data.count
+    });
+  },
+
+  gettype1(){
+    var allParams = '?level=1';
+    typeGet(allParams).then((res) => {
+      this.typeArr1=res.data.data;
+    });
+  },
+
+  gettype2(e){
+    var allParams = '?parent='+ e;
+    typeGet(allParams).then((res) => {
+      this.typeArr2=[];
+      this.typeArr2=res.data.data;
+    });
+  },
+
+  gettype3(e){
+    var allParams = '?parent='+ e;
+    typeGet(allParams).then((res) => {
+      this.typeArr3=res.data.data;
+    });
+  },
+
+  confirmtype(e){
+    this.type_id=e;
+  },
+
+  removeguige(item) {
+    var index = this.guige.indexOf(item)
+    if (index !== -1) {
+      this.guige.splice(index, 1)
+    }
+  },
+
+  adddetail(e) {
+    this.guige[e].detail.push({
+      content: '',
+    });
+  },
+
+  addguige() {
+    if(this.type_id==null){
+      Message({
+        message: "请先选择分类",
+        type: 'error'
+      });
+    }else{
+      this.guige.push({
+        title: '',
+        detail:[]
+      });
+    }
+  },
+
+  newone(){
+   this.putorup='up';
+   this.diatitle='新增规格',
+   this.dialogNewVisible=true,
+   this.guige=[]
  },
 
- canclegai(){
-   this.dialogGaiVisible=false
-   this.gaiformat={
-    title:'',
-    detailArray:[{
-      title:''
-    }]
-  }
-  this.getlist();
-},
-
-
-
-
-checkPer(){
-  var per = sessionStorage.getItem('permissions');
-  if(per.indexOf('productCategoryAdd')>-1){
-    this.checkper1=true;
-  }
-
-  if(per.indexOf('productCategoryDel')>-1){
-    this.checkper2=true;
-  }
-},
-
-getlist(){
-  var allParams = '?page='+ this.currentPage + '&limit=' + this.limit;
-  guigeGet(allParams).then((res) => {
-    this.list=res.data.data;
-    this.count=res.data.count
-  });
-},
-
-gettype1(){
-  var allParams = '?level=1';
-  typeGet(allParams).then((res) => {
-    this.typeArr1=res.data.data;
-  });
-},
-
-gettype2(e){
-  var allParams = '?parent='+ e;
-  typeGet(allParams).then((res) => {
-    this.typeArr2=[];
-    this.typeArr2=res.data.data;
-  });
-},
-
-gettype3(e){
-  var allParams = '?parent='+ e;
-  typeGet(allParams).then((res) => {
-    this.typeArr3=res.data.data;
-  });
-},
-
-confirmtype(e){
-  this.type_id=e;
-},
-
-removeguige(item) {
-  var index = this.guige.indexOf(item)
-  if (index !== -1) {
-    this.guige.splice(index, 1)
-  }
-},
-
-adddetail(e) {
-  this.guige[e].detail.push({
-    content: '',
-  });
-},
-
-addguige() {
-  if(this.type_id==null){
-    Message({
-      message: "请先选择分类",
-      type: 'error'
-    });
-  }else{
-    this.guige.push({
-      title: '',
-      detail:[]
-    });
-  }
-},
-
-newone(){
- this.putorup='up';
- this.diatitle='新增规格',
- this.dialogNewVisible=true,
- this.guige=[]
-},
-
-save(){
+ save(){
   var allParams={
     type_id:this.type_id,
     categories:this.guige
