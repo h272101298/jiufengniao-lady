@@ -157,6 +157,8 @@ export const guigeGet = params => { return axios.get(`${base}/product/categories
 
 export const guigePost = params => { return axios.post(`${base}/product/category`, params).then(res => res.data)}
 
+export const guigeGai = params => { return axios.post(`${base}/edit/product/category`, params).then(res => res.data)}
+
 export const guigeDel = params => { return axios.delete(`${base}/product/category`+`${params}`).then(res => res.data)}
 
 

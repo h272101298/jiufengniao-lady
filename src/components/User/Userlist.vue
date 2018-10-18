@@ -152,9 +152,16 @@
       },
 
       memberpost(){
-        var allParams={member_id:this.level,user_id:this.userid}
-        console.log(allParams)
-        usertohy(allParams).then((res) => {
+        if(this.level==''){
+         this.$message({
+          message: '请选择会员等级',
+          type: 'error'
+        });
+         return
+       }
+       var allParams={member_id:this.level,user_id:this.userid}
+       console.log(allParams)
+       usertohy(allParams).then((res) => {
           // console.log(res)
           if (res.msg === "ok") {
            this.$message({
@@ -170,27 +177,27 @@
           });
          }
        });
-      },
+     },
 
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        this.getlist();
-      },
-
-
-      handleSizeChange(val){
-        this.limit = val;
-        this.getlist();
-      },
+     handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getlist();
     },
 
-    mounted: function () {
-      this.getlist();
-      this.getlevel();
-      this.checkPer();
-    }
 
+    handleSizeChange(val){
+      this.limit = val;
+      this.getlist();
+    },
+  },
+
+  mounted: function () {
+    this.getlist();
+    this.getlevel();
+    this.checkPer();
   }
+
+}
 </script>
 
 

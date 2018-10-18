@@ -30,35 +30,36 @@
 
 <!--         <el-table-column prop="origin_price" label="原价" width="85" align="center">
         </el-table-column>
-        <el-table-column prop="price" label="拼团价" width="85" align="center">
-        </el-table-column> -->
-        <el-table-column prop="free" label="能否免单" min-width="120" align="center">
-          <template slot-scope="scope">
-            <el-tag type="info" v-show="scope.row.free==0">否</el-tag>
-            <el-tag type="success" v-show="scope.row.free==1">是</el-tag>
-          </template>
-        </el-table-column>
-
-        <el-table-column prop="enable" label="状态" width="95" align="center">
-         <template slot-scope="scope">
-          <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
-          <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper1">下线</el-button>
+      -->    
+      <el-table-column prop="group_price" label="拼团价" width="85" align="center">
+      </el-table-column>
+      <el-table-column prop="free" label="能否免单" min-width="120" align="center">
+        <template slot-scope="scope">
+          <el-tag type="info" v-show="scope.row.free==0">否</el-tag>
+          <el-tag type="success" v-show="scope.row.free==1">是</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" min-width="95" align="center">
+      <el-table-column prop="enable" label="状态" width="95" align="center">
        <template slot-scope="scope">
-        <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
-
-        <el-button type="success" size="small" @click="handleNotify(scope.$index, scope.row)">推送</el-button>
-
+        <el-button type="success" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==1&&checkper1">上线</el-button>
+        <el-button type="info" size="small" @click="handleEdit(scope.$index, scope.row)" v-show="scope.row.enable==0&&checkper1">下线</el-button>
       </template>
     </el-table-column>
 
-  </el-table>
+    <el-table-column label="操作" min-width="95" align="center">
+     <template slot-scope="scope">
+      <el-button type="danger" size="small" @click="handleDelete(scope.$index, scope.row)" v-show="checkper2">删除</el-button>
 
-  <el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
-  </el-pagination>
+      <el-button type="success" size="small" @click="handleNotify(scope.$index, scope.row)">推送</el-button>
+
+    </template>
+  </el-table-column>
+
+</el-table>
+
+<el-pagination style="float:left;margin-top:20px;" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="limit" @current-change="handleCurrentChange" @size-change="handleSizeChange" layout="total,sizes, prev, pager, next, jumper" :total="count" prev-text="上一页" next-text="下一页">
+</el-pagination>
 
 </el-col>
 
