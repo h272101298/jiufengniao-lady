@@ -670,6 +670,7 @@
       this.editId = row.id;
       this.postarr=[]
       this.product_id = row.id;
+      this.imgSrc=row.pic
       this.postarr.push(Object.assign({},{"url":row.pic}));
     },
 
