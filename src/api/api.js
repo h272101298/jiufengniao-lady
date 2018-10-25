@@ -84,7 +84,7 @@ export const advertDel = params => { return axios.delete(`${base}/advert`+`${par
 
 export const posterPost = params => { return axios.post(`${base}/poster/configs`, params).then(res => res.data)}//海报提交
 
-export const posterGet = params => { return axios.get(`${base}/poster/configs`+`${params}`).then(res => res.data)}//轮播获取
+export const posterGet = params => { return axios.get(`${base}/poster/configs`+`${params}`).then(res => res.data)}//海报获取
 
 export const iconPost = params => { return axios.post(`${base}/icon/config`, params).then(res => res.data)}//图标提交
 

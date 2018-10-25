@@ -113,7 +113,6 @@
 
 
 
-
 <el-col>
   <el-dialog :title="diatitle" :visible.sync="dialogNewVisible" width="500" center style="min-width: 500px">
     <el-form ref="newadv" :model="newadv" label-width="120px">
@@ -125,12 +124,41 @@
         </el-upload>
       </el-form-item>
 
-      <el-form-item style="margin-left: calc(50% - 200px);">
-        <el-button type="primary" @click="save()">保 存</el-button>
-        <el-button @click="dialogNewVisible = false">取 消</el-button>
+      <el-form-item label="商品分类：" prop="type_id">
+        <el-select v-model="type1" placeholder="请选择一级分类" filterable @change="gettype2">
+          <el-option v-for="item in typeArr1" :label="item.title" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+        <el-select v-model="type2" placeholder="请选择二级分类" filterable v-show="type1" @change="gettype3">
+          <el-option v-for="item in typeArr2" :label="item.title" :value="item.id" :key="item.id"></el-option>
+        </el-select>
+        <el-select v-model="type_id" placeholder="请选择三级分类" filterable v-show="type2" @change="confirmtype">
+          <el-option v-for="item in typeArr3" :label="item.title" :value="item.id" :key="item.id"></el-option>
+        </el-select>
       </el-form-item>
-    </el-form>
-  </el-dialog>
+
+      <el-form-item label="选择商品：" prop="origin_price">
+        <el-table :data="goodData"style="width: 100%" border empty-text="请先选择分类" size="mini" stripe>
+          <el-table-column prop="name" label="名称" min-width="150" align="center">
+          </el-table-column>
+          <el-table-column prop="cover" label="图片" min-width="150" align="center">
+            <template slot-scope="scope">
+              <img :src="scope.row.cover" style="max-width:60px;max-height:60px;" />
+            </template>
+          </el-table-column>
+          <el-table-column prop="address" label="操作" min-width="150" align="center">
+           <template slot-scope="scope">
+            <el-button type="primary" size="small" @click="handleSelect(scope.$index, scope.row)">选择</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form-item>
+
+    <el-form-item style="margin-left: calc(50% - 200px);">
+      <el-button type="primary" @click="save()">保 存</el-button>
+      <el-button @click="dialogNewVisible = false">取 消</el-button>
+    </el-form-item>
+  </el-form>
+</el-dialog>
 </el-col>
 
 
@@ -217,6 +245,10 @@
 
 <script>
 
+  import { typeGet } from '../../api/api';
+
+  import { CardgoodGet } from '../../api/api';
+
 
   import {advertsGet} from '../../api/api';
   import {advertPost} from '../../api/api';
@@ -249,11 +281,24 @@
 
         putorup:'up',
         imgSrc:"",
+        product_id:"",
         newadv:{},
         diatitle:'新增广告',
         postarr:[],
         editId:'',
         delId:'',
+
+
+        typeArr1:[],
+        type1:'',
+        typeArr2:[],
+        type2:'',
+        typeArr3:[],
+
+        type_id:'',
+
+        goodData:[],
+
 
         checkper1:false,
         checkper2:false,
@@ -526,86 +571,88 @@
      this.dialogNewVisible=true
    },
 
-   handleSuccess(res, file) {
-        // this.upimgurl =qiniu.showurl+ res.key
-        this.imgSrc =qiniu.showurl+ res.key
-        // this.imgSrc = URL.createObjectURL(file.raw);
-        // this.upimgurl = res.data.url;
-      },
+    // 分类
+    gettype1(){
+      var allParams = '?level=1';
+      typeGet(allParams).then((res) => {
+        this.typeArr1=res.data.data;
+      });
+    },
 
-      handleExceed(files, fileList) {
-        // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-        this.$message.warning(`一次只能上传1张图片`);
-      },
+    gettype2(e){
+      this.type2='';
+      this.type_id='';
 
-      save(){
-        if(this.imgSrc==''){
-          this.$message({
-            message: '请选择图片',
-            type: 'error'
-          });
+      var allParams = '?parent='+ e;
+      typeGet(allParams).then((res) => {
+        this.typeArr2=[];
+        this.typeArr2=res.data.data;
+      });
+    },
+
+    gettype3(e){
+      var allParams = '?parent='+ e;
+      typeGet(allParams).then((res) => {
+        this.typeArr3=res.data.data;
+      });
+    },
+
+    confirmtype(e){
+      this.getgood()
+    },
+
+    getgood(){
+      var allParams = '?page='+ this.currentPage + '&limit=' + this.limit+ '&type=' + this.type_id;
+      CardgoodGet(allParams).then((res) => {
+        this.goodData=res.data.data;
+        this.count=res.data.count
+      });
+    },
+
+    handleSelect(index, row){
+      this.product_id = row.id;
+      var goodData=[]
+      goodData.push(row)
+      this.goodData=goodData
+    },
+
+    handleSuccess(res, file) {
+      this.imgSrc =qiniu.showurl+ res.key
+    },
+
+    handleExceed(files, fileList) {
+      this.$message.warning(`一次只能上传1张图片`);
+    },
+
+    save(){
+      if(this.imgSrc==''){
+        this.$message({
+          message: '请选择图片',
+          type: 'error'
+        });
+      }else{
+        if( this.putorup=='put'){
+          var allParams = {
+            pic:this.imgSrc,
+            id:this.editId,
+            product_id:this.product_id
+          };
         }else{
-          if( this.putorup=='put'){
-            var allParams = {
-              pic:this.imgSrc,
-              // category_id:1,
-              // type:1,
-              id:this.editId
-            };
-          }else{
-            var allParams = {
-              pic:this.imgSrc,
-              // category_id:1,
-              // type:1
-            };
-          }
-          advertPost(allParams).then((res) => {
-            if (res.msg === "ok") {
-             this.$message({
-              message: '提交成功',
-              type: 'success'
-            });
-             this.imgSrc=''
-             this.getlist();
-             this.dialogNewVisible=false
-           } else {
-             this.$message({
-              message: res.msg,
-              type: 'error'
-            });
-           }
-         });
+          var allParams = {
+            pic:this.imgSrc,
+            product_id:this.product_id
+          };
         }
-      },
-
-      handleEdit(index, row){
-        this.diatitle='编辑广告';
-        this.dialogNewVisible = true;
-        this.putorup='put';
-        // console.log(row.pic)
-        this.editId = row.id;
-        this.postarr=[]
-        // this.imgSrc=row.pic;`
-        this.postarr.push(Object.assign({},{"url":row.pic}));
-      },
-
-      handleDelete(index, row) {
-        this.dialogDelVisible = true;
-        this.delId = row.id;
-      },
-
-      submitdel(){
-        this.dialogDelVisible = false;
-        var allParams='?id='+this.delId
-        advertDel(allParams).then((res) => {
-          console.log(res)
+        advertPost(allParams).then((res) => {
           if (res.msg === "ok") {
            this.$message({
-            message: '删除成功',
+            message: '提交成功',
             type: 'success'
           });
+           this.imgSrc=''
            this.getlist();
-           this.dialogDelVisible = false;
+           this.dialogNewVisible=false
+           this.goodData=[]
          } else {
            this.$message({
             message: res.msg,
@@ -613,96 +660,133 @@
           });
          }
        });
-      },
+      }
+    },
 
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        this.getlist();
-      },
+    handleEdit(index, row){
+      this.diatitle='编辑广告';
+      this.dialogNewVisible = true;
+      this.putorup='put';
+      this.editId = row.id;
+      this.postarr=[]
+      this.product_id = row.id;
+      this.postarr.push(Object.assign({},{"url":row.pic}));
+    },
 
-      handleSizeChange(val){
-        this.limit = val;
-        this.getlist();
-      },
+    handleDelete(index, row) {
+      this.dialogDelVisible = true;
+      this.delId = row.id;
+    },
 
-      handlepostEdit(index, row){
-        this.dialogNewpostVisible = true;
-        this.postId = row.id;
-        this.indexpost=[];
-      },
+    submitdel(){
+      this.dialogDelVisible = false;
+      var allParams='?id='+this.delId
+      advertDel(allParams).then((res) => {
+        console.log(res)
+        if (res.msg === "ok") {
+         this.$message({
+          message: '删除成功',
+          type: 'success'
+        });
+         this.getlist();
+         this.dialogDelVisible = false;
+       } else {
+         this.$message({
+          message: res.msg,
+          type: 'error'
+        });
+       }
+     });
+    },
 
-      phandleSuccess(res, file){
-        this.postimgSrc = qiniu.showurl+ res.key
-      },
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.getlist();
+    },
 
-      phandleExceed(files, fileList) {
-        this.$message.warning(`一次只能上传1张图片`);
-      },
+    handleSizeChange(val){
+      this.limit = val;
+      this.getlist();
+    },
+
+    handlepostEdit(index, row){
+      this.dialogNewpostVisible = true;
+      this.postId = row.id;
+      this.indexpost=[];
+    },
+
+    phandleSuccess(res, file){
+      this.postimgSrc = qiniu.showurl+ res.key
+    },
+
+    phandleExceed(files, fileList) {
+      this.$message.warning(`一次只能上传1张图片`);
+    },
 
 
 
-      otherpostEdit(index, row){
-        this.dialogotherpostVisible = true;
-        this.postId = row.id;
-        this.otherarr=[];
-      },
+    otherpostEdit(index, row){
+      this.dialogotherpostVisible = true;
+      this.postId = row.id;
+      this.otherarr=[];
+    },
 
-      otherleSuccess(res, file){
-        this.postimgSrc = qiniu.showurl+ res.key
-      },
+    otherleSuccess(res, file){
+      this.postimgSrc = qiniu.showurl+ res.key
+    },
 
-      otherleExceed(files, fileList) {
-        this.$message.warning(`一次只能上传1张图片`);
-      },
+    otherleExceed(files, fileList) {
+      this.$message.warning(`一次只能上传1张图片`);
+    },
 
 
-      savepost(){
+    savepost(){
 
-        if(this.postimgSrc==''){
-          this.$message({
-            message: '请选择图片',
-            type: 'error'
-          });
-        }else {
+      if(this.postimgSrc==''){
+        this.$message({
+          message: '请选择图片',
+          type: 'error'
+        });
+      }else {
 
-         if( this.postId==1){
-          var allParams={
-            index_bargain:this.postimgSrc
-          }
-        }else if( this.postId==2){
-          var allParams={
-            index_card:this.postimgSrc
-          }
-        }else if( this.postId==3){
-          var allParams={
-            index_group:this.postimgSrc
-          }
-        }else if( this.postId==4){
-          var allParams={
-            index_origin:this.postimgSrc
-          }
-        }else if( this.postId==5){
-          var allParams={
-            card_poster:this.postimgSrc
-          }
-        }else if( this.postId==6){
-          var allParams={
-            group_poster:this.postimgSrc
-          }
-        }else if( this.postId==7){
-          var allParams={
-            group_free:this.postimgSrc
-          }
-        }else if( this.postId==8){
-          var allParams={
-            bargain_poster:this.postimgSrc
-          }
-        }else if( this.postId==9){
-          var allParams={
-            proxy_poster:this.postimgSrc
-          }
-        }else if( this.postId==10){
-          var allParams={
+       if( this.postId==1){
+        var allParams={
+          index_bargain:this.postimgSrc
+        }
+      }else if( this.postId==2){
+        var allParams={
+          index_card:this.postimgSrc
+        }
+      }else if( this.postId==3){
+        var allParams={
+          index_group:this.postimgSrc
+        }
+      }else if( this.postId==4){
+        var allParams={
+          index_origin:this.postimgSrc
+        }
+      }else if( this.postId==5){
+        var allParams={
+          card_poster:this.postimgSrc
+        }
+      }else if( this.postId==6){
+        var allParams={
+          group_poster:this.postimgSrc
+        }
+      }else if( this.postId==7){
+        var allParams={
+          group_free:this.postimgSrc
+        }
+      }else if( this.postId==8){
+        var allParams={
+          bargain_poster:this.postimgSrc
+        }
+      }else if( this.postId==9){
+        var allParams={
+          proxy_poster:this.postimgSrc
+        }
+      }else if( this.postId==10){
+        var allParams={
             score_poster:this.postimgSrc//
           }
         }else if( this.postId==11){
@@ -739,6 +823,7 @@
   },
 
   mounted: function () {
+    this.gettype1()
     this.getlist();
     this.geticon();
     this.getposter();

@@ -31,8 +31,6 @@ import Proxylist from '@/components/Agent/Proxylist'
 import Withdraw from '@/components/Agent/Withdraw'
 import Commission from '@/components/Agent/Commission'
 
-import Reportlist from '@/components/Report/Reportlist'
-
 import Cardnew from '@/components/Card/Cardnew'
 import Cardgood from '@/components/Card/Cardgood'
 import Cardcheck from '@/components/Card/Cardcheck'
