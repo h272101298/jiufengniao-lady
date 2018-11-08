@@ -56,8 +56,8 @@ axios.interceptors.response.use(
 // let base3 = 'http://192.168.1.172/Shop/public/v3'
 
 
-// let hosturl = 'http://192.168.1.172/Shop/public/'
-let hosturl ='https://template.geckowing.com/'
+let hosturl = 'http://192.168.1.172/Shop/public/'
+// let hosturl ='https://template.geckowing.com/'
 
 let base = hosturl+'v1'
 let base1 = hosturl+'v2'
@@ -228,6 +228,12 @@ export const shopkdPost = params => { return axios.post(`${base3}/store/express`
 export const userGet = params => { return axios.get(`${base}/wechat/users`+`${params}`).then(res => res.data)}
 
 export const usertohy = params => { return axios.post(`${base1}/member/user`, params).then(res => res.data)}//用户成为会员、续费
+
+export const bindshop = params => { return axios.get(`${base3}/bind/user`+`${params}`).then(res => res.data)}
+
+export const unbindshop = params => { return axios.get(`${base3}/unbind/user`+`${params}`).then(res => res.data)}
+
+
 
 //会员
 export const mconfigPost = params => { return axios.post(`${base1}/member/level`, params).then(res => res.data)}//设置会员等级
