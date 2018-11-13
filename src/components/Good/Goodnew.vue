@@ -117,14 +117,14 @@
 
   <el-form-item label="商品缩略图：" v-show="!showmore" prop="cover">
     <el-upload class="upload-demo" :action="upurl" :data="uptoken" :on-success="handleSuccess" :show-file-list="false" accept="image/*">
-      <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block">
+      <img :src="newgood2.cover" class="pre-img" style="width:146px;height:146px;border:1px dashed #ccc;border-radius:6px;display: block;margin-top: 1px;">
       <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
     </el-upload>
   </el-form-item>
 
   <el-form-item label="商品相册：" v-show="!showmore" prop="images">
     <el-upload :action="upurl" :data="uptoken" list-type="picture-card" :on-remove="handleRemove" :on-success="handlelistSuccess" :file-list="newgood2.images" :multiple="true" accept="image/*">
-      <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;display: block" >
+      <img src="../../../static/images/default1.png" class="pre-img" style="width:145px;height:144px;margin-top: 1px;display: block" >
       <p slot="tip" class="upload__tip">可上传JPG/PNG文件，建议图片长宽比为5:4</p>
     </el-upload>
   </el-form-item>
@@ -654,12 +654,15 @@ handleSuccess(res, file) {
 },
 
 handlelistSuccess(res, file,fileList){
+  console.log(fileList)
   this.newgood2.images=[]
   for(var i=0;i<fileList.length;i++){
-    if(fileList[i].response.key !== 1){
-      this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)  
-    }else {
-      this.newgood2.images.push(fileList[i].url)
+    if(fileList[i].response){
+      if(fileList[i].response.key !== 1){
+        this.newgood2.images.push(qiniu.showurl+ fileList[i].response.key)  
+      }else {
+        this.newgood2.images.push(fileList[i].url)
+      }
     }
   }
 },

@@ -46,7 +46,6 @@
       <el-table-column prop="created_at" label="注册日期" width="200" align="center">
       </el-table-column>
 
-
       <el-table-column prop="bindStore" label="绑定店铺" width="200" align="center">
         <template slot-scope="scope">
           <p v-show="scope.row.bind!==0">{{scope.row.bindStore}}</p>
@@ -152,8 +151,6 @@
         level:'',
         shop:'',
         checkper1:false,
-
-
       };
     },
 
@@ -236,21 +233,20 @@
      var allParams='?store_id='+this.shop+'&user_id='+this.userid
      console.log(allParams)
      bindshop(allParams).then((res) => {
-          // console.log(res)
-          if (res.msg === "ok") {
-           this.$message({
-            message: '提交成功',
-            type: 'success'
-          });
-           this.dialogBindVisible=false
-           this.getlist();
-         } else {
-           this.$message({
-            message: res.msg,
-            type: 'error'
-          });
-         }
-       });
+      if (res.msg === "ok") {
+       this.$message({
+        message: '提交成功',
+        type: 'success'
+      });
+       this.dialogBindVisible=false
+       this.getlist();
+     } else {
+       this.$message({
+        message: res.msg,
+        type: 'error'
+      });
+     }
+   });
    },
 
 
