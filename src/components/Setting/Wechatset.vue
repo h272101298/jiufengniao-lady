@@ -17,8 +17,6 @@
 
           <el-form ref="wechatset" :model="wechatset" label-width="120px" class="form" status-icon size="small" :rules="rules1" style="width:600px;">
 
-
-
             <el-form-item label="小程序AppId：" prop="app_id">
               <el-input v-model="wechatset.app_id" placeholder="请输入小程序AppId" v-show="show"></el-input>
               <label v-show="set">{{wxset.app_id}}</label>
@@ -51,7 +49,7 @@
             </el-form-item>
 
             <el-form-item>
-              <el-button v-if="set && checkper1" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="changebase" >编辑</el-button>
+              <el-button v-if="set && checkper1" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="changebase">编辑</el-button>
               <el-button v-if="show" size="small" type="primary" style="margin-left:0px;margin-top:20px;" @click="confirm">提交</el-button>
               <el-button v-if="show" size="small" @click="cancel">取消</el-button>
             </el-form-item>
@@ -183,7 +181,14 @@
           // ssl_key:''
         },
 
-        wxset:{},
+        wxset:{  
+          // app_id:'',
+          // app_secret:'',
+          // mch_id:'',
+          // api_key:'',
+          // ssl_cert:'',
+          // ssl_key:''
+        },
 
         rules1:{
           app_id: [
@@ -261,7 +266,7 @@
       getconfig(){
         var allParams = '';
         wxconfigGet(allParams).then((res) => {
-          if(res.data==''){
+          if(res.data==null){
             this.show=true
             this.set=false
           }else{
@@ -273,7 +278,8 @@
       getmodel(){
         var allParams = '';
         wxmodelGet(allParams).then((res) => {
-          if(res.data==null){
+          // console.log(res.data=='')
+          if(res.data==''){
             this.modelshow=true
             this.modelset=false
           }else{
@@ -383,7 +389,7 @@
               });
                this.modelshow=false
                this.modelset=true
-               // this.getmodel()
+               this.getmodel()
              } else {
                this.$message({
                 message: res.msg,

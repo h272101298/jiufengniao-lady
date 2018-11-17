@@ -300,7 +300,7 @@
             <td class="rtd">
               <el-checkbox @change="xzchange" true-label='adminList' false-label='adminList1a' checked>管理员列表</el-checkbox>
               <el-checkbox @change="xzchange" true-label='adminAdd' false-label='adminAdd1a' checked>编辑管理员</el-checkbox>
-              <el-checkbox @change="xzchange" true-label='advertDel' false-label='advertDel1a' checked>删除管理员</el-checkbox>
+              <!-- <el-checkbox @change="xzchange" true-label='adminDel' false-label='adminDel1a' checked>删除管理员</el-checkbox> -->
             </td>
           </tr>
           <tr>
@@ -499,7 +499,7 @@
         'setMember',
         'adminList',
         'adminAdd',
-        'advertDel',
+        'adminDel',
         'roleList',
         'roleAdd',
         'roleDel',

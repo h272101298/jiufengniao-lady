@@ -67,10 +67,10 @@
           </el-table-column>
           <el-table-column prop="title" label="规格" width="120" align="center">
             <template slot-scope="scope">
-              <div v-show="scope.row.detail==1 ? false : true">
-                <span v-for="(item,index) in scope.row.detail" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
+              <div v-show="scope.row.product_detail==1 ? false : true">
+                <span v-for="(item,index) in scope.row.product_detail" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
               </div>
-              <el-button v-show="scope.row.detail==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
+              <el-button v-show="scope.row.product_detail==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
             </template>
           </el-table-column>
           <el-table-column label="商品缩略图" width="120" align="center" prop="cover">
@@ -440,8 +440,8 @@ methods:{
           aaa.push({
             index:i,
             id:res.data.stocks[i].id,
-            detail:res.data.stocks[i].detail_title,
-            product_detail:res.data.stocks[i].product_detail,
+            detail:res.data.stocks[i].product_detail,
+            product_detail:res.data.stocks[i].detail_title,
             cover:res.data.stocks[i].cover,
             origin_price:res.data.stocks[i].origin_price,
             price:res.data.stocks[i].price
@@ -634,8 +634,8 @@ ggsubmit(){
     });
   }else{
     this.dialogggVisible=false;
-    this.pricearr[this.ggtitleindex].product_detail=this.checkList1;
-    this.pricearr[this.ggtitleindex].detail=this.checkList2;
+    this.pricearr[this.ggtitleindex].detail=this.checkList1;
+    this.pricearr[this.ggtitleindex].product_detail=this.checkList2;
 
     // console.log(this.checkList1)
     // console.log(this.checkList2)
@@ -643,8 +643,8 @@ ggsubmit(){
     this.checkList=[]
     
     if(this.goodid){
-      this.aaa[this.ggtitleindex].product_detail=this.checkList1;
-      this.aaa[this.ggtitleindex].detail=this.checkList2;
+      this.aaa[this.ggtitleindex].detail=this.checkList1;
+      this.aaa[this.ggtitleindex].product_detail=this.checkList2;
     }
   }
 },
@@ -768,10 +768,14 @@ save(){
 
       this.allParams.stock.forEach(function (item) {
         if(item.detail){
-          item.detail=item.product_detail
-          delete item.product_detail
-          console.log(item.detail)
+          item.product_detail=item.detail
+          delete item.detail
         }
+        delete item.detail_title
+      })
+    }else{
+      this.allParams.stock.forEach(function (item) {
+        delete item.product_detail
       })
     }
 
@@ -794,14 +798,6 @@ golist(){
 
 
 test(){
- this.type1=68
- this.gettype2(this.type1)
- this.type2=69
- this.gettype3(this.type2) 
- this.newgood2.type_id=64
- this.newgood2.origin_price=64
- this.newgood2.price=64
-
  this.newgood1={
   name:'1',
   detail:'1',
@@ -823,8 +819,8 @@ computed: {
 mounted: function () {
   this.gettype1()
   this.checkgoodid()
-    // this.test()
-  }
+  // this.test()
+}
 }
 </script>
 
