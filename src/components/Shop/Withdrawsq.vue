@@ -155,7 +155,14 @@
       handleconfirm(row){
         this.$refs.txapply.validate((valid) => {
          if (valid) {
-          this.dialogDelVisible=true
+          if(this.storeAmount<this.txapply.price){
+            Message({
+              message: "提现金额大于可提现金额",
+              type: 'error'
+            });
+          }else{
+            this.dialogDelVisible=true
+          }
         }else{
           return false;
         }
