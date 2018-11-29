@@ -45,7 +45,7 @@
               <el-checkbox @change="xzchange" true-label='myStore' false-label='myStore1a' checked>我的店铺</el-checkbox>
 
               <el-checkbox @change="xzchange" true-label='StoreWithdrawStore' false-label='StoreWithdrawStore1a' checked>提现申请（商家）</el-checkbox>  
-              <el-checkbox @change="xzchange" true-label='StoreWithdrawAll' false-label='StoreWithdrawAll1a'>提现审批（平台）</el-checkbox>
+              <el-checkbox @change="xzchange" true-label='StoreWithdrawAll' false-label='StoreWithdrawAll1a'>提现申请（平台）</el-checkbox>
               <el-checkbox @change="xzchange" true-label='StoreWithdrawcheck' false-label='StoreWithdrawcheck1a' checked>提现审批</el-checkbox>
 
             </td>
@@ -528,7 +528,8 @@
         'baseConfig',
 
         'shopdelive',
-        'StoreWithdrawAll'
+        'StoreWithdrawStore',
+        'StoreWithdrawcheck'
         ],
         editId:'',
 
@@ -596,7 +597,7 @@
               return
             }else if(this.checkedlist.indexOf('StoreWithdrawAll')!== -1 && this.checkedlist.indexOf('StoreWithdrawStore')!== -1){
               Message({
-                message: "提现申请（商家）和提现审批（平台）只能选一个",
+                message: "提现申请（商家）和提现申请（平台）只能选一个",
                 type: 'error'
               });
               return
@@ -620,7 +621,7 @@
               }
             }
 
-            // console.log(allParams)
+            console.log(allParams)
 
             rolePost(allParams).then((res) => {
               if (res.msg === "ok") {

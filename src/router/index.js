@@ -109,8 +109,8 @@ let router = new Router({
         {path: '/Shop/Settleapply',component: Settleapply,name: '入驻申请',menuShow: true,meta:{permission: 'settleList'}},
         {path: '/Shop/Shoptype',component: Shoptype,name: '经营类目',menuShow: true,meta:{permission: 'storeCategoryList'}},
         {path: '/Shop/Coupon',component: Coupon,name: '优惠券',menuShow: true,meta:{permission: 'quanList'}},
-        {path: '/Shop/Withdrawsq',component: Withdrawsq,name: '提现申请',menuShow: true,meta:{permission: 'StoreWithdrawStore'}},
-        {path: '/Shop/Withdrawls',component: Withdrawls,name: '提现审批',menuShow: true,meta:{permission: 'StoreWithdrawAll'}},
+        {path: '/Shop/Withdrawsq',component: Withdrawsq,name: '提现申请',menuShow: true,meta:{permission: ''}},
+        {path: '/Shop/Withdrawls',component: Withdrawls,name: '提现审批',menuShow: true,meta:{permission: 'StoreWithdrawcheck'}}
         ]
     }, {
         path: '/',
