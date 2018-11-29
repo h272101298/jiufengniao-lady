@@ -155,6 +155,7 @@
       handleconfirm(row){
         this.$refs.txapply.validate((valid) => {
          if (valid) {
+          console.log(this.storeAmount<this.txapply.price)
           if(this.storeAmount<this.txapply.price){
             Message({
               message: "提现金额大于可提现金额",
