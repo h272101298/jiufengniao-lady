@@ -73,6 +73,8 @@ import Document from '@/components/Setting/Document'
 import Delivelist from '@/components/Delivery/Delivelist'
 import Shopdelive from '@/components/Delivery/Shopdelive'
 
+import Newslist from '@/components/News/Newslist'
+
 
 // 懒加载方式，当路由被访问的时候才加载对应组件
 const Login = resolve => require(['@/components/Login'], resolve)
@@ -254,7 +256,20 @@ let router = new Router({
         {path: '/Delivery/Delivelist',component: Delivelist,name: '快递列表',menuShow: true,meta:{permission: 'expressList'}},
         {path: '/Delivery/Shopdelive',component: Shopdelive,name: '运费配置',menuShow: true,meta:{permission: 'shopdelive'}},
         ]
-    },{
+    },
+    {
+        path: '/',
+        name: '资讯管理',
+        component: Home,
+        redirect: '/News/Newslist',
+        menuShow: true,
+        iconCls: 'iconfont menu-kuaidi',
+        children: [
+        {path: '/News/Newslist',component: Newslist,name: '资讯列表',menuShow: true,meta:{permission: ''}},
+        ]
+    },
+
+    {
         path: '/',
         name: '权限管理',
         component: Home,
@@ -297,18 +312,18 @@ router.beforeEach((to, from, next) => {
             if (permissions.indexOf(to.meta.permission)>-1) {
               next()
           } else {
-           MessageBox.alert('没有访问权限', '提示', {
-            confirmButtonText: '确定',
-            closeOnPressEscape:false,
-            showClose:false,
-            callback: action => {
+             MessageBox.alert('没有访问权限', '提示', {
+                confirmButtonText: '确定',
+                closeOnPressEscape:false,
+                showClose:false,
+                callback: action => {
 
-            }
-        });
-       }
-   }else{
-     next() 
- }
+                }
+            });
+         }
+     }else{
+       next() 
+   }
 }
 })
 

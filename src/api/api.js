@@ -58,10 +58,12 @@ axios.interceptors.response.use(
 
 // let hosturl = 'http://192.168.1.172/Shop/public/'
 let hosturl ='https://template.geckowing.com/'
+// let hosturl ='https://ying.qdbnm.com/'
 
 let base = hosturl+'v1'
 let base1 = hosturl+'v2'
 let base3 = hosturl+'v3'
+let base4 = hosturl+'v4'
 
 export default hosturl
 
@@ -416,3 +418,15 @@ export const drawsetSet = params => { return axios.post(`${base3}/prize/config`,
 
 export const drawsetGet = params => { return axios.get(`${base3}/prize/config`+`${params}`).then(res => res.data)}
 
+
+
+//资讯
+export const newsGet = params => { return axios.get(`${base4}/article`+`${params}`).then(res => res.data)}
+
+export const newGet = params => { return axios.get(`${base4}/article/detail`+`${params}`).then(res => res.data)}
+
+export const newsPost = params => { return axios.post(`${base4}/article`, params).then(res => res.data)}
+
+export const newsPut = params => { return axios.put(`${base4}/article`+`${params}`).then(res => res.data)}
+
+export const newsDel = params => { return axios.delete(`${base4}/article`+`${params}`).then(res => res.data)}
