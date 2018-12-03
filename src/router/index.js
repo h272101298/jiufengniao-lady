@@ -257,17 +257,17 @@ let router = new Router({
         {path: '/Delivery/Shopdelive',component: Shopdelive,name: '运费配置',menuShow: true,meta:{permission: 'shopdelive'}},
         ]
     },
-    // {
-    //     path: '/',
-    //     name: '资讯管理',
-    //     component: Home,
-    //     redirect: '/News/Newslist',
-    //     menuShow: true,
-    //     iconCls: 'iconfont menu-kuaidi',
-    //     children: [
-    //     {path: '/News/Newslist',component: Newslist,name: '资讯列表',menuShow: true,meta:{permission: ''}},
-    //     ]
-    // },
+    {
+        path: '/',
+        name: '资讯管理',
+        component: Home,
+        redirect: '/News/Newslist',
+        menuShow: true,
+        iconCls: 'iconfont menu-kuaidi',
+        children: [
+        {path: '/News/Newslist',component: Newslist,name: '资讯列表',menuShow: true,meta:{permission: ''}},
+        ]
+    },
 
     {
         path: '/',
