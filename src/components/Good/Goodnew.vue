@@ -62,15 +62,15 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-table :data="goodid?aaa:pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;margin-left: 120px" border size="mini" v-show="showmore" @cell-click="cellclick">
+        <el-table :data="pricearr" empty-text="请先选择规格" style="min-width:941px;margin-bottom: 20px;margin-left: 120px" border size="mini" v-show="showmore" @cell-click="cellclick">
           <el-table-column type="index" label="序号" width="60" align="center">
           </el-table-column>
           <el-table-column prop="title" label="规格" width="120" align="center">
             <template slot-scope="scope">
-              <div v-show="scope.row.product_detail==1 ? false : true">
-                <span v-for="(item,index) in scope.row.product_detail" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
+              <div v-show="scope.row.product_detail || scope.row.detail ? true : false">
+                <span v-for="(item,index) in scope.row.detail_title" :v-key="item.index" @click="ggselect1(scope.$index,scope.row)">{{item}} </span>
               </div>
-              <el-button v-show="scope.row.product_detail==1 ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
+              <el-button v-show="!scope.row.product_detail && !scope.row.detail ? true : false" type="primary" @click="ggselect2(scope.$index,scope.row)" size="small">选择规格</el-button>
             </template>
           </el-table-column>
           <el-table-column label="商品缩略图" width="120" align="center" prop="cover">
@@ -102,7 +102,7 @@
     <el-table-column prop="" label="操作" width="150" align="center">
       <template slot-scope="scope">
         <el-button type="primary" size="small" @click="handleEdit(scope.$index, scope.row)">添加</el-button>
-        <el-button type="danger" size="small" v-show="scope.$index==0 ? false : true" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        <el-button type="danger" size="small" v-if="scope.row.index!==0" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -290,8 +290,7 @@
 
       pricearr:[{
        index:0,
-       detail:1,
-       product_detail:1,
+       detail_title:'',
        cover:'../static/images/default1.png',
        images:[],
        origin_price:null,
@@ -410,7 +409,6 @@ methods:{
 
      this.newgood2={
       cover:res.data.default.cover,
-        // images:res.data.default.images,
         origin_price:res.data.default.origin_price,
         price:res.data.default.price,
         type_id:res.data.typeArray[2],
@@ -433,15 +431,13 @@ methods:{
       }
       if(res.data.norm=="change"){
         this.getcategory()
-        // console.log(this.pricearr)
-        // console.log(res.data.stocks)
         var aaa=[]
         for(var i=0;i<res.data.stocks.length;i++){
-          aaa.push({
+          aaa.push({ 
             index:i,
             id:res.data.stocks[i].id,
-            detail:res.data.stocks[i].product_detail,
-            product_detail:res.data.stocks[i].detail_title,
+            product_detail:res.data.stocks[i].product_detail,
+            detail_title:res.data.stocks[i].detail_title,
             cover:res.data.stocks[i].cover,
             origin_price:res.data.stocks[i].origin_price,
             price:res.data.stocks[i].price
@@ -449,7 +445,7 @@ methods:{
 
           aaa[i].images=[];
           for(var j=0;j<res.data.stocks[i].images.length;j++){
-            // console.log(res.data.stocks[i].images[j])
+
             aaa[i].images.push({
               uid:j,
               url:res.data.stocks[i].images[j]
@@ -457,8 +453,7 @@ methods:{
           }
         }
 
-        this.aaa=aaa
-        this.pricearr=res.data.stocks
+        this.pricearr=aaa
       }
     });
   }
@@ -595,18 +590,7 @@ ggprice(res){
 handleEdit(index, row){
   this.pricearr.push({
     index:index+1,
-    detail:1,
-    product_detail:1,
-    cover:'../static/images/default1.png',
-    images:[],
-    origin_price:null,
-    price:null,
-  })
-
-  this.aaa.push({
-    index:index+1,
-    detail:1,
-    product_detail:1,
+    detail_title:'',
     cover:'../static/images/default1.png',
     images:[],
     origin_price:null,
@@ -634,18 +618,21 @@ ggsubmit(){
     });
   }else{
     this.dialogggVisible=false;
+
+    // console.log(this.pricearr[this.ggtitleindex])
+
     this.pricearr[this.ggtitleindex].detail=this.checkList1;
-    this.pricearr[this.ggtitleindex].product_detail=this.checkList2;
+
+    if(this.pricearr[this.ggtitleindex].id){
+      delete this.pricearr[this.ggtitleindex].product_detail
+    }
+    
+    this.pricearr[this.ggtitleindex].detail_title=this.checkList2;
 
     // console.log(this.checkList1)
     // console.log(this.checkList2)
 
     this.checkList=[]
-    
-    if(this.goodid){
-      this.aaa[this.ggtitleindex].detail=this.checkList1;
-      this.aaa[this.ggtitleindex].product_detail=this.checkList2;
-    }
   }
 },
 
@@ -765,21 +752,17 @@ save(){
     var goodeditid = window.sessionStorage.getItem('goodeditid')
     if(goodeditid){
       this.allParams.id=goodeditid;
-
       this.allParams.stock.forEach(function (item) {
-        if(item.detail){
-          item.product_detail=item.detail
-          delete item.detail
-        }
         delete item.detail_title
       })
     }else{
       this.allParams.stock.forEach(function (item) {
-        delete item.product_detail
+        delete item.detail_title
       })
     }
 
     console.log(this.allParams)
+    console.log(this.allParams.stock)
 
     goodPost(this.allParams).then((res) => {
       console.log(res)
